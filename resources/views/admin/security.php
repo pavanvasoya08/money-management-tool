@@ -2,7 +2,7 @@
 <form method="post" action="<?= e(route('admin.security.save')) ?>" novalidate data-loading class="form-narrow-lg"
       data-confirm="Save security settings? They apply to every user immediately." data-confirm-button="Save settings">
     <?= csrf_field() ?>
-    <?php foreach (['security' => ['Sign-in & sessions', 'lock-keyhole'], 'access' => ['Access control', 'shield-check']] as $group => [$label, $icon]): ?>
+    <?php foreach (['security' => ['Sign-in & sessions', 'lock-keyhole'], 'access' => ['Access control', 'shield-check'], 'finance' => ['Partner capital', 'piggy-bank']] as $group => [$label, $icon]): ?>
     <div class="card app-card mb-3"><div class="card-header"><i data-lucide="<?= e($icon) ?>" class="icon-sm"></i> <?= e($label) ?></div><div class="card-body p-4"><div class="row g-3">
         <?php foreach ($definitions as $key => $def): if ($def['group'] !== $group) { continue; } $v = old($key, $values[$key]); ?>
             <?php if ($def['type'] === 'boolean'): ?>

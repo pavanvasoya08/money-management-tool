@@ -40,14 +40,14 @@ $gate = \App\Core\App::gate();
         </thead>
         <tbody>
         <?php foreach ($matrix as $row): $m = $row['module']; $locked = $readonly || (bool) $m['super_admin_only']; ?>
-            <tr data-matrix-row data-name="<?= e(mb_strtolower($m['name'] . ' ' . $m['module_key'] . ' ' . implode(' ', array_column(array_merge(array_values($row['columns']), $row['extras']), 'description')))) ?>" data-released="<?= (int) $m['phase'] <= 2 ? '1' : '0' ?>">
+            <tr data-matrix-row data-name="<?= e(mb_strtolower($m['name'] . ' ' . $m['module_key'] . ' ' . implode(' ', array_column(array_merge(array_values($row['columns']), $row['extras']), 'description')))) ?>" data-released="<?= released((int) $m['phase']) ? '1' : '0' ?>">
                 <th class="matrix-module" scope="row">
                     <div class="d-flex align-items-center gap-2">
                         <?php if (!$locked && $mode !== 'user'): ?><input class="form-check-input" type="checkbox" data-matrix-rowtoggle aria-label="Toggle all <?= e($m['name']) ?>"><?php endif; ?>
                         <span>
                             <span class="d-block fw-semibold"><?= e($m['name']) ?></span>
                             <span class="small text-secondary">
-                                <?= (int) $m['phase'] <= 2 ? 'Available' : 'Phase ' . (int) $m['phase'] ?>
+                                <?= released((int) $m['phase']) ? 'Available' : 'Phase ' . (int) $m['phase'] ?>
                                 <?php if (!$m['is_active']): ?> · <span class="text-danger">disabled</span><?php endif; ?>
                                 <?php if ($m['super_admin_only']): ?> · Super Admin only<?php endif; ?>
                             </span>

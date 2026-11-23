@@ -327,3 +327,36 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { color: #0f172a; }
     .admin-nav-title { display: none; }
     .admin-nav-item { white-space: nowrap; }
 }
+
+/* ==========================================================================
+   Phase 3 — Partners & capital
+   ========================================================================== */
+.section-title { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: #475569; }
+.badge-soft-info { background: #ecfeff; color: #0e7490; }
+.badge-soft-dark { background: #e2e8f0; color: #1e293b; }
+.avatar-img { object-fit: cover; padding: 0; }
+.avatar-xl { width: 64px; height: 64px; font-size: 1.25rem; border-radius: 18px; }
+.text-prewrap { white-space: pre-wrap; }
+.detail-grid { display: grid; grid-template-columns: minmax(140px, 32%) 1fr; column-gap: 1rem; }
+.detail-grid dt { font-weight: 500; color: var(--erp-muted); }
+.detail-grid dd { margin-bottom: .55rem; }
+.mini-stat { background: #fff; border: 1px solid var(--erp-border); border-radius: var(--erp-radius); padding: .7rem .9rem; display: flex; flex-direction: column; gap: .1rem; }
+.mini-stat b { font-size: 1.15rem; }
+.status-menu { min-width: 240px; }
+.share-row { display: grid; grid-template-columns: minmax(90px, 1fr) 2fr auto; gap: .6rem; align-items: center; font-size: .85rem; padding: .2rem 0; }
+.share-bar { display: block; height: 8px; background: #eef2f7; border-radius: 999px; overflow: hidden; min-width: 60px; }
+.share-bar > span { display: block; height: 100%; background: #2563eb; border-radius: 0 4px 4px 0; }
+.alloc-ended, .alloc-inactive { opacity: .72; }
+.alloc-future { border-color: #bfdbfe; }
+.cap-status-posted { font-weight: 600; }
+.report-table tfoot td { background: #f8fafc; }
+@media print {
+    .sidebar, .topbar, .page-actions, .d-print-none, .app-toasts, .pagination { display: none !important; }
+    .main, .content { margin: 0 !important; padding: 0 !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; }
+}
+
+.share-bar > span { width: 0; }
+.col-pct { width: 180px; }
+.icon-xl { width: 32px; height: 32px; }
+.icon-xs { width: 14px; height: 14px; }

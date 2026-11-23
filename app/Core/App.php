@@ -142,7 +142,21 @@ final class App
 
     public static function approvals(): \App\Services\Approval\ApprovalEngine
     {
-        return self::shared(\App\Services\Approval\ApprovalEngine::class, static fn (): \App\Services\Approval\ApprovalEngine => new \App\Services\Approval\ApprovalEngine(self::db()));
+        return self::shared(\App\Services\Approval\ApprovalEngine::class, static function (): \App\Services\Approval\ApprovalEngine {
+            // Modules that react to approval decisions register here (once per process).
+            \App\Services\Partners\CapitalService::registerApprovalListener();
+            return new \App\Services\Approval\ApprovalEngine(self::db());
+        });
+    }
+
+    public static function capitalLedger(): \App\Services\Partners\CapitalLedger
+    {
+        return self::shared(\App\Services\Partners\CapitalLedger::class, static fn (): \App\Services\Partners\CapitalLedger => new \App\Services\Partners\CapitalLedger(self::db()));
+    }
+
+    public static function postingQueue(): \App\Services\Accounting\PostingQueue
+    {
+        return self::shared(\App\Services\Accounting\PostingQueue::class, static fn (): \App\Services\Accounting\PostingQueue => new \App\Services\Accounting\PostingQueue(self::db()));
     }
 
     public static function sessions(): SessionService

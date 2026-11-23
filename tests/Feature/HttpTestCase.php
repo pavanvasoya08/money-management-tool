@@ -101,6 +101,16 @@ final class Browser
         return $this->request('POST', $path, $data);
     }
 
+    /** Multipart POST with files: [field => [path, filename, mime]]. */
+    public function upload(string $path, array $data, array $files): array
+    {
+        $data['_csrf'] ??= $this->csrf();
+        foreach ($files as $field => [$file, $name, $mime]) {
+            $data[$field] = new \CURLFile($file, $mime, $name);
+        }
+        return $this->request('POST', $path, $data, multipart: true);
+    }
+
     public function csrf(): string
     {
         if (!preg_match('/name="csrf-token" content="([a-f0-9]+)"/', $this->lastBody, $m)) {
@@ -129,7 +139,7 @@ final class Browser
         return $b;
     }
 
-    private function request(string $method, string $path, array $data = []): array
+    private function request(string $method, string $path, array $data = [], bool $multipart = false): array
     {
         $ch = curl_init($this->base . $path);
         curl_setopt_array($ch, [
@@ -143,7 +153,7 @@ final class Browser
         ]);
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $multipart ? $data : http_build_query($data));
         }
         $raw = (string) curl_exec($ch);
         $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);

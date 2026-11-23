@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 2 of 15 — Super Admin Control Center & advanced permissions.**
+**Current status: Phase 3 of 15 — Partner management & capital contributions.**
 
 | | |
 |---|---|
@@ -13,7 +13,8 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 
 - 📘 [Installation guide](docs/INSTALLATION.md) — requirements, MySQL, `.env`, migrations, Super Admin, local dev, production
 - ✅ [Phase 1 report](docs/PHASE-1.md) — completed features, test results, PHP 8.5 verification
-- ✅ [Phase 2 report](docs/PHASE-2.md) — **upgrade steps**, Control Center features, security test results, pending Phase 3 work
+- ✅ [Phase 2 report](docs/PHASE-2.md) — Control Center features, security test results
+- ✅ [Phase 3 report](docs/PHASE-3.md) — **update steps**, partners, capital ledger, profit sharing, reports, test results, pending Phase 4 work
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
 ## Quick start (local)
@@ -51,6 +52,15 @@ Open http://127.0.0.1:8000 and sign in.
 - **Approval engine**: multi-level, amount-based, sequential, with self-approval blocked and history kept.
 - **Structured audit**: old and new values, affected user and role, IP and device; filterable.
 
+## What Phase 3 adds
+
+- **Partners:** unlimited partners with unique IDs, profiles (11 tabs), PAN validation, suspend/archive, private documents and 1:1 login linking.
+- **Capital register:** contributions, withdrawals and adjustments as separate entries, going draft → approval (Phase 2 engine) → posting. Posted entries are corrected only by reversal.
+- **Capital ledger:** debit/credit lines with running, opening and closing balances from posted entries only, in exact `DECIMAL` / integer-paise maths. Withdrawals are limited to eligible capital.
+- **Profit sharing:** effective-dated, 100%-validated, non-overlapping and history-preserving, and independent of capital.
+- **Reports:** 8 partner reports with CSV, Excel and PDF export, plus dashboard widgets. All respect record and field permissions.
+- **Accounting foundation:** an idempotent posting queue ready for Phase 12.
+
 ## Commands
 
 ```bash
@@ -67,5 +77,6 @@ php tests/run.php [filter]              # automated tests (needs pdo_sqlite + cu
 ## Roadmap
 
 1. Project setup & authentication ✅
-2. **Super Admin complete control system** ✅ ← current
-3. Partner management · 4. GST registrations · 5. Bank accounts · 6. Products & suppliers · 7. Inventory · 8. E-commerce platforms · 9. Sales & orders · 10. Returns, refunds & settlements · 11. Expenses & purchases · 12. Accounting · 13. GST & tax · 14. Dashboard & financial reports · 15. Automation, audit & deployment
+2. Super Admin complete control system ✅
+3. **Partner management & capital** ✅ ← current
+4. GST registrations · 5. Bank accounts · 6. Products & suppliers · 7. Inventory · 8. E-commerce platforms · 9. Sales & orders · 10. Returns, refunds & settlements · 11. Expenses & purchases · 12. Accounting · 13. GST & tax · 14. Dashboard & financial reports · 15. Automation, audit & deployment

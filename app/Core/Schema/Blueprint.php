@@ -91,6 +91,12 @@ final class Blueprint
         return $this->add('json', $name);
     }
 
+    /** Calendar date without time (business dates such as transaction dates). */
+    public function date(string $name): Column
+    {
+        return $this->add('date', $name);
+    }
+
     public function dateTime(string $name): Column
     {
         return $this->add('dateTime', $name);

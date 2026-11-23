@@ -25,12 +25,15 @@ return [
         ],
         'partner' => [
             'name' => 'Partner',
-            'description' => 'Business partner. Module access is granted per partner in Phase 2.',
+            'description' => 'Business partner. Sees only their own linked partner profile, capital and documents.',
             'is_super_admin' => false,
             'grants' => [
                 'dashboard.view',
-                'partners.view', 'partners.view_own',
+                // Phase 3: a partner sees only the partner profile linked to their login, and its capital.
+                'partners.view', 'partners.view_own', 'partners.view_financial_summary', 'partners.view_documents',
                 'capital_contributions.view', 'capital_contributions.view_own',
+                'capital_withdrawals.view', 'capital_withdrawals.view_own',
+                'capital_ledger.view', 'capital_ledger.view_own',
                 'gst_registrations.view', 'gst_registrations.view_assigned',
                 'bank_accounts.view', 'bank_accounts.view_assigned',
                 'financial_reports.view', 'financial_reports.view_assigned',
@@ -46,6 +49,12 @@ return [
                 'purchases.view', 'purchases.view_assigned', 'purchases.create',
                 'accounting.view', 'accounting.view_assigned', 'accounting.create', 'accounting.export',
                 'gst_reports.view', 'gst_reports.view_assigned', 'gst_reports.export',
+                // Phase 3: assigned partners' capital (read + record drafts); cannot change partner profiles.
+                'partners.view', 'partners.view_assigned', 'partners.view_financial_summary',
+                'capital_contributions.view', 'capital_contributions.view_assigned', 'capital_contributions.create', 'capital_contributions.edit',
+                'capital_withdrawals.view', 'capital_withdrawals.view_assigned', 'capital_withdrawals.create', 'capital_withdrawals.edit',
+                'capital_ledger.view', 'capital_ledger.view_assigned', 'capital_ledger.export',
+                'partner_reports.view', 'partner_reports.export',
             ],
         ],
         'manager' => [
@@ -56,6 +65,8 @@ return [
                 'dashboard.view', 'users.view', 'users.view_all', 'users.view_login_history', 'activity_logs.view',
                 'inventory.view', 'inventory.view_assigned', 'inventory.create', 'inventory.edit',
                 'sales_orders.view', 'sales_orders.view_assigned', 'sales_orders.create', 'sales_orders.edit',
+                // Phase 3: partner directory only — no capital figures, no profit sharing.
+                'partners.view', 'partners.view_all',
             ],
         ],
         'viewer' => [

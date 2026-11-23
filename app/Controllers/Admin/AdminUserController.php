@@ -185,7 +185,7 @@ final class AdminUserController extends AdminController
         $out = [];
         foreach (DataScope::cases() as $s) {
             $ok = match ($s) {
-                DataScope::Own => $map['owner_column'] !== null,
+                DataScope::Own => $map['owner_column'] !== null || $map['owner_via'] !== null,
                 DataScope::Assigned => $map['resource'] !== null,
                 DataScope::Selected => $map['table'] !== null,
                 DataScope::All, DataScope::None => true,

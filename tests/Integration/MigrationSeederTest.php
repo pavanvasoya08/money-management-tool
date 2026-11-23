@@ -36,13 +36,16 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame(1, (int) $db->scalar('SELECT COUNT(*) FROM roles WHERE is_super_admin = 1'));
         $modules = count((array) \App\Core\Config::get('modules'));
         $actions = array_sum(array_map(static fn (array $m): int => count($m['actions']), (array) \App\Core\Config::get('modules')));
-        $this->assertSame(21, $modules);
+        $this->assertSame(26, $modules); // Phase 3 added withdrawals, adjustments, ledger, profit sharing, partner reports
         $this->assertSame($modules, (int) $db->scalar('SELECT COUNT(*) FROM modules'));
         $this->assertSame($actions, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM permissions WHERE module_id IS NULL'), 'every permission belongs to a module');
         $this->assertSame(count(\App\Services\SettingsService::definitions()), (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
-        $this->assertSame(6, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
+        $this->assertSame(8, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM approval_requests'), 'no fake transactions');
+        foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue'] as $table) {
+            $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM {$table}"), "no example business data in {$table}");
+        }
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM users'), 'no hardcoded user accounts');
         // Phase 1 permission slugs are preserved
         foreach (['dashboard.view', 'users.view', 'users.create', 'users.edit', 'users.change_status', 'users.assign_roles', 'users.reset_password', 'users.view_login_history', 'activity_logs.view', 'settings.view', 'settings.edit'] as $slug) {

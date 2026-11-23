@@ -67,6 +67,25 @@ final class PermissionSeeder extends Seeder
                     $this->db->update('module_fields', ['label' => $label, 'is_sensitive' => $sensitive ? 1 : 0, 'mask_type' => $mask, 'sort_order' => $fieldOrder, 'updated_at' => $now], ['id' => $existing['id']]);
                 }
             }
+            $this->pruneRetiredFields($moduleId, array_keys($def['fields'] ?? []));
+        }
+    }
+
+    /**
+     * Placeholder fields registered before a module was built (e.g. Phase 2's
+     * "investment_amount" for partners) are removed with their rules once the
+     * module defines its real fields. Fields still in the registry are never touched.
+     * @param list<string> $keep
+     */
+    private function pruneRetiredFields(int $moduleId, array $keep): void
+    {
+        foreach ($this->db->select('SELECT id, field_key FROM module_fields WHERE module_id = ?', [$moduleId]) as $row) {
+            if (in_array($row['field_key'], $keep, true)) {
+                continue;
+            }
+            $this->db->execute('DELETE FROM role_field_permissions WHERE field_id = ?', [$row['id']]);
+            $this->db->execute('DELETE FROM user_field_overrides WHERE field_id = ?', [$row['id']]);
+            $this->db->execute('DELETE FROM module_fields WHERE id = ?', [$row['id']]);
         }
     }
 }

@@ -66,7 +66,7 @@ $fieldOptions = ['visible' => 'Visible', 'hidden' => 'Hidden', 'masked' => 'Mask
             <tbody>
             <?php foreach ($modules as $m): $key = $m['module_key']; $cur = $scopes[$key] ?? null; $viewPid = \App\Core\App::db()->scalar('SELECT id FROM permissions WHERE slug = ?', [$key . '.view']); ?>
                 <tr>
-                    <td data-label="Module" class="fw-semibold"><?= e($m['name']) ?> <?php if ((int) $m['phase'] > 2): ?><span class="small text-secondary fw-normal">Phase <?= (int) $m['phase'] ?></span><?php endif; ?></td>
+                    <td data-label="Module" class="fw-semibold"><?= e($m['name']) ?> <?php if (!released((int) $m['phase'])): ?><span class="small text-secondary fw-normal">Phase <?= (int) $m['phase'] ?></span><?php endif; ?></td>
                     <td data-label="Can view"><?= in_array((int) $viewPid, $granted, true) ? '<span class="badge badge-soft-success">Yes</span>' : '<span class="badge badge-soft-secondary">No view permission</span>' ?></td>
                     <td data-label="Scope">
                         <select class="form-select form-select-sm" name="scopes[<?= e($key) ?>]" data-original="<?= e($cur['scope'] ?? 'inherit') ?>" data-matrix-input>

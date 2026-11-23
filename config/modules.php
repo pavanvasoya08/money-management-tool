@@ -17,6 +17,8 @@ declare(strict_types=1);
  *           owner_column – column used by the "Own records" scope
  *           resource     – resource type whose assignment = "Assigned records"
  *           columns      – resource type => column, used by "Selected partners/GST/bank/platform" scopes
+ *           owner_via    – "Own records" through a parent: column IN (SELECT id FROM table WHERE owner_column = me)
+ *           resource_column – column matched by "Assigned records" (default id)
  */
 
 $std = [
@@ -29,7 +31,26 @@ $report = [
     'view' => 'View', 'view_all' => 'View all records', 'view_own' => 'View own records', 'view_assigned' => 'View assigned records',
     'export' => 'Export', 'download' => 'Download', 'print' => 'Print',
 ];
+// Partner capital register (one table; module = transaction type). Own = the linked partner's records.
+$capital = [
+    'view' => 'View', 'view_all' => 'View all records', 'view_own' => 'View own records', 'view_assigned' => 'View assigned records',
+    'create' => 'Record & submit', 'edit' => 'Edit drafts', 'cancel' => 'Cancel drafts',
+    'approve' => 'Approve', 'reject' => 'Reject', 'post' => 'Post to capital ledger', 'reverse' => 'Reverse posted entries',
+    'export' => 'Export', 'print' => 'Print',
+];
+$capitalData = [
+    'table' => 'partner_capital_transactions', 'owner_column' => null,
+    'owner_via' => ['column' => 'partner_id', 'table' => 'partners', 'owner_column' => 'user_id'],
+    'resource' => 'partner', 'resource_column' => 'partner_id',
+    'columns' => ['partner' => 'partner_id', 'bank_account' => 'bank_account_id'],
+];
 $f = static fn (string $label, bool $sensitive = false, string $mask = 'full', string $default = 'editable'): array => [$label, $sensitive, $mask, $default];
+$capitalFields = [
+    'amount' => $f('Amount', true, 'amount', 'visible'),
+    'payment_reference' => $f('Payment reference', true, 'last4', 'visible'),
+    'payment_source_ref' => $f('Payment source / bank reference', true, 'last4', 'visible'),
+    'notes' => $f('Notes', false, 'full', 'visible'),
+];
 
 return [
     'dashboard' => [
@@ -38,27 +59,64 @@ return [
     ],
     'partners' => [
         'name' => 'Partners', 'icon' => 'users-round', 'phase' => 3,
-        'actions' => $std,
+        'actions' => $std + [
+            'change_status' => 'Activate / deactivate', 'suspend' => 'Suspend partner access', 'archive' => 'Archive / restore',
+            'link_account' => 'Link & manage login accounts', 'view_financial_summary' => 'View financial summary',
+            'view_documents' => 'View & download documents', 'upload_documents' => 'Upload documents', 'delete_documents' => 'Remove documents',
+        ],
         'fields' => [
             'name' => $f('Partner name'),
-            'contact_email' => $f('Email', true, 'email'),
-            'contact_phone' => $f('Phone', true, 'phone'),
+            'email' => $f('Email', true, 'email'),
+            'mobile' => $f('Mobile number', true, 'phone'),
+            'address' => $f('Street address', true, 'full'),
             'pan_number' => $f('PAN', true, 'last4', 'masked'),
-            'address' => $f('Address', true, 'full'),
-            'investment_amount' => $f('Investment amount', true, 'amount', 'hidden'),
-            'withdrawal_amount' => $f('Withdrawal amount', true, 'amount', 'hidden'),
-            'profit_share_percent' => $f('Profit-sharing %', true, 'full', 'hidden'),
+            'notes' => $f('Internal notes', true, 'full', 'visible'),
+            'total_contributed' => $f('Total capital contributed', true, 'amount', 'visible'),
+            'total_withdrawn' => $f('Total capital withdrawn', true, 'amount', 'visible'),
+            'capital_balance' => $f('Capital balance', true, 'amount', 'visible'),
+            'identity_documents' => $f('PAN & identity documents', true, 'full', 'visible'),
         ],
         'data' => ['table' => 'partners', 'owner_column' => 'user_id', 'resource' => 'partner', 'columns' => ['partner' => 'id']],
     ],
     'capital_contributions' => [
         'name' => 'Capital Contributions', 'icon' => 'piggy-bank', 'phase' => 3,
-        'actions' => $std + $approvals,
+        'actions' => $capital,
+        'fields' => $capitalFields,
+        'data' => $capitalData,
+    ],
+    'capital_withdrawals' => [
+        'name' => 'Capital Withdrawals', 'icon' => 'hand-coins', 'phase' => 3,
+        'actions' => $capital + ['override_limit' => 'Exceed available capital (exception policy)'],
+        'fields' => $capitalFields,
+        'data' => $capitalData,
+    ],
+    'capital_adjustments' => [
+        'name' => 'Capital Adjustments', 'icon' => 'scale', 'phase' => 3,
+        'actions' => $capital,
+        'fields' => $capitalFields,
+        'data' => $capitalData,
+    ],
+    'capital_ledger' => [
+        'name' => 'Capital Ledger & Balances', 'icon' => 'book-text', 'phase' => 3,
+        'actions' => $report,
         'fields' => [
-            'amount' => $f('Amount', true, 'amount', 'hidden'),
-            'bank_reference' => $f('Bank reference', true, 'last4', 'masked'),
+            'amount' => $f('Debit / credit amounts', true, 'amount', 'visible'),
+            'running_balance' => $f('Running & closing balance', true, 'amount', 'visible'),
         ],
-        'data' => ['table' => 'capital_contributions', 'owner_column' => 'created_by', 'resource' => null, 'columns' => ['partner' => 'partner_id', 'bank_account' => 'bank_account_id']],
+        'data' => $capitalData,
+    ],
+    'profit_sharing' => [
+        'name' => 'Profit Sharing', 'icon' => 'pie-chart', 'phase' => 3,
+        'actions' => ['view' => 'View', 'create' => 'Create arrangements & allocations', 'edit' => 'Edit future allocations',
+            'change_status' => 'Activate / deactivate', 'export' => 'Export', 'print' => 'Print'],
+        'fields' => [
+            'percentage' => $f('Profit-sharing %', true, 'full', 'visible'),
+            'notes' => $f('Agreement notes', true, 'full', 'visible'),
+        ],
+    ],
+    'partner_reports' => [
+        'name' => 'Partner Reports', 'icon' => 'file-bar-chart', 'phase' => 3,
+        'actions' => ['view' => 'View', 'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print'],
     ],
     'gst_registrations' => [
         'name' => 'GST Registrations', 'icon' => 'file-badge', 'phase' => 4,

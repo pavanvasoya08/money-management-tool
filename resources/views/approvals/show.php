@@ -1,4 +1,9 @@
 <div class="page-head"><div><h1><?= e($req['title']) ?></h1><p><?= e($req['workflow_name']) ?> · ₹<?= e(number_format((float) $req['amount'], 2)) ?> · requested by <?= e($req['requester_name']) ?> · <span class="badge status-<?= e($req['status']) ?>"><?= e(ucfirst($req['status'])) ?></span></p></div></div>
+<?php if ($req['subject_type'] === \App\Services\Partners\CapitalService::SUBJECT):
+    $subj = \App\Core\App::db()->first('SELECT id, type FROM partner_capital_transactions WHERE id = ?', [$req['subject_id']]);
+    $subjRoute = $subj ? (['contribution' => 'capital.contributions', 'withdrawal' => 'capital.withdrawals', 'adjustment' => 'capital.adjustments'][$subj['type']] ?? null) : null; ?>
+    <?php if ($subjRoute): ?><div class="alert alert-secondary small d-flex justify-content-between align-items-center"><span><i data-lucide="piggy-bank" class="icon-sm"></i> Partner capital entry. Approving does not post it: posting to the capital ledger is a separate step.</span><a class="btn btn-sm btn-light" href="<?= e(route($subjRoute . '.show', ['id' => $subj['id']])) ?>">Open entry</a></div><?php endif; ?>
+<?php endif; ?>
 <div class="row g-3">
     <div class="col-xl-5">
         <div class="card app-card mb-3"><div class="card-header">Steps for this amount</div><div class="card-body">

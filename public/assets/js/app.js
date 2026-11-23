@@ -165,7 +165,38 @@
     }
 
     /* ---------- Charts (data passed via data-chart attribute) ---------- */
+    function initCapitalChart() {
+        const canvas = $('#capital-chart');
+        if (!canvas) return;
+        if (!window.Chart) {
+            canvas.parentElement.innerHTML = '<div class="empty-state"><p class="mb-0">Chart unavailable — use “Show as table”.</p></div>';
+            return;
+        }
+        const data = JSON.parse(canvas.dataset.chart || '{}');
+        const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+        const compact = new Intl.NumberFormat('en-IN', { notation: 'compact', maximumFractionDigits: 1 });
+        // One series → one hue, no legend; the card title names the measure.
+        new window.Chart(canvas, {
+            type: 'bar',
+            data: { labels: data.labels || [], datasets: [{ label: 'Closing capital', data: data.values || [], backgroundColor: '#2563eb', hoverBackgroundColor: '#1d4ed8',
+                borderRadius: { topRight: 4, bottomRight: 4, topLeft: 0, bottomLeft: 0 }, borderSkipped: 'start', barThickness: 18 }] },
+            options: {
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: (ctx) => ' ' + inr.format(ctx.parsed.x) } }
+                },
+                scales: {
+                    x: { beginAtZero: true, border: { display: false }, grid: { color: 'rgba(148,163,184,.18)' }, ticks: { callback: (v) => '₹' + compact.format(v) } },
+                    y: { grid: { display: false }, border: { display: false }, ticks: { color: '#334155' } }
+                }
+            }
+        });
+    }
+
     function initCharts() {
+        initCapitalChart();
         const canvas = $('#login-chart');
         if (!canvas) return;
         if (!window.Chart) {
@@ -195,7 +226,63 @@
         });
     }
 
+    /* ---------- Phase 3: capital & profit-sharing forms (UX only; the server enforces every rule) ---------- */
+    function toPaise(v) {
+        const m = /^(\d{1,13})(?:\.(\d{1,2}))?$/.exec((v || '').trim());
+        return m ? parseInt(m[1], 10) * 100 + parseInt((m[2] || '0').padEnd(2, '0'), 10) : null;
+    }
+    function initCapitalForm() {
+        const form = $('form[data-capital-form]');
+        if (!form) return;
+        const sel = $('#partner_id', form), amount = $('#amount', form), text = $('[data-availability-text]', form), warn = $('[data-overdraw-warning]', form), dir = $('#direction', form);
+        const info = JSON.parse((sel && sel.dataset.availability) || '{}');
+        const refresh = () => {
+            const a = info[sel.value];
+            if (text) text.textContent = a ? 'Posted balance ' + a.balance + ' · eligible available ' + a.available : (Object.keys(info).length ? 'Choose a partner to see the eligible available capital.' : '');
+            const p = toPaise(amount.value);
+            const debit = !dir || dir.value === 'debit';
+            if (warn) warn.classList.toggle('d-none', !(a && debit && p !== null && p > a.availablePaise));
+        };
+        [sel, amount, dir].forEach((el) => el && el.addEventListener('input', refresh));
+        [sel, dir].forEach((el) => el && el.addEventListener('change', refresh));
+        refresh();
+    }
+    function initAllocationForm() {
+        const form = $('form[data-allocation-form]');
+        if (!form) return;
+        const total = $('[data-alloc-total]', form), hint = $('[data-alloc-hint]', form), complete = form.dataset.complete === '1';
+        const refresh = () => {
+            let units = 0, bad = false;
+            $$('[data-alloc-input]', form).forEach((i) => {
+                const v = i.value.trim();
+                if (v === '') return;
+                const m = /^(\d{1,3})(?:\.(\d{1,4}))?$/.exec(v);
+                if (!m) { bad = true; return; }
+                units += parseInt(m[1], 10) * 10000 + parseInt((m[2] || '0').padEnd(4, '0'), 10);
+            });
+            const pct = (units / 10000).toFixed(4).replace(/\.?0+$/, '');
+            total.textContent = pct + '%';
+            const ok = !bad && (complete ? units === 1000000 : units <= 1000000 && units > 0);
+            total.className = ok ? 'text-success' : 'text-danger';
+            hint.textContent = bad ? 'Use numbers with up to 4 decimals.' : (complete ? (units === 1000000 ? 'Totals exactly 100%.' : 'A complete allocation must total exactly 100%.') : (units > 1000000 ? 'Cannot exceed 100%.' : ''));
+        };
+        form.addEventListener('input', refresh);
+        refresh();
+    }
+    /* Sizes from data attributes (the CSP forbids inline style attributes; CSSOM is allowed). */
+    function initSizes() {
+        $$('[data-width]').forEach((el) => { el.style.width = Math.max(0, Math.min(100, parseFloat(el.dataset.width) || 0)) + '%'; });
+        $$('[data-height]').forEach((el) => { el.style.height = (parseInt(el.dataset.height, 10) || 240) + 'px'; });
+    }
+    function initPrint() {
+        $$('[data-print]').forEach((b) => b.addEventListener('click', () => window.print()));
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+        initCapitalForm();
+        initAllocationForm();
+        initPrint();
+        initSizes();
         icons();
         initSidebar();
         initToasts();

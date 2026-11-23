@@ -40,14 +40,16 @@ final class DataAccess
     {
     }
 
-    /** @return array{table: ?string, owner_column: ?string, resource: ?string, columns: array<string, string>} */
+    /** @return array{table: ?string, owner_column: ?string, owner_via: ?array{column: string, table: string, owner_column: string}, resource: ?string, resource_column: string, columns: array<string, string>} */
     public static function mapping(string $module): array
     {
         $data = (array) Config::get("modules.{$module}.data", []);
         return [
             'table' => $data['table'] ?? null,
             'owner_column' => $data['owner_column'] ?? null,
+            'owner_via' => isset($data['owner_via']) ? (array) $data['owner_via'] : null,
             'resource' => $data['resource'] ?? null,
+            'resource_column' => (string) ($data['resource_column'] ?? 'id'),
             'columns' => (array) ($data['columns'] ?? []),
         ];
     }
@@ -142,11 +144,24 @@ final class DataAccess
      */
     public function constrain(array $user, string $module, string $alias = ''): array
     {
-        $scope = $this->resolve($user, $module);
+        return $this->constrainAs($user, $module, $module, $alias);
+    }
+
+    /**
+     * Apply the record scope a user has in $scopeModule to the table of
+     * $tableModule. Used for partner-level reports of capital modules:
+     * constrainAs($user, 'capital_ledger', 'partners', 'p') lists the partners
+     * whose capital the user may see ("own" = partner linked to the user, etc.).
+     * @param array<string, mixed> $user
+     * @return array{0: string, 1: list<mixed>}
+     */
+    public function constrainAs(array $user, string $scopeModule, string $tableModule, string $alias = ''): array
+    {
+        $scope = $this->resolve($user, $scopeModule);
         if ($scope->all) {
             return ['1 = 1', []];
         }
-        $map = self::mapping($module);
+        $map = self::mapping($tableModule);
         $col = fn (string $c): string => ($alias !== '' ? $alias . '.' : '') . $this->db->identifier($c);
         $parts = [];
         $params = [];
@@ -156,14 +171,20 @@ final class DataAccess
                 if ($map['owner_column'] !== null) {
                     $parts[] = $col($map['owner_column']) . ' = ?';
                     $params[] = (int) $user['id'];
+                } elseif ($map['owner_via'] !== null) {
+                    // e.g. capital transactions belong to the partner whose linked login is this user
+                    $v = $map['owner_via'];
+                    $parts[] = $col($v['column']) . ' IN (SELECT id FROM ' . $this->db->identifier($v['table']) . ' WHERE ' . $this->db->identifier($v['owner_column']) . ' = ?)';
+                    $params[] = (int) $user['id'];
                 }
             } elseif ($s === DataScope::Assigned) {
                 if ($map['resource'] !== null) {
-                    $parts[] = $col('id') . ' IN (SELECT resource_id FROM user_resource_assignments WHERE user_id = ? AND resource_type = ?)';
+                    $parts[] = $col($map['resource_column']) . ' IN (SELECT resource_id FROM user_resource_assignments WHERE user_id = ? AND resource_type = ?)';
                     array_push($params, (int) $user['id'], $map['resource']);
                 }
             } elseif ($s === DataScope::Selected) {
-                if ($rule['ids'] !== []) {
+                // Specific record IDs only make sense on the module's own table.
+                if ($rule['ids'] !== [] && $scopeModule === $tableModule) {
                     $parts[] = $col('id') . ' IN (' . implode(',', array_fill(0, count($rule['ids']), '?')) . ')';
                     array_push($params, ...$rule['ids']);
                 }

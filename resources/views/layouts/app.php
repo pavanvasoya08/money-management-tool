@@ -53,7 +53,7 @@ if ($me !== null && !$isSuper) {
         <?php endforeach; ?>
     </nav>
     <div class="sidebar-foot">
-        <span class="phase-chip">Phase 2 · Access Control</span>
+        <span class="phase-chip">Phase 3 · Partners &amp; Capital</span>
     </div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>

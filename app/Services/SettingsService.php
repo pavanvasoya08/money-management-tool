@@ -43,6 +43,7 @@ final class SettingsService
 
             'allow_user_level_grants' => ['type' => 'boolean', 'default' => true, 'group' => 'access', 'label' => 'Allow explicit per-user "Allow" grants', 'rules' => 'nullable|boolean', 'help' => 'When off, user-level Allow overrides are ignored; Deny overrides always apply.'],
             'block_self_approval' => ['type' => 'boolean', 'default' => true, 'group' => 'access', 'label' => 'Block approving your own requests', 'rules' => 'nullable|boolean', 'help' => 'Segregation of duties for approval workflows.'],
+            'allow_capital_overdraw' => ['type' => 'boolean', 'default' => false, 'group' => 'finance', 'label' => 'Exception policy: allow withdrawals beyond available capital', 'rules' => 'nullable|boolean', 'help' => 'Off = a withdrawal (or debit adjustment / reversal) can never take a partner\'s posted capital below zero. On = users who also hold "Capital Withdrawals: Exceed available capital" may do so; every use is audited.'],
             'access_requests_enabled' => ['type' => 'boolean', 'default' => false, 'group' => 'access', 'label' => 'Let users request access from the "Access denied" page', 'rules' => 'nullable|boolean'],
         ];
     }

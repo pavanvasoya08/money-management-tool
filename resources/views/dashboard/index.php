@@ -60,6 +60,8 @@ $quick = array_filter([
     </div>
 </div>
 
+<?php if (!empty($capital)): ?><?= $view->partial('dashboard/_capital', ['capital' => $capital]) ?><?php endif; ?>
+
 <?php if ($chart !== null): ?>
 <div class="card app-card mb-3">
     <div class="card-header d-flex justify-content-between"><span><i data-lucide="activity" class="icon-sm"></i> Sign-in activity</span><span class="small text-secondary">Last 14 days (UTC)</span></div>
@@ -95,7 +97,7 @@ $quick = array_filter([
         <span class="stat-icon tone-blue"><i data-lucide="rocket"></i></span>
         <div class="flex-grow-1">
             <div class="fw-semibold">Finance modules are on the way</div>
-            <div class="small text-secondary">Partners, GST, banking, inventory, sales and reports arrive in later phases. They appear in the sidebar as “Soon” and no financial figures are shown until they hold real data.</div>
+            <div class="small text-secondary">Partners and capital are live. GST, banking, inventory, sales, accounting and financial reports arrive in later phases. They appear in the sidebar as “Soon” and no financial figures are shown until they hold real data.</div>
         </div>
     </div>
 </div>

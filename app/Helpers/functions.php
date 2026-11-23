@@ -198,3 +198,26 @@ if (!function_exists('query_with')) {
         return $query === [] ? '' : '?' . http_build_query($query);
     }
 }
+
+if (!function_exists('released')) {
+    /** Has the module's phase been delivered? (config app.released_phase) */
+    function released(int $phase): bool
+    {
+        return $phase <= (int) \App\Core\Config::get('app.released_phase', 1);
+    }
+}
+
+if (!function_exists('money')) {
+    /** Format a DECIMAL value or integer paise (when $isPaise) with Indian grouping. */
+    function money(mixed $value, bool $isPaise = false): string
+    {
+        return \App\Support\Money::format($isPaise ? (int) $value : \App\Support\Money::fromDb($value));
+    }
+}
+
+if (!function_exists('format_date')) {
+    function format_date(?string $date): string
+    {
+        return \App\Support\BusinessDate::format($date);
+    }
+}

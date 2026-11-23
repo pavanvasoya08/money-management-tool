@@ -150,6 +150,7 @@ final class Grammar
             'json' => $mysql ? 'JSON' : 'TEXT',
             'decimal' => $mysql ? 'DECIMAL(' . (int) $c->options['precision'] . ',' . (int) $c->options['scale'] . ')' : 'NUMERIC',
             'dateTime' => $mysql ? 'DATETIME' : 'DATETIME',
+            'date' => $mysql ? 'DATE' : 'DATE',
             default => throw new InvalidArgumentException("Unknown column type [{$c->type}]."),
         };
 

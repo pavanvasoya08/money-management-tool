@@ -12,7 +12,7 @@
     <details class="card app-card module-card" data-search-item data-name="<?= e(mb_strtolower($m['name'] . ' ' . implode(' ', array_column($perms, 'slug')))) ?>">
         <summary class="card-header d-flex justify-content-between align-items-center gap-2">
             <span><span class="fw-semibold"><?= e($m['name']) ?></span> <code class="small"><?= e($m['module_key']) ?></code>
-                <span class="small text-secondary">· <?= count($perms) ?> actions · <?= (int) $m['phase'] <= 2 ? 'available' : 'phase ' . (int) $m['phase'] ?></span>
+                <span class="small text-secondary">· <?= count($perms) ?> actions · <?= released((int) $m['phase']) ? 'available' : 'phase ' . (int) $m['phase'] ?></span>
                 <?php if (!$m['is_active']): ?><span class="badge badge-soft-danger">Disabled</span><?php endif; ?>
                 <?php if ($m['super_admin_only']): ?><span class="badge text-bg-dark">Super Admin only</span><?php endif; ?></span>
             <?php if (!$m['super_admin_only'] && !in_array($m['module_key'], ['dashboard', 'users', 'settings'], true)): ?>

@@ -132,11 +132,35 @@ final class Validator
             'regex' => !$isArray && preg_match((string) $arg, (string) $value) === 1 ? null : "{$label} format is invalid.",
             'unique' => $this->unique((string) $arg, $value) ? null : "{$label} has already been taken.",
             'exists' => $this->exists((string) $arg, $value) ? null : "{$label} contains an invalid selection.",
+            'date' => !$isArray && self::isDate((string) $value) ? null : "{$label} must be a valid date (YYYY-MM-DD).",
+            'before_or_equal' => !$isArray && self::isDate((string) $value) && (string) $value <= $this->dateArg((string) $arg) ? null : "{$label} cannot be after " . $this->dateArg((string) $arg) . '.',
+            'after_or_equal' => !$isArray && self::isDate((string) $value) && (string) $value >= $this->dateArg((string) $arg) ? null : "{$label} cannot be before " . $this->dateArg((string) $arg) . '.',
+            'money' => !$isArray && \App\Support\Money::isValidInput((string) $value) ? null : "{$label} must be an amount greater than zero with at most 2 decimal places.",
+            'percent' => !$isArray && \App\Support\Percent::isValidInput((string) $value) ? null : "{$label} must be a percentage between 0 and 100 with at most 4 decimal places.",
             default => throw new \InvalidArgumentException("Unknown validation rule [{$rule}]."),
         };
     }
 
     private ?string $currentField = null;
+
+    public static function isDate(string $value): bool
+    {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) !== 1) {
+            return false;
+        }
+        [$y, $m, $d] = array_map('intval', explode('-', $value));
+        return checkdate($m, $d, $y) && $y >= 1900 && $y <= 2200;
+    }
+
+    /** "today" or another field name or a literal Y-m-d date. */
+    private function dateArg(string $arg): string
+    {
+        if ($arg === 'today') {
+            return \App\Support\BusinessDate::today();
+        }
+        $other = $this->data[$arg] ?? null;
+        return is_string($other) && self::isDate(trim($other)) ? trim($other) : $arg;
+    }
 
     private function isIntegerField(): bool
     {

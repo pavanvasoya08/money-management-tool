@@ -15,8 +15,13 @@ return [
     ['label' => 'Dashboard', 'icon' => 'layout-dashboard', 'route' => 'dashboard', 'permission' => null, 'active' => 'dashboard'],
 
     ['section' => 'Partners & Compliance'],
-    ['label' => 'Partners', 'module' => 'partners', 'icon' => 'users-round', 'route' => null, 'phase' => 3],
-    ['label' => 'Capital Contributions', 'module' => 'capital_contributions', 'icon' => 'piggy-bank', 'route' => null, 'phase' => 3],
+    ['label' => 'Partners', 'module' => 'partners', 'icon' => 'users-round', 'route' => 'partners.index', 'permission' => 'partners.view', 'active' => 'partners'],
+    ['label' => 'Capital Contributions', 'module' => 'capital_contributions', 'icon' => 'piggy-bank', 'route' => 'capital.contributions.index', 'permission' => 'capital_contributions.view', 'active' => 'capital.contributions'],
+    ['label' => 'Capital Withdrawals', 'module' => 'capital_withdrawals', 'icon' => 'hand-coins', 'route' => 'capital.withdrawals.index', 'permission' => 'capital_withdrawals.view', 'active' => 'capital.withdrawals'],
+    ['label' => 'Capital Adjustments', 'module' => 'capital_adjustments', 'icon' => 'scale', 'route' => 'capital.adjustments.index', 'permission' => 'capital_adjustments.view', 'active' => 'capital.adjustments'],
+    ['label' => 'Capital Ledger', 'module' => 'capital_ledger', 'icon' => 'book-text', 'route' => 'capital.ledger.index', 'permission' => 'capital_ledger.view', 'active' => 'capital.ledger'],
+    ['label' => 'Profit Sharing', 'module' => 'profit_sharing', 'icon' => 'pie-chart', 'route' => 'profit-sharing.index', 'permission' => 'profit_sharing.view', 'active' => 'profit-sharing'],
+    ['label' => 'Partner Reports', 'module' => 'partner_reports', 'icon' => 'file-bar-chart', 'route' => 'partner-reports.index', 'permission' => 'partner_reports.view', 'active' => 'partner-reports'],
     ['label' => 'GST Registrations', 'module' => 'gst_registrations', 'icon' => 'file-badge', 'route' => null, 'phase' => 4],
     ['label' => 'Bank Accounts', 'module' => 'bank_accounts', 'icon' => 'landmark', 'route' => null, 'phase' => 5],
 

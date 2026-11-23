@@ -12,7 +12,7 @@
         <tbody>
         <?php foreach ($modules as $m): $key = $m['module_key']; $options = \App\Controllers\Admin\AdminUserController::scopeOptions($key); ?>
             <tr>
-                <th class="matrix-module" scope="row"><?= e($m['name']) ?><?php if ((int) $m['phase'] > 2): ?><div class="small text-secondary fw-normal">Phase <?= (int) $m['phase'] ?></div><?php endif; ?></th>
+                <th class="matrix-module" scope="row"><?= e($m['name']) ?><?php if (!released((int) $m['phase'])): ?><div class="small text-secondary fw-normal">Phase <?= (int) $m['phase'] ?></div><?php endif; ?></th>
                 <?php foreach ($roles as $r): $cur = $scopes[(int) $r['id']][$key]['scope'] ?? 'inherit'; $g = $grants[(int) $r['id']] ?? []; ?>
                     <td>
                         <select class="form-select form-select-sm scope-select" name="scopes[<?= (int) $r['id'] ?>][<?= e($key) ?>]" data-original="<?= e($cur) ?>" data-matrix-input aria-label="<?= e($r['name'] . ' – ' . $m['name']) ?>">

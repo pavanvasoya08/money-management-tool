@@ -18,6 +18,15 @@ use App\Controllers\DashboardController;
 use App\Controllers\PasswordResetController;
 use App\Controllers\SettingsController;
 use App\Controllers\UserController;
+use App\Controllers\Partners\AdjustmentController;
+use App\Controllers\Partners\CapitalLedgerController;
+use App\Controllers\Partners\ContributionController;
+use App\Controllers\Partners\PartnerAccountController;
+use App\Controllers\Partners\PartnerController;
+use App\Controllers\Partners\PartnerDocumentController;
+use App\Controllers\Partners\PartnerReportController;
+use App\Controllers\Partners\ProfitSharingController;
+use App\Controllers\Partners\WithdrawalController;
 use App\Core\Router;
 
 /*
@@ -46,6 +55,75 @@ return static function (Router $r): void {
         $r->get('/account', [AccountController::class, 'profile'], 'account.profile');
         $r->get('/account/password', [AccountController::class, 'showPassword'], 'account.password');
         $r->post('/account/password', [AccountController::class, 'updatePassword'], 'account.password.update');
+
+        // ---------- Phase 3: partners & capital ----------
+        $r->group(['prefix' => 'partners'], static function (Router $r): void {
+            $r->get('/', [PartnerController::class, 'index'], 'partners.index', ['can:partners.view']);
+            $r->get('/create', [PartnerController::class, 'create'], 'partners.create', ['can:partners.create']);
+            $r->post('/', [PartnerController::class, 'store'], 'partners.store', ['can:partners.create']);
+            $r->get('/export', [PartnerController::class, 'export'], 'partners.export', ['can:partners.export']);
+            $r->get('/{id}', [PartnerController::class, 'show'], 'partners.show', ['can:partners.view']);
+            $r->get('/{id}/photo', [PartnerController::class, 'photo'], 'partners.photo', ['can:partners.view']);
+            $r->get('/{id}/edit', [PartnerController::class, 'edit'], 'partners.edit', ['can:partners.edit']);
+            $r->post('/{id}', [PartnerController::class, 'update'], 'partners.update', ['can:partners.edit']);
+            $r->post('/{id}/status', [PartnerController::class, 'status'], 'partners.status', ['can:partners.change_status']);
+            $r->post('/{id}/suspend', [PartnerController::class, 'suspend'], 'partners.suspend', ['can:partners.suspend']);
+            $r->post('/{id}/reactivate', [PartnerController::class, 'reactivate'], 'partners.reactivate', ['can:partners.suspend']);
+            $r->post('/{id}/archive', [PartnerController::class, 'archive'], 'partners.archive', ['can:partners.archive']);
+            $r->post('/{id}/restore', [PartnerController::class, 'restore'], 'partners.restore', ['can:partners.archive']);
+            $r->post('/{id}/link', [PartnerAccountController::class, 'link'], 'partners.link', ['can:partners.link_account']);
+            $r->post('/{id}/unlink', [PartnerAccountController::class, 'unlink'], 'partners.unlink', ['can:partners.link_account']);
+            $r->post('/{id}/login', [PartnerAccountController::class, 'createLogin'], 'partners.login.create', ['can:partners.link_account']);
+            $r->post('/{id}/login/suspend', [PartnerAccountController::class, 'suspendLogin'], 'partners.login.suspend', ['can:partners.link_account']);
+            $r->post('/{id}/login/reactivate', [PartnerAccountController::class, 'reactivateLogin'], 'partners.login.reactivate', ['can:partners.link_account']);
+            $r->post('/{id}/documents', [PartnerDocumentController::class, 'store'], 'partners.documents.store', ['can:partners.upload_documents']);
+            $r->get('/{id}/documents/{doc}', [PartnerDocumentController::class, 'download'], 'partners.documents.download', ['can:partners.view_documents']);
+            $r->post('/{id}/documents/{doc}/remove', [PartnerDocumentController::class, 'destroy'], 'partners.documents.remove', ['can:partners.delete_documents']);
+        });
+
+        foreach ([['contributions', ContributionController::class, 'capital_contributions'], ['withdrawals', WithdrawalController::class, 'capital_withdrawals'], ['adjustments', AdjustmentController::class, 'capital_adjustments']] as [$path, $ctl, $mod]) {
+            $r->group(['prefix' => 'capital/' . $path], static function (Router $r) use ($path, $ctl, $mod): void {
+                $n = 'capital.' . $path;
+                $r->get('/', [$ctl, 'index'], "{$n}.index", ["can:{$mod}.view"]);
+                $r->get('/create', [$ctl, 'create'], "{$n}.create", ["can:{$mod}.create"]);
+                $r->post('/', [$ctl, 'store'], "{$n}.store", ["can:{$mod}.create"]);
+                $r->get('/export', [$ctl, 'export'], "{$n}.export", ["can:{$mod}.export"]);
+                $r->get('/{id}', [$ctl, 'show'], "{$n}.show", ["can:{$mod}.view"]);
+                $r->get('/{id}/edit', [$ctl, 'edit'], "{$n}.edit", ["can:{$mod}.edit"]);
+                $r->post('/{id}', [$ctl, 'update'], "{$n}.update", ["can:{$mod}.edit"]);
+                $r->post('/{id}/submit', [$ctl, 'submit'], "{$n}.submit", ["can:{$mod}.create"]);
+                $r->post('/{id}/cancel', [$ctl, 'cancel'], "{$n}.cancel", ["can:{$mod}.cancel"]);
+                $r->post('/{id}/post', [$ctl, 'post'], "{$n}.post", ["can:{$mod}.post"]);
+                $r->post('/{id}/reverse', [$ctl, 'reverse'], "{$n}.reverse", ["can:{$mod}.reverse"]);
+            });
+        }
+
+        $r->group(['prefix' => 'capital/ledger'], static function (Router $r): void {
+            $r->get('/', [CapitalLedgerController::class, 'index'], 'capital.ledger.index', ['can:capital_ledger.view']);
+            $r->get('/{id}', [CapitalLedgerController::class, 'show'], 'capital.ledger.show', ['can:capital_ledger.view']);
+            $r->get('/{id}/export', [CapitalLedgerController::class, 'export'], 'capital.ledger.export', ['can:capital_ledger.export']);
+        });
+
+        $r->group(['prefix' => 'profit-sharing'], static function (Router $r): void {
+            $r->get('/', [ProfitSharingController::class, 'index'], 'profit-sharing.index', ['can:profit_sharing.view']);
+            $r->get('/create', [ProfitSharingController::class, 'create'], 'profit-sharing.create', ['can:profit_sharing.create']);
+            $r->post('/', [ProfitSharingController::class, 'store'], 'profit-sharing.store', ['can:profit_sharing.create']);
+            $r->get('/{id}', [ProfitSharingController::class, 'show'], 'profit-sharing.show', ['can:profit_sharing.view']);
+            $r->get('/{id}/edit', [ProfitSharingController::class, 'edit'], 'profit-sharing.edit', ['can:profit_sharing.edit']);
+            $r->post('/{id}', [ProfitSharingController::class, 'update'], 'profit-sharing.update', ['can:profit_sharing.edit']);
+            $r->post('/{id}/status', [ProfitSharingController::class, 'status'], 'profit-sharing.status', ['can:profit_sharing.change_status']);
+            $r->get('/{id}/allocations/create', [ProfitSharingController::class, 'createAllocation'], 'profit-sharing.allocations.create', ['can:profit_sharing.create']);
+            $r->post('/{id}/allocations', [ProfitSharingController::class, 'storeAllocation'], 'profit-sharing.allocations.store', ['can:profit_sharing.create']);
+            $r->get('/{id}/allocations/{alloc}/edit', [ProfitSharingController::class, 'editAllocation'], 'profit-sharing.allocations.edit', ['can:profit_sharing.edit']);
+            $r->post('/{id}/allocations/{alloc}', [ProfitSharingController::class, 'updateAllocation'], 'profit-sharing.allocations.update', ['can:profit_sharing.edit']);
+            $r->post('/{id}/allocations/{alloc}/deactivate', [ProfitSharingController::class, 'deactivateAllocation'], 'profit-sharing.allocations.deactivate', ['can:profit_sharing.change_status']);
+        });
+
+        $r->group(['prefix' => 'partner-reports'], static function (Router $r): void {
+            $r->get('/', [PartnerReportController::class, 'index'], 'partner-reports.index', ['can:partner_reports.view']);
+            $r->get('/{report}', [PartnerReportController::class, 'show'], 'partner-reports.show', ['can:partner_reports.view']);
+            $r->get('/{report}/export', [PartnerReportController::class, 'export'], 'partner-reports.export', ['can:partner_reports.export']);
+        });
 
         // User management
         $r->group(['prefix' => 'users'], static function (Router $r): void {

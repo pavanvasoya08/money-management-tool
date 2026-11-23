@@ -24,6 +24,7 @@ final class Request
         public readonly array $post = [],
         public readonly array $server = [],
         public readonly array $cookies = [],
+        public readonly array $files = [],
     ) {
     }
 
@@ -41,7 +42,24 @@ final class Request
             $_POST,
             $_SERVER,
             array_map('strval', array_filter($_COOKIE, 'is_scalar')),
+            $_FILES,
         );
+    }
+
+    /**
+     * A single uploaded file, or null when none was sent. Multiple-file inputs are rejected.
+     * @return array{name: string, type: string, tmp_name: string, error: int, size: int}|null
+     */
+    public function file(string $key): ?array
+    {
+        $f = $this->files[$key] ?? null;
+        if (!is_array($f) || is_array($f['name'] ?? null) || !isset($f['error'])) {
+            return null;
+        }
+        if ((int) $f['error'] === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+        return ['name' => (string) $f['name'], 'type' => (string) ($f['type'] ?? ''), 'tmp_name' => (string) ($f['tmp_name'] ?? ''), 'error' => (int) $f['error'], 'size' => (int) ($f['size'] ?? 0)];
     }
 
     /** Input from POST body first, then query string. Always returns scalars/arrays as received. */

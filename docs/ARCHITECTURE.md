@@ -77,6 +77,16 @@ App::fields()->assertWritable($me, 'sales', $request->all(), $current);
 $req = App::approvals()->submit('expense', 'expense', $expenseId, $amount, $title, $me);
 ```
 
+## Money and partner capital (Phase 3)
+
+- Store money as `DECIMAL(15,2)` and percentages as `DECIMAL(7,4)`. In PHP use `App\Support\Money` (integer paise) and `App\Support\Percent` (1% = 10,000 units). Never use floats in business rules.
+- `partner_capital_transactions` is append-only. Balances come from `CapitalLedger` over rows in `posted` or `reversed` status, never from a stored balance.
+- Approval-driven modules register a listener in `App::approvals()` (see `CapitalService::registerApprovalListener()`).
+- Financial postings call `App::postingQueue()->enqueue()` inside their DB transaction. The unique key prevents double counting, and Phase 12 implements `PostingTarget`.
+- Partner-level reports for transaction modules use `DataAccess::constrainAs($user, '<module>', 'partners', 'p')`.
+- Private files go through `DocumentService` (allow-list, MIME check, random names, outside `public/`) and are streamed only by an authorising controller.
+- The CSP forbids inline `style` attributes. Use classes, or `data-width` / `data-height`, which `app.js` applies.
+
 ## Activity logging
 
 ```php

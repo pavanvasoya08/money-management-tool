@@ -45,7 +45,63 @@ final class DashboardController extends Controller
             'logins' => LoginAttempt::recent(8, $canLogins ? null : $userId),
             'activity' => ActivityLog::recent(8, $canActivity ? null : $userId),
             'chart' => $canLogins ? LoginAttempt::dailyCounts(14) : null,
-            'withCharts' => $canLogins,
+            'capital' => $capital = $this->capitalWidgets($user),
+            'withCharts' => $canLogins || !empty($capital['chart']),
         ]);
+    }
+
+    /**
+     * Phase 3 widgets — computed from posted transactions only and limited to
+     * what the user may see (record scope per module, amount field rules).
+     * @param array<string, mixed> $user
+     * @return array<string, mixed>|null
+     */
+    private function capitalWidgets(array $user): ?array
+    {
+        $gate = App::gate();
+        $da = App::dataAccess();
+        $out = [];
+        if ($gate->allows($user, 'partners.view')) {
+            $out['partners'] = (new \App\Services\Partners\PartnerService(App::db()))->counts($da->constrain($user, 'partners', 'p'));
+        }
+        $money = $gate->allows($user, 'capital_ledger.view') && App::fields()->access($user, 'capital_ledger', 'running_balance')->showsRealValue();
+        if ($money) {
+            $sums = App::capitalLedger()->summaries($da->constrainAs($user, 'capital_ledger', 'partners', 'p'));
+            $names = [];
+            if ($sums !== []) {
+                foreach (App::db()->select('SELECT id, partner_code, name FROM partners WHERE id IN (' . implode(',', array_map('intval', array_keys($sums))) . ')') as $p) {
+                    $names[(int) $p['id']] = $p['name'];
+                }
+            }
+            $t = ['contributions' => 0, 'withdrawals' => 0, 'closing' => 0, 'net_contributed' => 0, 'net_withdrawn' => 0];
+            $bars = [];
+            foreach ($sums as $id => $s) {
+                foreach ($t as $k => $_) {
+                    $t[$k] += $s[$k];
+                }
+                if ($s['closing'] !== 0) {
+                    $bars[] = ['label' => $names[$id] ?? ('#' . $id), 'paise' => $s['closing']];
+                }
+            }
+            usort($bars, static fn (array $a, array $b): int => $b['paise'] <=> $a['paise']);
+            if (count($bars) > 10) {
+                $rest = array_slice($bars, 9);
+                $bars = array_slice($bars, 0, 9);
+                $bars[] = ['label' => 'Other partners (' . count($rest) . ')', 'paise' => array_sum(array_column($rest, 'paise'))];
+            }
+            $out['totals'] = $t;
+            $out['bars'] = $bars;
+            $out['chart'] = $bars === [] ? null : ['labels' => array_column($bars, 'label'), 'values' => array_map(static fn (array $b): float => \App\Support\Money::toFloat($b['paise']), $bars)];
+        }
+        foreach (['contribution' => 'capital_contributions', 'withdrawal' => 'capital_withdrawals'] as $type => $module) {
+            if (!$gate->allows($user, "{$module}.view")) {
+                continue;
+            }
+            $totals = (new \App\Services\Partners\CapitalService(App::db()))->totals($type, [], $da->constrain($user, $module, 't'));
+            $pending = ['count' => ($totals['pending_approval']['count'] ?? 0) + ($totals['approved']['count'] ?? 0), 'amount' => ($totals['pending_approval']['amount'] ?? 0) + ($totals['approved']['amount'] ?? 0)];
+            $pending['showAmount'] = App::fields()->access($user, $module, 'amount')->showsRealValue();
+            $out['pending_' . $type] = $pending;
+        }
+        return $out === [] ? null : $out;
     }
 }
