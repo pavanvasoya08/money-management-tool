@@ -39,6 +39,11 @@ final class SettingsService
             'session_idle_minutes' => ['type' => 'integer', 'default' => 30, 'group' => 'security', 'label' => 'Sign out after inactivity (minutes)', 'rules' => 'required|integer|min:5|max:480'],
             'remember_me_days' => ['type' => 'integer', 'default' => 30, 'group' => 'security', 'label' => '"Remember me" duration (days)', 'rules' => 'required|integer|min:1|max:90'],
             'password_reset_expiry_minutes' => ['type' => 'integer', 'default' => 60, 'group' => 'security', 'label' => 'Password reset link validity (minutes)', 'rules' => 'required|integer|min:10|max:1440'],
+            'max_concurrent_sessions' => ['type' => 'integer', 'default' => 0, 'group' => 'security', 'label' => 'Maximum simultaneous sessions per user (0 = unlimited)', 'rules' => 'required|integer|min:0|max:20'],
+
+            'allow_user_level_grants' => ['type' => 'boolean', 'default' => true, 'group' => 'access', 'label' => 'Allow explicit per-user "Allow" grants', 'rules' => 'nullable|boolean', 'help' => 'When off, user-level Allow overrides are ignored; Deny overrides always apply.'],
+            'block_self_approval' => ['type' => 'boolean', 'default' => true, 'group' => 'access', 'label' => 'Block approving your own requests', 'rules' => 'nullable|boolean', 'help' => 'Segregation of duties for approval workflows.'],
+            'access_requests_enabled' => ['type' => 'boolean', 'default' => false, 'group' => 'access', 'label' => 'Let users request access from the "Access denied" page', 'rules' => 'nullable|boolean'],
         ];
     }
 
@@ -78,14 +83,20 @@ final class SettingsService
     }
 
     /**
-     * Validate and persist settings. Returns the list of keys that changed.
+     * Validate and persist settings. When $groups is given only those groups are
+     * validated and saved (so one settings page cannot reset another's values).
+     * Returns the list of keys that changed.
      *
      * @param array<string, mixed> $input
+     * @param list<string>|null $groups
      * @return list<string>
      */
-    public function update(array $input, int $actorId): array
+    public function update(array $input, int $actorId, ?array $groups = null): array
     {
         $defs = self::definitions();
+        if ($groups !== null) {
+            $defs = array_filter($defs, static fn (array $d): bool => in_array($d['group'], $groups, true));
+        }
         $rules = array_map(static fn (array $d): string => $d['rules'], $defs);
         $labels = array_map(static fn (array $d): string => $d['label'], $defs);
         $validator = new Validator(array_intersect_key($input, $defs), $rules, $labels, $this->db);
@@ -94,6 +105,7 @@ final class SettingsService
         }
 
         $current = $this->all();
+        $this->lastChange = ['old' => [], 'new' => []];
         $changed = [];
         $now = now();
         $this->db->transaction(function (Database $db) use ($validator, $defs, $current, &$changed, $now, $actorId): void {
@@ -113,11 +125,16 @@ final class SettingsService
                     ]);
                 }
                 $changed[] = $key;
+                $this->lastChange['old'][$key] = $current[$key];
+                $this->lastChange['new'][$key] = $value;
             }
         });
         $this->cache = null;
         return $changed;
     }
+
+    /** @var array{old: array<string, mixed>, new: array<string, mixed>} values changed by the last update() */
+    public array $lastChange = ['old' => [], 'new' => []];
 
     public static function cast(?string $value, string $type): mixed
     {

@@ -9,6 +9,7 @@ use App\Core\Config;
 use App\Core\Request;
 use App\Models\LoginAttempt;
 use App\Models\User;
+use App\Services\Authorization\AccountState;
 
 /**
  * Authentication: credential checks, brute-force protection, session login
@@ -37,6 +38,9 @@ final class AuthService
         }
 
         $user = User::findForAuth($email);
+        if ($user !== null && !empty($user['deleted_at'])) {
+            $user = null; // deleted accounts behave exactly like unknown accounts
+        }
         if ($user === null) {
             PasswordHasher::dummyVerify($password);
             LoginAttempt::record(null, $email, $ip, $ua, false, 'invalid_credentials');
@@ -68,11 +72,18 @@ final class AuthService
             return AuthResult::fail($message);
         }
 
-        // Correct password from here on — status is only revealed to the real owner.
-        if ($user['status'] !== 'active') {
-            LoginAttempt::record($userId, $email, $ip, $ua, false, 'inactive');
-            App::activity()->log('auth.login_failed', 'Login refused: account inactive', 'user', $userId, userId: $userId);
-            return AuthResult::fail('Your account is inactive. Please contact your administrator.');
+        // Correct password from here on — account state is only revealed to the real owner.
+        $state = AccountState::of($user);
+        if ($state !== AccountState::ACTIVE) {
+            LoginAttempt::record($userId, $email, $ip, $ua, false, $state);
+            App::activity()->log('auth.login_failed', "Login refused: account {$state}", 'user', $userId, userId: $userId);
+            return AuthResult::fail(AccountState::message($user));
+        }
+        $restriction = AccountState::restrictionFor($user, $ip);
+        if ($restriction !== null) {
+            LoginAttempt::record($userId, $email, $ip, $ua, false, 'access_restricted');
+            App::activity()->log('auth.login_failed', 'Login refused: access restriction (' . $restriction . ')', 'user', $userId, userId: $userId);
+            return AuthResult::fail($restriction);
         }
 
         $update = ['failed_login_count' => 0, 'locked_until' => null, 'last_login_at' => now(), 'last_login_ip' => $ip];
@@ -90,13 +101,14 @@ final class AuthService
     }
 
     /** Establish an authenticated session (new session ID → fixation protection). */
-    public function login(int $userId, Request $request): void
+    public function login(int $userId, Request $request, bool $viaRemember = false): void
     {
         $session = App::session();
         $session->regenerate();
         $user = User::find($userId);
         $session->put('auth', [
             'user_id' => $userId,
+            'session' => App::sessions()->start($userId, $request, $viaRemember),
             'login_at' => time(),
             'last_activity' => time(),
             'password_changed_at' => $user['password_changed_at'] ?? null,
@@ -114,6 +126,10 @@ final class AuthService
             App::activity()->log('auth.logout', $reason, 'user', $id, userId: $id);
         }
         (new RememberMeService())->forget($request->cookie(RememberMeService::cookieName()));
+        $row = App::sessions()->find(App::session()->get('auth')['session'] ?? null);
+        if ($row !== null) {
+            App::sessions()->revoke((int) $row['id'], $id, 'Signed out');
+        }
         App::session()->invalidate();
         $this->user = null;
         $this->resolved = true;
@@ -143,15 +159,30 @@ final class AuthService
             default => null,
         };
 
+        $row = null;
+        if ($reason === null) {
+            $row = App::sessions()->find($auth['session'] ?? null);
+            if ($row === null) {
+                $reason = 'Your session has ended. Please sign in again.';
+            } elseif ($row['revoked_at'] !== null) {
+                $reason = $row['revoked_by'] !== null && (int) $row['revoked_by'] !== (int) $auth['user_id']
+                    ? 'You were signed out by an administrator.'
+                    : 'Your session has ended. Please sign in again.';
+            }
+        }
+
         if ($reason === null) {
             $user = User::find((int) $auth['user_id']);
-            if ($user === null || $user['status'] !== 'active') {
-                $reason = 'Your account is no longer active.';
+            if ($user === null || !AccountState::usable($user)) {
+                $reason = $user === null ? 'Your account is no longer active.' : AccountState::message($user);
+            } elseif (($restriction = AccountState::restrictionFor($user, $request->ip())) !== null) {
+                $reason = $restriction;
             } elseif (($user['password_changed_at'] ?? null) !== ($auth['password_changed_at'] ?? null)) {
                 $reason = 'Your password was changed. Please sign in again.';
             } else {
                 $this->user = $user;
                 $this->resolved = true;
+                App::sessions()->touch($row, $request);
             }
         }
 
@@ -177,7 +208,14 @@ final class AuthService
             return $this->user = null;
         }
         $user = User::find((int) $auth['user_id']);
-        return $this->user = ($user !== null && $user['status'] === 'active') ? $user : null;
+        return $this->user = ($user !== null && AccountState::usable($user)) ? $user : null;
+    }
+
+    /** ID of the current row in user_sessions (null when not signed in). */
+    public function sessionRowId(): ?int
+    {
+        $row = App::sessions()->find(App::session()->get('auth')['session'] ?? null);
+        return $row === null ? null : (int) $row['id'];
     }
 
     public function check(): bool

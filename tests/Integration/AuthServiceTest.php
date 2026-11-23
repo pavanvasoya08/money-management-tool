@@ -103,7 +103,7 @@ final class AuthServiceTest extends TestCase
         // Deactivated while signed in.
         App::auth()->attempt('asha@example.com', 'Correct-Horse9!', false, $this->request());
         App::db()->update('users', ['status' => 'inactive'], ['id' => $user['id']]);
-        $this->assertContains('no longer active', (string) App::auth()->validateSession($this->request()));
+        $this->assertContains('inactive', (string) App::auth()->validateSession($this->request()));
     }
 
     public function testLogoutInvalidatesSession(): void

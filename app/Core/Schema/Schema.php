@@ -31,6 +31,24 @@ final class Schema
         }
     }
 
+    /** Add columns/indexes/foreign keys to an existing table. @param callable(Blueprint): void $definition */
+    public function table(string $table, callable $definition): void
+    {
+        $bp = new Blueprint($table);
+        $definition($bp);
+        foreach ($this->grammar->compileAlter($bp) as $sql) {
+            $this->run($sql);
+        }
+    }
+
+    /** @param list<string> $columns @param list<string> $foreignKeys @param list<string> $indexes */
+    public function dropColumns(string $table, array $columns, array $foreignKeys = [], array $indexes = []): void
+    {
+        foreach ($this->grammar->compileDropColumns($table, $columns, $foreignKeys, $indexes) as $sql) {
+            $this->run($sql);
+        }
+    }
+
     public function drop(string $table): void
     {
         $this->run($this->grammar->compileDrop($table));

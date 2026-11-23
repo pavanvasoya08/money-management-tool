@@ -13,3 +13,15 @@
         <pre class="error-detail text-start mt-4"><?= e($detail) ?></pre>
     <?php endif; ?>
 </div>
+<?php if (!empty($requestable)): ?>
+<div class="error-card mt-3 text-start">
+    <h2 class="h6 mb-2">Request access</h2>
+    <p class="small text-secondary">Ask the Super Admin to grant <code><?= e($requestable) ?></code>.</p>
+    <form method="post" action="/access-requests" data-loading>
+        <?= csrf_field() ?>
+        <input type="hidden" name="permission" value="<?= e($requestable) ?>">
+        <textarea class="form-control mb-2" name="reason" rows="2" required minlength="5" maxlength="500" placeholder="Why do you need this access?"></textarea>
+        <button class="btn btn-primary btn-sm" type="submit"><span class="btn-label">Send request</span></button>
+    </form>
+</div>
+<?php endif; ?>

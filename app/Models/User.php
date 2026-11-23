@@ -16,7 +16,9 @@ final class User
 {
     public const SAFE_COLUMNS = 'u.id, u.name, u.email, u.phone, u.status, u.must_change_password, u.failed_login_count, '
         . 'u.locked_until, u.last_login_at, u.last_login_ip, u.password_changed_at, u.deactivated_at, '
-        . 'u.created_by, u.updated_by, u.created_at, u.updated_at';
+        . 'u.created_by, u.updated_by, u.created_at, u.updated_at, '
+        . 'u.suspended_at, u.suspended_until, u.suspension_reason, u.suspended_by, u.account_expires_at, '
+        . 'u.allowed_ips, u.access_start_time, u.access_end_time, u.deleted_at, u.deleted_by';
 
     private static function db(): Database
     {
@@ -76,19 +78,39 @@ final class User
 
     /**
      * @param array{q?: string, status?: string, role?: string} $filters
+     *   status: active | inactive | suspended | expired | deleted ('' = all non-deleted)
+     * @param array{0: string, 1: list<mixed>}|null $scope record-level condition from DataAccess::constrain()
      */
-    public static function paginate(array $filters, int $page, int $perPage): Paginator
+    public static function paginate(array $filters, int $page, int $perPage, ?array $scope = null): Paginator
     {
         $where = ['1 = 1'];
         $params = [];
+        if ($scope !== null) {
+            $where[] = $scope[0];
+            array_push($params, ...$scope[1]);
+        }
+        $now = now();
+        $status = $filters['status'] ?? '';
+        if ($status === 'deleted') {
+            $where[] = 'u.deleted_at IS NOT NULL';
+        } else {
+            $where[] = 'u.deleted_at IS NULL';
+        }
+        if ($status === 'suspended') {
+            $where[] = 'u.suspended_at IS NOT NULL AND (u.suspended_until IS NULL OR u.suspended_until > ?)';
+            $params[] = $now;
+        } elseif ($status === 'expired') {
+            $where[] = 'u.account_expires_at IS NOT NULL AND u.account_expires_at <= ?';
+            $params[] = $now;
+        }
         if (($filters['q'] ?? '') !== '') {
             $where[] = "(u.name LIKE ? ESCAPE '!' OR u.email LIKE ? ESCAPE '!' OR u.phone LIKE ? ESCAPE '!')";
             $like = Database::likeContains($filters['q']);
             array_push($params, $like, $like, $like);
         }
-        if (in_array($filters['status'] ?? '', ['active', 'inactive'], true)) {
+        if (in_array($status, ['active', 'inactive'], true)) {
             $where[] = 'u.status = ?';
-            $params[] = $filters['status'];
+            $params[] = $status;
         }
         if (($filters['role'] ?? '') !== '') {
             $where[] = 'EXISTS (SELECT 1 FROM user_roles ur JOIN roles r ON r.id = ur.role_id WHERE ur.user_id = u.id AND r.slug = ?)';
@@ -118,28 +140,38 @@ final class User
         return new Paginator($items, $p->total, $p->page, $p->perPage);
     }
 
-    /** @return array{total: int, active: int, inactive: int, locked: int} */
-    public static function counts(): array
+    /**
+     * Counts of non-deleted users (plus deleted separately).
+     * @param array{0: string, 1: list<mixed>}|null $scope
+     * @return array{total: int, active: int, inactive: int, locked: int, suspended: int, deleted: int}
+     */
+    public static function counts(?array $scope = null): array
     {
+        $now = now();
+        [$where, $params] = $scope ?? ['1 = 1', []];
         $row = self::db()->first(
-            "SELECT COUNT(*) AS total,
-                    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active,
-                    SUM(CASE WHEN status = 'inactive' THEN 1 ELSE 0 END) AS inactive,
-                    SUM(CASE WHEN locked_until IS NOT NULL AND locked_until > ? THEN 1 ELSE 0 END) AS locked
-             FROM users",
-            [now()]
+            "SELECT SUM(CASE WHEN u.deleted_at IS NULL THEN 1 ELSE 0 END) AS total,
+                    SUM(CASE WHEN u.deleted_at IS NULL AND u.status = 'active' THEN 1 ELSE 0 END) AS active,
+                    SUM(CASE WHEN u.deleted_at IS NULL AND u.status = 'inactive' THEN 1 ELSE 0 END) AS inactive,
+                    SUM(CASE WHEN u.deleted_at IS NULL AND u.locked_until IS NOT NULL AND u.locked_until > ? THEN 1 ELSE 0 END) AS locked,
+                    SUM(CASE WHEN u.deleted_at IS NULL AND u.suspended_at IS NOT NULL AND (u.suspended_until IS NULL OR u.suspended_until > ?) THEN 1 ELSE 0 END) AS suspended,
+                    SUM(CASE WHEN u.deleted_at IS NOT NULL THEN 1 ELSE 0 END) AS deleted
+             FROM users u WHERE {$where}",
+            array_merge([$now, $now], $params)
         ) ?? [];
-        return [
-            'total' => (int) ($row['total'] ?? 0), 'active' => (int) ($row['active'] ?? 0),
-            'inactive' => (int) ($row['inactive'] ?? 0), 'locked' => (int) ($row['locked'] ?? 0),
-        ];
+        return array_map('intval', [
+            'total' => $row['total'] ?? 0, 'active' => $row['active'] ?? 0, 'inactive' => $row['inactive'] ?? 0,
+            'locked' => $row['locked'] ?? 0, 'suspended' => $row['suspended'] ?? 0, 'deleted' => $row['deleted'] ?? 0,
+        ]);
     }
 
     public static function countActiveSuperAdmins(?int $excludeUserId = null): int
     {
         $sql = "SELECT COUNT(DISTINCT u.id) FROM users u JOIN user_roles ur ON ur.user_id = u.id
-                JOIN roles r ON r.id = ur.role_id WHERE r.is_super_admin = 1 AND r.is_active = 1 AND u.status = 'active'";
-        $params = [];
+                JOIN roles r ON r.id = ur.role_id WHERE r.is_super_admin = 1 AND r.is_active = 1 AND u.status = 'active'
+                AND u.deleted_at IS NULL AND (u.suspended_at IS NULL OR (u.suspended_until IS NOT NULL AND u.suspended_until <= ?))
+                AND (u.account_expires_at IS NULL OR u.account_expires_at > ?)";
+        $params = [now(), now()];
         if ($excludeUserId !== null) {
             $sql .= ' AND u.id <> ?';
             $params[] = $excludeUserId;

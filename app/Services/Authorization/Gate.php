@@ -4,41 +4,46 @@ declare(strict_types=1);
 
 namespace App\Services\Authorization;
 
+use App\Core\App;
 use App\Core\Config;
 use App\Core\Database;
 use App\Exceptions\AuthorizationException;
 use Closure;
 
 /**
- * Centralised authorization. Controllers and middleware never check role
- * names; they ask the Gate whether a user holds a permission.
+ * Centralised authorization — the ONLY place that decides whether a user may
+ * perform a module action. Controllers, middleware, views, exports and APIs
+ * all ask the Gate; nothing compares role names.
  *
- * Resolution order for a user:
- *   1. Inactive users are denied everything.
- *   2. Super Admin role → allowed everything.
- *   3. Union of grants from all the user's active roles (widest data scope wins).
- *   4. Individual overrides: "allow" adds/replaces a grant, "deny" removes it.
- *      Expired overrides are ignored.
- *   5. Optional resource policy (record/ownership rules) for the permission.
+ * Effective permission resolution (deterministic):
+ *   1. Account not usable (inactive, suspended, expired, deleted) → DENY everything.
+ *   2. Super Admin role                                      → ALLOW everything.
+ *   3. Module disabled by the Super Admin, or reserved for Super Admins → DENY.
+ *   4. Explicit user DENY override                           → DENY (beats every role).
+ *   5. Explicit user ALLOW override (when the Super Admin has enabled
+ *      "Allow explicit per-user grants")                     → ALLOW.
+ *   6. Any active role grants the permission (union of roles) → ALLOW.
+ *   7. Otherwise                                             → DENY (default deny).
+ *   Expired overrides are ignored ("Inherit").
+ *   An optional resource policy can further restrict a specific record.
  *
- * Phase 2 builds on: dataScope(), constraints() and the policy hook.
+ * Record visibility: DataAccess. Field visibility: FieldPolicy.
  */
 final class Gate
 {
-    /** @var array<int, array{super: bool, grants: array<string, Grant>}> */
+    /** @var array<int, array{super: bool, grants: array<string, string>, roles: array<string, list<string>>, overrides: array<string, string>}> */
     private array $cache = [];
-    /** @var array<string, Closure(array<string, mixed>, mixed, Grant): bool> */
+    /** @var array<string, Closure(array<string, mixed>, mixed): bool> */
     private array $policies = [];
+    /** @var array<string, array{active: bool, super_only: bool}>|null */
+    private ?array $modules = null;
 
     public function __construct(private readonly Database $db)
     {
         $this->registerCorePolicies();
     }
 
-    /**
-     * Register a resource-level rule evaluated after the permission check.
-     * @param Closure(array<string, mixed> $user, mixed $resource, Grant $grant): bool $policy
-     */
+    /** @param Closure(array<string, mixed> $user, mixed $resource): bool $policy */
     public function define(string $permission, Closure $policy): void
     {
         $this->policies[$permission] = $policy;
@@ -47,18 +52,22 @@ final class Gate
     /** @param array<string, mixed> $user */
     public function allows(array $user, string $permission, mixed $resource = null): bool
     {
-        if (($user['status'] ?? null) !== 'active') {
+        if (!AccountState::usable($user)) {
             return false;
         }
         if ($this->isSuperAdmin($user)) {
             return true;
         }
-        $grant = $this->grants($user)[$permission] ?? null;
-        if ($grant === null) {
+        $module = strtok($permission, '.') ?: '';
+        $state = $this->moduleState($module);
+        if ($state !== null && (!$state['active'] || $state['super_only'])) {
+            return false;
+        }
+        if (!isset($this->resolve((int) $user['id'])['grants'][$permission])) {
             return false;
         }
         if ($resource !== null && isset($this->policies[$permission])) {
-            return ($this->policies[$permission])($user, $resource, $grant);
+            return ($this->policies[$permission])($user, $resource);
         }
         return true;
     }
@@ -77,6 +86,17 @@ final class Gate
         }
     }
 
+    /** True if the user holds at least one of the given permissions. @param array<string, mixed> $user @param list<string> $permissions */
+    public function any(array $user, array $permissions): bool
+    {
+        foreach ($permissions as $p) {
+            if ($this->allows($user, $p)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @param array<string, mixed>|int $user */
     public function isSuperAdmin(array|int $user): bool
     {
@@ -85,42 +105,55 @@ final class Gate
     }
 
     /**
-     * Effective grants keyed by permission slug.
+     * Why is a permission allowed or denied? Used by the effective-permission views and preview.
      * @param array<string, mixed> $user
-     * @return array<string, Grant>
+     * @return array{allowed: bool, source: string, detail: string}
      */
-    public function grants(array $user): array
+    public function explain(array $user, string $permission): array
     {
-        return $this->resolve((int) $user['id'])['grants'];
+        if (!AccountState::usable($user)) {
+            return ['allowed' => false, 'source' => 'account', 'detail' => 'Account is ' . AccountState::of($user)];
+        }
+        $r = $this->resolve((int) $user['id']);
+        if ($r['super']) {
+            return ['allowed' => true, 'source' => 'super_admin', 'detail' => 'Super Admin'];
+        }
+        $state = $this->moduleState(strtok($permission, '.') ?: '');
+        if ($state !== null && $state['super_only']) {
+            return ['allowed' => false, 'source' => 'reserved', 'detail' => 'Reserved for Super Admins'];
+        }
+        if ($state !== null && !$state['active']) {
+            return ['allowed' => false, 'source' => 'module_disabled', 'detail' => 'Module disabled'];
+        }
+        $override = $r['overrides'][$permission] ?? null;
+        $roles = $r['roles'][$permission] ?? [];
+        if ($override === 'deny') {
+            return ['allowed' => false, 'source' => 'deny', 'detail' => 'Explicit deny' . ($roles ? ' (overrides ' . implode(', ', $roles) . ')' : '')];
+        }
+        if ($override === 'allow' && isset($r['grants'][$permission]) && $roles === []) {
+            return ['allowed' => true, 'source' => 'allow', 'detail' => 'Explicit allow'];
+        }
+        if ($override === 'allow_ignored') {
+            return ['allowed' => $roles !== [], 'source' => $roles ? 'role' : 'none', 'detail' => ($roles ? 'Role: ' . implode(', ', $roles) . '; ' : '') . 'explicit allow ignored (per-user grants disabled)'];
+        }
+        if ($roles !== []) {
+            return ['allowed' => true, 'source' => 'role', 'detail' => 'Role: ' . implode(', ', $roles)];
+        }
+        return ['allowed' => false, 'source' => 'none', 'detail' => 'Not granted'];
     }
 
-    /** @param array<string, mixed> $user @return list<string> */
+    /** @param array<string, mixed> $user @return list<string> effective permission slugs */
     public function permissionSlugs(array $user): array
     {
+        if (!AccountState::usable($user)) {
+            return [];
+        }
         if ($this->isSuperAdmin($user)) {
             return array_column($this->db->select('SELECT slug FROM permissions ORDER BY slug'), 'slug');
         }
-        $slugs = array_keys($this->grants($user));
+        $slugs = array_values(array_filter(array_keys($this->resolve((int) $user['id'])['grants']), fn (string $s): bool => $this->allows($user, $s)));
         sort($slugs);
         return $slugs;
-    }
-
-    /** Record-level scope for a permission, or null if not granted. @param array<string, mixed> $user */
-    public function dataScope(array $user, string $permission): ?DataScope
-    {
-        if ($this->isSuperAdmin($user)) {
-            return DataScope::All;
-        }
-        return ($this->grants($user)[$permission] ?? null)?->scope;
-    }
-
-    /** GST/bank/platform/partner restrictions for a permission (null = unrestricted). @param array<string, mixed> $user */
-    public function constraints(array $user, string $permission): ?array
-    {
-        if ($this->isSuperAdmin($user)) {
-            return null;
-        }
-        return ($this->grants($user)[$permission] ?? null)?->constraints;
     }
 
     /** Ownership check reusable by every module. @param array<string, mixed> $user @param array<string, mixed> $record */
@@ -133,12 +166,25 @@ final class Gate
     {
         if ($userId === null) {
             $this->cache = [];
+            $this->modules = null;
         } else {
             unset($this->cache[$userId]);
         }
     }
 
-    /** @return array{super: bool, grants: array<string, Grant>} */
+    /** @return array{active: bool, super_only: bool}|null */
+    private function moduleState(string $module): ?array
+    {
+        if ($this->modules === null) {
+            $this->modules = [];
+            foreach ($this->db->select('SELECT module_key, is_active, super_admin_only FROM modules') as $m) {
+                $this->modules[$m['module_key']] = ['active' => (bool) $m['is_active'], 'super_only' => (bool) $m['super_admin_only']];
+            }
+        }
+        return $this->modules[$module] ?? null;
+    }
+
+    /** @return array{super: bool, grants: array<string, string>, roles: array<string, list<string>>, overrides: array<string, string>} */
     private function resolve(int $userId): array
     {
         if (isset($this->cache[$userId])) {
@@ -152,55 +198,46 @@ final class Gate
         );
 
         $grants = [];
+        $roles = [];
+        $overrides = [];
         if (!$super) {
-            $rows = $this->db->select(
-                'SELECT p.slug, rp.data_scope, rp.constraints FROM user_roles ur
+            foreach ($this->db->select(
+                'SELECT p.slug, r.name FROM user_roles ur
                  JOIN roles r ON r.id = ur.role_id AND r.is_active = 1
                  JOIN role_permissions rp ON rp.role_id = r.id
-                 JOIN permissions p ON p.id = rp.permission_id
+                 JOIN permissions p ON p.id = rp.permission_id AND p.is_active = 1
                  WHERE ur.user_id = ?',
                 [$userId]
-            );
-            foreach ($rows as $row) {
-                $grant = new Grant($row['slug'], DataScope::tryFrom((string) $row['data_scope']) ?? DataScope::Own, self::decode($row['constraints']));
-                $grants[$row['slug']] = isset($grants[$row['slug']]) ? $grants[$row['slug']]->merge($grant) : $grant;
+            ) as $row) {
+                $grants[$row['slug']] = 'role';
+                $roles[$row['slug']][] = $row['name'];
             }
 
-            $overrides = $this->db->select(
-                'SELECT p.slug, o.effect, o.data_scope, o.constraints FROM user_permission_overrides o
+            $allowGrants = (bool) App::settings()->get('allow_user_level_grants', true);
+            foreach ($this->db->select(
+                'SELECT p.slug, o.effect FROM user_permission_overrides o
                  JOIN permissions p ON p.id = o.permission_id
                  WHERE o.user_id = ? AND (o.expires_at IS NULL OR o.expires_at > ?)',
                 [$userId, now()]
-            );
-            foreach ($overrides as $o) {
+            ) as $o) {
                 if ($o['effect'] === 'deny') {
                     unset($grants[$o['slug']]);
-                    continue;
+                    $overrides[$o['slug']] = 'deny';
+                } elseif ($allowGrants) {
+                    $grants[$o['slug']] = 'override';
+                    $overrides[$o['slug']] = 'allow';
+                } else {
+                    $overrides[$o['slug']] = 'allow_ignored';
                 }
-                $grants[$o['slug']] = new Grant(
-                    $o['slug'],
-                    DataScope::tryFrom((string) $o['data_scope']) ?? DataScope::All,
-                    self::decode($o['constraints']),
-                    'override'
-                );
             }
         }
 
-        return $this->cache[$userId] = ['super' => $super, 'grants' => $grants];
-    }
-
-    private static function decode(mixed $json): ?array
-    {
-        if (!is_string($json) || $json === '') {
-            return null;
-        }
-        $data = json_decode($json, true);
-        return is_array($data) ? $data : null;
+        return $this->cache[$userId] = ['super' => $super, 'grants' => $grants, 'roles' => $roles, 'overrides' => $overrides];
     }
 
     /**
-     * Resource policies for Phase 1 user management: only a Super Admin may
-     * manage another Super Admin account (super admins bypass policies).
+     * Resource policies for user management: only a Super Admin may manage
+     * another Super Admin account (Super Admins bypass policies).
      */
     private function registerCorePolicies(): void
     {
@@ -210,7 +247,7 @@ final class Gate
             }
             return !$this->isSuperAdmin((int) $target['id']);
         };
-        foreach (['users.edit', 'users.change_status', 'users.assign_roles', 'users.reset_password'] as $permission) {
+        foreach (['users.edit', 'users.change_status', 'users.assign_roles', 'users.reset_password', 'users.suspend', 'users.force_logout', 'users.delete', 'users.restore'] as $permission) {
             $this->define($permission, $protectSuperAdmins);
         }
     }

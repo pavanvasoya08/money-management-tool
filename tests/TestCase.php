@@ -29,12 +29,9 @@ abstract class TestCase
     protected function freshDatabase(): void
     {
         $file = (string) getenv('DB_DATABASE');
-        App::forget(\App\Core\Database::class);
+        App::resetServices();
         if (is_file($file)) {
             unlink($file);
-        }
-        foreach ([\App\Services\Authorization\Gate::class, \App\Services\SettingsService::class, \App\Services\AuthService::class, \App\Services\ActivityLogger::class, \App\Core\Session::class] as $svc) {
-            App::forget($svc);
         }
         (new Migrator(App::db(), App::basePath('database/migrations')))->migrate();
         (new DatabaseSeeder(App::db()))->run();
@@ -58,7 +55,7 @@ abstract class TestCase
             $roleId = App::db()->scalar('SELECT id FROM roles WHERE slug = ?', [$slug]);
             App::db()->insert('user_roles', ['user_id' => $id, 'role_id' => $roleId, 'assigned_at' => now()]);
         }
-        App::gate()->flush();
+        App::flushAuthorization();
         return User::find($id);
     }
 

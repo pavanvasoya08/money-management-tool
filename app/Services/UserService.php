@@ -21,6 +21,9 @@ use App\Models\User;
  *  - Only a Super Admin can grant/revoke the Super Admin role or manage a Super Admin.
  *  - The last active Super Admin can never be deactivated or demoted.
  *  - New users get only the roles explicitly assigned (no implicit module access).
+ *  - Non-Super-Admins can only assign roles whose permissions they hold (no escalation by proxy).
+ *  - Suspending, expiring, deactivating, deleting or force-logging-out revokes sessions server-side.
+ *  - Deletion is soft (history preserved) and only for already-deactivated accounts.
  */
 final class UserService
 {
@@ -75,10 +78,8 @@ final class UserService
             return;
         }
         User::update((int) $target['id'], $changes + ['updated_by' => (int) $actor['id']]);
-        App::activity()->log('user.updated', "Updated user {$target['name']}", 'user', (int) $target['id'], [
-            'fields' => array_keys($changes),
-            'email_changed' => isset($changes['email']) ? ['from' => $target['email'], 'to' => $changes['email']] : null,
-        ]);
+        App::activity()->log('user.updated', "Updated user {$target['name']}", 'user', (int) $target['id'], ['fields' => array_keys($changes)],
+            module: 'users', oldValues: array_intersect_key($target, $changes), newValues: $changes);
     }
 
     /**
@@ -126,7 +127,7 @@ final class UserService
         App::activity()->log('user.roles_changed', "Changed roles of {$target['name']}", 'user', $targetId, [
             'from' => $slugs($before),
             'to' => $slugs($roleIds),
-        ]);
+        ], module: 'users', oldValues: ['roles' => $slugs($before)], newValues: ['roles' => $slugs($roleIds)]);
     }
 
     /** @param array<string, mixed> $target @param array<string, mixed> $actor */
@@ -155,8 +156,9 @@ final class UserService
                 'updated_by' => (int) $actor['id'],
             ]);
             if ($status === 'inactive') {
-                // Active sessions end on their next request (status is re-checked); remembered devices are revoked now.
+                // Sessions are revoked server-side and remembered devices forgotten immediately.
                 (new RememberMeService())->forgetAllForUser($targetId);
+                App::sessions()->revokeAllForUser($targetId, (int) $actor['id'], 'Account deactivated');
             }
         });
         App::gate()->flush($targetId);
@@ -164,7 +166,10 @@ final class UserService
             $status === 'active' ? 'user.activated' : 'user.deactivated',
             ($status === 'active' ? 'Activated' : 'Deactivated') . " user {$target['name']}",
             'user',
-            $targetId
+            $targetId,
+            module: 'users',
+            oldValues: ['status' => $target['status']],
+            newValues: ['status' => $status]
         );
     }
 
@@ -185,6 +190,7 @@ final class UserService
             'updated_by' => (int) $actor['id'],
         ]);
         (new RememberMeService())->forgetAllForUser($targetId);
+        App::sessions()->revokeAllForUser($targetId, (int) $actor['id'], 'Password reset by administrator');
         App::activity()->log('user.password_reset_by_admin', "Reset password for {$target['name']} (must change at next sign-in)", 'user', $targetId);
     }
 
@@ -209,9 +215,150 @@ final class UserService
             'updated_by' => $userId,
         ]);
         (new RememberMeService())->forgetAllForUser($userId);
+        App::sessions()->revokeAllForUser($userId, $userId, 'Password changed', App::auth()->sessionRowId());
         App::session()->regenerate();
         App::auth()->refresh();
         App::activity()->log('auth.password_changed', 'Changed own password (other remembered devices signed out)', 'user', $userId);
+    }
+
+    // ------------------------------------------------------------------ Phase 2: lifecycle
+
+    /** Suspend sign-in (optionally until a date). Sessions end immediately. @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function suspend(array $target, ?string $until, string $reason, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'suspend');
+        if ($until !== null && $until <= now()) {
+            throw ValidationException::withMessage('suspended_until', 'The end of the suspension must be in the future.');
+        }
+        $this->assertNotLastSuperAdmin($targetId, 'suspended');
+        User::update($targetId, ['suspended_at' => now(), 'suspended_until' => $until, 'suspension_reason' => mb_substr($reason, 0, 255) ?: null, 'suspended_by' => (int) $actor['id'], 'updated_by' => (int) $actor['id']]);
+        $this->endAllSessions($targetId, $actor, 'Account suspended');
+        App::activity()->log('user.suspended', "Suspended {$target['name']}" . ($until ? ' until ' . $until . ' UTC' : ''), 'user', $targetId,
+            module: 'users', oldValues: ['suspended' => false], newValues: ['suspended' => true, 'until' => $until, 'reason' => $reason]);
+    }
+
+    /** @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function unsuspend(array $target, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'unsuspend');
+        User::update($targetId, ['suspended_at' => null, 'suspended_until' => null, 'suspension_reason' => null, 'suspended_by' => null, 'updated_by' => (int) $actor['id']]);
+        App::activity()->log('user.unsuspended', "Lifted suspension of {$target['name']}", 'user', $targetId, module: 'users',
+            oldValues: ['suspended' => true, 'until' => $target['suspended_until'], 'reason' => $target['suspension_reason']], newValues: ['suspended' => false]);
+    }
+
+    /** @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function setExpiry(array $target, ?string $expiresAt, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'change the expiry of');
+        if ($expiresAt !== null && $expiresAt <= now()) {
+            $this->assertNotLastSuperAdmin($targetId, 'expired');
+        }
+        User::update($targetId, ['account_expires_at' => $expiresAt, 'updated_by' => (int) $actor['id']]);
+        if ($expiresAt !== null && $expiresAt <= now()) {
+            $this->endAllSessions($targetId, $actor, 'Account expired');
+        }
+        App::activity()->log('user.expiry_changed', $expiresAt ? "Account of {$target['name']} expires {$expiresAt} UTC" : "Removed expiry of {$target['name']}", 'user', $targetId,
+            module: 'users', oldValues: ['account_expires_at' => $target['account_expires_at']], newValues: ['account_expires_at' => $expiresAt]);
+    }
+
+    /** IP allow-list and allowed hours. @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function setAccessRestrictions(array $target, string $allowedIps, ?string $start, ?string $end, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'restrict');
+        $bad = \App\Services\Authorization\AccountState::invalidEntries($allowedIps);
+        if ($bad !== []) {
+            throw ValidationException::withMessage('allowed_ips', 'Invalid IP address or CIDR range: ' . implode(', ', $bad));
+        }
+        foreach (['access_start_time' => $start, 'access_end_time' => $end] as $field => $time) {
+            if ($time !== null && !preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $time)) {
+                throw ValidationException::withMessage($field, 'Use 24-hour HH:MM.');
+            }
+        }
+        if (($start === null) !== ($end === null) || ($start !== null && $start === $end)) {
+            throw ValidationException::withMessage('access_end_time', 'Set both start and end time (different values), or leave both empty.');
+        }
+        $ips = implode(', ', array_filter(preg_split('/[\s,]+/', trim($allowedIps)) ?: [])) ?: null;
+        $old = ['allowed_ips' => $target['allowed_ips'], 'access_start_time' => $target['access_start_time'], 'access_end_time' => $target['access_end_time']];
+        $new = ['allowed_ips' => $ips, 'access_start_time' => $start, 'access_end_time' => $end];
+        if ($old === $new) {
+            return;
+        }
+        User::update($targetId, $new + ['updated_by' => (int) $actor['id']]);
+        App::activity()->log('user.access_restrictions_changed', "Changed access restrictions of {$target['name']}", 'user', $targetId, module: 'users', oldValues: $old, newValues: $new);
+    }
+
+    /** Revoke every session and remembered device of a user. @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function forceLogout(array $target, array $actor): int
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'force-logout');
+        $count = $this->endAllSessions($targetId, $actor, 'Signed out by administrator');
+        App::activity()->log('user.force_logout', "Forced logout of {$target['name']} ({$count} session(s))", 'user', $targetId, module: 'users', newValues: ['sessions_revoked' => $count]);
+        return $count;
+    }
+
+    /**
+     * Soft delete: the account can no longer sign in or be listed, but every
+     * historical record (audit, approvals, created_by…) stays intact.
+     * Only inactive accounts can be deleted.
+     *
+     * @param array<string, mixed> $target @param array<string, mixed> $actor
+     */
+    public function delete(array $target, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'delete');
+        if ($target['status'] !== 'inactive') {
+            throw new DomainRuleException('Deactivate the account before deleting it.');
+        }
+        if (!empty($target['deleted_at'])) {
+            return;
+        }
+        if (App::db()->scalar("SELECT 1 FROM approval_requests WHERE requested_by = ? AND status = 'pending'", [$targetId])) {
+            throw new DomainRuleException('This user has pending approval requests. Resolve them first.');
+        }
+        if (App::db()->scalar('SELECT 1 FROM approval_workflow_steps WHERE approver_user_id = ?', [$targetId])) {
+            throw new DomainRuleException('This user is a named approver in an approval workflow. Change the workflow first.');
+        }
+        User::update($targetId, ['deleted_at' => now(), 'deleted_by' => (int) $actor['id'], 'updated_by' => (int) $actor['id']]);
+        $this->endAllSessions($targetId, $actor, 'Account deleted');
+        App::activity()->log('user.deleted', "Deleted user {$target['name']} ({$target['email']})", 'user', $targetId, module: 'users',
+            oldValues: ['deleted' => false], newValues: ['deleted' => true]);
+    }
+
+    /** Restore a deleted account (it stays inactive until activated). @param array<string, mixed> $target @param array<string, mixed> $actor */
+    public function restore(array $target, array $actor): void
+    {
+        $targetId = $this->assertNotSelf($target, $actor, 'restore');
+        if (empty($target['deleted_at'])) {
+            throw new DomainRuleException('This account is not deleted.');
+        }
+        User::update($targetId, ['deleted_at' => null, 'deleted_by' => null, 'status' => 'inactive', 'updated_by' => (int) $actor['id']]);
+        App::activity()->log('user.restored', "Restored user {$target['name']} (inactive until activated)", 'user', $targetId, module: 'users',
+            oldValues: ['deleted' => true], newValues: ['deleted' => false, 'status' => 'inactive']);
+    }
+
+    /** @param array<string, mixed> $target @param array<string, mixed> $actor */
+    private function assertNotSelf(array $target, array $actor, string $verb): int
+    {
+        $targetId = (int) $target['id'];
+        if ($targetId === (int) $actor['id']) {
+            throw new DomainRuleException("You cannot {$verb} your own account.");
+        }
+        return $targetId;
+    }
+
+    private function assertNotLastSuperAdmin(int $targetId, string $what): void
+    {
+        if (App::gate()->isSuperAdmin($targetId) && User::countActiveSuperAdmins($targetId) === 0) {
+            throw new DomainRuleException("The last active Super Admin cannot be {$what}.");
+        }
+    }
+
+    /** @param array<string, mixed> $actor */
+    private function endAllSessions(int $userId, array $actor, string $reason): int
+    {
+        (new RememberMeService())->forgetAllForUser($userId);
+        App::gate()->flush($userId);
+        return App::sessions()->revokeAllForUser($userId, (int) $actor['id'], $reason);
     }
 
     /** @param array<string, mixed> $context */
@@ -251,6 +398,19 @@ final class UserService
         $grantsSuper = array_filter(Role::findMany($roleIds), static fn (array $r): bool => (bool) $r['is_super_admin']) !== [];
         if ($grantsSuper && !$gate->isSuperAdmin($actor)) {
             throw new AuthorizationException('users.assign_roles', 'Only a Super Admin can create or promote Super Admin accounts.');
+        }
+        if (!$gate->isSuperAdmin($actor)) {
+            // No privilege escalation by proxy: a delegated admin can only hand out roles
+            // whose permissions they hold themselves.
+            $placeholders = implode(',', array_fill(0, count($roleIds), '?'));
+            $needed = array_column(App::db()->select(
+                "SELECT DISTINCT p.slug FROM role_permissions rp JOIN permissions p ON p.id = rp.permission_id WHERE rp.role_id IN ({$placeholders})",
+                $roleIds
+            ), 'slug');
+            $missing = array_diff($needed, $gate->permissionSlugs($actor));
+            if ($missing !== []) {
+                throw new AuthorizationException('users.assign_roles', 'You can only assign roles whose permissions you hold yourself. Missing: ' . implode(', ', array_slice($missing, 0, 5)) . (count($missing) > 5 ? '…' : ''));
+            }
         }
     }
 

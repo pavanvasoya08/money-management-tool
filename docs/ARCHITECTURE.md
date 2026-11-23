@@ -41,43 +41,40 @@ public/index.php
                           anything else → logged with reference ID, generic 500
 ```
 
-## Authorization model (built for Phase 2)
+## Authorization model (Phase 2)
 
-Permissions are `module.action` strings stored in `permissions` (e.g. `users.create`, later `sales.export`).
+There is one decision point per question, and controllers never check role names.
 
-Effective access for a user is resolved by `App\Services\Authorization\Gate`:
+| Question | Service | Notes |
+|---|---|---|
+| Can this user do `module.action`? | `App::gate()` (`Gate`) | `allows()`, `authorize()`, `explain()` (returns the reason and its source) |
+| Which records can they see? | `App::dataAccess()` (`DataAccess`) | `resolve()`, `constrain($user, 'module', 'alias')` → SQL + bindings, `assertCanAccess()` → 404 |
+| What can they do with a field? | `App::fields()` (`FieldPolicy`) | `access()`, `present()` / `presentMany()` strip or mask, `assertWritable()` rejects |
+| Is the account usable right now? | `AccountState` | inactive, suspended, expired, deleted, IP/CIDR, sign-in hours |
+| Who approves? | `App::approvals()` (`ApprovalEngine`) | `submit()`, `approve()`, `reject()`, `cancel()`, `onDecision()` listeners |
 
-1. Inactive user → nothing.
-2. Any active role with `is_super_admin = 1` → everything.
-3. Union of `role_permissions` from all active roles. When several roles grant the same permission, the **widest** `data_scope` wins (`all` > `selected` > `assigned` > `own`) and `constraints` are merged.
-4. `user_permission_overrides`: `deny` removes a permission, `allow` adds or replaces it; expired overrides are ignored.
-5. Optional resource **policy** for record-level rules (`Gate::define('users.edit', fn ($user, $record, $grant) => …)`).
+The Gate resolves in this order: account not usable → deny; Super Admin → allow; module disabled or super-admin-only → deny; explicit Deny override → deny; explicit Allow override → allow; any active role grant → allow; otherwise deny.
 
-The four levels requested for Phase 2 map onto this design:
+Module catalogue: `config/modules.php` (actions, protectable fields with mask types, data mapping: table, owner column, resource type, scope columns). After changing it, run `php bin/console db:seed`.
 
-| Level | Where it lives |
-|---|---|
-| Module access | permission `module.view` (sidebar items declare their permission in `config/navigation.php`) |
-| Action access | `module.create/edit/delete/approve/export` |
-| Data access | `role_permissions.data_scope` / `user_permission_overrides.data_scope` → `Gate::dataScope()` |
-| GST / bank / platform / partner restrictions | `constraints` JSON, e.g. `{"gst_registration_ids":[1,2],"bank_account_ids":[3]}` → `Gate::constraints()` |
-| Field access | Phase 2 adds a `field_permissions` table and `Gate::fieldAccess()` (visible / hidden / masked / read-only / editable) |
-
-Usage everywhere:
+Writes to the access configuration go through `App\Services\Admin\*Service`. Each one requires an active Super Admin, refuses changes to your own access, and writes a structured audit entry with old and new values.
 
 ```php
-// routes/web.php
+// routes
 $r->get('/sales', [SalesController::class, 'index'], 'sales.index', ['can:sales.view']);
 
-// controller
-$this->authorize('sales.edit', $order);
+// list query
+[$where, $bind] = App::dataAccess()->constrain($me, 'sales', 's');
 
-// views
-<?php if (can('sales.export')): ?> … <?php endif; ?>
+// single record (404 when outside the user's scope)
+App::dataAccess()->assertCanAccess($me, 'sales', $id);
 
-// queries (Phase 2+)
-$scope = App::gate()->dataScope($user, 'sales.view');        // DataScope::Own, …
-$limits = App::gate()->constraints($user, 'sales.view');     // ['gst_registration_ids' => [...]]
+// output and input
+$row = App::fields()->present($me, 'sales', $row);
+App::fields()->assertWritable($me, 'sales', $request->all(), $current);
+
+// approvals
+$req = App::approvals()->submit('expense', 'expense', $expenseId, $amount, $title, $me);
 ```
 
 ## Activity logging
@@ -91,9 +88,9 @@ User, IP address, user agent and timestamp are added automatically; keys that lo
 ## Adding a module (pattern for Phases 3–15)
 
 1. Migration(s) in `database/migrations/` (timestamps, FKs, indexes; amounts as `DECIMAL` when finance tables arrive).
-2. Permissions in `config/permissions.php` → `php bin/console db:seed`.
+2. Module, actions, fields and data mapping in `config/modules.php`, default role grants in `config/permissions.php` → `php bin/console db:seed`.
 3. Model(s) in `app/Models`, business rules in `app/Services` (use `App::db()->transaction()` for multi-table writes).
-4. Controller + routes with `can:` middleware; views under `resources/views/<module>/`.
+4. Controller + routes with `can:` middleware; scope every query with `DataAccess::constrain()` and pass every record through `FieldPolicy::present()`; views under `resources/views/<module>/`.
 5. Set the sidebar item's `route` and `permission` in `config/navigation.php`.
 6. Log every create/update/delete/approve through `App::activity()`.
 7. Tests in `tests/Integration` and `tests/Feature`.

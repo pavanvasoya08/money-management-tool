@@ -1,4 +1,10 @@
-<?php $editing = $target !== null; ?>
+<?php
+$editing = $target !== null;
+$fa = $fieldAccess ?? [];
+/** Field state in the edit form: hidden fields are not rendered, non-editable ones are locked. */
+$lockedField = static fn (string $f): bool => $editing && isset($fa[$f]) && !$fa[$f]->canEdit();
+$hiddenField = static fn (string $f): bool => $editing && isset($fa[$f]) && !$fa[$f]->canView();
+?>
 <div class="page-head">
     <div>
         <h1><?= $editing ? 'Edit user' : 'Create user' ?></h1>
@@ -14,19 +20,21 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label" for="name">Full name <span class="text-danger">*</span></label>
-                    <input class="form-control<?= invalid('name') ?>" id="name" name="name" value="<?= e(old('name', $target['name'] ?? '')) ?>" required maxlength="120" autocomplete="off">
+                    <input class="form-control<?= invalid('name') ?>" id="name" <?= $lockedField('name') ? 'disabled' : 'name="name"' ?> value="<?= e(old('name', $target['name'] ?? '')) ?>" required maxlength="120" autocomplete="off">
                     <?= $view->partial('partials/field-error', ['field' => 'name']) ?>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-                    <input class="form-control<?= invalid('email') ?>" type="email" id="email" name="email" value="<?= e(old('email', $target['email'] ?? '')) ?>" required maxlength="191" autocomplete="off">
+                    <label class="form-label" for="email">Email <span class="text-danger">*</span><?= $lockedField('email') ? ' <span class="badge badge-soft-secondary">locked</span>' : '' ?></label>
+                    <input class="form-control<?= invalid('email') ?>" type="email" id="email" <?= $lockedField('email') ? 'disabled' : 'name="email"' ?> value="<?= e(old('email', $target['email'] ?? '')) ?>" required maxlength="191" autocomplete="off">
                     <?= $view->partial('partials/field-error', ['field' => 'email']) ?>
                 </div>
+                <?php if (!$hiddenField('phone')): ?>
                 <div class="col-md-6">
-                    <label class="form-label" for="phone">Phone</label>
-                    <input class="form-control<?= invalid('phone') ?>" type="tel" id="phone" name="phone" value="<?= e(old('phone', $target['phone'] ?? '')) ?>" maxlength="20" placeholder="+91 98765 43210">
+                    <label class="form-label" for="phone">Phone<?= $lockedField('phone') ? ' <span class="badge badge-soft-secondary">locked</span>' : '' ?></label>
+                    <input class="form-control<?= invalid('phone') ?>" type="tel" id="phone" <?= $lockedField('phone') ? 'disabled' : 'name="phone"' ?> value="<?= e(old('phone', $target['phone'] ?? '')) ?>" maxlength="20" placeholder="+91 98765 43210">
                     <?= $view->partial('partials/field-error', ['field' => 'phone']) ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -39,19 +39,30 @@ final class SchemaGrammarTest extends TestCase
         $this->freshDatabase();
         $migrator = new \App\Core\Migrator(\App\Core\App::db(), \App\Core\App::basePath('database/migrations'));
         $all = $migrator->pretend('mysql', true);
-        $this->assertSame(11, count($all));
+        $this->assertSame(count($migrator->files()), count($all));
         $tables = [];
         foreach ($all as $name => $queries) {
-            $this->assertSame(1, count($queries), "{$name} emits one CREATE TABLE for MySQL");
-            $sql = $queries[0];
-            $this->assertContains('ENGINE=InnoDB DEFAULT CHARSET=utf8mb4', $sql, $name);
+            if (str_contains($name, '_add_')) {
+                // ALTER migrations: every FK column added must be BIGINT UNSIGNED and get a real constraint
+                $joined = implode(";
+", $queries);
+                $this->assertContains('ALTER TABLE', $joined, $name);
+                preg_match_all('/ADD CONSTRAINT `[a-z_]+` FOREIGN KEY \(`([a-z_]+)`\)/', $joined, $fks);
+                foreach ($fks[1] as $col) {
+                    $this->assertContains("`{$col}` BIGINT UNSIGNED", $joined, "{$name}: {$col}");
+                }
+                continue;
+            }
+            foreach ($queries as $sql) {
             $this->assertSame(substr_count($sql, '('), substr_count($sql, ')'), "{$name} balanced parentheses");
+            $this->assertContains('ENGINE=InnoDB DEFAULT CHARSET=utf8mb4', $sql, $name);
             preg_match('/^CREATE TABLE `([a-z_]+)`/', $sql, $m);
             $tables[] = $m[1];
             // Every FK column must be BIGINT UNSIGNED to match the referenced id column.
             preg_match_all('/FOREIGN KEY \(`([a-z_]+)`\)/', $sql, $fks);
             foreach ($fks[1] as $col) {
                 $this->assertContains("`{$col}` BIGINT UNSIGNED", $sql, "{$name}: {$col} type");
+            }
             }
         }
         foreach (['users', 'roles', 'permissions', 'user_roles', 'role_permissions', 'user_permission_overrides', 'login_attempts', 'password_reset_tokens', 'activity_logs', 'system_settings', 'remember_tokens'] as $t) {

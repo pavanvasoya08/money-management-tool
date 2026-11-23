@@ -33,6 +33,9 @@ final class ErrorHandler
 
     public static function render(Throwable $e, ?Request $request): Response
     {
+        if ($request !== null && (str_starts_with($request->path, '/api/') || $request->path === '/api')) {
+            return self::json($e, $request);
+        }
         if ($e instanceof ValidationException) {
             $back = $e->redirectTo ?? ($request ? self::back($request) : '/');
             return Response::redirect($back)->withErrors($e->errors, $request?->all() ?? []);
@@ -53,7 +56,12 @@ final class ErrorHandler
             $msg = $e->getMessage() !== 'This action is unauthorized.'
                 ? $e->getMessage()
                 : 'You do not have permission to perform this action. Contact your administrator if you believe this is a mistake.';
-            return self::page(403, 'Access denied', $msg);
+            $requestable = null;
+            if ($e->permission !== null && preg_match('/^[a-z_]+\.[a-z_]+$/', $e->permission)
+                && \App\Services\Admin\AccessRequestService::enabled() && App::auth()->check()) {
+                $requestable = $e->permission;
+            }
+            return self::page(403, 'Access denied', $msg, requestable: $requestable);
         }
 
         if ($e instanceof HttpException) {
@@ -74,10 +82,34 @@ final class ErrorHandler
         return self::page(500, 'Something went wrong', 'An unexpected error occurred. Please try again. If the problem continues, give this reference to your administrator.', $reference, $detail);
     }
 
-    private static function page(int $status, string $title, string $message, ?string $reference = null, ?string $detail = null): Response
+    /** API errors: JSON, no HTML, no internals. */
+    private static function json(Throwable $e, Request $request): Response
+    {
+        [$status, $message] = match (true) {
+            $e instanceof ValidationException => [422, 'The given data was invalid.'],
+            $e instanceof TokenMismatchException => [419, 'CSRF token mismatch.'],
+            $e instanceof AuthorizationException => [403, 'This action is unauthorized.'],
+            $e instanceof HttpException => [$e->status, $e->getMessage()],
+            $e instanceof \App\Exceptions\DomainRuleException => [409, $e->getMessage()],
+            default => [500, 'Server error.'],
+        };
+        if ($e instanceof AuthorizationException) {
+            App::activity()->log('authorization.denied', 'API access denied to ' . $request->method . ' ' . $request->path, properties: ['permission' => $e->permission]);
+        }
+        if ($status === 500) {
+            Logger::error($e::class . ': ' . $e->getMessage(), ['path' => $request->path, 'file' => $e->getFile() . ':' . $e->getLine()]);
+        }
+        $body = ['error' => ['status' => $status, 'message' => $message]];
+        if ($e instanceof ValidationException) {
+            $body['error']['fields'] = $e->errors;
+        }
+        return Response::json($body, $status);
+    }
+
+    private static function page(int $status, string $title, string $message, ?string $reference = null, ?string $detail = null, ?string $requestable = null): Response
     {
         try {
-            $html = App::view()->render('errors/error', compact('status', 'title', 'message', 'reference', 'detail'), 'layouts/minimal');
+            $html = App::view()->render('errors/error', compact('status', 'title', 'message', 'reference', 'detail', 'requestable'), 'layouts/minimal');
         } catch (Throwable) {
             $html = '<!doctype html><meta charset="utf-8"><title>' . $status . '</title><h1>' . htmlspecialchars($title) . '</h1><p>' . htmlspecialchars($message) . '</p>';
         }

@@ -6,7 +6,6 @@ namespace Tests\Integration;
 
 use App\Core\App;
 use App\Exceptions\AuthorizationException;
-use App\Services\Authorization\DataScope;
 use Tests\TestCase;
 
 final class GateTest extends TestCase
@@ -28,7 +27,7 @@ final class GateTest extends TestCase
         $this->assertTrue($gate->isSuperAdmin($admin));
         $this->assertTrue($gate->allows($admin, 'settings.edit'));
         $this->assertTrue($gate->allows($admin, 'some.future_permission'));
-        $this->assertSame(DataScope::All, $gate->dataScope($admin, 'sales.view'));
+        $this->assertTrue(App::dataAccess()->resolve($admin, 'sales_orders')->all);
     }
 
     public function testNewUserWithoutRolesHasNoAccess(): void
@@ -61,7 +60,8 @@ final class GateTest extends TestCase
 
         $this->assertFalse(App::gate()->allows($manager, 'users.view'), 'deny wins over role grant');
         $this->assertTrue(App::gate()->allows($manager, 'settings.view'), 'allow override adds permission');
-        $this->assertSame(DataScope::Own, App::gate()->dataScope($manager, 'settings.view'));
+        $this->assertSame('allow', App::gate()->explain($manager, 'settings.view')['source']);
+        $this->assertSame('deny', App::gate()->explain($manager, 'users.view')['source']);
         $this->assertFalse(App::gate()->allows($manager, 'settings.edit'), 'expired override ignored');
     }
 
@@ -76,21 +76,44 @@ final class GateTest extends TestCase
         $this->assertFalse(App::gate()->allows($active, 'users.view'));
     }
 
-    public function testConstraintsAndWidestScopeMerge(): void
+    public function testAllowOverridesCanBeDisabledBySuperAdminSetting(): void
     {
-        $db = App::db();
+        $viewer = $this->makeUser('v@example.com', ['viewer']);
+        App::db()->insert('user_permission_overrides', ['user_id' => $viewer['id'], 'permission_id' => $this->permId('users.view'), 'effect' => 'allow', 'created_at' => now(), 'updated_at' => now()]);
+        App::flushAuthorization();
+        $this->assertTrue(App::gate()->allows($viewer, 'users.view'));
+        App::db()->update('system_settings', ['value' => '0'], ['setting_key' => 'allow_user_level_grants']);
+        App::forget(\App\Services\SettingsService::class);
+        App::flushAuthorization();
+        $this->assertFalse(App::gate()->allows($viewer, 'users.view'), 'explicit allow ignored when disabled');
+    }
+
+    public function testDisabledAndReservedModules(): void
+    {
+        $mgr = $this->makeUser('m@example.com', ['manager']);
+        $this->assertTrue(App::gate()->allows($mgr, 'inventory.view'));
+        App::db()->update('modules', ['is_active' => 0], ['module_key' => 'inventory']);
+        App::flushAuthorization();
+        $this->assertFalse(App::gate()->allows($mgr, 'inventory.view'));
+        // super_admin module can never be delegated, even if a grant row exists
         $now = now();
-        $r1 = $db->insert('roles', ['name' => 'GST Clerk A', 'slug' => 'clerk-a', 'created_at' => $now, 'updated_at' => $now]);
-        $r2 = $db->insert('roles', ['name' => 'GST Clerk B', 'slug' => 'clerk-b', 'created_at' => $now, 'updated_at' => $now]);
-        $pid = $this->permId('users.view');
-        $db->insert('role_permissions', ['role_id' => $r1, 'permission_id' => $pid, 'data_scope' => 'own', 'constraints' => '{"gst_registration_ids":[1]}', 'created_at' => $now, 'updated_at' => $now]);
-        $db->insert('role_permissions', ['role_id' => $r2, 'permission_id' => $pid, 'data_scope' => 'assigned', 'constraints' => '{"gst_registration_ids":[2],"bank_account_ids":[5]}', 'created_at' => $now, 'updated_at' => $now]);
-        $user = $this->makeUser('clerk@example.com', ['clerk-a', 'clerk-b']);
-        $this->assertSame(DataScope::Assigned, App::gate()->dataScope($user, 'users.view'));
-        $c = App::gate()->constraints($user, 'users.view');
-        sort($c['gst_registration_ids']);
-        $this->assertSame([1, 2], $c['gst_registration_ids']);
-        $this->assertSame([5], $c['bank_account_ids']);
+        App::db()->insert('role_permissions', ['role_id' => App::db()->scalar("SELECT id FROM roles WHERE slug='manager'"), 'permission_id' => $this->permId('super_admin.view'), 'created_at' => $now, 'updated_at' => $now]);
+        App::flushAuthorization();
+        $this->assertFalse(App::gate()->allows($mgr, 'super_admin.view'));
+        $this->assertSame('reserved', App::gate()->explain($mgr, 'super_admin.view')['source']);
+    }
+
+    public function testSuspendedExpiredAndDeletedAccountsGetNothing(): void
+    {
+        $root = $this->makeUser('root@example.com', ['super-admin']);
+        foreach ([['suspended_at' => now()], ['account_expires_at' => now('-1 minute')], ['deleted_at' => now()]] as $change) {
+            $u = $this->makeUser(uniqid('u') . '@example.com', ['manager']);
+            App::db()->update('users', $change, ['id' => $u['id']]);
+            $u = \App\Models\User::find((int) $u['id']);
+            $this->assertFalse(App::gate()->allows($u, 'dashboard.view'));
+        }
+        App::db()->update('users', ['suspended_at' => now('-2 days'), 'suspended_until' => now('-1 day')], ['id' => $root['id']]);
+        $this->assertTrue(App::gate()->allows(\App\Models\User::find((int) $root['id']), 'settings.edit'), 'suspension ended');
     }
 
     public function testAuthorizeThrowsAndOwnership(): void

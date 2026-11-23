@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 1 of 15 — Project foundation & authentication.**
+**Current status: Phase 2 of 15 — Super Admin Control Center & advanced permissions.**
 
 | | |
 |---|---|
@@ -12,7 +12,8 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 | Tooling | Composer (autoloading + platform checks). **No third-party runtime packages.** |
 
 - 📘 [Installation guide](docs/INSTALLATION.md) — requirements, MySQL, `.env`, migrations, Super Admin, local dev, production
-- ✅ [Phase 1 report](docs/PHASE-1.md) — completed features, test results, PHP 8.5 verification, pending Phase 2 work
+- ✅ [Phase 1 report](docs/PHASE-1.md) — completed features, test results, PHP 8.5 verification
+- ✅ [Phase 2 report](docs/PHASE-2.md) — **upgrade steps**, Control Center features, security test results, pending Phase 3 work
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
 ## Quick start (local)
@@ -39,6 +40,17 @@ Open http://127.0.0.1:8000 and sign in.
 - **Settings** — app name, company, timezone, date format, page size, lockout, password length, idle timeout, remember-me and reset-link durations.
 - **Security** — CSRF on every state-changing request, output escaping, strict CSP, secure cookies, session fixation protection, production-safe errors with reference IDs, secrets redacted from logs.
 
+## What Phase 2 adds
+
+- **Super Admin Control Center** (`/admin`, never delegable): 14 sections covering users, roles, module and action permissions, data and field visibility, resource assignments, approval workflows, templates, access preview, sessions, audit and security settings.
+- **Users**: suspend, expiry date, IP and sign-in-hour restrictions, force logout, soft delete and restore, and an 8-tab profile.
+- **Roles**: unlimited custom roles; duplicate, copy, and delete safely with user reassignment.
+- **Permissions**: 21 modules × module-specific actions in a searchable matrix, plus explicit per-user Allow / Deny / Inherit with expiry.
+- **Data access**: 9 record-level scopes applied in SQL; unauthorized IDs return 404.
+- **Field access**: hidden / masked / visible / read-only / editable, enforced in pages, CSV export and the JSON API.
+- **Approval engine**: multi-level, amount-based, sequential, with self-approval blocked and history kept.
+- **Structured audit**: old and new values, affected user and role, IP and device; filterable.
+
 ## Commands
 
 ```bash
@@ -54,6 +66,6 @@ php tests/run.php [filter]              # automated tests (needs pdo_sqlite + cu
 
 ## Roadmap
 
-1. **Project setup & authentication** ← current
-2. Super Admin complete control system (role/permission UI, overrides, data & field-level access)
+1. Project setup & authentication ✅
+2. **Super Admin complete control system** ✅ ← current
 3. Partner management · 4. GST registrations · 5. Bank accounts · 6. Products & suppliers · 7. Inventory · 8. E-commerce platforms · 9. Sales & orders · 10. Returns, refunds & settlements · 11. Expenses & purchases · 12. Accounting · 13. GST & tax · 14. Dashboard & financial reports · 15. Automation, audit & deployment

@@ -8,8 +8,9 @@ use App\Core\Config;
 use App\Core\Seeder;
 
 /**
- * Creates the five initial system roles and their starting grants.
- * Existing grants are never removed, so changes made by administrators survive re-seeding.
+ * Creates the five initial system roles. Default grants are applied only to a
+ * role created in this run, or for permissions introduced in this run — so an
+ * administrator's removals are never undone by re-seeding.
  */
 final class RoleSeeder extends Seeder
 {
@@ -18,7 +19,8 @@ final class RoleSeeder extends Seeder
         $now = now();
         foreach ((array) Config::get('permissions.roles', []) as $slug => $role) {
             $row = $this->db->first('SELECT id FROM roles WHERE slug = ?', [$slug]);
-            $roleId = $row === null
+            $isNew = $row === null;
+            $roleId = $isNew
                 ? $this->db->insert('roles', [
                     'name' => $role['name'], 'slug' => $slug, 'description' => $role['description'],
                     'is_system' => 1, 'is_super_admin' => $role['is_super_admin'] ? 1 : 0, 'is_active' => 1,
@@ -27,6 +29,9 @@ final class RoleSeeder extends Seeder
                 : (int) $row['id'];
 
             foreach ($role['grants'] as $permissionSlug) {
+                if (!$isNew && !in_array($permissionSlug, PermissionSeeder::$created, true)) {
+                    continue;
+                }
                 $permission = $this->db->first('SELECT id FROM permissions WHERE slug = ?', [$permissionSlug]);
                 if ($permission === null) {
                     continue;

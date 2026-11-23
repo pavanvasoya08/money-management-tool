@@ -21,6 +21,7 @@ final class SettingsController extends Controller
             'definitions' => SettingsService::definitions(),
             'values' => App::settings()->all(),
             'canEdit' => can('settings.edit'),
+            'isSuperAdmin' => App::gate()->isSuperAdmin($this->user()),
             'roleGrants' => Role::grantsSummary(),
             'system' => [
                 'PHP version' => PHP_VERSION,
@@ -34,11 +35,12 @@ final class SettingsController extends Controller
 
     public function update(Request $request): Response
     {
-        $changed = App::settings()->update($request->all(), (int) $this->user()['id']);
+        $changed = App::settings()->update($request->all(), (int) $this->user()['id'], ['general']);
         if ($changed === []) {
             return $this->redirectRoute('settings.index')->with('info', 'No changes to save.');
         }
-        App::activity()->log('settings.updated', 'Updated settings: ' . implode(', ', $changed), 'system_settings', null, ['keys' => $changed]);
+        App::activity()->log('settings.updated', 'Updated settings: ' . implode(', ', $changed), 'system_settings', null, ['keys' => $changed],
+            module: 'settings', oldValues: App::settings()->lastChange['old'], newValues: App::settings()->lastChange['new']);
         return $this->redirectRoute('settings.index')->with('success', 'Settings saved.');
     }
 }

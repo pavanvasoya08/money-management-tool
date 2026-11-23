@@ -3,48 +3,14 @@
 declare(strict_types=1);
 
 /*
- * Permission catalogue.
- * Each permission is "<module>.<action>". Phase 1 registers only the modules
- * that exist today; each future phase appends its own module here and re-runs
- * the PermissionSeeder (idempotent).
+ * Initial roles and their DEFAULT grants.
+ * The module/action catalogue itself lives in config/modules.php.
  *
- * Standard actions for future modules: view, create, edit, delete, approve, export.
+ * Defaults are applied only when a role is first created, or when a
+ * permission is introduced for the first time (e.g. by an upgrade). Grants
+ * an administrator removed later are never re-added by re-seeding.
  */
 return [
-    'modules' => [
-        'dashboard' => [
-            'label' => 'Dashboard',
-            'actions' => [
-                'view' => 'View the dashboard',
-            ],
-        ],
-        'users' => [
-            'label' => 'User Management',
-            'actions' => [
-                'view' => 'View users and their status',
-                'create' => 'Create users',
-                'edit' => 'Edit user details',
-                'change_status' => 'Activate or deactivate users',
-                'assign_roles' => 'Assign roles to users',
-                'reset_password' => 'Reset other users\' passwords',
-                'view_login_history' => 'View login history',
-            ],
-        ],
-        'activity_logs' => [
-            'label' => 'Activity Logs',
-            'actions' => [
-                'view' => 'View the system activity log',
-            ],
-        ],
-        'settings' => [
-            'label' => 'Settings',
-            'actions' => [
-                'view' => 'View system settings',
-                'edit' => 'Change system settings',
-            ],
-        ],
-    ],
-
     /*
      * Initial roles. Super Admin bypasses all checks (no grants needed).
      * Grants are a minimal starting point — no role gets every module by default.
@@ -61,19 +27,36 @@ return [
             'name' => 'Partner',
             'description' => 'Business partner. Module access is granted per partner in Phase 2.',
             'is_super_admin' => false,
-            'grants' => ['dashboard.view'],
+            'grants' => [
+                'dashboard.view',
+                'partners.view', 'partners.view_own',
+                'capital_contributions.view', 'capital_contributions.view_own',
+                'gst_registrations.view', 'gst_registrations.view_assigned',
+                'bank_accounts.view', 'bank_accounts.view_assigned',
+                'financial_reports.view', 'financial_reports.view_assigned',
+            ],
         ],
         'accountant' => [
             'name' => 'Accountant',
-            'description' => 'Accounting staff. Finance modules are granted as they are released.',
+            'description' => 'Accounting staff. Sees assigned expenses and authorised accounting records.',
             'is_super_admin' => false,
-            'grants' => ['dashboard.view'],
+            'grants' => [
+                'dashboard.view',
+                'expenses.view', 'expenses.view_assigned', 'expenses.create', 'expenses.edit', 'expenses.export',
+                'purchases.view', 'purchases.view_assigned', 'purchases.create',
+                'accounting.view', 'accounting.view_assigned', 'accounting.create', 'accounting.export',
+                'gst_reports.view', 'gst_reports.view_assigned', 'gst_reports.export',
+            ],
         ],
         'manager' => [
             'name' => 'Manager',
             'description' => 'Operations manager with read access to users and activity.',
             'is_super_admin' => false,
-            'grants' => ['dashboard.view', 'users.view', 'users.view_login_history', 'activity_logs.view'],
+            'grants' => [
+                'dashboard.view', 'users.view', 'users.view_all', 'users.view_login_history', 'activity_logs.view',
+                'inventory.view', 'inventory.view_assigned', 'inventory.create', 'inventory.edit',
+                'sales_orders.view', 'sales_orders.view_assigned', 'sales_orders.create', 'sales_orders.edit',
+            ],
         ],
         'viewer' => [
             'name' => 'Viewer',

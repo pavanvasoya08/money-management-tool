@@ -9,10 +9,11 @@ $canReset = can('users.reset_password', $target) && !$isSelf;
         <span class="avatar avatar-lg"><?= e(initials($target['name'])) ?></span>
         <div>
             <h1 class="mb-1"><?= e($target['name']) ?> <?php if ($isSelf): ?><span class="badge badge-soft-primary align-middle">You</span><?php endif; ?></h1>
-            <p class="mb-0"><?= e($target['email']) ?> · <?= $view->partial('partials/status-badge', ['user' => $target]) ?></p>
+ <p class="mb-0"><?= array_key_exists('email', $target) ? e($target['email']) : '<i>email hidden</i>' ?> · <?= $view->partial('partials/status-badge', ['user' => $target]) ?></p>
         </div>
     </div>
     <div class="page-actions">
+        <?php if (\App\Core\App::gate()->isSuperAdmin(auth_user())): ?><a class="btn btn-dark" href="<?= e(route('admin.users.show', ['id' => $target['id']])) ?>"><i data-lucide="shield-check" class="icon-sm"></i>Control Center</a><?php endif; ?>
         <?php if ($canEdit): ?><a class="btn btn-light" href="<?= e(route('users.edit', ['id' => $target['id']])) ?>"><i data-lucide="pencil" class="icon-sm"></i>Edit details</a><?php endif; ?>
         <?php if ($canStatus): ?>
             <form method="post" action="<?= e(route('users.status', ['id' => $target['id']])) ?>" class="d-inline"
@@ -40,8 +41,8 @@ $canReset = can('users.reset_password', $target) && !$isSelf;
             <div class="card-header"><i data-lucide="id-card" class="icon-sm"></i> Account</div>
             <div class="card-body">
                 <dl class="detail-list mb-0">
-                    <dt>Phone</dt><dd><?= e($target['phone'] ?: '—') ?></dd>
-                    <dt>Last sign-in</dt><dd><?= e(format_datetime($target['last_login_at'])) ?><?php if ($target['last_login_ip']): ?><div class="small text-secondary"><?= e($target['last_login_ip']) ?></div><?php endif; ?></dd>
+                    <dt>Phone</dt><dd><?= array_key_exists('phone', $target) ? e($target['phone'] ?: '—') : '<span class="text-secondary">Hidden</span>' ?></dd>
+                    <dt>Last sign-in</dt><dd><?= e(format_datetime($target['last_login_at'])) ?><?php if (!empty($target['last_login_ip'])): ?><div class="small text-secondary"><?= e($target['last_login_ip']) ?></div><?php endif; ?></dd>
                     <dt>Password changed</dt><dd><?= e(format_datetime($target['password_changed_at'])) ?><?php if ((int) $target['must_change_password'] === 1): ?><div><span class="badge rounded-pill badge-soft-secondary">Must change at next sign-in</span></div><?php endif; ?></dd>
                     <dt>Failed attempts</dt><dd><?= (int) $target['failed_login_count'] ?><?php if ($target['locked_until'] && $target['locked_until'] > now()): ?> · locked until <?= e(format_datetime($target['locked_until'])) ?><?php endif; ?></dd>
                     <dt>Created</dt><dd><?= e(format_datetime($target['created_at'])) ?><?php if ($creator): ?><div class="small text-secondary">by <?= e($creator['name']) ?></div><?php endif; ?></dd>

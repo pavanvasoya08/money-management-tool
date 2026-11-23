@@ -1,5 +1,5 @@
 <?php
-$groups = ['general' => ['General', 'sliders-horizontal'], 'security' => ['Security', 'shield']];
+$groups = ['general' => ['General', 'sliders-horizontal']];
 $timezones = DateTimeZone::listIdentifiers();
 $formats = ['d M Y' => '23 Nov 2026', 'd/m/Y' => '23/11/2026', 'd-m-Y' => '23-11-2026', 'Y-m-d' => '2026-11-23', 'M d Y' => 'Nov 23 2026'];
 ?>
@@ -44,6 +44,10 @@ $formats = ['d M Y' => '23 Nov 2026', 'd/m/Y' => '23/11/2026', 'd-m-Y' => '23-11
                 </div>
             <?php endforeach; ?>
             </fieldset>
+            <?php if ($isSuperAdmin): ?>
+                <div class="alert alert-info small d-flex gap-2 align-items-center"><i data-lucide="shield" class="flex-shrink-0"></i>
+                    <span>Security and access-control settings are managed in the <a href="<?= e(route('admin.security')) ?>">Super Admin Control Center → Security settings</a>.</span></div>
+            <?php endif; ?>
             <?php if ($canEdit): ?>
                 <div class="d-flex justify-content-end"><button class="btn btn-primary" type="submit"><i data-lucide="check" class="icon-sm"></i><span class="btn-label">Save settings</span></button></div>
             <?php else: ?>

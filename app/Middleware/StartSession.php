@@ -37,8 +37,9 @@ final class StartSession implements Middleware
         if (!$auth->check() && $cookie !== null && $endedReason === null) {
             $result = $remember->consume($cookie, $request);
             $user = $result !== null ? \App\Models\User::find($result[0]) : null;
-            if ($result !== null && $user !== null && $user['status'] === 'active') {
-                $auth->login($result[0], $request);
+            if ($result !== null && $user !== null && \App\Services\Authorization\AccountState::usable($user)
+                && \App\Services\Authorization\AccountState::restrictionFor($user, $request->ip()) === null) {
+                $auth->login($result[0], $request, true);
                 $rotated = $result[1];
                 App::activity()->log('auth.login', 'Signed in automatically (remember me)', 'user', $result[0], userId: $result[0]);
             } else {

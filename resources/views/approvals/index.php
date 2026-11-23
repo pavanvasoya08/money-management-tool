@@ -1,0 +1,3 @@
+<div class="page-head"><div><h1>Approvals</h1><p>Requests waiting for your decision and the requests you submitted.</p></div></div>
+<div class="card app-card mb-3"><div class="card-header">Waiting for you (<?= count($inbox) ?>)</div><?= $view->partial('approvals/_table', ['requests' => $inbox, 'empty' => 'Nothing to approve right now.']) ?></div>
+<div class="card app-card"><div class="card-header">Submitted by you</div><?= $view->partial('approvals/_table', ['requests' => array_map(static fn ($r) => $r + ['requester_name' => 'You'], $mine), 'empty' => 'You have not submitted any requests.']) ?></div>

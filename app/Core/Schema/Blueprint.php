@@ -80,6 +80,12 @@ final class Blueprint
         return $this->add('enum', $name, ['allowed' => $allowed]);
     }
 
+    /** Exact numeric (money). MySQL DECIMAL(p,s); SQLite NUMERIC. */
+    public function decimal(string $name, int $precision = 15, int $scale = 2): Column
+    {
+        return $this->add('decimal', $name, ['precision' => $precision, 'scale' => $scale]);
+    }
+
     public function json(string $name): Column
     {
         return $this->add('json', $name);

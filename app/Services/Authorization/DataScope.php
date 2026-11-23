@@ -5,32 +5,50 @@ declare(strict_types=1);
 namespace App\Services\Authorization;
 
 /**
- * Record-level visibility for a permission grant (Phase 2 applies it to queries).
- *  all      — every record
- *  selected — only records explicitly listed in the grant's constraints
- *  assigned — records assigned to the user
- *  own      — records the user created/owns
+ * Record-level visibility scopes (stored in role_data_scopes / user_data_scope_overrides).
  */
 enum DataScope: string
 {
     case All = 'all';
-    case Selected = 'selected';
-    case Assigned = 'assigned';
     case Own = 'own';
+    case Assigned = 'assigned';
+    case Selected = 'selected';
+    case SelectedPartners = 'selected_partners';
+    case SelectedGst = 'selected_gst_registrations';
+    case SelectedBankAccounts = 'selected_bank_accounts';
+    case SelectedPlatforms = 'selected_platforms';
+    case None = 'none';
 
-    /** Higher rank = wider access. Used when several roles grant the same permission. */
-    public function rank(): int
+    public function label(): string
     {
         return match ($this) {
-            self::All => 4,
-            self::Selected => 3,
-            self::Assigned => 2,
-            self::Own => 1,
+            self::All => 'All records',
+            self::Own => 'Own records',
+            self::Assigned => 'Assigned records',
+            self::Selected => 'Selected records',
+            self::SelectedPartners => 'Selected partners',
+            self::SelectedGst => 'Selected GST registrations',
+            self::SelectedBankAccounts => 'Selected bank accounts',
+            self::SelectedPlatforms => 'Selected e-commerce platforms',
+            self::None => 'No access',
         };
     }
 
-    public static function widest(self $a, self $b): self
+    /** Resource type whose IDs a "selected …" scope filters by (null for other scopes). */
+    public function resourceType(): ?string
     {
-        return $a->rank() >= $b->rank() ? $a : $b;
+        return match ($this) {
+            self::SelectedPartners => 'partner',
+            self::SelectedGst => 'gst_registration',
+            self::SelectedBankAccounts => 'bank_account',
+            self::SelectedPlatforms => 'platform',
+            default => null,
+        };
+    }
+
+    /** @return list<string> */
+    public static function values(): array
+    {
+        return array_map(static fn (self $s): string => $s->value, self::cases());
     }
 }

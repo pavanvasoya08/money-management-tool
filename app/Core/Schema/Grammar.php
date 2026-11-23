@@ -61,6 +61,64 @@ final class Grammar
         return $statements;
     }
 
+    /**
+     * ALTER TABLE for an existing table: add columns, indexes and (MySQL) foreign keys.
+     * SQLite cannot add constraints to existing tables, so added FK columns are plain
+     * columns there (the automated tests run on SQLite; production MySQL enforces FKs).
+     *
+     * @return list<string>
+     */
+    public function compileAlter(Blueprint $bp): array
+    {
+        $table = $this->wrap($bp->table);
+        $statements = [];
+        foreach ($bp->columns as $column) {
+            $statements[] = "ALTER TABLE {$table} ADD COLUMN " . $this->columnSql($column);
+        }
+        foreach ($bp->indexes as $index) {
+            $cols = implode(', ', array_map($this->wrap(...), $index['columns']));
+            $statements[] = 'CREATE ' . ($index['type'] === 'unique' ? 'UNIQUE ' : '') . 'INDEX '
+                . $this->wrap($index['name']) . " ON {$table} ({$cols})";
+        }
+        if ($this->driver === 'mysql') {
+            foreach ($bp->foreignKeys as $fk) {
+                $statements[] = sprintf(
+                    'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
+                    $table, $this->wrap($fk['name']), $this->wrap($fk['column']), $this->wrap($fk['on']),
+                    $this->wrap($fk['references']), $fk['onDelete'], $fk['onUpdate']
+                );
+            }
+        }
+        return $statements;
+    }
+
+    /**
+     * Reverse of compileAlter: drop FKs (MySQL), indexes, then columns.
+     * @param list<string> $columns @param list<string> $foreignKeys @param list<string> $indexes
+     * @return list<string>
+     */
+    public function compileDropColumns(string $table, array $columns, array $foreignKeys = [], array $indexes = []): array
+    {
+        $t = $this->wrap($table);
+        $out = [];
+        if ($this->driver === 'mysql') {
+            foreach ($foreignKeys as $fk) {
+                $out[] = "ALTER TABLE {$t} DROP FOREIGN KEY " . $this->wrap($fk);
+            }
+            foreach ($indexes as $ix) {
+                $out[] = "ALTER TABLE {$t} DROP INDEX " . $this->wrap($ix);
+            }
+        } else {
+            foreach ($indexes as $ix) {
+                $out[] = 'DROP INDEX IF EXISTS ' . $this->wrap($ix);
+            }
+        }
+        foreach ($columns as $c) {
+            $out[] = "ALTER TABLE {$t} DROP COLUMN " . $this->wrap($c);
+        }
+        return $out;
+    }
+
     public function compileDrop(string $table): string
     {
         return 'DROP TABLE IF EXISTS ' . $this->wrap($table);
@@ -90,6 +148,7 @@ final class Grammar
                 ? 'ENUM(' . implode(', ', array_map($this->quote(...), $c->options['allowed'])) . ')'
                 : 'VARCHAR(32)',
             'json' => $mysql ? 'JSON' : 'TEXT',
+            'decimal' => $mysql ? 'DECIMAL(' . (int) $c->options['precision'] . ',' . (int) $c->options['scale'] . ')' : 'NUMERIC',
             'dateTime' => $mysql ? 'DATETIME' : 'DATETIME',
             default => throw new InvalidArgumentException("Unknown column type [{$c->type}]."),
         };

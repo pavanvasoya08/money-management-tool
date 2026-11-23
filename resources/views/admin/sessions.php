@@ -1,0 +1,3 @@
+<div class="page-head"><div><h1>Login sessions</h1><p>Every active sign-in across devices<?= $filterUser ? ' for ' . e($filterUser['name']) : '' ?>. Revoking ends the session on its next request.</p></div></div>
+<div class="card app-card mb-3"><div class="card-header">Active sessions (<?= count($sessions) ?>)</div><?= $view->partial('admin/_sessions-table', ['sessions' => $sessions, 'showUser' => true, 'currentSession' => $currentSession]) ?></div>
+<div class="card app-card"><div class="card-header">Recent failed sign-ins</div><?= $view->partial('users/_logins-table', ['logins' => $failed, 'showUser' => true]) ?></div>

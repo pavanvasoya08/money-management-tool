@@ -6,7 +6,10 @@ namespace App\Core;
 
 use App\Services\ActivityLogger;
 use App\Services\AuthService;
+use App\Services\Authorization\DataAccess;
+use App\Services\Authorization\FieldPolicy;
 use App\Services\Authorization\Gate;
+use App\Services\SessionService;
 use App\Services\SettingsService;
 use RuntimeException;
 
@@ -67,6 +70,12 @@ final class App
         self::$instances[$id] = $instance;
     }
 
+    /** Drop every shared service (used by the test suite between tests). */
+    public static function resetServices(): void
+    {
+        self::$instances = [];
+    }
+
     public static function forget(string $id): void
     {
         unset(self::$instances[$id]);
@@ -117,6 +126,40 @@ final class App
     public static function gate(): Gate
     {
         return self::shared(Gate::class, static fn (): Gate => new Gate(self::db()));
+    }
+
+    /** Record-level access (data visibility). */
+    public static function dataAccess(): DataAccess
+    {
+        return self::shared(DataAccess::class, static fn (): DataAccess => new DataAccess(self::db(), self::gate()));
+    }
+
+    /** Field-level access (hidden / masked / read-only / editable). */
+    public static function fields(): FieldPolicy
+    {
+        return self::shared(FieldPolicy::class, static fn (): FieldPolicy => new FieldPolicy(self::db(), self::gate()));
+    }
+
+    public static function approvals(): \App\Services\Approval\ApprovalEngine
+    {
+        return self::shared(\App\Services\Approval\ApprovalEngine::class, static fn (): \App\Services\Approval\ApprovalEngine => new \App\Services\Approval\ApprovalEngine(self::db()));
+    }
+
+    public static function sessions(): SessionService
+    {
+        return self::shared(SessionService::class, static fn (): SessionService => new SessionService(self::db()));
+    }
+
+    /** Clear all authorization caches after permission changes (applied immediately). */
+    public static function flushAuthorization(): void
+    {
+        self::gate()->flush();
+        if (isset(self::$instances[DataAccess::class])) {
+            self::dataAccess()->flush();
+        }
+        if (isset(self::$instances[FieldPolicy::class])) {
+            self::fields()->flush();
+        }
     }
 
     public static function settings(): SettingsService

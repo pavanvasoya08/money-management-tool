@@ -8,6 +8,12 @@ $currentRoute = (string) (\App\Core\App::request()?->attributes['route'] ?? '');
 $appName = (string) setting('app_name', config('app.name'));
 $company = (string) setting('company_name', '');
 $isSuper = $me !== null && \App\Core\App::gate()->isSuperAdmin($me);
+$canApproveAny = false;
+if ($me !== null && !$isSuper) {
+    foreach (\App\Core\App::db()->select("SELECT p.slug FROM permissions p WHERE p.action IN ('approve', 'reject')") as $__p) {
+        if (can($__p['slug'])) { $canApproveAny = true; break; }
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -36,6 +42,8 @@ $isSuper = $me !== null && \App\Core\App::gate()->isSuperAdmin($me);
                     <i data-lucide="<?= e($item['icon']) ?>"></i><span class="label"><?= e($item['label']) ?></span>
                     <span class="soon">Soon</span>
                 </span>
+            <?php elseif (!empty($item['super_admin']) && !$isSuper): ?>
+            <?php elseif (!empty($item['approver']) && !$isSuper && !$canApproveAny): ?>
             <?php elseif ($item['permission'] === null || can($item['permission'])): ?>
                 <?php $active = isset($item['active']) && str_starts_with($currentRoute, $item['active']); ?>
                 <a class="nav-item <?= $active ? 'active' : '' ?>" href="<?= e(route($item['route'])) ?>" <?= $active ? 'aria-current="page"' : '' ?>>
@@ -45,7 +53,7 @@ $isSuper = $me !== null && \App\Core\App::gate()->isSuperAdmin($me);
         <?php endforeach; ?>
     </nav>
     <div class="sidebar-foot">
-        <span class="phase-chip">Phase 1 · Foundation</span>
+        <span class="phase-chip">Phase 2 · Access Control</span>
     </div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>
@@ -103,7 +111,14 @@ $isSuper = $me !== null && \App\Core\App::gate()->isSuperAdmin($me);
     </header>
 
     <main id="main" class="content" tabindex="-1">
-        <?= $content ?>
+        <?php if (isset($section)): ?>
+            <div class="admin-shell">
+                <?= $view->partial('admin/_nav', ['section' => $section]) ?>
+                <div class="admin-main"><?= $content ?></div>
+            </div>
+        <?php else: ?>
+            <?= $content ?>
+        <?php endif; ?>
     </main>
     <footer class="app-footer">
         <?= e($appName) ?> · v<?= e(config('app.version')) ?>
@@ -112,6 +127,6 @@ $isSuper = $me !== null && \App\Core\App::gate()->isSuperAdmin($me);
 
 <?= $view->partial('partials/toasts') ?>
 <?= $view->partial('partials/confirm-modal') ?>
-<?= $view->partial('partials/scripts', ['withCharts' => $withCharts ?? false]) ?>
+<?= $view->partial('partials/scripts', ['withCharts' => $withCharts ?? false, 'withAdmin' => isset($section)]) ?>
 </body>
 </html>

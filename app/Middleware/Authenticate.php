@@ -21,6 +21,9 @@ final class Authenticate implements Middleware
     public function handle(Request $request, Closure $next, ?string $parameter = null): Response
     {
         $user = App::auth()->user();
+        if ($user === null && str_starts_with($request->path, '/api/')) {
+            return Response::json(['error' => ['status' => 401, 'message' => 'Unauthenticated.']], 401);
+        }
         if ($user === null) {
             if ($request->method === 'GET') {
                 App::session()->put('url.intended', $request->fullUrl());
