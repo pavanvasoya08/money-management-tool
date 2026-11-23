@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DEMO — Multi-Partner Business Finance Management System (sample data only)">
+  <title>PartnerLedger · Multi-Partner Business Finance (DEMO)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- ============ Sidebar ============ -->
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">PL</div>
+        <div class="brand-text">
+          <b>PartnerLedger</b>
+          <small id="brand-company">Demo Traders LLP</small>
+        </div>
+      </div>
+      <nav id="nav"></nav>
+      <div class="sidebar-foot">
+        <div class="demo-chip"><i data-lucide="flask-conical"></i><span>DEMO · SAMPLE DATA</span></div>
+        <p>Fictional data stored in this browser only. No bank, GST or marketplace connection.</p>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ============ Main ============ -->
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu"><i data-lucide="menu"></i></button>
+        <div class="crumbs"><span class="crumb-root">PartnerLedger</span><i data-lucide="chevron-right"></i><b id="page-title">Dashboard</b></div>
+        <span class="demo-pill" title="All data in this app is fictional">DEMO</span>
+        <div class="topbar-right">
+          <div class="quick-add">
+            <button class="btn btn-primary btn-sm" id="quick-add-btn" aria-haspopup="true"><i data-lucide="plus"></i><span>Quick add</span></button>
+            <div class="dropdown" id="quick-add-menu" role="menu">
+              <button data-action="add-sale" role="menuitem"><i data-lucide="indian-rupee"></i>New sale</button>
+              <button data-action="add-purchase" role="menuitem"><i data-lucide="shopping-cart"></i>New purchase</button>
+              <button data-action="add-expense" role="menuitem"><i data-lucide="wallet"></i>New expense</button>
+              <button data-action="add-return" role="menuitem"><i data-lucide="undo-2"></i>New return</button>
+              <button data-action="add-contribution" role="menuitem"><i data-lucide="piggy-bank"></i>Partner contribution</button>
+              <button data-go="transfers" role="menuitem"><i data-lucide="arrow-left-right"></i>Bank transfer</button>
+            </div>
+          </div>
+          <div class="user-chip"><div class="avatar">DP</div><div class="user-text"><b>Demo Partner</b><small>Administrator</small></div></div>
+        </div>
+      </header>
+
+      <div class="demo-banner" id="demo-banner" role="note">
+        <i data-lucide="flask-conical"></i>
+        <span><b>Demo mode:</b> every partner, GST number, bank account and order here is fictional sample data. Changes are saved in this browser only.</span>
+        <button class="icon-btn" id="banner-close" aria-label="Hide banner"><i data-lucide="x"></i></button>
+      </div>
+
+      <main id="content" class="content" tabindex="-1"></main>
+      <footer class="app-foot">PartnerLedger demo · Built with HTML, CSS &amp; vanilla JavaScript · Sample data only — not for accounting or tax filing.</footer>
+    </div>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+
+  <!-- Libraries (CDN). The app still works without them; charts/icons just won't render offline. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
