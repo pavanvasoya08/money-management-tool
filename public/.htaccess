@@ -1,0 +1,12 @@
+# Apache: route every request that is not an existing file to index.php
+Options -Indexes -MultiViews
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Never serve dotfiles (e.g. .env if misplaced)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

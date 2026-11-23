@@ -1,0 +1,23 @@
+# Dependencies
+/vendor/
+
+# Environment (never commit real credentials)
+.env
+.env.*
+!.env.example
+
+# Runtime storage
+/storage/logs/*
+/storage/uploads/*
+/storage/cache/*
+/storage/sessions/*
+!/storage/**/.gitkeep
+/storage/*.sqlite
+/tests/.tmp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

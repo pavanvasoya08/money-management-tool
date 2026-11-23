@@ -1,0 +1,53 @@
+{
+    "name": "pavanvasoya08/business-erp",
+    "description": "Business Finance & E-commerce ERP — custom lightweight PHP MVC (Phase 1: foundation & authentication)",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.5",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-json": "*",
+        "ext-session": "*",
+        "ext-ctype": "*",
+        "ext-filter": "*"
+    },
+    "suggest": {
+        "ext-sodium": "Enables Argon2id password hashing (falls back to bcrypt)",
+        "ext-pdo_sqlite": "Required only to run the automated test suite",
+        "ext-curl": "Required only for the HTTP feature tests",
+        "ext-intl": "Better locale-aware formatting"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "app/Helpers/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.5.0"
+        },
+        "platform-check": true,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "migrate": "php bin/console migrate",
+        "seed": "php bin/console db:seed",
+        "test": "php tests/run.php",
+        "check": "php bin/console app:check"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

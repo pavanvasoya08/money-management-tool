@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Business ERP command-line tool.
+ *   php bin/console help
+ */
+
+if (PHP_SAPI !== 'cli') {
+    exit(1);
+}
+
+$basePath = dirname(__DIR__);
+require $basePath . '/vendor/autoload.php';
+
+App\Core\App::boot($basePath);
+exit((new App\Console\Kernel())->run(array_slice($argv, 1)));
