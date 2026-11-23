@@ -37,8 +37,22 @@ final class Kernel
                 default => $this->fail("Unknown command [{$command}]. Run: php bin/console help"),
             };
         } catch (Throwable $e) {
-            return $this->fail($e->getMessage());
+            // The console is only usable with server access, so the underlying cause
+            // (e.g. the PDO error) is safe to show here — it is never shown on web pages.
+            $reason = $e->getPrevious()?->getMessage();
+            return $this->fail($e->getMessage() . ($reason ? "\nReason: {$reason}" . $this->hint($reason) : ''));
         }
+    }
+
+    private function hint(string $reason): string
+    {
+        return match (true) {
+            str_contains($reason, 'could not find driver') => "\nHint: enable extension=pdo_mysql in php.ini (run \"php --ini\" to find it).",
+            str_contains($reason, '2002'), str_contains($reason, 'refused') => "\nHint: the MySQL server is not running or DB_HOST/DB_PORT is wrong. Start MySQL in the XAMPP Control Panel.",
+            str_contains($reason, '1045') => "\nHint: wrong DB_USERNAME/DB_PASSWORD. XAMPP default is root with an empty password.",
+            str_contains($reason, '1049') => "\nHint: the database in DB_DATABASE does not exist. Create it in phpMyAdmin first.",
+            default => '',
+        };
     }
 
     private function migrator(): Migrator
