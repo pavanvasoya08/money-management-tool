@@ -40,7 +40,7 @@ $input = function (string $f, string $label, string $type = 'text', array $attrs
         <textarea class="form-control<?= invalid('notes') ?>" id="notes" <?= $locked('notes') ? 'disabled' : 'name="notes"' ?> rows="3" maxlength="5000" aria-label="Notes"><?= e($val('notes')) ?></textarea><?= $view->partial('partials/field-error', ['field' => 'notes']) ?>
     </div></div>
     <?php endif; ?>
-    <div class="d-flex justify-content-end gap-2">
+    <div class="form-actions-bar">
         <a class="btn btn-light" href="<?= e($editing ? route('partners.show', ['id' => $partner['id']]) : route('partners.index')) ?>">Cancel</a>
         <button class="btn btn-primary" type="submit"><span class="btn-label"><?= $editing ? 'Save changes' : 'Add partner' ?></span></button>
     </div>

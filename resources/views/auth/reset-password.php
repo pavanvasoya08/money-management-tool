@@ -6,8 +6,8 @@
         <a class="btn btn-primary" href="<?= e(route('password.request')) ?>">Request a new link</a>
     </div>
 <?php else: ?>
-    <h2 class="h4 fw-bold mb-1">Set a new password</h2>
-    <p class="text-secondary mb-4">For <strong><?= e($email) ?></strong></p>
+    <h1>Set a new password</h1>
+<p class="auth-sub fw-normal text-secondary">For <strong><?= e($email) ?></strong></p>
     <form method="post" action="<?= e(route('password.update')) ?>" novalidate data-loading>
         <?= csrf_field() ?>
         <input type="hidden" name="token" value="<?= e($token) ?>">
@@ -25,3 +25,4 @@
         <button class="btn btn-primary w-100 btn-lg" type="submit"><span class="btn-label">Reset password</span></button>
     </form>
 <?php endif; ?>
+<p class="auth-links small">Remembered it? <a href="<?= e(route('login')) ?>">Back to sign in</a></p>

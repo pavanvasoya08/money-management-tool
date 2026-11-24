@@ -14,11 +14,68 @@
         }
     }
 
-    /* ---------- Mobile sidebar ---------- */
+    /* ---------- Sidebar: drawer on mobile, mini mode on desktop (remembered in a cookie) ---------- */
     function initSidebar() {
-        $$('[data-sidebar-toggle]').forEach((btn) => btn.addEventListener('click', () => document.body.classList.toggle('sidebar-open')));
+        const desktop = () => window.matchMedia('(min-width: 992px)').matches;
+        $$('[data-sidebar-toggle]').forEach((btn) => btn.addEventListener('click', () => {
+            if (desktop()) {
+                const mini = document.body.classList.toggle('sidebar-mini');
+                document.cookie = 'ui_sidebar=' + (mini ? 'mini' : 'full') + '; path=/; max-age=31536000; SameSite=Lax';
+            } else {
+                document.body.classList.toggle('sidebar-open');
+            }
+        }));
         $$('[data-sidebar-close]').forEach((el) => el.addEventListener('click', () => document.body.classList.remove('sidebar-open')));
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.body.classList.remove('sidebar-open'); });
+        // Collapsible menu groups
+        $$('.nav-group-toggle').forEach((btn) => btn.addEventListener('click', () => {
+            const group = btn.closest('.nav-group');
+            if (document.body.classList.contains('sidebar-mini') && desktop()) {
+                // In mini mode a group click expands the sidebar so its items become reachable.
+                document.body.classList.remove('sidebar-mini');
+                document.cookie = 'ui_sidebar=full; path=/; max-age=31536000; SameSite=Lax';
+                group.classList.add('open');
+            } else {
+                group.classList.toggle('open');
+            }
+            btn.setAttribute('aria-expanded', group.classList.contains('open') ? 'true' : 'false');
+        }));
+        const active = $('.sidebar .nav-item.active');
+        if (active) active.scrollIntoView({ block: 'nearest' });
+    }
+
+    /* ---------- Quick navigation (top bar search, Ctrl/⌘+K or "/") ---------- */
+    function initQuickNav() {
+        const modalEl = $('#quickNav');
+        if (!modalEl) return;
+        const input = $('[data-quick-nav-input]', modalEl);
+        const items = $$('[data-quick-nav-list] li', modalEl);
+        const empty = $('[data-quick-nav-empty]', modalEl);
+        let focus = -1;
+        const visible = () => items.filter((li) => !li.classList.contains('d-none'));
+        const mark = () => { items.forEach((li) => $('a', li).classList.remove('is-focus')); const v = visible(); if (v[focus]) { $('a', v[focus]).classList.add('is-focus'); $('a', v[focus]).scrollIntoView({ block: 'nearest' }); } };
+        const filter = () => {
+            const q = input.value.trim().toLowerCase();
+            items.forEach((li) => li.classList.toggle('d-none', q !== '' && !li.dataset.search.includes(q)));
+            empty.classList.toggle('d-none', visible().length > 0);
+            focus = visible().length ? 0 : -1;
+            mark();
+        };
+        input.addEventListener('input', filter);
+        input.addEventListener('keydown', (e) => {
+            const v = visible();
+            if (e.key === 'ArrowDown') { e.preventDefault(); focus = Math.min(v.length - 1, focus + 1); mark(); }
+            if (e.key === 'ArrowUp') { e.preventDefault(); focus = Math.max(0, focus - 1); mark(); }
+            if (e.key === 'Enter' && v[focus]) { e.preventDefault(); window.location.href = $('a', v[focus]).href; }
+        });
+        modalEl.addEventListener('shown.bs.modal', () => { input.value = ''; filter(); input.focus(); });
+        document.addEventListener('keydown', (e) => {
+            const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '') || (document.activeElement || {}).isContentEditable;
+            if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !typing)) {
+                e.preventDefault();
+                if (window.bootstrap) window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            }
+        });
     }
 
     /* ---------- Toasts: auto-hide flash messages ---------- */
@@ -74,10 +131,17 @@
                     return;
                 }
                 pendingForm = form;
+                const variant = form.dataset.confirmVariant || 'primary';
                 $('#confirm-message').textContent = form.dataset.confirm;
+                $('#confirm-title').textContent = form.dataset.confirmTitle || (variant === 'danger' ? 'Are you sure?' : 'Please confirm');
+                const icon = $('#confirm-icon');
+                const kind = { danger: ['', 'triangle-alert'], warning: ['is-warning', 'triangle-alert'], success: ['is-success', 'circle-check'] }[variant] || ['is-primary', 'info'];
+                icon.className = 'confirm-icon ' + kind[0];
+                icon.innerHTML = '<i data-lucide="' + kind[1] + '"></i>';
+                icons();
                 const ok = $('#confirm-ok');
                 ok.textContent = form.dataset.confirmButton || 'Confirm';
-                ok.className = 'btn btn-' + (form.dataset.confirmVariant || 'primary');
+                ok.className = 'btn btn-' + (variant === 'danger' ? 'danger' : variant);
                 modal.show();
                 return;
             }
@@ -178,7 +242,7 @@
         // One series → one hue, no legend; the card title names the measure.
         new window.Chart(canvas, {
             type: 'bar',
-            data: { labels: data.labels || [], datasets: [{ label: 'Closing capital', data: data.values || [], backgroundColor: '#2563eb', hoverBackgroundColor: '#1d4ed8',
+            data: { labels: data.labels || [], datasets: [{ label: 'Closing capital', data: data.values || [], backgroundColor: '#2a85ff', hoverBackgroundColor: '#1f6fe0',
                 borderRadius: { topRight: 4, bottomRight: 4, topLeft: 0, bottomLeft: 0 }, borderSkipped: 'start', barThickness: 18 }] },
             options: {
                 indexAxis: 'y',
@@ -188,8 +252,8 @@
                     tooltip: { callbacks: { label: (ctx) => ' ' + inr.format(ctx.parsed.x) } }
                 },
                 scales: {
-                    x: { beginAtZero: true, border: { display: false }, grid: { color: 'rgba(148,163,184,.18)' }, ticks: { callback: (v) => '₹' + compact.format(v) } },
-                    y: { grid: { display: false }, border: { display: false }, ticks: { color: '#334155' } }
+                    x: { beginAtZero: true, border: { display: false }, grid: { color: '#ededed' }, ticks: { callback: (v) => '₹' + compact.format(v) } },
+                    y: { grid: { display: false }, border: { display: false }, ticks: { color: '#404040' } }
                 }
             }
         });
@@ -205,22 +269,22 @@
         }
         const data = JSON.parse(canvas.dataset.chart || '{}');
         Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
-        Chart.defaults.color = '#64748b';
+        Chart.defaults.color = '#737373';
         new window.Chart(canvas, {
             type: 'bar',
             data: {
                 labels: data.labels || [],
                 datasets: [
-                    { label: 'Successful', data: data.success || [], backgroundColor: '#16a34a', borderRadius: 5, maxBarThickness: 26 },
-                    { label: 'Failed', data: data.failed || [], backgroundColor: '#dc2626', borderRadius: 5, maxBarThickness: 26 }
+                    { label: 'Successful', data: data.success || [], backgroundColor: '#2a85ff', borderRadius: 4, maxBarThickness: 22 },
+                    { label: 'Failed', data: data.failed || [], backgroundColor: '#fb2c36', borderRadius: 4, maxBarThickness: 22 }
                 ]
             },
             options: {
                 maintainAspectRatio: false,
                 plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } },
                 scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, grid: { color: 'rgba(148,163,184,.18)' } }
+                    x: { stacked: true, grid: { display: false }, border: { display: false } },
+                    y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#ededed' }, border: { display: false } }
                 }
             }
         });
@@ -285,6 +349,7 @@
         initSizes();
         icons();
         initSidebar();
+        initQuickNav();
         initToasts();
         initConfirm();
         initReveal();

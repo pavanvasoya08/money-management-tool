@@ -6,9 +6,9 @@ $statuses = match ($key) {
     default => [],
 };
 ?>
-<div class="page-head"><div><h1><?= e($result['title']) ?></h1><p><?= e(implode(' · ', $result['meta'])) ?></p></div>
+<div class="card app-card list-card">
+    <div class="list-card-head"><div><h1><?= e($result['title']) ?></h1><p><?= e(implode(' · ', $result['meta'])) ?></p></div>
     <div class="page-actions"><?php if ($canExport): ?><?= $view->partial('partials/export-menu', ['url' => route('partner-reports.export', ['report' => $key])]) ?><?php endif; ?><button class="btn btn-light" type="button" data-print><i data-lucide="printer" class="icon-sm"></i>Print</button></div></div>
-<div class="card app-card">
     <form class="table-toolbar flex-wrap d-print-none" method="get" action="<?= e(route('partner-reports.show', ['report' => $key])) ?>">
         <?php if ($key !== 'balances'): ?><div class="input-icon toolbar-search"><i data-lucide="search"></i><input class="form-control" type="search" name="q" value="<?= e($filters['q']) ?>" placeholder="Search" aria-label="Search"></div><?php endif; ?>
         <?php if ($key !== 'partners'): ?><select class="form-select toolbar-select" name="partner" aria-label="Partner"><option value=""><?= $key === 'ledger' ? 'Choose a partner…' : 'All partners' ?></option><?php foreach ($partners as $p): ?><option value="<?= (int) $p['id'] ?>" <?= (int) $filters['partner'] === (int) $p['id'] ? 'selected' : '' ?>><?= e($p['name']) ?> (<?= e($p['partner_code']) ?>)</option><?php endforeach; ?></select><?php endif; ?>

@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Design tokens + base typography
+   One source of truth for colour, type, radius, spacing and elevation.
+   Values measured from the reference screenshots (docs/UI-REDESIGN.md).
+   Bootstrap 5 variables are mapped onto these tokens so stock components
+   (dropdowns, modals, form checks…) follow the same design.
+   ========================================================================== */
+:root {
+    /* Neutrals */
+    --ui-canvas: #f5f5f5;
+    --ui-surface: #ffffff;
+    --ui-fill: #f5f5f5;          /* filled inputs, grey tiles */
+    --ui-fill-hover: #eeeeee;
+    --ui-border: #e5e5e5;
+    --ui-border-strong: #d4d4d4;
+    --ui-text: #171717;          /* headings, strong text */
+    --ui-text-body: #404040;
+    --ui-text-nav: #525252;
+    --ui-muted: #737373;
+    --ui-placeholder: #a3a3a3;
+
+    /* Brand */
+    --ui-primary: #2a85ff;
+    --ui-primary-hover: #1f6fe0;
+    --ui-primary-active: #1a5fc2;
+    --ui-primary-subtle: #e9f3ff;
+    --ui-primary-ring: rgba(42, 133, 255, .22);
+
+    /* Status */
+    --ui-success: #00bc7d;
+    --ui-success-soft: #a4f4cf;
+    --ui-success-subtle: #dcfcec;
+    --ui-success-text: #007a55;
+    --ui-warning: #fe9a00;
+    --ui-warning-soft: #fee685;
+    --ui-warning-subtle: #fff3ba;
+    --ui-warning-text: #bb4d00;
+    --ui-danger: #fb2c36;
+    --ui-danger-soft: #ffc9c9;
+    --ui-danger-subtle: #fff0ee;
+    --ui-danger-text: #c10007;
+    --ui-info: #2a85ff;
+    --ui-info-subtle: #e9f3ff;
+
+    /* Accent tiles (KPI icons, avatars) */
+    --ui-sky: #b8e6fe;
+    --ui-emerald: #a4f4cf;
+    --ui-purple: #e9d4ff;
+    --ui-amber: #fee685;
+    --ui-rose: #ffccd3;
+    --ui-slate: #e5e5e5;
+
+    /* Shape & elevation */
+    --ui-radius-sm: 8px;
+    --ui-radius: 12px;          /* controls */
+    --ui-radius-lg: 16px;       /* cards, menus, modals */
+    --ui-radius-pill: 999px;
+    --ui-shadow-pop: 0 10px 30px -8px rgba(0, 0, 0, .14), 0 2px 6px rgba(0, 0, 0, .04);
+    --ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, .05);
+
+    /* Sizes */
+    --ui-control-h: 48px;
+    --ui-control-h-sm: 40px;
+    --ui-control-h-xs: 32px;
+    --ui-topbar-h: 64px;
+    --ui-sidebar-w: 290px;
+    --ui-sidebar-mini: 84px;
+    --ui-gutter: 32px;
+
+    /* Spacing scale (4px base) */
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+
+    /* Typography */
+    --ui-font: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --ui-fs-xs: .75rem;    /* 12 */
+    --ui-fs-sm: .8125rem;  /* 13 */
+    --ui-fs: .875rem;      /* 14 */
+    --ui-fs-md: .9375rem;  /* 15 */
+    --ui-fs-lg: 1.125rem;  /* 18 */
+    --ui-fs-xl: 1.25rem;   /* 20 */
+    --ui-fs-2xl: 1.5rem;   /* 24 */
+    --ui-fs-3xl: 2rem;     /* 32 */
+
+    /* Bootstrap mapping */
+    --bs-font-sans-serif: var(--ui-font);
+    --bs-body-font-family: var(--ui-font);
+    --bs-body-font-size: var(--ui-fs);
+    --bs-body-line-height: 1.55;
+    --bs-body-color: var(--ui-text-body);
+    --bs-body-bg: var(--ui-canvas);
+    --bs-emphasis-color: var(--ui-text);
+    --bs-secondary-color: var(--ui-muted);
+    --bs-tertiary-color: var(--ui-placeholder);
+    --bs-border-color: var(--ui-border);
+    --bs-border-radius: var(--ui-radius);
+    --bs-border-radius-sm: var(--ui-radius-sm);
+    --bs-border-radius-lg: var(--ui-radius-lg);
+    --bs-primary: var(--ui-primary);
+    --bs-primary-rgb: 42, 133, 255;
+    --bs-success: var(--ui-success);
+    --bs-success-rgb: 0, 188, 125;
+    --bs-warning: var(--ui-warning);
+    --bs-warning-rgb: 254, 154, 0;
+    --bs-danger: var(--ui-danger);
+    --bs-danger-rgb: 251, 44, 54;
+    --bs-link-color: var(--ui-primary);
+    --bs-link-color-rgb: 42, 133, 255;
+    --bs-link-hover-color: var(--ui-primary-hover);
+    --bs-link-hover-color-rgb: 31, 111, 224;
+    --bs-heading-color: var(--ui-text);
+    --bs-focus-ring-color: var(--ui-primary-ring);
+    --bs-secondary-bg: var(--ui-fill);
+    --bs-tertiary-bg: #fafafa;
+}
+
+/* ---------- Base ---------- */
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: var(--ui-font); background: var(--ui-canvas); color: var(--ui-text-body); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-feature-settings: "cv11", "ss01"; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { color: var(--ui-text); font-weight: 700; letter-spacing: -.01em; }
+h1, .h1 { font-size: var(--ui-fs-2xl); }
+h2, .h2 { font-size: var(--ui-fs-xl); }
+h3, .h3 { font-size: var(--ui-fs-lg); }
+h4, .h4, h5, .h5, h6, .h6 { font-size: var(--ui-fs-md); }
+.h6 { font-size: var(--ui-fs); }
+b, strong, .fw-semibold { color: inherit; }
+.fw-semibold { font-weight: 600 !important; }
+.text-secondary { color: var(--ui-muted) !important; }
+.text-body-emphasis, .text-strong { color: var(--ui-text) !important; }
+.text-success { color: var(--ui-success-text) !important; }
+.text-danger { color: var(--ui-danger) !important; }
+.text-warning { color: var(--ui-warning-text) !important; }
+.small, small { font-size: var(--ui-fs-sm); }
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+code { color: var(--ui-text); background: var(--ui-fill); border-radius: 6px; padding: .1em .35em; font-size: .8em; }
+pre code { background: none; padding: 0; }
+hr { border-color: var(--ui-border); opacity: 1; }
+::selection { background: var(--ui-primary-subtle); }
+:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+.min-w-0 { min-width: 0; }
+.text-prewrap { white-space: pre-wrap; }
+.skip-link { position: absolute; left: 1rem; top: 1rem; z-index: 2000; background: #fff; padding: .5rem 1rem; border-radius: var(--ui-radius); box-shadow: var(--ui-shadow-pop); }
+
+/* Lucide icons */
+[data-lucide], svg.lucide { width: 20px; height: 20px; stroke-width: 1.75; vertical-align: -4px; flex-shrink: 0; }
+.icon-sm, svg.lucide.icon-sm { width: 16px; height: 16px; vertical-align: -3px; }
+.icon-xs, svg.lucide.icon-xs { width: 14px; height: 14px; }
+.icon-xl, svg.lucide.icon-xl { width: 32px; height: 32px; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }

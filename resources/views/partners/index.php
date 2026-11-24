@@ -1,5 +1,6 @@
 <?php $hidden = static fn (string $k): bool => isset($fieldAccess[$k]) && !$fieldAccess[$k]->canView(); ?>
-<div class="page-head">
+<div class="card app-card list-card">
+    <div class="list-card-head">
     <div>
         <h1>Partners</h1>
         <p><?= (int) ($counts['total'] - $counts['archived']) ?> partners · <?= (int) $counts['active'] ?> active<?= $counts['suspended'] ? ' · ' . (int) $counts['suspended'] . ' suspended' : '' ?><?= $counts['archived'] ? ' · ' . (int) $counts['archived'] . ' archived' : '' ?>
@@ -10,8 +11,6 @@
         <?php if (can('partners.create')): ?><a class="btn btn-primary" href="<?= e(route('partners.create')) ?>"><i data-lucide="user-plus" class="icon-sm"></i>Add partner</a><?php endif; ?>
     </div>
 </div>
-
-<div class="card app-card">
     <form class="table-toolbar" method="get" action="<?= e(route('partners.index')) ?>" role="search">
         <div class="input-icon flex-grow-1 toolbar-search"><i data-lucide="search"></i>
             <input class="form-control" type="search" name="q" value="<?= e($filters['q']) ?>" placeholder="Search name, partner ID, email, mobile or city" aria-label="Search partners"></div>

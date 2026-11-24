@@ -49,7 +49,7 @@ $formats = ['d M Y' => '23 Nov 2026', 'd/m/Y' => '23/11/2026', 'd-m-Y' => '23-11
                     <span>Security and access-control settings are managed in the <a href="<?= e(route('admin.security')) ?>">Super Admin Control Center → Security settings</a>.</span></div>
             <?php endif; ?>
             <?php if ($canEdit): ?>
-                <div class="d-flex justify-content-end"><button class="btn btn-primary" type="submit"><i data-lucide="check" class="icon-sm"></i><span class="btn-label">Save settings</span></button></div>
+                <div class="form-actions-bar"><button class="btn btn-primary" type="submit"><i data-lucide="check" class="icon-sm"></i><span class="btn-label">Save settings</span></button></div>
             <?php else: ?>
                 <p class="text-secondary small">You can view but not change settings.</p>
             <?php endif; ?>
@@ -71,7 +71,7 @@ $formats = ['d M Y' => '23 Nov 2026', 'd/m/Y' => '23/11/2026', 'd-m-Y' => '23-11
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
-                <p class="small text-secondary mb-0">Full role &amp; permission management (custom roles, per-user overrides, data and field-level access) is delivered in Phase 2.</p>
+                <p class="small text-secondary mb-0">Custom roles, per-user overrides, data and field-level access are managed in the Control Center.</p>
             </div>
         </div>
         <div class="card app-card">

@@ -12,6 +12,6 @@
                 <option value="">— Start with no permissions —</option>
                 <?php foreach ($roles as $r): if ($r['is_super_admin']) { continue; } ?><option value="<?= (int) $r['id'] ?>"><?= e($r['name']) ?></option><?php endforeach; ?>
             </select></div>
-        <div class="d-flex justify-content-end gap-2"><a class="btn btn-light" href="<?= e(route('admin.roles')) ?>">Cancel</a><button class="btn btn-primary" type="submit"><span class="btn-label">Create role</span></button></div>
+        <div class="form-actions-bar"><a class="btn btn-light" href="<?= e(route('admin.roles')) ?>">Cancel</a><button class="btn btn-primary" type="submit"><span class="btn-label">Create role</span></button></div>
     </div>
 </form>

@@ -3,7 +3,7 @@
 <head>
 <?= $view->partial('partials/head', ['title' => $title ?? '']) ?>
 </head>
-<body class="auth-body">
+<body class="error-body">
 <main class="error-wrap"><?= $content ?></main>
 <?= $view->partial('partials/scripts') ?>
 </body>

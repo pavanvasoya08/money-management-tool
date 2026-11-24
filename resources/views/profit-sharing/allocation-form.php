@@ -20,5 +20,5 @@
         <div class="col-12"><label class="form-label" for="notes">Notes</label><textarea class="form-control" id="notes" name="notes" rows="2" maxlength="5000"><?= e(old('notes', $allocation['notes'] ?? '')) ?></textarea></div>
         <?php if (!$editing && $canAttach): ?><div class="col-md-8"><label class="form-label" for="document">Supporting agreement (optional)</label><input class="form-control<?= invalid('document') ?>" type="file" id="document" name="document" accept=".pdf,.jpg,.jpeg,.png,.webp,.docx"><?= $view->partial('partials/field-error', ['field' => 'document']) ?></div><?php endif; ?>
     </div></div>
-    <div class="d-flex justify-content-end gap-2"><a class="btn btn-light" href="<?= e(route('profit-sharing.show', ['id' => $arrangement['id']])) ?>">Cancel</a><button class="btn btn-primary" type="submit"><span class="btn-label">Save allocation</span></button></div>
+    <div class="form-actions-bar"><a class="btn btn-light" href="<?= e(route('profit-sharing.show', ['id' => $arrangement['id']])) ?>">Cancel</a><button class="btn btn-primary" type="submit"><span class="btn-label">Save allocation</span></button></div>
 </form>

@@ -1,4 +1,5 @@
-<div class="page-head">
+<div class="card app-card list-card">
+    <div class="list-card-head">
     <div>
         <h1>Users</h1>
         <p><?= (int) $counts['total'] ?> registered · <?= (int) $counts['active'] ?> active · <?= (int) $counts['inactive'] ?> inactive<?= $counts['suspended'] ? ' · ' . (int) $counts['suspended'] . ' suspended' : '' ?>
@@ -10,8 +11,6 @@
         <?php if (can('users.create')): ?><a class="btn btn-primary" href="<?= e(route('users.create')) ?>"><i data-lucide="user-plus" class="icon-sm"></i>Create user</a><?php endif; ?>
     </div>
 </div>
-
-<div class="card app-card">
     <form class="table-toolbar" method="get" action="<?= e(route('users.index')) ?>" role="search">
         <div class="input-icon flex-grow-1 toolbar-search">
             <i data-lucide="search"></i>
@@ -40,7 +39,7 @@
     <?php else: ?>
     <div class="table-responsive">
         <table class="table app-table table-hover mb-0 table-stack">
-            <thead><tr><th>User</th><th>Roles</th><th>Status</th><th>Last sign-in</th><th class="d-none d-lg-table-cell">Created</th><th class="text-end">Actions</th></tr></thead>
+            <thead><tr><th>User</th><th>Roles</th><th>Status</th><th>Last sign-in</th><th class="d-none d-xxl-table-cell">Created</th><th class="text-end col-actions">Actions</th></tr></thead>
             <tbody>
             <?php foreach ($users->items as $u): ?>
                 <tr>
@@ -53,7 +52,7 @@
                     <td data-label="Roles"><?= $view->partial('partials/role-badges', ['roles' => $u['roles']]) ?></td>
                     <td data-label="Status"><?= $view->partial('partials/status-badge', ['user' => $u]) ?><?php if ((int) $u['must_change_password'] === 1): ?> <span class="badge rounded-pill badge-soft-secondary" title="Must change password at next sign-in">Temp password</span><?php endif; ?></td>
                     <td data-label="Last sign-in"><span title="<?= e(format_datetime($u['last_login_at'])) ?>"><?= e(time_ago($u['last_login_at'])) ?></span></td>
-                    <td data-label="Created" class="d-none d-lg-table-cell"><?= e(format_datetime($u['created_at'], false)) ?></td>
+                    <td data-label="Created" class="d-none d-xxl-table-cell"><?= e(format_datetime($u['created_at'], false)) ?></td>
                     <td class="text-end text-nowrap">
                         <a class="btn btn-sm btn-light" href="<?= e(route('users.show', ['id' => $u['id']])) ?>">View</a>
                         <?php if (\App\Core\App::gate()->isSuperAdmin(auth_user())): ?><a class="btn btn-sm btn-light" href="<?= e(route('admin.users.show', ['id' => $u['id']])) ?>" title="Control Center"><i data-lucide="shield-check" class="icon-sm"></i></a><?php endif; ?>

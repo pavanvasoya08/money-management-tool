@@ -3,11 +3,12 @@ $fieldOptions = ['visible' => 'Visible', 'hidden' => 'Hidden', 'masked' => 'Mask
 $stateTone = ['active' => 'success', 'inactive' => 'secondary', 'suspended' => 'warning', 'expired' => 'warning', 'deleted' => 'danger'][$state];
 $locked = $isSelf || $targetIsSuper;
 ?>
-<div class="page-head">
+<div class="card app-card tabs-card mb-4">
+<div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
     <div class="d-flex align-items-center gap-3">
         <span class="avatar avatar-lg"><?= e(initials($target['name'])) ?></span>
         <div>
-            <h1 class="mb-1"><?= e($target['name']) ?> <span class="badge badge-soft-<?= e($stateTone) ?> align-middle"><?= e(ucfirst($state)) ?></span>
+            <h1 class="h3 mb-1"><?= e($target['name']) ?> <span class="badge badge-soft-<?= e($stateTone) ?> align-middle"><?= e(ucfirst($state)) ?></span>
                 <?php if ($targetIsSuper): ?><span class="badge text-bg-dark align-middle">Super Admin</span><?php endif; ?>
                 <?php if ($isSelf): ?><span class="badge badge-soft-primary align-middle">You</span><?php endif; ?></h1>
             <p class="mb-0"><?= e($target['email']) ?> · <?= $view->partial('partials/role-badges', ['roles' => $roles]) ?></p>
@@ -18,14 +19,15 @@ $locked = $isSelf || $targetIsSuper;
         <a class="btn btn-light" href="<?= e(route('users.show', ['id' => $target['id']])) ?>"><i data-lucide="user" class="icon-sm"></i>Basic profile</a>
     </div>
 </div>
-<?php if ($isSelf): ?><div class="alert alert-warning small">This is your own account. You cannot change your own permissions, data visibility, field access, status or restrictions — ask another Super Admin.</div><?php endif; ?>
-<?php if ($targetIsSuper && !$isSelf): ?><div class="alert alert-info small">Super Admins have unrestricted access; overrides do not apply to them. Remove the Super Admin role first to restrict this account.</div><?php endif; ?>
-
-<ul class="nav nav-tabs app-tabs mb-3">
+<ul class="nav app-tabs">
     <?php foreach ($tabs as $key => $label): ?>
         <li class="nav-item"><a class="nav-link <?= $tab === $key ? 'active' : '' ?>" href="<?= e(route('admin.users.show', ['id' => $target['id'], 'tab' => $key])) ?>"><?= e($label) ?></a></li>
     <?php endforeach; ?>
 </ul>
+</div>
+<?php if ($isSelf): ?><div class="alert alert-warning small">This is your own account. You cannot change your own permissions, data visibility, field access, status or restrictions — ask another Super Admin.</div><?php endif; ?>
+<?php if ($targetIsSuper && !$isSelf): ?><div class="alert alert-info small">Super Admins have unrestricted access; overrides do not apply to them. Remove the Super Admin role first to restrict this account.</div><?php endif; ?>
+
 
 <?php if ($tab === 'personal'): ?>
 <div class="row g-3">

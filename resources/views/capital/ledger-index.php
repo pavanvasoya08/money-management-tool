@@ -1,6 +1,6 @@
-<div class="page-head"><div><h1>Capital balances</h1><p><?= e($report['meta'][0] ?? '') ?></p></div>
+<div class="card app-card list-card">
+    <div class="list-card-head"><div><h1>Capital balances</h1><p><?= e($report['meta'][0] ?? '') ?></p></div>
     <div class="page-actions"><?php if (can('partner_reports.export') && can('capital_ledger.export')): ?><?= $view->partial('partials/export-menu', ['url' => route('partner-reports.export', ['report' => 'balances'])]) ?><?php endif; ?></div></div>
-<div class="card app-card">
     <form class="table-toolbar" method="get" action="<?= e(route('capital.ledger.index')) ?>">
         <label class="small text-secondary" for="as-of">As of</label><input class="form-control toolbar-select" type="date" id="as-of" name="to" value="<?= e($filters['to']) ?>" max="<?= e(\App\Support\BusinessDate::today()) ?>">
         <select class="form-select toolbar-select" name="status" aria-label="Partner status"><option value="">All partners</option><?php foreach (\App\Services\Partners\PartnerService::STATUSES as $k => $l): ?><option value="<?= e($k) ?>" <?= $filters['status'] === $k ? 'selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select>

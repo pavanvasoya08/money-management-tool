@@ -77,7 +77,7 @@ $hiddenField = static fn (string $f): bool => $editing && isset($fa[$f]) && !$fa
     </div>
     <?php endif; ?>
 
-    <div class="d-flex gap-2 justify-content-end">
+    <div class="form-actions-bar">
         <a class="btn btn-light" href="<?= e($editing ? route('users.show', ['id' => $target['id']]) : route('users.index')) ?>">Cancel</a>
         <button class="btn btn-primary" type="submit"><i data-lucide="check" class="icon-sm"></i><span class="btn-label"><?= $editing ? 'Save changes' : 'Create user' ?></span></button>
     </div>

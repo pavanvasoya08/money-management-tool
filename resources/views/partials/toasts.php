@@ -8,7 +8,7 @@ $icons = ['success' => 'circle-check', 'error' => 'circle-alert', 'warning' => '
         <div class="d-flex align-items-start gap-2 p-3">
             <i data-lucide="<?= e($icons[$type]) ?>" class="flex-shrink-0 mt-1"></i>
             <div class="flex-grow-1"><?= e($toast['message']) ?></div>
-            <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 <?php endif; ?>

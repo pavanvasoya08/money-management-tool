@@ -1,14 +1,12 @@
-<div class="page-head">
-    <div>
-        <h1>My profile</h1>
-        <p>Your account details, access and recent sign-ins.</p>
-    </div>
-    <div class="page-actions"><a class="btn btn-primary" href="<?= e(route('account.password')) ?>"><i data-lucide="key-round" class="icon-sm"></i>Change password</a></div>
-</div>
-<div class="row g-3">
-    <div class="col-lg-5">
-        <div class="card app-card h-100">
-            <div class="card-body p-4">
+<div class="page-head"><div><h1>Settings</h1><p>Your account details, access and recent sign-ins.</p></div></div>
+<div class="card app-card settings-card">
+    <?= $view->partial('account/_menu', ['active' => 'profile']) ?>
+    <div class="settings-body">
+<h2 class="card-section-title">Personal information</h2>
+<div class="row g-4">
+    <div class="col-xl-6">
+        <div>
+            <div>
                 <div class="d-flex align-items-center gap-3 mb-4">
                     <span class="avatar avatar-lg"><?= e(initials($profile['name'])) ?></span>
                     <div>
@@ -26,10 +24,10 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-7">
-        <div class="card app-card h-100">
-            <div class="card-header"><i data-lucide="shield-check" class="icon-sm"></i> My permissions</div>
-            <div class="card-body">
+    <div class="col-xl-6">
+        <div>
+            <h3 class="h6 text-secondary text-uppercase mb-3">My permissions</h3>
+            <div>
                 <?php if ($isSuperAdmin): ?>
                     <p class="mb-0"><span class="badge text-bg-dark">Super Admin</span> You have unrestricted access to every module.</p>
                 <?php elseif ($permissions === []): ?>
@@ -41,9 +39,11 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="card app-card">
-            <div class="card-header"><i data-lucide="history" class="icon-sm"></i> My recent sign-ins</div>
+        <div class="app-card">
+            <div class="card-header">My recent sign-ins</div>
             <?= $view->partial('users/_logins-table', ['logins' => $logins, 'showUser' => false]) ?>
         </div>
+    </div>
+</div>
     </div>
 </div>

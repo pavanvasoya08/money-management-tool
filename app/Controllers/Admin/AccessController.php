@@ -196,7 +196,7 @@ final class AccessController extends AdminController
             if (($item['active'] ?? '') === 'admin') {
                 $visible = $gate->isSuperAdmin($target) && AccountState::usable($target);
             }
-            $nav[] = ['label' => $item['label'], 'icon' => $item['icon'], 'visible' => $visible, 'future' => $item['route'] === null, 'phase' => $item['phase'] ?? null,
+            $nav[] = ['label' => $item['title'] ?? $item['label'], 'icon' => $item['icon'], 'visible' => $visible, 'future' => $item['route'] === null, 'phase' => $item['phase'] ?? null,
                 'future_access' => $item['route'] === null && isset($item['module']) ? $gate->allows($target, $item['module'] . '.view') : null];
         }
 

@@ -5,24 +5,13 @@
 <?= $view->partial('partials/head', ['title' => $title ?? '']) ?>
 </head>
 <body class="auth-body">
-<div class="auth-wrap">
-    <section class="auth-brand" aria-hidden="true">
-        <div class="brand-mark lg"><?= e(initials($appName)) ?></div>
-        <h1><?= e($appName) ?></h1>
-        <p>Business finance &amp; e-commerce management for multi-partner firms.</p>
-        <ul class="auth-points">
-            <li><i data-lucide="shield-check"></i>Role-based access control</li>
-            <li><i data-lucide="scroll-text"></i>Complete audit trail</li>
-            <li><i data-lucide="lock-keyhole"></i>Encrypted, secure sessions</li>
-        </ul>
-    </section>
-    <main class="auth-panel">
-        <div class="auth-card">
-            <?= $content ?>
-        </div>
-        <p class="auth-foot">&copy; <?= gmdate('Y') ?> <?= e(setting('company_name', '') ?: $appName) ?></p>
-    </main>
-</div>
+<main class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-logo"><span class="brand-mark" aria-hidden="true"><?= e(initials($appName)) ?></span><span><?= e($appName) ?></span></div>
+        <?= $content ?>
+        <p class="auth-foot">&copy; <?= gmdate('Y') ?> <?= e(setting('company_name', '') ?: $appName) ?> · Accounts are created by an administrator.</p>
+    </div>
+</main>
 <?= $view->partial('partials/toasts') ?>
 <?= $view->partial('partials/scripts') ?>
 </body>

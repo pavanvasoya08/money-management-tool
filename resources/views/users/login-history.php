@@ -1,10 +1,10 @@
-<div class="page-head">
+<div class="card app-card list-card">
+    <div class="list-card-head">
     <div>
         <h1>Login history</h1>
         <p>Every sign-in attempt, successful or failed, with IP address and device.</p>
     </div>
 </div>
-<div class="card app-card">
     <form class="table-toolbar" method="get" action="<?= e(route('users.login-history')) ?>" role="search">
         <div class="input-icon flex-grow-1 toolbar-search">
             <i data-lucide="search"></i>

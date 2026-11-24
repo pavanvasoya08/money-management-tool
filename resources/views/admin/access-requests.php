@@ -1,6 +1,6 @@
-<div class="page-head"><div><h1>Access requests</h1><p>Users can request a permission from the “Access denied” page<?= $enabled ? '.' : ' once enabled in Security settings.' ?></p></div></div>
-<?php if (!$enabled): ?><div class="alert alert-secondary">Access requests are <b>disabled</b>. Enable them in <a href="<?= e(route('admin.security')) ?>">Security settings</a>.</div><?php endif; ?>
-<div class="card app-card">
+<?php if (!$enabled): ?><div class="alert mb-4 alert-secondary">Access requests are <b>disabled</b>. Enable them in <a href="<?= e(route('admin.security')) ?>">Security settings</a>.</div><?php endif; ?>
+<div class="card app-card list-card">
+<div class="list-card-head"><div><h1>Access requests</h1><p>Users can request a permission from the “Access denied” page<?= $enabled ? '.' : ' once enabled in Security settings.' ?></p></div></div>
     <?php if ($requests === []): ?><?= $view->partial('partials/empty', ['icon' => 'hand', 'text' => 'No access requests.']) ?><?php else: ?>
     <div class="table-responsive"><table class="table app-table mb-0 table-stack"><thead><tr><th>User</th><th>Permission</th><th>Reason</th><th>Status</th><th>Decision</th></tr></thead><tbody>
     <?php foreach ($requests as $r): ?><tr>

@@ -4,42 +4,22 @@ $canRoles = can('users.assign_roles', $target) && !$isSelf;
 $canStatus = can('users.change_status', $target) && !$isSelf;
 $canReset = can('users.reset_password', $target) && !$isSelf;
 ?>
-<div class="page-head">
-    <div class="d-flex align-items-center gap-3">
-        <span class="avatar avatar-lg"><?= e(initials($target['name'])) ?></span>
-        <div>
-            <h1 class="mb-1"><?= e($target['name']) ?> <?php if ($isSelf): ?><span class="badge badge-soft-primary align-middle">You</span><?php endif; ?></h1>
- <p class="mb-0"><?= array_key_exists('email', $target) ? e($target['email']) : '<i>email hidden</i>' ?> · <?= $view->partial('partials/status-badge', ['user' => $target]) ?></p>
-        </div>
-    </div>
-    <div class="page-actions">
-        <?php if (\App\Core\App::gate()->isSuperAdmin(auth_user())): ?><a class="btn btn-dark" href="<?= e(route('admin.users.show', ['id' => $target['id']])) ?>"><i data-lucide="shield-check" class="icon-sm"></i>Control Center</a><?php endif; ?>
-        <?php if ($canEdit): ?><a class="btn btn-light" href="<?= e(route('users.edit', ['id' => $target['id']])) ?>"><i data-lucide="pencil" class="icon-sm"></i>Edit details</a><?php endif; ?>
-        <?php if ($canStatus): ?>
-            <form method="post" action="<?= e(route('users.status', ['id' => $target['id']])) ?>" class="d-inline"
-                  data-confirm="<?= $target['status'] === 'active' ? e('Deactivate ' . $target['name'] . '? They will be signed out of all devices and cannot sign in until reactivated.') : e('Activate ' . $target['name'] . '? They will be able to sign in again.') ?>"
-                  data-confirm-button="<?= $target['status'] === 'active' ? 'Deactivate' : 'Activate' ?>" data-confirm-variant="<?= $target['status'] === 'active' ? 'danger' : 'success' ?>">
-                <?= csrf_field() ?>
-                <input type="hidden" name="status" value="<?= $target['status'] === 'active' ? 'inactive' : 'active' ?>">
-                <?php if ($target['status'] === 'active'): ?>
-                    <button class="btn btn-outline-danger" type="submit"><i data-lucide="user-x" class="icon-sm"></i>Deactivate</button>
-                <?php else: ?>
-                    <button class="btn btn-success" type="submit"><i data-lucide="user-check" class="icon-sm"></i>Activate</button>
-                <?php endif; ?>
-            </form>
-        <?php endif; ?>
-    </div>
-</div>
-
 <?php if ($isSelf): ?>
     <div class="alert alert-info d-flex gap-2 align-items-center"><i data-lucide="info" class="flex-shrink-0"></i>This is your own account. For security, your roles and status can only be changed by another administrator.</div>
 <?php endif; ?>
 
-<div class="row g-3">
-    <div class="col-lg-4">
-        <div class="card app-card mb-3">
-            <div class="card-header"><i data-lucide="id-card" class="icon-sm"></i> Account</div>
-            <div class="card-body">
+<div class="row g-4">
+    <div class="col-lg-4 col-xxl-3">
+        <div class="card app-card profile-card mb-3">
+            <div class="profile-top">
+                <span class="avatar avatar-xl"><?= e(initials($target['name'])) ?></span>
+                <div>
+                    <h1><?= e($target['name']) ?> <?php if ($isSelf): ?><span class="badge badge-soft-primary align-middle">You</span><?php endif; ?></h1>
+                    <div class="sub"><?= array_key_exists('email', $target) ? e($target['email']) : '<i>email hidden</i>' ?></div>
+                    <div class="mt-2"><?= $view->partial('partials/status-badge', ['user' => $target]) ?></div>
+                </div>
+            </div>
+            <div>
                 <dl class="detail-list mb-0">
                     <dt>Phone</dt><dd><?= array_key_exists('phone', $target) ? e($target['phone'] ?: '—') : '<span class="text-secondary">Hidden</span>' ?></dd>
                     <dt>Last sign-in</dt><dd><?= e(format_datetime($target['last_login_at'])) ?><?php if (!empty($target['last_login_ip'])): ?><div class="small text-secondary"><?= e($target['last_login_ip']) ?></div><?php endif; ?></dd>
@@ -49,6 +29,23 @@ $canReset = can('users.reset_password', $target) && !$isSelf;
                     <?php if ($target['deactivated_at']): ?><dt>Deactivated</dt><dd><?= e(format_datetime($target['deactivated_at'])) ?></dd><?php endif; ?>
                 </dl>
             </div>
+            <div class="profile-actions">
+        <?php if (\App\Core\App::gate()->isSuperAdmin(auth_user())): ?><a class="btn btn-dark btn-lg" href="<?= e(route('admin.users.show', ['id' => $target['id']])) ?>"><i data-lucide="shield-check" class="icon-sm"></i>Control Center</a><?php endif; ?>
+        <?php if ($canEdit): ?><a class="btn btn-light btn-lg" href="<?= e(route('users.edit', ['id' => $target['id']])) ?>"><i data-lucide="pencil" class="icon-sm"></i>Edit details</a><?php endif; ?>
+        <?php if ($canStatus): ?>
+            <form method="post" action="<?= e(route('users.status', ['id' => $target['id']])) ?>" class="d-grid"
+                  data-confirm="<?= $target['status'] === 'active' ? e('Deactivate ' . $target['name'] . '? They will be signed out of all devices and cannot sign in until reactivated.') : e('Activate ' . $target['name'] . '? They will be able to sign in again.') ?>"
+                  data-confirm-button="<?= $target['status'] === 'active' ? 'Deactivate' : 'Activate' ?>" data-confirm-variant="<?= $target['status'] === 'active' ? 'danger' : 'success' ?>">
+                <?= csrf_field() ?>
+                <input type="hidden" name="status" value="<?= $target['status'] === 'active' ? 'inactive' : 'active' ?>">
+                <?php if ($target['status'] === 'active'): ?>
+                    <button class="btn btn-outline-danger btn-lg" type="submit"><i data-lucide="user-x" class="icon-sm"></i>Deactivate</button>
+                <?php else: ?>
+                    <button class="btn btn-success btn-lg" type="submit"><i data-lucide="user-check" class="icon-sm"></i>Activate</button>
+                <?php endif; ?>
+            </form>
+        <?php endif; ?>
+    </div>
         </div>
 
         <?php if ($canReset): ?>
@@ -81,7 +78,7 @@ $canReset = can('users.reset_password', $target) && !$isSelf;
         <?php endif; ?>
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-xxl-9">
         <div class="card app-card mb-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span><i data-lucide="shield-check" class="icon-sm"></i> Roles</span>
@@ -96,7 +93,7 @@ $canReset = can('users.reset_password', $target) && !$isSelf;
                         <?= $view->partial('users/_role-picker', ['roles' => $roles, 'selected' => $selectedRoles]) ?>
                         <?= $view->partial('partials/field-error', ['field' => 'roles']) ?>
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="small text-secondary">Detailed module/action permissions per role arrive in Phase 2.</span>
+                            <span class="small text-secondary">Module, action, record and field permissions are managed in the Control Center.</span>
                             <button class="btn btn-primary btn-sm" type="submit"><span class="btn-label">Save roles</span></button>
                         </div>
                     </form>

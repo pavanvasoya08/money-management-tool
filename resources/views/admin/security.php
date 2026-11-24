@@ -14,5 +14,5 @@
         <?php endforeach; ?>
     </div></div></div>
     <?php endforeach; ?>
-    <div class="text-end"><button class="btn btn-primary" type="submit"><span class="btn-label">Save security settings</span></button></div>
+    <div class="form-actions-bar"><button class="btn btn-primary" type="submit"><span class="btn-label">Save security settings</span></button></div>
 </form>

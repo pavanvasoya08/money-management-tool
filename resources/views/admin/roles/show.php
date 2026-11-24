@@ -2,19 +2,21 @@
 $isSuperRole = (bool) $role['is_super_admin'];
 $fieldOptions = ['visible' => 'Visible', 'hidden' => 'Hidden', 'masked' => 'Masked', 'read_only' => 'Read only', 'editable' => 'Editable'];
 ?>
-<div class="page-head">
+<div class="card app-card tabs-card mb-4">
+<div class="card-body">
     <div>
-        <h1><?= e($role['name']) ?>
+        <h1 class="h3"><?= e($role['name']) ?>
             <?php if ($isSuperRole): ?><span class="badge text-bg-dark align-middle">Super Admin</span><?php elseif ($role['is_system']): ?><span class="badge badge-soft-primary align-middle">System role</span><?php else: ?><span class="badge badge-soft-success align-middle">Custom role</span><?php endif; ?>
         </h1>
-        <p><?= e($role['description'] ?? '') ?></p>
+        <p class="text-secondary mb-0"><?= e($role['description'] ?? '') ?></p>
     </div>
 </div>
-<ul class="nav nav-tabs app-tabs mb-3" role="tablist">
+<ul class="nav app-tabs" role="tablist">
     <?php foreach ($tabs as $key => $label): ?>
         <li class="nav-item"><a class="nav-link <?= $tab === $key ? 'active' : '' ?>" href="<?= e(route('admin.roles.show', ['id' => $role['id'], 'tab' => $key])) ?>"><?= e($label) ?></a></li>
     <?php endforeach; ?>
 </ul>
+</div>
 
 <?php if ($tab === 'permissions'): ?>
     <?php if ($isSuperRole): ?>

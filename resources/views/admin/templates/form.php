@@ -30,5 +30,5 @@
                     <?php foreach (\App\Controllers\Admin\AdminUserController::scopeOptions($k) as $v => $l): ?><option value="<?= e($v) ?>" <?= ($scopes[$k] ?? '') === $v ? 'selected' : '' ?>><?= e($l) ?></option><?php endforeach; ?></select></td></tr><?php endforeach; ?>
         </tbody></table></div>
     </details>
-    <div class="text-end"><button class="btn btn-primary" type="submit"><span class="btn-label"><?= $template ? 'Save template' : 'Create template' ?></span></button></div>
+    <div class="form-actions-bar"><button class="btn btn-primary" type="submit"><span class="btn-label"><?= $template ? 'Save template' : 'Create template' ?></span></button></div>
 </form>

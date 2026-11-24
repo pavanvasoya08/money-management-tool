@@ -1,15 +1,12 @@
-<div class="page-head">
-    <div>
-        <h1>Change password</h1>
-        <p>Changing your password signs you out of other remembered devices.</p>
-    </div>
-</div>
+<div class="page-head"><div><h1>Settings</h1><p>Changing your password signs you out of other remembered devices.</p></div></div>
 <?php if ($forced): ?>
     <div class="alert alert-warning d-flex gap-2 align-items-start"><i data-lucide="triangle-alert" class="flex-shrink-0"></i>
         <div>You are using a temporary password. Please set your own password to continue.</div></div>
 <?php endif; ?>
-<div class="card app-card form-narrow">
-    <div class="card-body p-4">
+<div class="card app-card settings-card<?= $forced ? ' no-menu' : '' ?>">
+    <?php if (!$forced): ?><?= $view->partial('account/_menu', ['active' => 'security']) ?><?php endif; ?>
+    <div class="settings-body form-narrow">
+        <h2 class="card-section-title">Change password</h2>
         <form method="post" action="<?= e(route('account.password.update')) ?>" novalidate data-loading>
             <?= csrf_field() ?>
             <div class="mb-3">
@@ -28,7 +25,7 @@
                 <label class="form-label" for="password_confirmation">Confirm new password</label>
                 <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" autocomplete="new-password" required>
             </div>
-            <div class="d-flex gap-2 justify-content-end">
+            <div class="d-flex gap-2 justify-content-end mt-2">
                 <?php if (!$forced): ?><a class="btn btn-light" href="<?= e(route('account.profile')) ?>">Cancel</a><?php endif; ?>
                 <button class="btn btn-primary" type="submit"><i data-lucide="check" class="icon-sm"></i><span class="btn-label">Update password</span></button>
             </div>

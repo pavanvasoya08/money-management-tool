@@ -50,8 +50,8 @@ $amount = $editing ? \App\Support\Money::toDb(\App\Support\Money::fromDb($entry[
             <div class="col-md-5"><label class="form-label" for="document_title">Document title</label><input class="form-control" id="document_title" name="document_title" maxlength="150"></div>
         <?php endif; ?>
     </div></div>
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span class="small text-secondary"><?= $workflow['is_active'] ? 'Approval workflow is active for this register.' : 'The approval workflow is inactive: submissions are approved automatically and still need posting.' ?></span>
+    <div class="form-actions-bar">
+        <span class="hint"><?= $workflow['is_active'] ? 'Approval workflow is active for this register.' : 'The approval workflow is inactive: submissions are approved automatically and still need posting.' ?></span>
         <div class="d-flex gap-2">
             <a class="btn btn-light" href="<?= e($editing ? route($prefix . '.show', ['id' => $entry['id']]) : route($prefix . '.index')) ?>">Cancel</a>
             <button class="btn btn-outline-primary" type="submit" name="then" value="draft"><span class="btn-label">Save draft</span></button>
