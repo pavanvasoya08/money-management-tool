@@ -1,0 +1,37 @@
+title: Understanding the initial roles
+slug: understanding-the-initial-roles
+section: Initial roles
+featured: yes
+keywords: roles super admin partner accountant manager viewer what can each role do default access
+related: role-management, permission-matrix, creating-a-user
+summary: The five built-in roles and what they are generally for.
+=== what
+A **role** is a named set of permissions. Five roles come with the ERP:
+
+| Role | General purpose |
+|---|---|
+| **Super Admin** | Unrestricted access to everything, including the Control Center. Can only be granted by another Super Admin. |
+| **Accountant** | Accounting staff. By default works on **assigned** partners: views them, records contributions and withdrawals as drafts and submits them, and views and exports their ledgers and reports. Cannot change partner profiles or post entries by default. |
+| **Manager** | Operations manager. By default reads users and activity and sees the partner directory with PAN masked, but no capital figures and no profit sharing. |
+| **Partner** | A business partner's own login. Sees only **their own** partner profile, financial summary, documents, contributions, withdrawals and ledger, read-only. |
+| **Viewer** | Read-only access to the dashboard. |
+=== why
+Roles make access consistent: give a person the role that matches their job instead of picking permissions one by one.
+=== who
+Administrators assign roles; everyone works within them.
+=== step: See a role's permissions
+Super Admins open **Control Center → Role management** and click **Matrix** on a role.
+=== step: Assign roles to a user
+In **User Management → View user → Roles**, tick the roles and click **Save roles**.
+=== example: Same module, different roles
+Neha (Accountant, assigned to Priya and Vikram) and Rohan (Partner login) both open **Partners**. Neha sees Priya Nair and Vikram Singh; Rohan sees only his own record, Rohan Mehta.
+=== result
+You know what each built-in role is meant for.
+=== notes
+- The table above describes the **defaults**. Actual access depends on how your Super Admin configured each role, plus any user-specific overrides, data visibility and field rules. Always check **Settings → Profile → My permissions** for your own access.
+- A user can hold several roles; they get the combined permissions (unless a Deny override blocks something).
+- Custom roles can be created in the Control Center.
+=== mistakes
+- Assuming the role name alone tells you what someone can do. The configuration decides.
+=== faq: Can a role be renamed or deleted?
+Custom roles can be renamed or deleted. System roles cannot be deleted, but their permissions can be changed or the role disabled.

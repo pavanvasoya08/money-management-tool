@@ -1,0 +1,26 @@
+title: Understanding login activity
+slug: login-activity-and-history
+section: Security & activity
+keywords: login history sign-in attempts failed success ip device locked throttled
+related: activity-log, sessions-and-account-lockout, login-sessions-and-revoking
+summary: Review every sign-in attempt, successful or failed.
+=== what
+**Login history** lists every sign-in attempt with time, user or email, result (**Success** or **Failed**, with the reason for failures: *invalid credentials*, *locked*, *throttled* or *access restricted*), IP address and device. You can filter by result. Each user's profile shows their own recent sign-ins; **User Management → Login history** shows all users.
+=== why
+Repeated failures, unusual IP addresses or odd hours can reveal a guessing attack or a shared password.
+=== who
+Users with **users.view_login_history** for everyone's history; every user for their own (in **Settings → Profile**).
+=== step: Open Login history | login-history
+In **User Management** click **Login history**, or use the dashboard's **Recent login activity** card.
+=== step: Read the results
+Look for clusters of failures against one account, or sign-ins from places you do not expect.
+=== example: A guessing attempt
+Five *Failed · invalid credentials* rows for `priya@example.com` within two minutes, followed by *Failed · locked*, show that someone tried to guess Priya's password. The administrator asks Priya to change it and checks active sessions.
+=== result
+You can tell normal sign-ins from suspicious ones.
+=== notes
+- Failed attempts for unknown emails are also recorded.
+=== mistakes
+- Ignoring repeated failures because the account was not breached; they are an early warning.
+=== faq: How long is history kept?
+It is never deleted by the application.

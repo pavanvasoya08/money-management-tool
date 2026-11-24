@@ -1,0 +1,39 @@
+title: Audit logs & permission changes
+slug: audit-logs-and-permission-changes
+section: User access & audit
+keywords: audit log old value new value permission change history who changed filter actor affected user role
+related: activity-log, user-permission-overrides, control-center-overview
+summary: Track every administrative change with its old and new values.
+=== what
+**Audit logs** record every administrative change with: who did it (actor), the affected user and/or role, the module, the subject, **old and new values**, the IP address, the browser and the time. Examples: permission overrides, role permission changes, data scope and field rule changes, resource assignments, workflow changes, user status changes, partner and capital actions, and help-guide changes.
+
+You can filter by actor, affected user, affected role, module, action (prefix such as `permission.`), date range and text, and open any entry.
+=== why
+For accountability: you can always show who changed access, when, and from what to what.
+=== who
+Super Admins. (The general **Activity log** is available to users with activity-log permission.)
+=== step: Open Audit logs | audit
+In the Control Center click **Audit logs**.
+=== step: Filter
+Choose filters and click **Filter**. For permission changes, type `permission` in **Action starts with**.
+=== step: Open an entry | audit-entry
+Click an entry to see **Old value** and **New value** side by side.
+=== example: Reading a permission change
+| | Value |
+|---|---|
+| Action | permission.override_changed |
+| By | Asha Verma |
+| Affected | Karan Patel |
+| Old value | `{"partners.export": "inherit"}` |
+| New value | `{"partners.export": "deny"}` |
+
+Karan's export permission was changed from inherited to denied by Asha.
+=== result
+You can explain any access change.
+=== notes
+- Entries cannot be edited or deleted.
+- Secrets are never stored; sensitive values such as PAN are masked in audit values.
+=== mistakes
+- Searching only the Activity log for permission details; the full before/after values are here.
+=== faq: How far back does the audit log go?
+To the first recorded change; nothing is deleted by the application.

@@ -1,0 +1,28 @@
+title: Activating and deactivating users
+slug: activating-and-deactivating-users
+section: User management
+keywords: deactivate disable block leaver activate enable user status inactive sign out
+related: editing-users-and-roles, advanced-user-management, sessions-and-account-lockout
+summary: Switch an account off (and back on) without losing its history.
+=== what
+Deactivating an account stops the person from signing in and signs them out on their next request. All their history stays in place. Activating it again restores access with the same roles.
+=== why
+For leavers, long leave, or when an account may be compromised.
+=== who
+Users with **users.change_status**.
+=== step: Open the user's profile | user-profile
+In **User Management**, click **View** on the user.
+=== step: Click Deactivate (or Activate)
+Confirm in the dialog. The status badge changes immediately.
+=== example: An employee leaves
+Karan's last day is Friday. At 6 pm the administrator deactivates his account. Karan's open browser session ends on his next click, and his past activity remains in the logs.
+=== result
+Inactive users cannot sign in; active users can.
+=== notes
+- You cannot deactivate yourself, and the last active Super Admin cannot be deactivated.
+- For temporary blocks with an end date, Super Admins can **suspend** an account instead. See **Advanced user management**.
+- Deleting a user is a separate Control Center action and requires the account to be inactive first.
+=== mistakes
+- Deleting an account when deactivation is enough. Deactivation is reversible and keeps everything.
+=== faq: Does deactivation remove the user's roles?
+No. Roles are kept and work again if the account is reactivated.

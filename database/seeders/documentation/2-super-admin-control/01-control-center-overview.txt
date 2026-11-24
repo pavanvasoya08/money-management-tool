@@ -1,0 +1,39 @@
+title: The Super Admin Control Center
+slug: control-center-overview
+section: Super Admin dashboard
+featured: yes
+keywords: control center admin super admin overview statistics permissions dashboard administration
+related: advanced-user-management, role-management, audit-logs-and-permission-changes
+summary: Where Super Admins control who can access which modules, actions, records and fields.
+=== what
+The **Control Center** is the administration area for Super Admins. Its left menu has 14 sections: Overview, User management, Role management, Module permissions, Action permissions, Data visibility, Field visibility, Resource assignments, Approval workflows, Permission templates, User access preview, Login sessions, Audit logs and Security settings.
+
+The **Overview** page shows:
+
+- **User statistics**: registered, active, inactive and suspended users.
+- **Permission information**: total and custom roles, active permission assignments, users with restricted access (overrides or restrictions), and pending access requests.
+- **Activity**: active sessions, pending approvals and active workflows, recent permission changes and recent administrative activity.
+- **Quick actions**: Create user, Create role, Manage permissions, Manage data visibility, Manage field access, Manage approval workflows, View audit logs, Preview user access.
+=== why
+It is the single place to decide and review access. Every change applies immediately and is audited with old and new values.
+=== who
+Only real Super Admins. Control Center permissions cannot be granted to any other role, override or template, so nobody can raise their own access.
+=== prerequisites
+- The Super Admin role.
+=== step: Open the Control Center | cc-overview
+Click **Control Center** in the sidebar (or in your profile menu).
+=== step: Review the numbers
+Click a tile to open the related page, for example **Active sessions → Manage sessions**.
+=== step: Use the left menu
+Each section is explained in its own guide in this category.
+=== example: A monthly access review
+On the first working day of each month, Asha opens the Overview: 1 user with restricted access, 1 pending approval, no suspended users. She opens **User access preview** for each new joiner and **Audit logs** filtered to the last month.
+=== result
+You can see the state of access across the business at a glance.
+=== notes
+- Super Admins cannot change their own access (overrides, suspension, restrictions) from the Control Center. Another Super Admin must do it.
+- Hiding a menu item never replaces these server-side rules.
+=== mistakes
+- Making several Super Admins “for convenience”. Keep the number small and use roles for everyday work.
+=== faq: A user has “Control Center” permission in a template. Will they get in?
+No. Control Center permissions are Super-Admin-only and are ignored everywhere else.

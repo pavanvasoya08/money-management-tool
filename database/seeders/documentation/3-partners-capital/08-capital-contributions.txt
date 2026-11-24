@@ -1,0 +1,71 @@
+title: Recording capital contributions
+slug: capital-contributions
+section: Capital contributions
+featured: yes
+keywords: capital contribution record contribution add capital payment reference utr cheque upi submit approve post draft status
+related: approving-and-rejecting-requests, capital-ledger, capital-adjustments-and-reversals
+summary: Record money a partner puts into the business, from draft to posted.
+=== what
+A **capital contribution** is money a partner invests in the business. It increases that partner's capital balance. It is **not business revenue**.
+
+Each contribution is a **separate entry** with its own number (`CC-2026-00001`, `CC-2026-00002`, …). Additional capital never overwrites earlier entries.
+
+**Statuses:**
+
+| Status | Meaning | Changes the balance? |
+|---|---|---|
+| Draft | Saved, not submitted; can be edited or cancelled | No |
+| Pending approval | Waiting for approvers | No |
+| Approved | Approved, waiting to be posted | No |
+| Rejected | Rejected with a reason; edit to return it to Draft | No |
+| **Posted** | Recorded in the capital ledger | **Yes** |
+| Reversed | Cancelled by a posted reversal entry | Net effect zero |
+| Cancelled | Draft abandoned | No |
+=== why
+A complete, approved record of every rupee each partner has put in.
+=== who
+Recording needs **capital_contributions.create**; approving **.approve**; posting **.post**. By default accountants record for their assigned partners, and Super Admins approve and post.
+=== prerequisites
+- The partner exists and is not archived.
+- The payment details: date, amount, method and reference.
+=== step: Open Contributions | contributions-list
+Open **Capital → Contributions** and click **New capital contribution** (or **Record contribution** on a partner's profile).
+=== step: Fill in the form | contribution-form
+Choose the **partner** and **date**. Enter the **amount** in rupees: digits only, up to 2 decimals, no commas (for example `200000` or `200000.50`). Choose the **payment method** (Bank transfer, Cash, Cheque, UPI or Other) and enter the **payment reference** (UTR, cheque number or UPI reference).
+=== step: Add the source and a document (optional)
+**Received in (bank / cash)** is a free-text reference such as “Current a/c ending 4417” or “Cash in hand”. Attach the bank advice or receipt as a supporting document.
+=== step: Save draft or submit | contribution-draft
+**Save draft** to finish later, or **Save & submit for approval**. A draft can be edited, submitted or cancelled from its page.
+=== step: Approval
+Approvers decide it in **Approvals**. If the workflow is inactive it is approved automatically.
+=== step: Post to ledger | contribution-show
+Open the approved entry and click **Post to ledger**. Only now does the partner's balance increase. The status trail shows every stage.
+=== example: Rohan contributes ₹2,00,000 (illustrative)
+Rohan Mehta transfers ₹2,00,000 on 10 Apr 2026 (UTR2026041045871) to the business current account.
+
+1. Neha records it: partner Rohan Mehta, date 10 Apr 2026, amount `200000`, Bank transfer, reference UTR2026041045871, received in “Current a/c ending 4417”, bank advice attached. She clicks **Save & submit for approval** → `CC-2026-00001`, **Pending approval**.
+2. Asha approves it in **Approvals** → **Approved**.
+3. Asha clicks **Post to ledger** → **Posted**.
+
+Rohan's capital ledger now shows:
+
+| Date | Reference | Particulars | Debit | Credit | Balance |
+|---|---|---|---|---|---|
+| 01 Apr 2025 | CA-2025-00001 | Opening capital migration | — | ₹1,00,000.00 | ₹1,00,000.00 |
+| 10 Apr 2026 | CC-2026-00001 | Capital contribution (Bank transfer) | — | ₹2,00,000.00 | ₹3,00,000.00 |
+
+If Rohan contributes again later, a new entry (`CC-2026-00002`) is added; the first one is never changed.
+=== result
+A posted contribution appears in the partner's ledger, on the dashboard totals and in reports.
+=== notes
+- The date cannot be in the future.
+- Posting is a deliberate separate step, so an approved entry can be checked against the bank statement first.
+- A posted contribution cannot be edited or deleted; correct it by **reversal**.
+- Never enter bank passwords, PINs or OTPs; only references.
+=== mistakes
+- Typing `2,00,000` with commas; enter `200000`.
+- Thinking an approved entry is already in the balance. It must be posted.
+=== faq: Can I record several contributions for one partner on the same day?
+Yes. Each is a separate entry with its own number.
+=== faq: How do I fix a wrong amount after posting?
+Reverse the posted entry (with a reason) and record a new, correct entry.

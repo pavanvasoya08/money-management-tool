@@ -1,0 +1,41 @@
+title: Understanding the dashboard
+slug: understanding-the-dashboard
+section: Getting started
+keywords: home overview statistics widgets kpi chart capital totals sign-in activity
+related: application-layout-and-navigation, capital-ledger, partner-financial-summary
+summary: What each dashboard card means and why different users see different figures.
+=== what
+The dashboard is the first page after sign-in. It is made of cards, and each card appears only if you have permission for its data:
+
+- **Your account**: your name, roles, last sign-in time and IP address, and your access level.
+- **Overview (Users & access)**: total, active, inactive and currently locked users. Click a tile to open the filtered user list.
+- **Quick actions**: shortcuts to pages you may open.
+- **Partners & capital**: total and active partners, pending contributions and withdrawals, total posted capital, total posted withdrawals and total outstanding capital.
+- **Partner-wise capital distribution**: a bar chart of each partner's closing capital, with a **Show as table** option.
+- **Sign-in activity**, **Recent login activity** and **Recent system activity** for users who may view them.
+=== why
+It gives a quick, trustworthy picture of the business and of your own pending work.
+=== who
+Every user. Super Admins and accountants see more cards; a partner sees only their own capital; a viewer may see only the account card.
+=== step: Read the cards | dashboard
+Each figure is calculated from real records at the moment the page loads. Capital figures use **posted** entries only; drafts and entries awaiting approval are shown separately as *pending*.
+=== step: Drill down
+Click a tile, for example **Pending withdrawals**, to open the matching filtered list.
+=== example: Reading the capital cards (illustrative figures)
+| Card | Value | Meaning |
+|---|---|---|
+| Total posted capital | ₹6,50,000.00 | Contributions posted, net of reversals |
+| Total posted withdrawals | ₹50,000.00 | Withdrawals posted; not a business expense |
+| Total outstanding capital | ₹7,00,000.00 | Capital still in the business, including opening balances and adjustments |
+| Pending withdrawals | 1 · ₹25,000.00 | Submitted but not yet approved or posted; does not change balances yet |
+=== result
+You can explain every number on your dashboard and where it comes from.
+=== notes
+- Capital contributions are not revenue and withdrawals are not expenses. The dashboard does not show profit, because profit calculation is not part of the current release.
+- If you can see only some partners, every total covers only those partners.
+=== mistakes
+- Expecting a newly recorded contribution to change totals immediately. It changes them only after approval **and** posting.
+=== faq: Why does my dashboard look different from my manager's?
+Cards and figures depend on each user's permissions and record access.
+=== faq: The chart says “Show as table”. Why?
+The table is an accessible alternative and also appears if the chart library cannot load.

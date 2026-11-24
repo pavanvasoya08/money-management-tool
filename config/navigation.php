@@ -48,4 +48,8 @@ return [
     ['label' => 'User Management', 'icon' => 'user-cog', 'route' => 'users.index', 'permission' => 'users.view', 'active' => 'users'],
     ['label' => 'Activity Log', 'icon' => 'scroll-text', 'route' => 'activity.index', 'permission' => 'activity_logs.view', 'active' => 'activity'],
     ['label' => 'Settings', 'icon' => 'settings', 'route' => 'settings.index', 'permission' => 'settings.view', 'active' => 'settings'],
+
+    // Open to every signed-in user (no permission): the manual is read-only for everyone.
+    ['section' => 'Help & Support'],
+    ['label' => 'Help & User Guide', 'icon' => 'life-buoy', 'route' => 'help.index', 'permission' => null, 'active' => 'help'],
 ];

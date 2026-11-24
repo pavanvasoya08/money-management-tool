@@ -1,0 +1,57 @@
+title: Profit-sharing configuration
+slug: profit-sharing
+section: Profit sharing
+featured: yes
+keywords: profit sharing percentage ratio arrangement allocation effective date history partnership deed complete partial 100%
+related: partner-financial-summary, capital-contributions, partner-reports-and-exports
+summary: Record each partner's profit-sharing percentage with effective dates and full history.
+=== what
+**Profit sharing** stores the agreed percentages in which partners share profit. It is **configuration only**: the current release does **not** calculate or distribute profit.
+
+- An **arrangement** has a name, a **calculation method** (share of net profit, distributable profit after reserves, or gross profit), an **allocation type** and an active/inactive status.
+  - **Complete**: the percentages must total exactly **100%**.
+  - **Partial**: the percentages may total up to 100%.
+- An arrangement has **allocations**: effective-dated sets of partner percentages (up to 4 decimals), with notes and an optional agreement document.
+
+**History rules:**
+- Allocations already in effect are never edited, so history is preserved.
+- A new allocation cannot start in the past once an earlier one exists (no retroactive changes). It automatically ends the previous open-ended allocation the day before it starts.
+- Periods of one arrangement cannot overlap.
+- Only **future** allocations can be edited or deactivated.
+
+**Profit share is not capital share.** Percentages are set by agreement and do not follow capital balances.
+=== why
+The partnership deed's ratios, and every change to them, are recorded with dates, so later profit calculations can use the right ratio for each period.
+=== who
+Users with **profit_sharing.view**, **.create** (arrangements and allocations), **.edit** (future allocations) and **.change_status**.
+=== step: Open Profit Sharing | profit-sharing
+Click **Profit Sharing** in the sidebar. Each arrangement shows its current percentages.
+=== step: Create an arrangement
+Click **New arrangement**. Enter a name, choose the calculation method and allocation type, and save.
+=== step: Add an allocation | profit-sharing-show
+Open the arrangement and click **New allocation**.
+=== step: Enter dates and percentages | allocation-form
+Set **Effective from** (and optionally **Effective to**), enter each partner's percentage, add notes, attach the agreement, and click **Save allocation**. For a complete arrangement the total must be exactly 100%.
+=== step: Change percentages later
+Add a **new** allocation starting on the date the new ratio applies. The previous one ends the day before automatically.
+=== example: Two partners, capital ≠ profit share (illustrative)
+| Partner | Capital balance | Capital % | Profit share (deed) |
+|---|---|---|---|
+| Rohan | ₹2,50,000 | 62.5% | 50% |
+| Priya | ₹1,50,000 | 37.5% | 50% |
+
+The deed says profits are shared **50 : 50**, even though Rohan has more capital. Enter 50% and 50% from 1 Apr 2025.
+
+From 1 Apr 2027 the partners agree on **60 : 40**. Add a new allocation from 1 Apr 2027 with 60% / 40%. The 50 : 50 allocation automatically ends on 31 Mar 2027 and stays in history.
+=== result
+Each partner's percentage is recorded for every period, with history.
+=== notes
+- No profit amounts are calculated or paid by this module.
+- A partner's profile shows the active share and the full percentage history.
+=== mistakes
+- Changing an allocation that is already in effect. Create a new allocation instead.
+- Assuming percentages follow capital. They follow the agreement.
+=== faq: Can I correct a typo in today's allocation?
+Allocations already in effect cannot be edited. If the ratio itself was wrong from the start, record a new allocation from today and explain it in the notes; the history will show both.
+=== faq: Why must the total be exactly 100%?
+The arrangement is **Complete**. Use a **Partial** arrangement if part of the profit is not allocated to partners.

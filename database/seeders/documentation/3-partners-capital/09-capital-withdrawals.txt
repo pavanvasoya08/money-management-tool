@@ -1,0 +1,49 @@
+title: Capital withdrawals
+slug: capital-withdrawals
+section: Capital withdrawals
+featured: yes
+keywords: withdrawal drawing partner withdraws capital eligible available capital insufficient balance exception policy approval not expense
+related: approval-workflows, capital-ledger, capital-contributions
+summary: Record money a partner takes out of their capital, within the available balance.
+=== what
+A **capital withdrawal** is money a partner takes out of their capital account. It reduces that partner's capital balance. **A withdrawal is not a business expense.** It does not reduce profit; it only reduces the partner's capital.
+
+Withdrawals use the same statuses as contributions (Draft → Pending approval → Approved → Posted, plus Rejected, Cancelled and Reversed), require a **reason**, and are numbered `CW-2026-00001`, …
+
+**Insufficient balance protection:** a withdrawal cannot exceed the partner's **eligible available capital**:
+
+> Eligible available capital = posted balance − withdrawals already pending or approved
+
+The form warns you as you type, and the server blocks the entry at submission and again at posting.
+=== why
+Withdrawals must be approved and must never take a partner's capital below zero by accident.
+=== who
+Recording needs **capital_withdrawals.create**; approving **.approve**; posting **.post**.
+=== step: Open the form | withdrawal-form
+Open **Capital → Withdrawals → New capital withdrawal** and choose the partner. The eligible available capital is shown.
+=== step: Enter the details
+Date, amount (digits only, no commas), payment method, payment reference, **Paid from (bank / cash)**, the **reason** (required) and an optional document.
+=== step: Submit for approval | withdrawal-pending
+Click **Save & submit for approval**. The entry shows **Pending approval** and approvers see it in their inbox.
+=== step: Post after approval
+After approval, click **Post to ledger**. Only then does the balance go down.
+=== example: Priya withdraws ₹25,000 (illustrative)
+Priya Nair's posted balance is ₹3,00,000 and nothing is pending, so her eligible available capital is ₹3,00,000.
+
+1. Neha records a ₹25,000 withdrawal, reason “Quarterly drawing”, and submits it → **Pending approval**. Eligible capital is now ₹2,75,000, because the pending amount is reserved.
+2. A second request for ₹2,80,000 would be **blocked**: it exceeds ₹2,75,000.
+3. Asha approves and posts the ₹25,000 → Priya's balance becomes ₹2,75,000.
+
+In the ledger the withdrawal appears in the **Debit** column.
+=== result
+The withdrawal is posted and the partner's capital is reduced; business profit is unaffected.
+=== notes
+- **Exception policy:** exceeding the limit is possible only when a Super Admin has turned on *Allow withdrawals beyond available capital* in Security settings **and** the user holds **Capital Withdrawals → Exceed available capital**. Every use is audited.
+- Withdrawal approval follows the **Partner withdrawal approval** workflow, which can require extra approvers above a set amount.
+=== mistakes
+- Booking a partner's drawing as an office expense. It belongs here, as a capital withdrawal.
+- Forgetting that pending withdrawals reduce the available amount.
+=== faq: Why was my withdrawal blocked even though the balance looks enough?
+Other withdrawals for the partner are pending or approved and reserve part of the balance.
+=== faq: Is a withdrawal the same as a profit distribution?
+No. Profit distribution is not part of the current release. A withdrawal simply reduces the partner's capital.

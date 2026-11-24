@@ -1,0 +1,42 @@
+title: Field-level permissions
+slug: field-level-permissions
+section: Field-level permissions
+keywords: field visibility hidden masked visible read-only editable sensitive pan mobile email amount mask
+related: record-level-permissions, user-permission-overrides, partner-reports-and-exports
+summary: Hide, mask or lock individual fields such as PAN, phone numbers or amounts.
+=== what
+Inside a record you can control each **field**. The levels, from least to most access:
+
+| Level | Effect |
+|---|---|
+| **Hidden** | Not shown anywhere: page, export or API |
+| **Masked** | Partly shown, e.g. PAN `XXXXXX234K`, email `r****@example.com`, mobile `******2340`, amount `₹ ••••••`. Never editable |
+| **Visible** | Shown in lists and detail pages, not editable |
+| **Read-only** | Shown everywhere, including forms (locked), not editable |
+| **Editable** | Shown and can be changed (the module's Edit permission is still required) |
+
+Each field has a **default** level. A **role rule** can change it (if a user has several roles, the most permissive role wins), and a **user rule** overrides everything for that user.
+=== why
+Some people need a record but not its sensitive details: a manager may need the partner directory but not PAN numbers or capital amounts.
+=== who
+Super Admins configure; it applies to every user.
+=== step: Set field rules per role | field-visibility
+Open **Control Center → Field visibility**, choose the module, set the **Default** and each role's level, and click **Save field visibility**.
+=== step: Override for one user (optional) | cc-user-fields
+In **Control Center → User management → Field permissions**, set a **Rule** for a field. The **Effective** column shows the result. Click **Save field overrides**.
+=== example: Protecting PAN and capital figures (illustrative)
+| Field | Default | Manager | Accountant |
+|---|---|---|---|
+| PAN | Masked | Masked | Visible |
+| Capital balance | Visible | Hidden | Visible |
+
+Karan (Manager) sees PAN as `XXXXXX234K` and no capital balance; in his CSV export the capital column is removed and PAN stays masked. Neha (Accountant) sees both.
+=== result
+Sensitive data is hidden or masked consistently on pages, exports and the API.
+=== notes
+- Rules are enforced on the server. A crafted form that tries to change a read-only field is rejected and logged.
+- Identity documents (PAN and ID uploads) follow the **PAN & identity documents** field rule.
+=== mistakes
+- Hiding a field that a form requires for the user's job, which stops them from saving.
+=== faq: Which wins: role or user rule?
+The user rule always wins. Without a user rule, the most permissive of the user's roles wins.

@@ -1,0 +1,36 @@
+title: Linking a partner to a login account
+slug: linking-a-partner-login
+section: Partner management
+keywords: link login partner account create login partner role unlink suspend login one login one partner
+related: partner-profile, creating-a-user, partner-own-access
+summary: Give a partner their own sign-in, linked to their partner record.
+=== what
+A partner record can be linked to **one** user account, and a user account to **one** partner. From **Personal information → Login account** you can:
+
+- **Link** an existing user,
+- **Create login**: a new account with the limited **Partner** role (offered only if you may assign roles),
+- **Suspend login** / **Reactivate login**,
+- **Unlink**.
+
+Every change is recorded in **Login link history** and the audit log.
+=== why
+A linked partner can sign in and see their own profile, capital entries, ledger and documents (with the Partner role's “Own records” access).
+=== who
+Users with **partners.link_account**.
+=== step: Open Personal information | partner-login
+Open the partner and click **Personal information**. Scroll to **Login account**.
+=== step: Link or create a login
+Choose an existing user and link it, or create a login with email and a temporary password. The partner must change the password at first sign-in.
+=== step: Manage the login
+Use **Suspend login**, **Reactivate login** or **Unlink** as needed.
+=== example: Giving Rohan access to his own capital
+Asha creates a login `rohan.login@example.com` for Rohan Mehta with the Partner role. Rohan signs in and sees only PTR-0001: his ₹2,50,000.00 balance, his ledger and his documents, and nothing about other partners.
+=== result
+The partner can sign in and sees only their own data, as their permissions allow.
+=== notes
+- **Linking changes nothing else**: it never adds roles or permissions. What the partner sees comes from the Control Center configuration.
+- Unlinking keeps the user account; deactivate it separately if needed.
+=== mistakes
+- Linking a staff member's account to a partner record by mistake. That user would see the partner's “own” data.
+=== faq: Can one person be linked to two partner records?
+No. One login, one partner.

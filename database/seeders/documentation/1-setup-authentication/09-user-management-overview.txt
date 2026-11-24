@@ -1,0 +1,33 @@
+title: Understanding user management
+slug: user-management-overview
+section: User management
+keywords: users list search filter status roles export csv view profile team members accounts
+related: creating-a-user, editing-users-and-roles, activating-and-deactivating-users
+summary: Find, filter and open user accounts.
+=== what
+**User Management** lists every account with its roles, status, last sign-in and creation date. You can search by name, email or phone, filter by status (Active, Inactive, Suspended, Expired, Deleted) and by role, export the list to CSV, and open any user's profile.
+=== why
+Administrators keep the team's access up to date: new joiners, role changes and leavers.
+=== who
+Users with the **User Management → View** permission (typically Super Admins; managers may have read-only access). Creating, editing and other actions each need their own permission.
+=== prerequisites
+- Permission **users.view**. The list may be limited to the records your data visibility allows.
+=== step: Open User Management | users-list
+Click **User Management** in the sidebar.
+=== step: Search and filter
+Type in the search box and choose a status or role, then click **Apply**.
+=== step: Open a user
+Click **View** on a row to open the user's profile with details, roles, login history and the changes made to the account.
+=== step: Export (optional)
+Click **Export CSV**. The file contains only the users and fields you are allowed to see.
+=== example: Finding everyone with the Accountant role
+Choose **Accountant** in the role filter and click **Apply**. The list shows Neha Shah only.
+=== result
+You can locate any user you are allowed to see and open their profile.
+=== notes
+- Deleted users are hidden unless you filter for them; their history is kept.
+- Hidden or masked fields (for example phone numbers) stay hidden or masked in exports too.
+=== mistakes
+- Expecting to see all users when your data visibility is limited to “Own” or “Assigned” records.
+=== faq: Why is the Export button missing?
+Exporting needs the separate **users.export** permission.

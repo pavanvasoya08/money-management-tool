@@ -1,0 +1,14 @@
+=== faq: Who can read this user guide?
+Every signed-in user, whatever their role. The guide is read-only; only people with documentation-management permission can change it.
+=== faq: A button or menu item described in a guide is missing for me. Why?
+You probably do not have that permission, or the record is outside your data visibility. Ask your administrator; a Super Admin can check with **User access preview**.
+=== faq: Why did my capital balance not change after I recorded a contribution?
+Balances change only when an entry is **approved and posted**. Drafts, pending and approved-but-unposted entries are shown separately.
+=== faq: Is a partner's capital contribution business income?
+No. Contributions increase the partner's capital account; withdrawals reduce it. Neither is income or expense.
+=== faq: Can a posted entry be deleted?
+No. Posted entries are corrected by a **reversal** and, if needed, a new correct entry, so the history stays complete.
+=== faq: Where do I see who changed something?
+In the **Activity log**, and for administrative changes with old and new values, in **Control Center → Audit logs**.
+=== faq: What should I never enter in the ERP?
+Banking passwords, PINs, OTPs or card numbers. Payment references (UTR, cheque or UPI reference) are fine.

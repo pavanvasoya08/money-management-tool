@@ -1,0 +1,44 @@
+title: Capital adjustments, corrections & reversals
+slug: capital-adjustments-and-reversals
+section: Capital adjustments
+keywords: adjustment correction reclassification reverse reversal undo posted entry mistake audit history
+related: capital-accounts-and-opening-balances, capital-ledger, audit-logs-and-permission-changes
+summary: Adjust capital with a reason, and correct posted entries by reversal.
+=== what
+**Capital adjustments** change a partner's capital without a contribution or withdrawal. Each has:
+
+- a **type**: *Opening capital migration*, *Correction of historical balance*, *Approved capital reclassification* or *Other*,
+- an **effect**: **increase** or **reduce** capital,
+- a mandatory **reason** and an optional supporting document.
+
+Adjustments are numbered `CA-…`, go through the **Capital adjustment approval** workflow, and change the balance only when posted.
+
+**Reversals** correct mistakes in posted entries. Posted entries are **never edited or deleted**. Instead, **Reverse entry** creates a new posted entry (`CR-…`) for the same amount in the opposite direction. The two entries are linked both ways and the original becomes **Reversed**. You then record a correct replacement if needed.
+=== why
+Corrections must be transparent: anyone reading the ledger can see the original, the reversal and the replacement.
+=== who
+Adjustments: **capital_adjustments.create / approve / post**. Reversals: the **.reverse** permission of the entry's module.
+=== step: Record an adjustment | adjustment-form
+Open **Capital → Adjustments → New**. Choose the partner, date, amount, **Adjustment type**, **Effect** and **Reason**, and attach support. Submit, then post after approval.
+=== step: Reverse a posted entry | contribution-show
+Open the posted entry. Under **Reverse this posted entry**, enter the **reason** and the **reversal date**, click **Reverse entry** and confirm.
+=== step: Record the replacement
+Create a new entry with the correct details and take it through approval and posting.
+=== example: Correcting a wrong amount (illustrative)
+A contribution of ₹1,50,000 was posted as ₹15,000 (`CC-2026-00003`).
+
+1. Reverse `CC-2026-00003` with reason “Amount keyed wrongly; bank advice shows ₹1,50,000” → `CR-2026-00001` debits ₹15,000. Net effect of the pair: zero.
+2. Record and post a new contribution of ₹1,50,000 (`CC-2026-00004`).
+
+The ledger shows all three lines; nothing was deleted.
+=== result
+Balances are corrected and the full history stays visible.
+=== notes
+- An entry can be reversed only once, and posting is protected against duplicates.
+- Reversing a contribution whose money has already been withdrawn is blocked if it would take the balance below zero (unless the exception policy applies).
+- Every adjustment and reversal is in the audit log with actor, IP, and old and new values.
+=== mistakes
+- Using an *Other* adjustment to hide a correction. Choose the right type and explain it in the reason.
+- Reversing without recording the correct replacement.
+=== faq: Can I reverse a reversal?
+No. Record a new entry instead.

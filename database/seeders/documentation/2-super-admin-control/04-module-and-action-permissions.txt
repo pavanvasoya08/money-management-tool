@@ -1,0 +1,42 @@
+title: Module and action permissions
+slug: module-and-action-permissions
+section: Module-level permissions
+keywords: module permissions action permissions view create edit delete approve export enable disable module
+related: permission-matrix, user-permission-overrides, role-management
+summary: What module access and action permissions mean, and how to switch a module off.
+=== what
+Every area of the ERP is a **module** (for example Partners, Capital Contributions, User Management). Each module has **actions**, and each action is a permission:
+
+| Action | Meaning (examples) |
+|---|---|
+| View | Open the module, e.g. `partners.view` |
+| View all / own / assigned | Which records the action covers (works with data visibility) |
+| Create | Add records, e.g. `capital_contributions.create` = record & submit |
+| Edit | Change records, e.g. edit drafts |
+| Delete | Remove records where the module allows it |
+| Approve / Reject | Decide approval requests, e.g. `capital_withdrawals.approve` |
+| Export | Download CSV, Excel or PDF |
+| Module-specific | e.g. `partners.archive`, `capital_contributions.post`, `capital_withdrawals.override_limit`, `users.force_logout` |
+
+**Action permissions** lists every action with the roles that hold it and any user overrides. From here a Super Admin can also **Disable module**, which denies the whole module to everyone except Super Admins.
+=== why
+Separating actions lets you give exactly what each job needs, for example view and create but not approve.
+=== who
+Super Admins configure; everyone is subject to it.
+=== step: Review an action | modules
+Open **Control Center → Action permissions** and expand a module to see each action, its roles and overrides.
+=== step: Disable a module (if needed)
+Click **Disable module**. It shows as disabled for all non-Super-Admin users until you enable it again.
+=== step: Grant actions to roles
+Use the role's permission matrix. See **The permission matrix**.
+=== example: View without export
+The Manager role has `partners.view` but not `partners.export`. Karan can open the partner list, but the **Export** button is absent, and typing the export address directly returns **Access denied**.
+=== result
+You know which permission controls which button.
+=== notes
+- Some actions are marked **high impact** (delete, approve, export, reset password and similar). The matrix asks for confirmation before granting them.
+- Control Center actions are Super-Admin-only and cannot be granted.
+=== mistakes
+- Granting **Approve** to the same people who create entries; that defeats maker-checker control.
+=== faq: Does disabling a module delete its data?
+No. It only blocks access; enabling it restores access.

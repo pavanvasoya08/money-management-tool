@@ -1,0 +1,40 @@
+title: Partner reports & exports
+slug: partner-reports-and-exports
+section: Partner reports
+keywords: reports export csv excel xlsx pdf print capital balances pending contributions withdrawals partner list ledger report
+related: capital-ledger, field-level-permissions, record-level-permissions
+summary: Eight partner reports, with CSV, Excel and PDF exports that respect your permissions.
+=== what
+**Partner Reports** offers eight reports:
+
+1. Partner list
+2. Capital contributions
+3. Capital withdrawals
+4. Capital balances (with an **as-of** date)
+5. Partner-wise capital ledger
+6. Profit-sharing configuration
+7. Pending contributions
+8. Pending withdrawals
+
+Reports have date, partner and status filters, search and pagination, and can be exported as **CSV**, **Excel (.xlsx)** or **PDF**, or printed.
+=== why
+For partner meetings, reconciliations, auditors and the partners themselves.
+=== who
+Viewing a report needs **partner_reports.view** plus view access to the report's source module. Exporting needs **partner_reports.export** plus that module's export permission.
+=== step: Open Partner Reports | partner-reports
+Click **Partner Reports** in the sidebar and choose a report.
+=== step: Filter
+Set dates, partner and status, then apply.
+=== step: Export or print | report-balances
+Choose **CSV**, **Excel** or **PDF**, or **Print**.
+=== example: Capital balances at year end (illustrative)
+Open **Capital balances**, set **As of** 31 Mar 2026, and export to Excel for the auditor. Each row shows opening capital, contributions, adjustments, withdrawals, reversed amounts, closing capital and pending amounts.
+=== result
+A report and export containing exactly what you are allowed to see.
+=== notes
+- The same record scope and field rules apply on screen and in all three export formats: hidden columns are removed and masked values stay masked.
+- Exports are recorded in the activity log.
+=== mistakes
+- Sharing an exported file with someone who should not see it. The ERP controls access inside the system, not after download.
+=== faq: Why does my export contain fewer partners than my colleague's?
+Exports follow your data visibility.

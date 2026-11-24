@@ -1,0 +1,45 @@
+title: Security settings & access requests
+slug: security-settings
+section: User access & audit
+keywords: security settings lockout password length session timeout remember me reset link concurrent sessions self approval access request
+related: sessions-and-account-lockout, user-permission-overrides, approval-workflows
+summary: System-wide security rules, and the optional “request access” feature.
+=== what
+**Control Center → Security settings** holds the system-wide rules:
+
+| Setting | Default |
+|---|---|
+| Failed logins before temporary lockout | 5 |
+| Lockout duration (minutes) | 15 |
+| Minimum password length | 10 |
+| Sign out after inactivity (minutes) | 30 |
+| “Remember me” duration (days) | 30 |
+| Password reset link validity (minutes) | 60 |
+| Maximum simultaneous sessions per user (0 = unlimited) | 0 |
+| Allow explicit per-user “Allow” grants | On |
+| Block approving your own requests | On |
+| Let users request access from the “Access denied” page | Off |
+| Exception policy: allow withdrawals beyond available capital | Off |
+
+**Access requests** (optional): when enabled, a user who sees **Access denied** can request the missing permission with a reason. Super Admins approve it (optionally with an expiry) or reject it.
+=== why
+These settings let you balance security and convenience for your business.
+=== who
+Super Admins.
+=== step: Open Security settings | security-settings
+In the Control Center click **Security settings**.
+=== step: Change and save
+Adjust the values and click **Save security settings**. Changes apply immediately and are audited.
+=== step: Handle access requests (if enabled)
+Pending requests are counted on the Control Center Overview. Open them to approve (with an optional expiry) or reject.
+=== example: Tightening sign-in security
+After a phishing alert, Asha sets **Failed logins before lockout** to 3 and **Sign out after inactivity** to 15 minutes. The next sign-in attempts follow the new rules immediately.
+=== result
+The whole ERP follows the new rules.
+=== notes
+- Turning off **Allow explicit per-user “Allow” grants** disables all Allow overrides at once; Deny overrides keep working.
+- The withdrawal exception policy also requires the separate permission **Capital Withdrawals → Exceed available capital**. Every use is audited.
+=== mistakes
+- Setting very short inactivity times, which makes people lose unsaved work.
+=== faq: Do these settings affect Super Admins?
+Yes: lockout, password, session and approval rules apply to Super Admins too.

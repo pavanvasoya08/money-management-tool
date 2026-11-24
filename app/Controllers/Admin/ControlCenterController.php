@@ -120,7 +120,8 @@ final class ControlCenterController extends AdminController
 
     public function security(Request $request): Response
     {
-        $defs = array_filter(SettingsService::definitions(), static fn (array $d): bool => in_array($d['group'], ['security', 'access'], true));
+        // 'finance' holds the partner-capital exception policy shown in the "Partner capital" card.
+        $defs = array_filter(SettingsService::definitions(), static fn (array $d): bool => in_array($d['group'], ['security', 'access', 'finance'], true));
         return $this->admin('admin/security', 'security', 'Security settings', ['definitions' => $defs, 'values' => App::settings()->all()]);
     }
 
@@ -128,12 +129,12 @@ final class ControlCenterController extends AdminController
     {
         $input = $request->all();
         foreach (SettingsService::definitions() as $key => $def) {
-            if ($def['type'] === 'boolean' && in_array($def['group'], ['security', 'access'], true)) {
+            if ($def['type'] === 'boolean' && in_array($def['group'], ['security', 'access', 'finance'], true)) {
                 $input[$key] = !empty($input[$key]) ? '1' : '0';
             }
         }
         $settings = App::settings();
-        $changed = $settings->update($input, (int) $this->user()['id'], ['security', 'access']);
+        $changed = $settings->update($input, (int) $this->user()['id'], ['security', 'access', 'finance']);
         if ($changed === []) {
             return $this->redirectRoute('admin.security')->with('info', 'No changes to save.');
         }

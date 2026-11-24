@@ -1,0 +1,49 @@
+title: Creating a new user
+slug: creating-a-user
+section: User management
+featured: yes
+keywords: add user new account invite employee temporary password assign role onboarding
+related: user-management-overview, understanding-the-initial-roles, role-management
+summary: Create an account with a temporary password and one or more roles.
+=== what
+Creating a user gives a person a sign-in. You set their name, email, optional phone, a **temporary password** and one or more **roles**. The user must change the temporary password at first sign-in.
+=== why
+Each person needs their own account so that permissions and the audit trail are personal.
+=== who
+Users with **users.create** (typically Super Admins). Granting roles needs **users.assign_roles**.
+=== prerequisites
+- Decide which role(s) fit the person's job. A user with no role can sign in but has no module access.
+=== step: Open the form | users-list
+In **User Management** click **Create user**.
+=== step: Enter the details | user-create
+Fill in **Full name** and **Email** (they sign in with it) and optionally **Phone**.
+=== step: Set a temporary password
+Type a temporary password and confirm it. It must meet the password policy. You can use the generator to create one.
+=== step: Choose roles
+Tick one or more roles. Only a Super Admin can grant the Super Admin role.
+=== step: Click Create user
+The account is created as **Active** and the action is recorded in the activity log.
+=== step: Share the temporary password securely
+Give the password to the person through a secure channel (in person or by phone), never in a group chat. They will set their own password at first sign-in.
+=== example: Adding a new accountant
+| Field | Value (illustrative) |
+|---|---|
+| Full name | Neha Shah |
+| Email | neha.shah@example.com |
+| Temporary password | a generated password |
+| Role | Accountant |
+
+Neha signs in, is asked to set a new password, and then sees the modules the Accountant role allows.
+=== result
+A new active account that the person can sign in to.
+=== notes
+- New users receive no access beyond their roles.
+- To fine-tune one user's access (for example deny exports), a Super Admin uses **Control Center → User management**. See **User-specific permission overrides**.
+- To link a user to a partner record, use the partner's **Personal information** tab. See **Linking a partner to a login account**.
+=== mistakes
+- Using a shared mailbox as the user's email.
+- Giving the Super Admin role “to be safe”. Give the smallest role that does the job.
+=== faq: Can two users have the same email?
+No. Emails are unique and are stored in lowercase.
+=== faq: Can I create a user without a role?
+Yes, but they will only be able to sign in and see their own profile and this guide until a role is assigned.

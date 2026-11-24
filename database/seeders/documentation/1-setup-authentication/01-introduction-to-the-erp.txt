@@ -1,0 +1,49 @@
+title: Introduction to the ERP
+slug: introduction-to-the-erp
+section: Getting started
+featured: yes
+keywords: overview start begin first time what is erp modules help
+related: application-layout-and-navigation, understanding-the-dashboard, understanding-the-initial-roles
+summary: What the ERP does today, how access works, and where to start.
+=== what
+The ERP is a web application for running the finances of a partnership business. Three areas are live today:
+
+- **Setup & authentication**: secure sign-in, password rules, sessions, user accounts, roles and an activity log.
+- **Super Admin Control Center**: fine-grained control over who can open each module, perform each action, see each record and see or edit each field, plus approval workflows.
+- **Partners & capital**: partner profiles, capital contributions, withdrawals, adjustments, the capital ledger, profit-sharing percentages and partner reports.
+
+Modules shown in the sidebar under **Upcoming modules** (GST, banking, operations, accounting) are disabled and marked “Soon”. They contain no data yet.
+=== why
+One system replaces scattered spreadsheets: every partner's capital is recorded entry by entry, every change is approved and audited, and each person sees only what they are allowed to see.
+=== who
+Everyone in the business who has an account: Super Admins, partners, accountants, managers and read-only viewers. What each person can do depends on the roles and permissions an administrator gives them.
+=== prerequisites
+- An account created by an administrator. There is no public sign-up.
+- A modern browser (Chrome, Edge, Firefox or Safari).
+=== step: Sign in | login
+Open the ERP address your administrator gave you and sign in with your email and password. If this is your first sign-in you will be asked to choose a new password.
+=== step: Look around the layout | layout
+The sidebar on the left lists the modules you may open. The top bar holds search, notifications and your profile menu. See **Application layout & navigation**.
+=== step: Check your dashboard
+The dashboard shows only figures you are allowed to see. A partner sees their own capital; an administrator sees firm-wide totals.
+=== step: Open this guide whenever you need it
+**Help & User Guide** is at the bottom of the sidebar and is available to every user. Use the search box to find any task.
+=== example: Your first day as an accountant
+Neha joins as an accountant. The administrator creates her account with the Accountant role and assigns her two partners.
+
+1. Neha signs in with the temporary password and sets her own password.
+2. Her sidebar shows Partners, Capital and Partner Reports, but not the Control Center.
+3. In Partners she sees only the two partners assigned to her.
+4. She opens **Help & User Guide → Partners & Capital** to learn how to record a contribution.
+=== result
+You know which areas exist, where to find them, and why you may see fewer menu items than a colleague.
+=== notes
+- Hiding a menu item is only cosmetic. Every page and action is also checked on the server, so typing a web address you are not allowed to open shows **Access denied**.
+- The help guide is read-only for everyone. Only users with documentation permissions can change it.
+=== mistakes
+- Assuming a missing menu item is a bug. Usually it means you do not have that permission; ask your administrator.
+- Sharing one account between several people. Every action is recorded against the signed-in person.
+=== faq: Why do I see fewer modules than my colleague?
+Each user's sidebar is built from their own roles and permissions. Ask your administrator if you need access to something.
+=== faq: Are the “Soon” modules usable?
+No. They are placeholders for later releases and contain no data or figures.

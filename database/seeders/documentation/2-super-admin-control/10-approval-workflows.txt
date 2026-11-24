@@ -1,0 +1,54 @@
+title: Approval workflows
+slug: approval-workflows
+section: Approval workflows
+featured: yes
+keywords: approval workflow maker checker steps approver minimum amount multi-level activate inactive auto approve
+related: approving-and-rejecting-requests, capital-contributions, capital-withdrawals
+summary: Configure who must approve capital entries, in which order, and above which amounts.
+=== what
+An **approval workflow** decides who must approve an entry before it can take effect. The workflows used by the live modules are:
+
+- **Capital contribution approval** (Capital Contributions)
+- **Partner withdrawal approval** (Capital Withdrawals)
+- **Capital adjustment approval** (Capital Adjustments)
+
+Each workflow has **steps** that run **in order**. Every step has:
+
+- a **name**,
+- an **approver**: a **role**, a **specific user**, or **anyone with the approve permission** for that module, and
+- a **minimum amount**: the step applies only when the entry amount is at or above it.
+
+A workflow is **active** or **inactive**. While inactive, submitted entries are approved automatically (and the automatic approval is recorded). Posting to the ledger is always a separate step either way.
+
+**Approval statuses:** *Pending* (waiting at a step), *Approved* (all applicable steps approved), *Rejected* (a reason is required) and *Cancelled* (withdrawn by the requester).
+=== why
+Maker-checker control: the person who records money movements is not the only person who confirms them, and larger amounts can require extra approval.
+=== who
+Super Admins configure workflows. Approvers decide requests in the **Approvals** inbox.
+=== step: Open Approval workflows | workflows
+In the Control Center click **Approval workflows**. Each card shows the module, number of steps and pending requests.
+=== step: Open a workflow and add steps | workflow-steps
+Click a workflow. In **Approval steps** fill one row per step: name, approver type, approver and minimum amount. Leave unused rows empty.
+=== step: Activate it
+Tick **Workflow active** and click **Save**.
+=== step: Check who can approve
+Users need the module's **Approve** permission (and **Reject** to reject). A user's **Approval permissions** tab in the Control Center shows what they can decide.
+=== example: Amount-based withdrawals (illustrative)
+| Step | Approver | Minimum amount |
+|---|---|---|
+| 1. Finance approval | Anyone with *capital_withdrawals.approve* | ₹0 |
+| 2. Second approval | Role: Super Admin | ₹1,00,000 |
+
+A ₹25,000 withdrawal needs step 1 only. A ₹1,50,000 withdrawal needs step 1 and then step 2.
+=== result
+New submissions follow the configured steps.
+=== notes
+- Steps cannot be changed while requests are pending in that workflow. Decide or cancel them first.
+- By default nobody can approve their own request (Security setting **Block approving your own requests**).
+- Concurrent decisions are safe: if two approvers click at the same time, only one decision is accepted.
+- The decision history of each request is permanent.
+=== mistakes
+- Activating a workflow with no steps and expecting approvals. Add at least one step.
+- Making the only approver the same person who records entries; self-approval is blocked, so requests will wait.
+=== faq: What happens when a workflow is inactive?
+Submissions are approved automatically and recorded as such. Someone with the Post permission must still post them to the ledger.

@@ -1,0 +1,40 @@
+title: Capital accounts & opening balances
+slug: capital-accounts-and-opening-balances
+section: Partner capital accounts
+keywords: capital account opening balance opening capital migration capital summary balances posted
+related: capital-adjustments-and-reversals, capital-ledger, partner-financial-summary
+summary: How each partner's capital account works and how to bring in an opening balance.
+=== what
+Each partner has one **capital account** (for example `CAP-PTR-0001`). Its balance changes only through **posted** entries:
+
+- **Contributions** increase capital.
+- **Withdrawals** reduce capital.
+- **Adjustments** increase or reduce capital (for example an opening balance or a correction).
+- **Reversals** cancel a posted entry by posting the opposite amount.
+
+**Opening balance:** if the business already existed before the ERP, record each partner's capital brought forward as a **Capital adjustment** of type **Opening capital migration** with effect **Increase capital**. On the partner's financial summary it appears as **Opening capital**.
+
+**Capital summary:** **Capital → Ledger & Balances** shows every partner's opening capital, contributions, adjustments, withdrawals, reversed amounts, closing capital and pending amounts, as of any date.
+=== why
+Starting with correct opening balances makes every later balance and profit-sharing discussion reliable.
+=== who
+Opening balances are recorded by users with **capital_adjustments.create**, approved by approvers, and posted by users with **capital_adjustments.post**.
+=== step: Record the opening balance | adjustment-form
+Open **Capital → Adjustments → New**. Choose the partner, the date (for example the first day in the ERP), the amount, type **Opening capital migration**, effect **Increase capital**, and a reason such as “Capital as per books on 31 Mar 2025”. Attach the closing balance sheet if available.
+=== step: Submit, approve and post
+Submit for approval. After approval, click **Post to ledger**.
+=== step: Review all partners' balances | ledger-index
+Open **Capital → Ledger & Balances**. Choose an **As of** date to see balances on that day.
+=== example: Migrating from old books (illustrative)
+Rohan Mehta's capital in the old books on 31 Mar 2025 was ₹1,00,000. An adjustment `CA-2025-00001` (Opening capital migration, increase, ₹1,00,000, dated 1 Apr 2025) is approved and posted. Rohan's summary now shows **Opening capital ₹1,00,000.00**.
+=== result
+Each partner's capital account starts from the correct figure.
+=== notes
+- Capital is **not** income: opening balances and contributions never appear as revenue.
+- The balance formula is: **Closing = Opening + Contributions + Adjustments − Withdrawals − Reversed amounts**, using posted entries only.
+- All amounts are stored exactly in rupees and paise; nothing is rounded.
+=== mistakes
+- Recording an opening balance as a contribution. It would look like new money received in the current period.
+- Forgetting to post: approved but unposted entries do not change balances.
+=== faq: Can I edit an opening balance after posting?
+No. Posted entries are never edited. Reverse it and record the correct one. See **Capital adjustments, corrections & reversals**.

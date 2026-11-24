@@ -1,0 +1,45 @@
+title: Advanced user management
+slug: advanced-user-management
+section: Advanced user management
+keywords: suspend user expiry expiration ip restriction cidr sign-in hours force logout delete restore user profile tabs
+related: user-permission-overrides, record-level-permissions, linking-a-partner-login
+summary: The Control Center user profile: suspension, expiry, access restrictions, force logout and deletion.
+=== what
+In **Control Center → User management**, each user has an access profile with eight tabs: **Personal information**, **Assigned roles**, **Module permissions**, **Data visibility**, **Field permissions**, **Approval permissions**, **Login history** and **Activity history**.
+
+On **Personal information** you can also:
+
+- **Suspend** the account, with a reason and an optional end date, and later unsuspend it.
+- Set an **account expiration** date. After it the user cannot sign in or act.
+- Set **access restrictions**: allowed IP addresses or CIDR ranges (for example `203.0.113.0/24`) and allowed sign-in hours (*From* and *To*, in the business time zone). They are enforced at sign-in and on every request.
+- **Force logout**: end every active session of the user.
+- **Delete** and **restore**: only an inactive user can be deleted. A deleted user behaves as unknown at sign-in, and all history is kept.
+
+**Linking to business records:** a user can be linked to a partner record from the partner's profile (see **Linking a partner to a login account**). Linking never changes the user's roles or permissions.
+=== why
+Roles cover everyday access; these controls handle exceptions such as temporary suspensions, contractors with an end date, or office-only access.
+=== who
+Super Admins.
+=== step: Open a user's access profile | cc-user
+In **Control Center → User management** click a user, or click **Control Center** on their basic profile.
+=== step: Suspend (temporary block)
+Under **Suspend account**, type the **Reason**, optionally set **Until**, click **Suspend** and confirm. The user is signed out of every device immediately.
+=== step: Set an expiry date
+Under **Account expiration** pick a date and time and click **Save expiry**. Leave it empty for no expiry.
+=== step: Restrict IP addresses or hours
+Enter IP addresses or ranges (one per line or comma-separated) and/or a time window, then click **Save restrictions**. Leave empty for no restriction.
+=== step: Force logout
+Under **Lifecycle** click **Force logout** to end all of the user's sessions.
+=== example: A contractor for one quarter
+Vikram's auditor needs access from 1 Oct to 31 Dec, only from the office network, 9:00–18:00. Asha creates the account with a limited role, sets the expiry to 31 Dec 18:00, allowed IPs `203.0.113.0/24`, and hours 09:00–18:00. On 1 Jan the account stops working automatically.
+=== result
+The user's access follows your exceptions automatically, without changing their roles.
+=== notes
+- You cannot suspend, restrict, delete or change the permissions of your own account.
+- The last active Super Admin cannot be removed.
+- Deletion is soft: records, audit history and links are kept, and the user can be restored.
+=== mistakes
+- Entering a home IP address that changes daily. Prefer office ranges, or no IP restriction.
+- Forgetting that sign-in hours use the business time zone.
+=== faq: What is the difference between deactivating and suspending?
+Both block access. Suspension records a reason and can end automatically on a date; deactivation stays until someone reactivates the account.

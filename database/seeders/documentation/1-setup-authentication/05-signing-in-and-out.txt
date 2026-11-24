@@ -1,0 +1,44 @@
+title: Signing in and out
+slug: signing-in-and-out
+section: Authentication
+featured: yes
+keywords: login log in logout log out sign in sign out remember me keep me signed in credentials first sign-in
+related: forgot-and-reset-password, sessions-and-account-lockout, changing-your-password
+summary: How to sign in, use “Keep me signed in”, and sign out safely.
+=== what
+Signing in proves who you are. The ERP accepts your email address and password, starts a secure session and opens your dashboard. Signing out ends that session.
+
+**Keep me signed in** (remember me) keeps you signed in on this device for a number of days set by your administrator (30 days by default), even after the browser is closed.
+=== why
+Every page, record and action in the ERP is tied to the person who is signed in. That is what makes permissions and the audit trail work.
+=== who
+Every user.
+=== prerequisites
+- An active account. Accounts are created by an administrator.
+- Your email address and password (or the temporary password you were given).
+=== step: Open the sign-in page | login
+Go to the ERP address. If you are not signed in you are taken to the sign-in page automatically.
+=== step: Enter your email and password
+Type the email address registered for you and your password. Click the eye icon to check what you typed.
+=== step: Choose whether to stay signed in
+Tick **Keep me signed in** only on your own, trusted device. Leave it unticked on shared or public computers.
+=== step: Click Sign in
+If the details are correct, the dashboard opens. If this is your first sign-in with a temporary password, you are asked to **set a new password** before you can continue.
+=== step: Sign out when you finish | profile-menu
+Click your initials at the top-right and choose **Sign out**. This ends the session on this browser and forgets the “Keep me signed in” token for this device.
+=== example: Signing in on a shared office computer
+Karan uses a shared front-desk PC. He signs in without ticking **Keep me signed in** and signs out from the profile menu when he leaves. If he forgets, the ERP signs him out automatically after the inactivity time set by the administrator (30 minutes by default).
+=== result
+You reach your dashboard. After signing out, any ERP page asks you to sign in again.
+=== notes
+- If the email or password is wrong, the message is always the same: **“These credentials do not match our records.”** The ERP never reveals whether an email address exists.
+- After several failed attempts (5 by default) the account is temporarily locked. See **Sessions, lockout & sign-in security**.
+- Inactive, suspended, expired or deleted accounts cannot sign in. Your administrator may also restrict sign-in to certain IP addresses or hours.
+=== mistakes
+- Ticking **Keep me signed in** on a shared computer.
+- Closing the tab instead of signing out on a shared computer.
+- Typing a temporary password with extra spaces when copying it from a message.
+=== faq: I was signed out while working. Why?
+Sessions end after a period of inactivity, after an absolute time limit, when an administrator ends your sessions, or when your account is deactivated or your password is changed elsewhere. Sign in again.
+=== faq: Does “Keep me signed in” work on all my devices at once?
+No. It is stored per device. Changing your password signs out all other remembered devices.

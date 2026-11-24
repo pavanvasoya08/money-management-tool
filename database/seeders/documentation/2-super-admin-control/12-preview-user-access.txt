@@ -1,0 +1,34 @@
+title: Previewing a user's access
+slug: preview-user-access
+section: Preview user access
+keywords: preview access view as user simulate permissions check what user sees not impersonation
+related: user-permission-overrides, record-level-permissions, field-level-permissions
+summary: See exactly what any user can open, do and see — without signing in as them.
+=== what
+**User access preview** computes a user's real access from their roles, overrides, scopes and field rules, and shows:
+
+- the **sidebar** they would see (✓ or ✗ per item),
+- every **page** with the permission it requires and whether it is **Allowed** or **Blocked**,
+- each module's **actions**, **data scope** and **field access**, with the reason for each decision.
+
+**Preview is not impersonation.** You stay signed in as yourself, nothing is performed as the user, and the preview is read-only. Each preview is recorded in the audit log.
+=== why
+To check a configuration before telling someone “you now have access”, or to answer “why can't I see this?”.
+=== who
+Super Admins.
+=== step: Open User access preview | preview
+In the Control Center click **User access preview**, or **Preview access** on a user's Control Center profile.
+=== step: Choose the user
+Select the user. The banner confirms **PREVIEW MODE — read-only**.
+=== step: Read the results
+Check the sidebar, the pages list and the module details. Each blocked item explains why.
+=== example: Checking a new accountant
+After assigning Priya and Vikram to Neha, Asha previews Neha: Partners ✓, Capital Contributions ✓, Capital Adjustments ✗, Profit Sharing ✗, Control Center ✗. That matches the Accountant role, so Asha tells Neha she can start.
+=== result
+You know precisely what the user will experience.
+=== notes
+- The preview reflects access at this moment, including expiring overrides and account restrictions.
+=== mistakes
+- Asking a user for their password to “see what they see”. Never do this; use preview.
+=== faq: Can I click through pages as that user?
+No. Preview shows what they could access; it does not let you act as them.

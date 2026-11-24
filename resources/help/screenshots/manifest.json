@@ -1,0 +1,1329 @@
+{
+ "login": {
+  "caption": "The sign-in page.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 34.77,
+    "y": 41.73,
+    "label": "Enter the email address your administrator registered."
+   },
+   {
+    "x": 34.77,
+    "y": 54.44,
+    "label": "Enter your password. The eye button shows or hides it."
+   },
+   {
+    "x": 36.53,
+    "y": 59.29,
+    "label": "Tick to stay signed in on this device."
+   },
+   {
+    "x": 56.29,
+    "y": 60.06,
+    "label": "Forgot your password? Request a reset link here."
+   },
+   {
+    "x": 64.35,
+    "y": 64.94,
+    "label": "Click Sign in."
+   }
+  ]
+ },
+ "forgot-password": {
+  "caption": "Requesting a password reset link.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 34.77,
+    "y": 51.31,
+    "label": "Enter your account email."
+   },
+   {
+    "x": 64.35,
+    "y": 58.06,
+    "label": "Send the reset link."
+   }
+  ]
+ },
+ "layout": {
+  "caption": "The application layout.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 21.89,
+    "y": 2.75,
+    "label": "Sidebar: every module you may open, grouped by area."
+   },
+   {
+    "x": 25.62,
+    "y": 1.94,
+    "label": "Collapse or expand the sidebar."
+   },
+   {
+    "x": 29.14,
+    "y": 1.94,
+    "label": "Quick navigation search (Ctrl+K)."
+   },
+   {
+    "x": 91.22,
+    "y": 1.94,
+    "label": "Notifications: approvals waiting for you."
+   },
+   {
+    "x": 97.95,
+    "y": 2.19,
+    "label": "Your profile menu: profile, security and sign out."
+   },
+   {
+    "x": 1.02,
+    "y": 22.96,
+    "label": "Modules are grouped into sections. Scroll the sidebar for more, including Help & User Guide at the bottom."
+   }
+  ]
+ },
+ "dashboard": {
+  "caption": "The dashboard (Super Admin view).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 73.23,
+    "y": 14.06,
+    "label": "Your account: role, last sign-in and access level."
+   },
+   {
+    "x": 23.06,
+    "y": 14.06,
+    "label": "User statistics (shown to users who may view users)."
+   },
+   {
+    "x": 23.06,
+    "y": 60.3,
+    "label": "Shortcuts to the pages you may open."
+   },
+   {
+    "x": 23.06,
+    "y": 95.17,
+    "label": "Partner and capital figures from posted entries only."
+   }
+  ]
+ },
+ "profile-menu": {
+  "caption": "The profile menu in the top bar.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 80.51,
+    "y": 21.79,
+    "label": "Profile: your details and permissions."
+   },
+   {
+    "x": 80.51,
+    "y": 27.0,
+    "label": "Security: change your password."
+   },
+   {
+    "x": 80.51,
+    "y": 44.26,
+    "label": "Sign out of this browser."
+   }
+  ]
+ },
+ "account-profile": {
+  "caption": "Settings → Profile.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 26.44,
+    "label": "Profile: your personal information."
+   },
+   {
+    "x": 24.82,
+    "y": 32.94,
+    "label": "Security: change your password."
+   },
+   {
+    "x": 71.74,
+    "y": 29.43,
+    "label": "What your roles allow."
+   },
+   {
+    "x": 46.56,
+    "y": 64.14,
+    "label": "Your recent sign-ins with IP address and device."
+   }
+  ]
+ },
+ "change-password": {
+  "caption": "Settings → Security → Change password.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 46.49,
+    "y": 38.36,
+    "label": "Your current password."
+   },
+   {
+    "x": 46.49,
+    "y": 50.07,
+    "label": "The new password (the strength meter helps)."
+   },
+   {
+    "x": 46.49,
+    "y": 69.32,
+    "label": "Type the new password again."
+   },
+   {
+    "x": 87.77,
+    "y": 76.07,
+    "label": "Click Update password."
+   }
+  ]
+ },
+ "users-list": {
+  "caption": "User Management → Users.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 32.44,
+    "label": "Search by name, email or phone."
+   },
+   {
+    "x": 70.94,
+    "y": 32.44,
+    "label": "Filter by status."
+   },
+   {
+    "x": 83.53,
+    "y": 32.44,
+    "label": "Filter by role."
+   },
+   {
+    "x": 76.58,
+    "y": 23.19,
+    "label": "Create a new user."
+   },
+   {
+    "x": 89.68,
+    "y": 53.12,
+    "label": "Open a user's profile."
+   }
+  ]
+ },
+ "user-create": {
+  "caption": "Creating a user.",
+  "width": 1366,
+  "height": 1050,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 30.97,
+    "label": "Full name."
+   },
+   {
+    "x": 58.71,
+    "y": 30.97,
+    "label": "Email: the user signs in with it."
+   },
+   {
+    "x": 24.82,
+    "y": 58.9,
+    "label": "A temporary password the user must change at first sign-in."
+   },
+   {
+    "x": 24.82,
+    "y": 81.12,
+    "label": "Choose one or more roles."
+   },
+   {
+    "x": 92.31,
+    "y": 93.81,
+    "label": "Click Create user."
+   }
+  ]
+ },
+ "user-profile": {
+  "caption": "A user's profile (User Management).",
+  "width": 1366,
+  "height": 1500,
+  "markers": [
+   {
+    "x": 44.97,
+    "y": 46.07,
+    "label": "Edit name, email and phone."
+   },
+   {
+    "x": 44.97,
+    "y": 50.07,
+    "label": "Activate or deactivate the account."
+   },
+   {
+    "x": 23.06,
+    "y": 57.27,
+    "label": "Set a temporary password for the user."
+   },
+   {
+    "x": 95.53,
+    "y": 35.18,
+    "label": "Change the user's roles."
+   }
+  ]
+ },
+ "login-history": {
+  "caption": "Login history for all users.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 36.95,
+    "label": "Every sign-in attempt: time, user, result, IP address and device."
+   }
+  ]
+ },
+ "activity-log": {
+  "caption": "The activity log.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 25.44,
+    "label": "Search descriptions, users or IP addresses."
+   },
+   {
+    "x": 74.91,
+    "y": 25.44,
+    "label": "Filter by type of activity."
+   },
+   {
+    "x": 23.06,
+    "y": 33.29,
+    "label": "Entries are grouped by day, newest first."
+   }
+  ]
+ },
+ "cc-overview": {
+  "caption": "Super Admin Control Center → Overview.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 40.7,
+    "y": 13.81,
+    "label": "Control Center menu: every administration area."
+   },
+   {
+    "x": 40.85,
+    "y": 23.63,
+    "label": "User statistics."
+   },
+   {
+    "x": 71.08,
+    "y": 54.33,
+    "label": "Permission-related information."
+   },
+   {
+    "x": 40.92,
+    "y": 97.41,
+    "label": "Shortcuts to common administration tasks."
+   }
+  ]
+ },
+ "cc-user": {
+  "caption": "Control Center → a user's access profile.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 70.48,
+    "y": 28.14,
+    "label": "Roles assigned to the user."
+   },
+   {
+    "x": 86.21,
+    "y": 28.14,
+    "label": "Allow / Deny / Inherit overrides."
+   },
+   {
+    "x": 98.43,
+    "y": 28.14,
+    "label": "Which records the user can see."
+   },
+   {
+    "x": 98.98,
+    "y": 28.14,
+    "label": "Which fields the user can see or edit."
+   },
+   {
+    "x": 64.84,
+    "y": 40.3,
+    "label": "Suspend with a reason and optional end date."
+   },
+   {
+    "x": 81.57,
+    "y": 40.3,
+    "label": "Account expiry date."
+   },
+   {
+    "x": 64.84,
+    "y": 75.82,
+    "label": "Allowed IP addresses and sign-in hours."
+   }
+  ]
+ },
+ "cc-overrides": {
+  "caption": "User-specific permission overrides (Karan Patel, Manager).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 95.53,
+    "y": 54.06,
+    "label": "Reset every override back to Inherit."
+   },
+   {
+    "x": 57.76,
+    "y": 88.67,
+    "label": "Each action: Inherit (from roles), Allow or Deny. The ✓ / × next to it is the effective result."
+   },
+   {
+    "x": 40.85,
+    "y": 40.17,
+    "label": "How the three choices work. Deny always wins."
+   }
+  ]
+ },
+ "cc-overrides-save": {
+  "caption": "Saving overrides.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 61.16,
+    "label": "Optional expiry date for the changes."
+   },
+   {
+    "x": 60.97,
+    "y": 65.02,
+    "label": "Reason, recorded in the audit log."
+   },
+   {
+    "x": 95.53,
+    "y": 63.02,
+    "label": "Save overrides."
+   },
+   {
+    "x": 40.92,
+    "y": 74.52,
+    "label": "Deny every action of one module in one step."
+   }
+  ]
+ },
+ "cc-user-data": {
+  "caption": "A user's effective data visibility (Neha Shah, Accountant).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 63.79,
+    "y": 45.04,
+    "label": "The scope that applies now, and where it comes from."
+   },
+   {
+    "x": 73.5,
+    "y": 45.04,
+    "label": "A user-specific scope, if any."
+   },
+   {
+    "x": 97.29,
+    "y": 45.04,
+    "label": "Pick a new scope for this user and click Set."
+   }
+  ]
+ },
+ "cc-user-fields": {
+  "caption": "A user's field permissions.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 74.55,
+    "y": 38.05,
+    "label": "The default level of each field."
+   },
+   {
+    "x": 86.89,
+    "y": 38.05,
+    "label": "A user-specific rule (overrides roles)."
+   },
+   {
+    "x": 97.29,
+    "y": 38.05,
+    "label": "What this user actually gets."
+   }
+  ]
+ },
+ "roles": {
+  "caption": "Control Center → Role management.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.46,
+    "y": 24.08,
+    "label": "Create a custom role."
+   },
+   {
+    "x": 69.55,
+    "y": 33.83,
+    "label": "Each role card shows users and permission counts."
+   },
+   {
+    "x": 77.95,
+    "y": 49.54,
+    "label": "Open the role's permission matrix."
+   },
+   {
+    "x": 90.11,
+    "y": 51.17,
+    "label": "Edit name, description and status."
+   }
+  ]
+ },
+ "role-create": {
+  "caption": "Creating a custom role.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 33.66,
+    "label": "Role name."
+   },
+   {
+    "x": 42.68,
+    "y": 45.38,
+    "label": "What the role is for."
+   },
+   {
+    "x": 79.06,
+    "y": 65.46,
+    "label": "Create the role, then grant permissions in its matrix."
+   }
+  ]
+ },
+ "matrix": {
+  "caption": "The permission matrix of the Partner role.",
+  "width": 1366,
+  "height": 1260,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 29.2,
+    "label": "Copy permissions from another role."
+   },
+   {
+    "x": 87.72,
+    "y": 35.63,
+    "label": "Select or deselect everything shown."
+   },
+   {
+    "x": 83.98,
+    "y": 39.92,
+    "label": "Click a column header to toggle the whole column."
+   },
+   {
+    "x": 40.92,
+    "y": 61.45,
+    "label": "One row per module; tick the actions this role may perform."
+   }
+  ]
+ },
+ "modules": {
+  "caption": "Control Center → Action permissions.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 95.53,
+    "y": 48.28,
+    "label": "Turn a whole module off for everyone except Super Admins."
+   },
+   {
+    "x": 40.92,
+    "y": 48.03,
+    "label": "Click a module to see each action, the roles that hold it and any user overrides."
+   }
+  ]
+ },
+ "data-visibility": {
+  "caption": "Control Center → Data visibility (record-level access per role).",
+  "width": 1366,
+  "height": 1500,
+  "markers": [
+   {
+    "x": 57.76,
+    "y": 31.16,
+    "label": "Choose a scope per role and module."
+   },
+   {
+    "x": 95.53,
+    "y": 96.72,
+    "label": "Save data visibility."
+   }
+  ]
+ },
+ "field-visibility": {
+  "caption": "Control Center → Field visibility (Partners module).",
+  "width": 1366,
+  "height": 1300,
+  "markers": [
+   {
+    "x": 58.42,
+    "y": 58.39,
+    "label": "Default level of the field."
+   },
+   {
+    "x": 74.91,
+    "y": 58.39,
+    "label": "Level for a role (Manager sees PAN masked)."
+   },
+   {
+    "x": 95.53,
+    "y": 92.33,
+    "label": "Save field visibility."
+   }
+  ]
+ },
+ "resources": {
+  "caption": "Control Center → Resource assignments.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 35.88,
+    "label": "Choose the user."
+   },
+   {
+    "x": 68.52,
+    "y": 35.88,
+    "label": "Choose the resource type."
+   },
+   {
+    "x": 40.92,
+    "y": 93.61,
+    "label": "Current assignments of every user."
+   }
+  ]
+ },
+ "workflows": {
+  "caption": "Control Center → Approval workflows.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 69.55,
+    "y": 76.19,
+    "label": "An active workflow with its steps."
+   },
+   {
+    "x": 40.85,
+    "y": 56.37,
+    "label": "Inactive workflows approve automatically."
+   },
+   {
+    "x": 51.86,
+    "y": 26.79,
+    "label": "Every approval request."
+   }
+  ]
+ },
+ "workflow-steps": {
+  "caption": "A workflow with two amount-based steps.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 46.49,
+    "y": 36.92,
+    "label": "Activate or deactivate the workflow."
+   },
+   {
+    "x": 64.79,
+    "y": 44.52,
+    "label": "Step name."
+   },
+   {
+    "x": 72.57,
+    "y": 44.52,
+    "label": "Approver: a role, a specific user, or anyone with the approve permission."
+   },
+   {
+    "x": 89.99,
+    "y": 53.89,
+    "label": "Minimum amount: this step applies only at or above it."
+   }
+  ]
+ },
+ "approvals-inbox": {
+  "caption": "The Approvals inbox.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 16.71,
+    "label": "Requests you can decide now."
+   },
+   {
+    "x": 23.06,
+    "y": 36.31,
+    "label": "Open a request to approve or reject it."
+   }
+  ]
+ },
+ "approval-decide": {
+  "caption": "Deciding an approval request.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 30.92,
+    "y": 70.55,
+    "label": "Approve (optional comment)."
+   },
+   {
+    "x": 29.89,
+    "y": 89.8,
+    "label": "Reject (a reason is required)."
+   }
+  ]
+ },
+ "preview": {
+  "caption": "User access preview for Neha Shah (Accountant).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 33.16,
+    "label": "Choose the user to preview."
+   },
+   {
+    "x": 40.85,
+    "y": 43.79,
+    "label": "Read-only: you stay signed in as yourself."
+   },
+   {
+    "x": 40.92,
+    "y": 65.31,
+    "label": "The sidebar this user will see."
+   }
+  ]
+ },
+ "templates": {
+  "caption": "Control Center → Permission templates.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 53.96,
+    "y": 24.08,
+    "label": "Create a template."
+   },
+   {
+    "x": 50.07,
+    "y": 48.97,
+    "label": "Edit a template or apply it to a role or user."
+   },
+   {
+    "x": 56.92,
+    "y": 48.97,
+    "label": "Duplicate a template."
+   }
+  ]
+ },
+ "sessions": {
+  "caption": "Control Center → Login sessions.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 40.92,
+    "y": 21.56,
+    "label": "Every active session with IP address, device and last activity."
+   },
+   {
+    "x": 96.55,
+    "y": 43.07,
+    "label": "Revoke a session: that browser is signed out on its next request."
+   }
+  ]
+ },
+ "audit": {
+  "caption": "Control Center → Audit logs.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 35.62,
+    "label": "Filter by who made the change."
+   },
+   {
+    "x": 86.97,
+    "y": 35.62,
+    "label": "Filter by action, e.g. permission."
+   },
+   {
+    "x": 95.83,
+    "y": 64.6,
+    "label": "Open an entry to see old and new values."
+   }
+  ]
+ },
+ "audit-entry": {
+  "caption": "An audit entry with old and new values.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 60.05,
+    "y": 27.04,
+    "label": "Values before the change."
+   },
+   {
+    "x": 79.18,
+    "y": 27.04,
+    "label": "Values after the change."
+   }
+  ]
+ },
+ "security-settings": {
+  "caption": "Control Center → Security settings.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 42.68,
+    "y": 28.44,
+    "label": "Lockout threshold."
+   },
+   {
+    "x": 69.55,
+    "y": 37.8,
+    "label": "Idle sign-out."
+   },
+   {
+    "x": 46.49,
+    "y": 78.67,
+    "label": "Whether user Allow overrides apply."
+   },
+   {
+    "x": 46.49,
+    "y": 85.25,
+    "label": "Segregation of duties."
+   }
+  ]
+ },
+ "access-denied": {
+  "caption": "What a user sees when they open a page they may not use.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 28.92,
+    "y": 55.72,
+    "label": "Access denied: the server blocked the request."
+   },
+   {
+    "x": 59.27,
+    "y": 67.58,
+    "label": "Return to the dashboard."
+   }
+  ]
+ },
+ "partners-list": {
+  "caption": "Partners → partner list.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 25.44,
+    "label": "Search by name, ID, email, mobile or city."
+   },
+   {
+    "x": 74.33,
+    "y": 25.44,
+    "label": "Filter by status."
+   },
+   {
+    "x": 95.53,
+    "y": 15.15,
+    "label": "Add a partner."
+   },
+   {
+    "x": 84.14,
+    "y": 15.15,
+    "label": "Export as CSV, Excel or PDF."
+   },
+   {
+    "x": 23.06,
+    "y": 39.32,
+    "label": "Click a partner to open the profile."
+   }
+  ]
+ },
+ "partner-create": {
+  "caption": "Adding a partner.",
+  "width": 1366,
+  "height": 1300,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 25.76,
+    "label": "Full name (required)."
+   },
+   {
+    "x": 70.01,
+    "y": 25.76,
+    "label": "Date of joining (required)."
+   },
+   {
+    "x": 24.82,
+    "y": 32.97,
+    "label": "PAN (optional, validated and unique)."
+   },
+   {
+    "x": 24.82,
+    "y": 50.18,
+    "label": "Contact details."
+   },
+   {
+    "x": 92.31,
+    "y": 86.89,
+    "label": "Save the partner."
+   }
+  ]
+ },
+ "partner-profile": {
+  "caption": "A partner profile (Overview tab).",
+  "width": 1366,
+  "height": 960,
+  "markers": [
+   {
+    "x": 38.55,
+    "y": 15.95,
+    "label": "Profile summary: ID, status, contact, capital account, linked login."
+   },
+   {
+    "x": 44.97,
+    "y": 87.41,
+    "label": "Record a contribution for this partner."
+   },
+   {
+    "x": 44.97,
+    "y": 93.66,
+    "label": "Deactivate, suspend or archive."
+   },
+   {
+    "x": 48.34,
+    "y": 14.49,
+    "label": "Tabs: you only see tabs you have permission for."
+   },
+   {
+    "x": 50.1,
+    "y": 23.37,
+    "label": "Financial summary from posted entries."
+   }
+  ]
+ },
+ "partner-login": {
+  "caption": "Personal information → login account.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 77.19,
+    "y": 17.8,
+    "label": "The linked login account."
+   },
+   {
+    "x": 93.7,
+    "y": 47.55,
+    "label": "Suspend the partner's login."
+   },
+   {
+    "x": 84.05,
+    "y": 53.55,
+    "label": "Unlink the login (the user account is kept)."
+   },
+   {
+    "x": 77.19,
+    "y": 64.8,
+    "label": "Every link, unlink and change is recorded."
+   }
+  ]
+ },
+ "partner-documents": {
+  "caption": "Partner → Documents.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 82.8,
+    "y": 31.48,
+    "label": "Document type."
+   },
+   {
+    "x": 82.8,
+    "y": 51.15,
+    "label": "Choose the file (PDF, JPG, PNG, WEBP, DOCX, XLSX; max 5 MB)."
+   },
+   {
+    "x": 88.27,
+    "y": 65.96,
+    "label": "Upload."
+   },
+   {
+    "x": 50.17,
+    "y": 28.92,
+    "label": "Uploaded documents. Download is permission-checked."
+   }
+  ]
+ },
+ "contributions-list": {
+  "caption": "Capital → Contributions.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.41,
+    "y": 20.56,
+    "label": "Record a new contribution."
+   },
+   {
+    "x": 63.98,
+    "y": 53.04,
+    "label": "Filter by status."
+   },
+   {
+    "x": 23.06,
+    "y": 74.43,
+    "label": "Each entry has its own number and status."
+   }
+  ]
+ },
+ "contribution-form": {
+  "caption": "Recording a capital contribution.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 35.88,
+    "label": "Partner."
+   },
+   {
+    "x": 64.36,
+    "y": 35.88,
+    "label": "Date of receipt."
+   },
+   {
+    "x": 24.82,
+    "y": 47.59,
+    "label": "Amount in rupees: digits only, up to 2 decimals, no commas."
+   },
+   {
+    "x": 53.06,
+    "y": 47.59,
+    "label": "Payment method."
+   },
+   {
+    "x": 24.82,
+    "y": 62.56,
+    "label": "Payment reference (UTR, cheque no., UPI ref.)."
+   },
+   {
+    "x": 92.31,
+    "y": 91.88,
+    "label": "Save & submit for approval (or Save draft)."
+   }
+  ]
+ },
+ "contribution-show": {
+  "caption": "A posted contribution.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 37.09,
+    "y": 16.77,
+    "label": "Status: Posted."
+   },
+   {
+    "x": 66.96,
+    "y": 26.95,
+    "label": "Created → Submitted → Approved → Posted."
+   },
+   {
+    "x": 23.06,
+    "y": 77.77,
+    "label": "Posted entries are corrected by reversal, never edited."
+   }
+  ]
+ },
+ "contribution-draft": {
+  "caption": "A draft contribution.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 72.25,
+    "y": 15.02,
+    "label": "Drafts can be edited."
+   },
+   {
+    "x": 87.38,
+    "y": 15.02,
+    "label": "Submit for approval."
+   },
+   {
+    "x": 97.36,
+    "y": 15.02,
+    "label": "Cancel the draft."
+   }
+  ]
+ },
+ "withdrawal-form": {
+  "caption": "Recording a withdrawal.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 33.16,
+    "label": "Partner: the eligible available capital is shown."
+   },
+   {
+    "x": 24.82,
+    "y": 48.14,
+    "label": "Amount: cannot exceed the eligible available capital."
+   },
+   {
+    "x": 24.82,
+    "y": 80.62,
+    "label": "Reason (required)."
+   },
+   {
+    "x": 92.31,
+    "y": 91.88,
+    "label": "Submit for approval."
+   }
+  ]
+ },
+ "withdrawal-pending": {
+  "caption": "A withdrawal waiting for approval.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 16.32,
+    "label": "Status: Pending approval."
+   },
+   {
+    "x": 66.96,
+    "y": 55.65,
+    "label": "The approval request and its steps."
+   }
+  ]
+ },
+ "ledger-index": {
+  "caption": "Capital → Ledger & Balances.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 33.44,
+    "label": "Opening, contributions, withdrawals, adjustments and closing per partner."
+   },
+   {
+    "x": 98.98,
+    "y": 41.35,
+    "label": "Open a partner's ledger."
+   }
+  ]
+ },
+ "ledger": {
+  "caption": "A partner's capital ledger (Rohan Mehta).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 27.98,
+    "y": 29.45,
+    "label": "Choose a period."
+   },
+   {
+    "x": 78.47,
+    "y": 35.2,
+    "label": "Debit: money out (withdrawals, debit adjustments)."
+   },
+   {
+    "x": 87.59,
+    "y": 35.2,
+    "label": "Credit: money in (contributions, credit adjustments)."
+   },
+   {
+    "x": 97.29,
+    "y": 35.2,
+    "label": "Running balance after each line."
+   },
+   {
+    "x": 37.91,
+    "y": 84.24,
+    "label": "Closing balance for the period."
+   }
+  ]
+ },
+ "adjustment-form": {
+  "caption": "Recording a capital adjustment.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 53.06,
+    "y": 50.85,
+    "label": "Adjustment type, e.g. Opening capital migration."
+   },
+   {
+    "x": 75.66,
+    "y": 50.85,
+    "label": "Effect: increase or reduce capital."
+   },
+   {
+    "x": 24.82,
+    "y": 65.83,
+    "label": "Reason (required)."
+   }
+  ]
+ },
+ "profit-sharing": {
+  "caption": "Profit Sharing → arrangements.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 45.8,
+    "y": 20.56,
+    "label": "Create an arrangement."
+   },
+   {
+    "x": 24.82,
+    "y": 42.35,
+    "label": "Current percentages of the active allocation."
+   }
+  ]
+ },
+ "profit-sharing-show": {
+  "caption": "An arrangement with its allocation history.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.04,
+    "y": 26.79,
+    "label": "Add a new effective-dated allocation."
+   },
+   {
+    "x": 22.99,
+    "y": 36.54,
+    "label": "Rules that protect history."
+   },
+   {
+    "x": 42.76,
+    "y": 49.22,
+    "label": "The allocation currently in effect."
+   }
+  ]
+ },
+ "allocation-form": {
+  "caption": "A new allocation.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 41.38,
+    "label": "Effective from: cannot be in the past once an allocation exists."
+   },
+   {
+    "x": 81.19,
+    "y": 68.3,
+    "label": "Percentage per partner, up to 4 decimals."
+   },
+   {
+    "x": 92.31,
+    "y": 91.88,
+    "label": "Save allocation."
+   }
+  ]
+ },
+ "partner-reports": {
+  "caption": "Partner reports.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 41.52,
+    "label": "Eight reports; each respects your permissions."
+   }
+  ]
+ },
+ "report-balances": {
+  "caption": "Capital balances report.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 87.78,
+    "y": 18.67,
+    "label": "Export as CSV, Excel or PDF, or print."
+   },
+   {
+    "x": 23.06,
+    "y": 36.95,
+    "label": "Opening, movements and closing per partner."
+   }
+  ]
+ },
+ "partner-own-view": {
+  "caption": "A partner's own login sees only their own record.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 39.32,
+    "label": "Only Rohan Mehta's own partner record is listed."
+   }
+  ]
+ }
+}

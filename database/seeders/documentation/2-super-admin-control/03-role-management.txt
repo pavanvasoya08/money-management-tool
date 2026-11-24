@@ -1,0 +1,37 @@
+title: Managing roles
+slug: role-management
+section: Role management
+keywords: create role custom role edit role duplicate role disable role delete role reassign users
+related: permission-matrix, understanding-the-initial-roles, permission-templates
+summary: Create custom roles, edit, duplicate, enable/disable or delete them safely.
+=== what
+**Control Center → Role management** shows every role as a card with its type, description, number of users and permissions. From a role you can open its **Permissions** matrix, **Data visibility**, **Field access**, **Users**, **Change history** and **Details**.
+
+You can create unlimited **custom roles**, edit them, **duplicate** any role, **enable or disable** a role (a disabled role grants nothing) and **delete** custom roles.
+=== why
+Custom roles fit your business exactly, for example *Senior Accountant* or *Branch Manager*, without giving people more than they need.
+=== who
+Super Admins.
+=== step: Open Role management | roles
+In the Control Center menu click **Role management**.
+=== step: Create a role | role-create
+Click **Create role**, enter a name and description, and save. The new role has no permissions yet.
+=== step: Grant permissions
+Open the role's **Permissions** tab (the matrix) and tick what it may do. See **The permission matrix**.
+=== step: Edit, duplicate or disable
+On the role's **Details** tab, change name or description, untick **Role enabled** to disable it, or enter a new name under **Duplicate role** to copy it with all its permissions.
+=== step: Delete a custom role
+Delete is offered for custom roles only. If users hold the role you must reassign them to another active role first.
+=== example: A “Senior Accountant” role
+Duplicate **Accountant** as *Senior Accountant*, then in its matrix tick **Capital Contributions → Post to capital ledger** and **Approve**. Assign it to Neha. Other accountants keep the original role.
+=== result
+Roles match the jobs in your business.
+=== notes
+- System roles (Super Admin, Partner, Accountant, Manager, Viewer) cannot be deleted, but you can change their permissions or disable them.
+- A role used as an approver in an approval workflow cannot be deleted until the workflow is changed.
+- Users are never moved in bulk to Super Admin during deletion.
+- Every change is recorded with a full snapshot in the audit log.
+=== mistakes
+- Disabling a role without checking who uses it; those users lose its access immediately.
+=== faq: If a user has two roles, which wins?
+Permissions are combined: anything either role allows is allowed, unless a user-specific Deny override blocks it.

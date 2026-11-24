@@ -1,0 +1,36 @@
+title: Partner documents
+slug: partner-documents
+section: Partner management
+keywords: documents upload download pan card identity agreement proof private files remove document
+related: partner-profile, field-level-permissions, capital-contributions
+summary: Upload and download private partner documents such as agreements and PAN cards.
+=== what
+The **Documents** tab stores files for a partner: partnership agreement, PAN document, identity document, capital contribution proof, withdrawal proof, adjustment support, profit-sharing agreement and other supporting documents. Documents attached to capital entries also appear here with the linked entry.
+
+Files are private:
+- Allowed types: PDF, JPG, PNG, WEBP, DOCX, XLSX, up to **5 MB**. The file's real content must match its extension.
+- Files are stored outside the public website with random names and can only be downloaded through the ERP after a permission check.
+- PAN and identity documents follow the **PAN & identity documents** field rule.
+=== why
+Supporting evidence stays with the partner record, safely and with an audit trail.
+=== who
+Viewing and downloading needs **partners.view_documents**; uploading **partners.upload_documents**; removing **partners.delete_documents**.
+=== step: Open the Documents tab | partner-documents
+Open the partner and click **Documents**.
+=== step: Upload
+Choose the **document type**, optionally a title, choose the file and click **Upload**.
+=== step: Download
+Click a document's name. The download is logged.
+=== step: Remove (if needed)
+Click remove and confirm. The document disappears from the list but is kept for the audit trail.
+=== example: Storing the partnership deed
+Asha uploads *Partnership-deed-2025.pdf* as **Partnership agreement** for Rohan Mehta. Rohan's own login (Partner role) can download it from his profile. Neha's Accountant role does not include the documents permission by default, so she does not see the Documents tab at all. A user who may view documents but whose **PAN & identity documents** field rule is hidden sees the agreement but not PAN or ID files.
+=== result
+The document is attached to the partner and available to authorised users.
+=== notes
+- Never upload banking passwords, PINs or OTPs.
+- Archived partners are read-only: no new uploads.
+=== mistakes
+- Renaming a PDF to `.jpg`. The upload is rejected because the content does not match.
+=== faq: Can I open a document from a link in an email?
+Only if you are signed in and allowed to see it. Every download is permission-checked.

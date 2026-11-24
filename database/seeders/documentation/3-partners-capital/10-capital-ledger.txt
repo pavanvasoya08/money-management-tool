@@ -1,0 +1,48 @@
+title: The capital ledger
+slug: capital-ledger
+section: Capital ledger
+keywords: capital ledger running balance debit credit opening closing balance period export statement
+related: capital-accounts-and-opening-balances, capital-adjustments-and-reversals, partner-reports-and-exports
+summary: Read a partner's date-wise capital statement with a running balance.
+=== what
+The **capital ledger** is a partner's statement: one line per **posted** entry, in date order, with:
+
+- **Date**, **Reference** (entry number), **Particulars**, **Payment ref.**
+- **Debit**: money out (withdrawals, reducing adjustments, reversals of contributions)
+- **Credit**: money in (contributions, increasing adjustments, reversals of withdrawals)
+- **Balance**: the running balance after each line
+- **Opening balance** at the start of the chosen period and **Closing balance** at the end.
+
+Drafts, pending, approved-but-unposted, rejected and cancelled entries never appear.
+=== why
+It is the authoritative history of each partner's capital.
+=== who
+Users with **capital_ledger.view** for the partner (accountants for assigned partners; partners for their own ledger).
+=== step: Open Ledger & Balances | ledger-index
+Open **Capital → Ledger & Balances** and click **Ledger** on a partner.
+=== step: Choose a period | ledger
+Set **From** and **To** and click **Apply**. The opening balance is the balance just before *From*.
+=== step: Export
+Use **Export → CSV, Excel or PDF**.
+=== example: A sample ledger (illustrative figures)
+| Date | Reference | Particulars | Debit | Credit | Balance |
+|---|---|---|---|---|---|
+| | | Opening balance | | | ₹0.00 |
+| 01 Apr 2025 | CA-2025-00001 | Opening capital migration | | ₹1,00,000.00 | ₹1,00,000.00 |
+| 10 Apr 2026 | CC-2026-00001 | Capital contribution (Bank transfer) | | ₹2,00,000.00 | ₹3,00,000.00 |
+| 14 Aug 2026 | CW-2026-00001 | Capital withdrawal | ₹50,000.00 | | ₹2,50,000.00 |
+| 02 Sep 2026 | CA-2026-00001 | Correction (reduce) | ₹10,000.00 | | ₹2,40,000.00 |
+| 05 Sep 2026 | CR-2026-00001 | Reversal of CA-2026-00001 | | ₹10,000.00 | ₹2,50,000.00 |
+| | | **Closing balance** | ₹60,000.00 | ₹3,10,000.00 | **₹2,50,000.00** |
+
+The correction was posted by mistake and reversed, so its net effect is zero.
+=== result
+You can read each partner's capital position on any date.
+=== notes
+- **Closing = Opening + Contributions + Adjustments − Withdrawals − Reversed amounts.**
+- Amounts are exact to the paisa; there is no rounding.
+- Exports contain the same lines and respect hidden or masked amount fields.
+=== mistakes
+- Comparing the ledger with a total that includes pending entries.
+=== faq: Why does an entry I just approved not appear?
+It is not posted yet. Only posted entries appear in the ledger.

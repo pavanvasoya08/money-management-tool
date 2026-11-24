@@ -1,0 +1,41 @@
+title: Application layout & navigation
+slug: application-layout-and-navigation
+section: Getting started
+featured: yes
+keywords: sidebar menu top bar search quick navigation notifications collapse breadcrumbs ctrl k
+related: understanding-the-dashboard, your-profile-and-settings, signing-in-and-out
+summary: The sidebar, top bar, quick search, notifications and profile menu explained.
+=== what
+Every page shares the same layout:
+
+- **Sidebar (left)**: modules grouped into sections (Overview, Partners & Capital, Upcoming modules, Administration, Help & Support). Items with an arrow, such as **Capital**, open a sub-menu.
+- **Top bar**: sidebar toggle, quick navigation search, notifications, settings (if you may view settings) and your profile menu.
+- **Breadcrumbs**: the path to the current page, for example *Home / Partners / Rohan Mehta*. Click any part to go back.
+- **Footer**: copyright and the application version.
+=== why
+A consistent layout means you always know where to find a feature, and the quick search takes you to any permitted page in two keystrokes.
+=== who
+Every user.
+=== step: Use the sidebar | layout
+Click a module to open it. Click a group such as **Capital** to show Contributions, Withdrawals, Adjustments and Ledger & Balances. The current page is highlighted in blue.
+=== step: Collapse or expand the sidebar
+Click the menu button at the top-left of the top bar. On a desktop the sidebar shrinks to icons and the ERP remembers your choice. On a phone the button opens and closes the sidebar.
+=== step: Jump anywhere with quick navigation
+Click the search icon, or press **Ctrl + K** (**⌘ + K** on a Mac) or **/**. Type part of a page name and press **Enter**. Only pages you may open are listed.
+=== step: Check notifications
+The bell shows a red dot when something waits for you, such as an approval request. Click it to see the items and **View all approvals**.
+=== step: Open your profile menu | profile-menu
+Click your initials at the top-right for **Profile**, **Security** (change password), **Activity log** (if permitted), **Control Center** (Super Admins only) and **Sign out**.
+=== example: Finding the capital ledger quickly
+Instead of opening Capital → Ledger & Balances, press **Ctrl + K**, type `ledger` and press **Enter**.
+=== result
+You can move around the ERP confidently using the sidebar, breadcrumbs or quick search.
+=== notes
+- The menu only shows what you may open, but the server checks every request again. A hidden page is not just hidden, it is blocked.
+- Disabled items marked **Soon** belong to later releases.
+=== mistakes
+- Using the browser's back button after signing out. Signed-out pages are not cached, so you will be asked to sign in again.
+=== faq: The sidebar disappeared on my phone. How do I get it back?
+Tap the menu button at the top-left. Tap outside the sidebar to close it again.
+=== faq: Why is the settings (gear) icon missing for me?
+It is shown only to users with the Settings view permission.

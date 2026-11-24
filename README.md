@@ -61,6 +61,10 @@ Open http://127.0.0.1:8000 and sign in.
 - **Reports:** 8 partner reports with CSV, Excel and PDF export, plus dashboard widgets. All respect record and field permissions.
 - **Accounting foundation:** an idempotent posting queue ready for Phase 12.
 
+## Help & User Guide
+
+An in-app manual for Phases 1–3 (47 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+
 ## Commands
 
 ```bash

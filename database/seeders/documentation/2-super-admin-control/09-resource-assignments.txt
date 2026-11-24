@@ -1,0 +1,39 @@
+title: Resource assignments
+slug: resource-assignments
+section: Resource assignments
+keywords: assign partners to user assigned records resource assignment team members accountant portfolio
+related: record-level-permissions, user-permission-overrides, partners-overview
+summary: Assign specific partners or team members to a user, for “Assigned records” access.
+=== what
+A **resource assignment** links a user to specific business records. Users whose data visibility is **Assigned records** see only what is assigned to them.
+
+Resource types available now:
+
+- **Partners**: e.g. assign two partners to an accountant.
+- **Users (managed team members)**: for scopes on the User Management module.
+
+Other resource types appear in this screen automatically only when their modules are released; there is nothing to assign for them today.
+=== why
+It gives each person a personal portfolio without creating a role per person.
+=== who
+Super Admins.
+=== prerequisites
+- The records must exist (for example, partners already added).
+- The user's role (or a user override) should use the **Assigned records** scope for the module.
+=== step: Open Resource assignments | resources
+In the Control Center click **Resource assignments**.
+=== step: Choose the user and resource type
+Select the user and **Partners** (or **Users**).
+=== step: Tick the records and save
+Tick the partners to assign and save. **All assignments** lists every user's current assignments.
+=== example: An accountant's portfolio
+Neha is assigned **Priya Nair** and **Vikram Singh**. With the Accountant role's **Assigned records** scope she sees and records capital entries for those two partners only. When Vikram moves to another accountant, untick him for Neha and tick him for the new accountant.
+=== result
+Users with the Assigned scope see exactly the assigned records.
+=== notes
+- Every assignment change is audited with the before and after lists.
+- Assignments do nothing for a user whose scope is All, Own or No access.
+=== mistakes
+- Assigning partners to a user whose role uses **All records**; the assignment has no effect.
+=== faq: Can one partner be assigned to several users?
+Yes.

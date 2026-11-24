@@ -1,0 +1,55 @@
+title: User-specific permission overrides (Allow, Deny, Inherit)
+slug: user-permission-overrides
+section: User-specific overrides
+featured: yes
+keywords: allow deny inherit override exception per user permission priority expiry restrict module
+related: permission-matrix, record-level-permissions, preview-user-access
+summary: Give or block one permission for one person without changing their role.
+=== what
+An **override** changes a single permission for a single user. Each permission has three choices:
+
+- **Inherit**: no override; the user gets whatever their roles give.
+- **Allow**: grant the permission even if no role does.
+- **Deny**: block the permission even if a role allows it.
+
+Overrides can have an **expiry date** and a **reason**, and **Restrict a whole module** denies every action of one module for the user in one step.
+
+**How the ERP decides (in this order):**
+
+1. Account not usable (inactive, suspended, expired, deleted, or outside allowed IPs/hours) → **denied**
+2. Super Admin → **allowed**
+3. Module disabled, or the permission is Super-Admin-only → **denied**
+4. Explicit **Deny** override → **denied**
+5. Explicit **Allow** override → **allowed** (only while “Allow explicit per-user grants” is on in Security settings)
+6. Any active role grants it → **allowed**
+7. Otherwise → **denied**
+
+So **Deny always wins** over roles and Allow, and expired overrides are ignored.
+=== why
+Exceptions are common: one manager should not export, one accountant needs to approve while a colleague is away. Overrides handle them without creating new roles.
+=== who
+Super Admins set overrides; they apply to the chosen user only.
+=== step: Open the user's Module permissions tab | cc-overrides
+In **Control Center → User management**, open the user and choose **Module permissions**. Each cell shows a selector (Inherit, Allow, Deny) and a ✓ or × for the effective result.
+=== step: Choose Allow or Deny where needed
+Change only the cells that need an exception. Use **Reset all to Inherit** to remove every override.
+=== step: Add an expiry and a reason, then save | cc-overrides-save
+Optionally set **Changed overrides expire** and type a **Reason** (it is stored in the audit log). Click **Save overrides**.
+=== step: Restrict a whole module (optional)
+Choose a module under **Restrict a whole module** and click **Apply** to deny all its actions for this user.
+=== example: Two practical exceptions
+| User | Role gives | Override | Result |
+|---|---|---|---|
+| Karan (Manager) | partners.export ✓ | **Deny** partners.export | Cannot export partners |
+| Neha (Accountant) | capital_withdrawals.approve × | **Allow** until 31 Dec | Can approve withdrawals until 31 Dec, then automatically back to her role's access |
+=== result
+The user's effective permissions change immediately, and the change appears in the audit log with old and new values.
+=== notes
+- If a Super Admin turns off **Allow explicit per-user grants**, Allow overrides stop working; Deny overrides always apply.
+- You cannot change your own overrides.
+- Use **User access preview** to check the result.
+=== mistakes
+- Using Allow overrides as a permanent substitute for a proper role. Prefer a role when several people need the same access.
+- Forgetting an expiry on temporary access.
+=== faq: A role allows something but the user is denied. Why?
+Look for a Deny override, a restricted module, a disabled module, or an account restriction (suspension, expiry, IP or hours).

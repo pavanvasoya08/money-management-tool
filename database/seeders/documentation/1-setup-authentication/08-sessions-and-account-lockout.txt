@@ -1,0 +1,41 @@
+title: Sessions, lockout & sign-in security
+slug: sessions-and-account-lockout
+section: Authentication
+keywords: session timeout idle inactivity locked account lockout failed attempts throttle ip blocked signed out
+related: signing-in-and-out, login-sessions-and-revoking, security-settings
+summary: Why you may be signed out or temporarily locked, and what to do.
+=== what
+A **session** is your signed-in visit. The ERP protects it with several rules:
+
+- **Inactivity timeout**: you are signed out after a period without activity (30 minutes by default).
+- **Absolute limit**: every session ends after a maximum time (8 hours by default), even if you stay active.
+- **Device check**: a session cannot be moved to another browser.
+- **Automatic sign-out** when your account is deactivated, suspended or expired, when your password is changed, or when an administrator ends your sessions.
+- An administrator may limit how many sessions a user can have at the same time.
+
+**Account lockout**: after several wrong passwords in a row (5 by default), your account is locked for a set time (15 minutes by default). There is also a limit per network: too many failed attempts from one IP address (20 within 15 minutes) blocks further attempts from it for a while.
+=== why
+These rules stop someone from guessing passwords, using a stolen session or staying signed in on an unattended computer.
+=== who
+Every user. Super Admins can adjust the numbers in **Control Center → Security settings**.
+=== step: If you were signed out
+Sign in again. Unsaved form input may be lost, so save drafts regularly when entering long records.
+=== step: If your account is locked
+Wait for the lockout time to pass, then sign in with the correct password. If you have forgotten it, use **Forgot password**.
+=== step: If you see “Too many failed sign-in attempts from your network”
+Wait 15 minutes. This limit covers everyone signing in from the same network.
+=== example: Lockout timeline (default settings)
+| Time | Event |
+|---|---|
+| 10:00–10:02 | 5 wrong passwords |
+| 10:02 | Account locked for 15 minutes; even the correct password is refused |
+| 10:17 | Lock expires; correct password signs in |
+=== result
+You understand why sign-in was refused or why you were signed out, and how to continue.
+=== notes
+- Locked accounts appear as **Locked now** on administrators' dashboards. Every failed attempt and lockout is recorded.
+- The error message for a wrong password never says whether the email exists.
+=== mistakes
+- Repeatedly guessing a password, which extends the problem. Use **Forgot password** instead.
+=== faq: Can an administrator unlock me immediately?
+The lock expires automatically. An administrator can also set a new temporary password for you.

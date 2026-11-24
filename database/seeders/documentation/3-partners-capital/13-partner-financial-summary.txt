@@ -1,0 +1,39 @@
+title: The partner financial summary
+slug: partner-financial-summary
+section: Partner financial summary
+keywords: financial summary overview tab total contributed withdrawn current balance pending last contribution profit share
+related: partner-profile, capital-ledger, profit-sharing
+summary: Read the numbers on a partner's Overview tab.
+=== what
+A partner's **Overview** tab shows:
+
+| Item | Meaning |
+|---|---|
+| **Total contributed** | Posted contributions, net of reversals |
+| **Total withdrawn** | Posted withdrawals, net of reversals |
+| **Current capital balance** | Closing balance from posted entries only |
+| **Opening capital** | Posted opening-capital-migration adjustments |
+| **Adjustments (net)** | Other posted adjustments (increases minus reductions) |
+| **Pending contributions / withdrawals** | Count and amount awaiting approval or posting (including approved but not posted) |
+| **Last contribution / Last withdrawal** | Dates of the latest posted entries |
+| **Active profit share** | Today's percentage and its arrangement (shown to users with Profit Sharing view permission) |
+
+Every figure comes from database records at the moment you open the page.
+=== why
+A single, reliable snapshot of the partner's position.
+=== who
+Users with **partners.view_financial_summary** for the partner; partners for their own record.
+=== step: Open the Overview tab | partner-profile
+Open the partner; **Overview** is the first tab.
+=== example: Reading Rohan's summary (illustrative)
+Total contributed ₹2,00,000 · Total withdrawn ₹50,000 · Opening capital ₹1,00,000 · Adjustments ₹0 → Current capital balance **₹2,50,000** (1,00,000 + 2,00,000 − 50,000). Active profit share 50%.
+=== result
+You can explain the partner's balance from its parts.
+=== notes
+- Capital contributions are not revenue and withdrawals are not expenses; they only move the partner's capital account.
+- Profit-sharing percentages are configured separately and do not follow capital.
+- Hidden or masked amount fields stay hidden or masked here.
+=== mistakes
+- Adding pending amounts to the balance. They are shown separately for that reason.
+=== faq: Why is my balance different from the dashboard total?
+The dashboard totals all partners you may see; the summary covers one partner.

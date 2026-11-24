@@ -7,3 +7,6 @@
 <?php if (!empty($withAdmin)): ?>
 <script src="<?= e(asset('assets/js/admin.js')) ?>"></script>
 <?php endif; ?>
+<?php if (!empty($withHelp)): ?>
+<script src="<?= e(asset('assets/js/help.js')) ?>"></script>
+<?php endif; ?>

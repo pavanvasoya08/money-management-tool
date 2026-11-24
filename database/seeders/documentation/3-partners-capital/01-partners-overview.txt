@@ -1,0 +1,39 @@
+title: Understanding partners
+slug: partners-overview
+section: Partner management
+featured: yes
+keywords: partners partner list directory search filter status export partner id capital account
+related: adding-a-partner, partner-profile, capital-accounts-and-opening-balances
+summary: What a partner record is, and how to find partners.
+=== what
+A **partner** is an owner of the business. Each partner record holds identity and contact details and has its own **capital account**. There is no fixed number of partners.
+
+Every partner gets:
+- a unique **partner ID** such as `PTR-0001`,
+- a **capital account** such as `CAP-PTR-0001`, opened at zero,
+- a **status**: Active, Inactive, Suspended or Archived.
+
+The **Partners** list shows each partner's name, contact, status, linked login and capital balance (if you may see it). You can search by name, ID, email, mobile or city, filter by status, and export to CSV, Excel or PDF.
+=== why
+Partner records are the foundation for capital contributions, withdrawals, the capital ledger and profit-sharing percentages.
+=== who
+Users with **partners.view**. What each person sees depends on their data visibility: all partners, assigned partners, or only their own record (partner logins).
+=== step: Open Partners | partners-list
+Click **Partners** in the sidebar.
+=== step: Search and filter
+Type in the search box, choose a status and apply.
+=== step: Open a partner
+Click a row to open the partner's profile.
+=== step: Export (optional)
+Use **Export** to download CSV, Excel or PDF. Exports follow the same record and field rules as the screen.
+=== example: Finding partners in one city
+Type `Kochi` in the search box. The list shows Priya Nair (PTR-0002).
+=== result
+You can find any partner you are allowed to see.
+=== notes
+- Adding a partner grants no permissions to anyone. Logins are linked separately.
+- Masked fields (for example PAN for managers) stay masked in exports.
+=== mistakes
+- Creating a second record for an existing partner instead of searching first. PAN numbers must be unique, which helps prevent this.
+=== faq: Is there a limit on the number of partners?
+No.

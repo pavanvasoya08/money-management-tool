@@ -1,0 +1,39 @@
+title: Editing users & changing their roles
+slug: editing-users-and-roles
+section: User management
+keywords: edit user change email phone roles assign roles reset password temporary password profile
+related: creating-a-user, activating-and-deactivating-users, understanding-the-initial-roles
+summary: Update a user's details, roles or password from their profile.
+=== what
+From a user's profile you can:
+
+- **Edit details**: name, email and phone.
+- **Change roles**: tick or untick roles and click **Save roles**.
+- **Reset password**: set a temporary password the user must change at next sign-in.
+
+The profile also shows login history and every change made to the account.
+=== why
+People change jobs, names and phone numbers; access must follow.
+=== who
+Users with **users.edit** (details), **users.assign_roles** (roles) and **users.reset_password** (passwords).
+=== step: Open the user's profile | user-profile
+In **User Management** click **View** on the user.
+=== step: Edit details
+Click **Edit details**, change the fields and save.
+=== step: Change roles
+In the **Roles** card tick the new roles, untick the old ones and click **Save roles**. The change applies on the user's next page load.
+=== step: Reset the password (if needed)
+In **Reset password**, enter and confirm a temporary password, then click **Set temporary password**. The user is signed out of remembered devices and must choose a new password at next sign-in.
+=== example: Promoting a viewer to manager
+Meera moves from a read-only role to managing operations. The administrator unticks **Viewer**, ticks **Manager** and saves. Meera's sidebar now includes the modules the Manager role allows.
+=== result
+The account reflects the person's current details and job.
+=== notes
+- You cannot change your own roles or status.
+- Only Super Admins can grant or remove the Super Admin role or manage Super Admin accounts.
+- The last active Super Admin cannot lose the Super Admin role.
+- Every change is written to the activity log with the old and new values.
+=== mistakes
+- Removing a role before giving the replacement, leaving the user without access in between.
+=== faq: Where do I set per-user exceptions such as “can view but not export”?
+In **Control Center → User management → Module permissions** (Super Admins only).

@@ -1,0 +1,40 @@
+title: Viewing a partner profile
+slug: partner-profile
+section: Partner management
+keywords: partner profile tabs overview personal information capital balance profit sharing documents activity history
+related: partner-financial-summary, partner-documents, linking-a-partner-login
+summary: The profile card and the tabs of a partner record.
+=== what
+A partner profile has a **profile card** (photo or initials, partner ID, status, contact, location, date of joining, capital account, linked login, who added it) and **tabs**:
+
+- **Overview**: the financial summary.
+- **Personal information**: full details and the login account.
+- **Capital contributions** and **Capital withdrawals**: the partner's entries.
+- **Capital balance**: the partner's ledger summary.
+- **Profit sharing**: the partner's percentage history.
+- **Financial reports**: links to partner reports.
+- **Documents**: uploaded documents.
+- **Activity history**: every change to this partner.
+
+Two further tabs are placeholders for modules that are not released yet and show no data. Each tab appears only if you have permission for its data.
+=== why
+Everything about a partner is in one place.
+=== who
+Users with **partners.view** for this partner.
+=== step: Open the profile | partner-profile
+Click a partner in the **Partners** list.
+=== step: Switch tabs
+Click a tab name. The address changes, so you can bookmark or share a tab with colleagues who have the same access.
+=== step: Use the profile actions
+From the card: **Record contribution**, **Change status**, edit, and **Add a profile photo** (JPG, PNG or WEBP).
+=== example: Checking a partner before a meeting
+Before the partners' meeting, Asha opens Rohan Mehta → **Overview** for his balance (₹2,50,000.00), **Profit sharing** for his 50% share, and **Documents** for the partnership deed.
+=== result
+You can see the partner's complete picture according to your permissions.
+=== notes
+- A partner login sees only its own profile.
+- Sensitive fields can be hidden or masked by field rules.
+=== mistakes
+- Expecting the profile to show figures from draft or pending entries as part of the balance. Only posted entries count.
+=== faq: Why are some tabs missing for me?
+Each tab needs a permission (for example capital ledger view or documents view).

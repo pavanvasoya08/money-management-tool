@@ -36,7 +36,7 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame(1, (int) $db->scalar('SELECT COUNT(*) FROM roles WHERE is_super_admin = 1'));
         $modules = count((array) \App\Core\Config::get('modules'));
         $actions = array_sum(array_map(static fn (array $m): int => count($m['actions']), (array) \App\Core\Config::get('modules')));
-        $this->assertSame(26, $modules); // Phase 3 added withdrawals, adjustments, ledger, profit sharing, partner reports
+        $this->assertSame(27, $modules); // Phase 3 added withdrawals, adjustments, ledger, profit sharing, partner reports; + Help & User Guide
         $this->assertSame($modules, (int) $db->scalar('SELECT COUNT(*) FROM modules'));
         $this->assertSame($actions, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM permissions WHERE module_id IS NULL'), 'every permission belongs to a module');

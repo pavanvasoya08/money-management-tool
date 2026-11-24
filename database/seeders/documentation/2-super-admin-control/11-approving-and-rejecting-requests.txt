@@ -1,0 +1,31 @@
+title: Approving and rejecting requests
+slug: approving-and-rejecting-requests
+section: Approval workflows
+keywords: approvals inbox approve reject comment reason pending waiting for you cancel my request notification
+related: approval-workflows, capital-withdrawals, capital-contributions
+summary: Use the Approvals inbox to approve or reject entries waiting for you.
+=== what
+The **Approvals** inbox lists requests **Waiting for you** (you can decide them now) and requests **Submitted by you**. Each request shows the workflow, amount, requester, status and current step. The bell in the top bar shows a red dot when something is waiting.
+=== why
+Entries such as withdrawals do not take effect until the required approvers agree.
+=== who
+Users who can approve or reject in at least one module (the **Approvals** menu item appears for them).
+=== step: Open the inbox | approvals-inbox
+Click **Approvals** in the sidebar, or the bell, then **View all approvals**.
+=== step: Open a request | approval-decide
+Click the request to see its details, its steps and its history.
+=== step: Approve or reject
+To approve, optionally add a comment and click **Approve**. To reject, type the **Rejection reason** (required) and click **Reject**.
+=== step: Cancel your own request (requesters)
+If you submitted a request by mistake, open it and click **Cancel my request**.
+=== example: Approving a withdrawal
+Neha submits a ₹25,000 withdrawal for Priya Nair. Asha sees it under **Waiting for you**, checks that Priya's eligible capital covers it, and clicks **Approve**. The withdrawal becomes **Approved**; it reduces Priya's balance only when someone **posts** it.
+=== result
+The request moves to the next step, or becomes Approved or Rejected. The linked entry's status updates automatically.
+=== notes
+- You cannot approve your own request (unless an administrator turned that protection off).
+- A rejected capital entry can be corrected and resubmitted: editing it returns it to Draft.
+=== mistakes
+- Approving without opening the entry and its supporting document.
+=== faq: Why can I see a request but not decide it?
+It is waiting at a step assigned to someone else, or you submitted it yourself.

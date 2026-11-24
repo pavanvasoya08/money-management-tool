@@ -1,0 +1,36 @@
+title: The permission matrix
+slug: permission-matrix
+section: Permission matrix
+keywords: permission matrix checkboxes select all copy role grant permissions role permissions save effective preview
+related: role-management, module-and-action-permissions, user-permission-overrides
+summary: Tick module actions for a role, copy from another role, and save.
+=== what
+The **permission matrix** is a grid: one row per module, one column per action. A ticked box means the role grants that permission. Tools above it:
+
+- **Copy permissions from another role**.
+- **Search** and a module filter.
+- **Select all** / **Deselect all**; clicking a column header toggles the whole column, and the row checkbox toggles the whole row.
+- **Effective preview**: how many permissions across how many modules.
+- An unsaved-changes counter, and a warning if you leave the page with unsaved changes.
+=== why
+It is the fastest way to see and set everything a role can do.
+=== who
+Super Admins.
+=== step: Open a role's matrix | matrix
+In **Role management** click **Matrix** on the role (or open the role's **Permissions** tab).
+=== step: Tick and untick
+Tick the actions the role should have. Dashes mean the action does not exist for that module.
+=== step: Confirm high-impact actions
+When you tick actions such as delete, approve or export, confirm the prompt.
+=== step: Save
+Click **Save permissions**. The change applies to every user with the role on their next page load, and is audited with the old and new lists.
+=== example: Copying and trimming
+To create a read-only auditor role: create the role, use **Copy permissions from another role → Accountant**, then untick every Create, Edit, Approve and Post column. Save.
+=== result
+The role grants exactly the ticked permissions.
+=== notes
+- How a permission combines with user overrides, data visibility and field rules is explained in **User-specific permission overrides**, **Record-level permissions** and **Field-level permissions**.
+=== mistakes
+- Forgetting to click **Save permissions**. The unsaved-changes counter reminds you.
+=== faq: Do changes affect users who are signed in?
+Yes, on their next request.

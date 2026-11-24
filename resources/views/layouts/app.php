@@ -160,6 +160,6 @@ $crumbs = $breadcrumbs ?? [];
 
 <?= $view->partial('partials/toasts') ?>
 <?= $view->partial('partials/confirm-modal') ?>
-<?= $view->partial('partials/scripts', ['withCharts' => $withCharts ?? false, 'withAdmin' => $adminSection !== null]) ?>
+<?= $view->partial('partials/scripts', ['withCharts' => $withCharts ?? false, 'withAdmin' => $adminSection !== null, 'withHelp' => !empty($withHelp) || str_starts_with($currentRoute, 'help.')]) ?>
 </body>
 </html>

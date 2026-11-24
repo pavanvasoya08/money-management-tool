@@ -283,6 +283,16 @@ return [
         'name' => 'Settings', 'icon' => 'settings', 'phase' => 1,
         'actions' => ['view' => 'View', 'edit' => 'Edit'],
     ],
+    // Help & User Guide. Reading published guides needs NO permission (every signed-in user);
+    // these actions only cover managing the documentation and can be granted like any other.
+    'documentation' => [
+        'name' => 'Help & User Guide', 'icon' => 'life-buoy', 'phase' => 3,
+        'actions' => [
+            'manage' => 'Create & edit guides (drafts, steps, screenshots, FAQs)',
+            'publish' => 'Publish & unpublish guides',
+            'delete' => 'Delete guides, categories & screenshots',
+        ],
+    ],
     'super_admin' => [
         'name' => 'Super Admin Control Center', 'icon' => 'shield-check', 'phase' => 2, 'super_admin_only' => true,
         'actions' => [

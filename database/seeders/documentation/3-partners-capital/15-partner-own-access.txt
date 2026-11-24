@@ -1,0 +1,34 @@
+title: What partners see with their own login
+slug: partner-own-access
+section: Partner management
+keywords: partner login own records my capital my ledger partner portal self service
+related: linking-a-partner-login, understanding-the-initial-roles, partner-financial-summary
+summary: A partner's own sign-in shows only their own record and capital.
+=== what
+When a partner's record is linked to a login with the **Partner** role, the partner sees, read-only:
+
+- their own partner profile and financial summary,
+- their own contributions, withdrawals and capital ledger,
+- their own documents.
+
+With the default Partner role they do **not** see profit-sharing percentages; a Super Admin can grant Profit Sharing view if partners should see them.
+
+They do not see other partners, configuration screens or administration, and other partners' records answer **Page not found**.
+=== why
+Partners can check their capital at any time without asking the accounts team.
+=== who
+Partners with a linked login and the Partner role (as configured by your Super Admin).
+=== step: Sign in | login
+The partner signs in with the login created for them.
+=== step: Open Partners | partner-own-view
+The list contains only the partner's own record. Open it to see the summary, ledger and documents.
+=== example: Rohan checks his balance
+Rohan signs in, opens **Partners → Rohan Mehta → Overview** and sees his current capital balance of ₹2,50,000.00. His dashboard totals also cover only his own capital, not the whole firm's.
+=== result
+The partner sees their own data only.
+=== notes
+- What a partner sees is decided by the Partner role's permissions and the **Own records** scope, not by the link itself.
+=== mistakes
+- Giving the Partner role to a staff member. Staff should use staff roles.
+=== faq: Can a partner record a contribution themselves?
+Not with the default Partner role, which is view-only. A Super Admin can change that, but recording is normally done by accounts staff.

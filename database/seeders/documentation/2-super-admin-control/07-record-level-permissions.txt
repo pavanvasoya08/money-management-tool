@@ -1,0 +1,46 @@
+title: Record-level permissions (data visibility)
+slug: record-level-permissions
+section: Record-level permissions
+keywords: data visibility record level all records own records assigned records selected records no access scope
+related: resource-assignments, field-level-permissions, user-permission-overrides
+summary: Control which records a user can see inside a module.
+=== what
+Module permissions decide whether someone can open a module. **Data visibility** decides **which records** they see inside it. The scopes are:
+
+| Scope | Sees |
+|---|---|
+| **All records** | Every record in the module |
+| **Own records** | Records that belong to the user. For partners and capital this means the partner linked to the user's login. For users it means their own account. |
+| **Assigned records** | Records assigned to the user in **Resource assignments** |
+| **Selected records** | Only the specific records you pick |
+| **Selected partners** | Records of the partners you pick (for partner and capital modules) |
+| **No access** | Nothing, even if the module is open |
+
+Scopes are set per **role and module**, and can be overridden for a single user.
+=== why
+Two people can use the same module but must see different data, for example an accountant who handles only certain partners.
+=== who
+Super Admins configure it. It applies to everyone, everywhere: lists, detail pages, dashboards, exports and reports.
+=== step: Set scopes per role | data-visibility
+Open **Control Center → Data visibility**. For each module choose a scope in each role's column and click **Save data visibility**.
+=== step: Override for one user (optional) | cc-user-data
+Open the user in **Control Center → User management → Data visibility**. The table shows the **Effective** scope and its source. Choose a new scope under **Change** and click **Set**.
+=== step: Check the result
+Use **User access preview** to confirm what the user will see.
+=== example: Same module, different records
+| User | Partners scope | Sees in Partners |
+|---|---|---|
+| Asha (Super Admin) | All | Rohan Mehta, Priya Nair, Vikram Singh |
+| Neha (Accountant) | Assigned (Priya, Vikram) | Priya Nair, Vikram Singh |
+| Rohan's login (Partner) | Own | Rohan Mehta only |
+| Meera (Viewer) | No module permission | Access denied |
+=== result
+Each user sees only the records their scope allows, on every screen and in every export.
+=== notes
+- A record outside your scope answers **Page not found** instead of “Access denied”, so record numbers cannot be guessed.
+- The most useful scope for accountants is usually **Assigned records**, maintained through resource assignments.
+=== mistakes
+- Giving a role **All records** when only a few partners are needed.
+- Setting a user to **No access** and then wondering why the module opens but is empty.
+=== faq: Do totals on the dashboard respect data visibility?
+Yes. Totals are calculated only over the records you may see.

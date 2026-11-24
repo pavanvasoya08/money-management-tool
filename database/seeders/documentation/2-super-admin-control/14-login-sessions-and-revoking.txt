@@ -1,0 +1,29 @@
+title: Login sessions & revoking access
+slug: login-sessions-and-revoking
+section: User access & audit
+keywords: sessions active sessions revoke session force logout sign out user devices failed sign-ins
+related: advanced-user-management, sessions-and-account-lockout, audit-logs-and-permission-changes
+summary: See who is signed in where, and end sessions immediately.
+=== what
+**Login sessions** lists every active session: user, start time, last activity, IP address and device. It also shows **recent failed sign-ins**. You can **revoke** one session, or end all sessions of a user with **Force logout** on their Control Center profile.
+=== why
+To respond quickly to a lost laptop, a leaver, or suspicious activity.
+=== who
+Super Admins.
+=== step: Open Login sessions | sessions
+In the Control Center click **Login sessions**.
+=== step: Revoke a session
+Click **Revoke** on the session. That browser is signed out on its next request.
+=== step: End all sessions of a user
+Open the user in **Control Center → User management** and click **Force logout**.
+=== example: A lost phone
+Vikram reports his phone lost at 20:15. Asha finds his session from “Android · Chrome” and clicks **Revoke**, then asks him to change his password from his laptop.
+=== result
+The revoked session can no longer be used; any further click on it leads to the sign-in page.
+=== notes
+- Revoking ends the session but does not block the account. To block it, deactivate or suspend the user.
+- Every revoke and force logout is audited.
+=== mistakes
+- Revoking a session but forgetting to change a password that may be compromised.
+=== faq: Will the user lose unsaved work?
+Yes, anything not yet saved in that browser is lost.

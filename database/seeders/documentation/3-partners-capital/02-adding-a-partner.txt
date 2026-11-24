@@ -1,0 +1,45 @@
+title: Adding a new partner
+slug: adding-a-partner
+section: Partner management
+featured: yes
+keywords: add partner new partner create partner pan date of joining contact photo
+related: partners-overview, editing-and-managing-partners, linking-a-partner-login
+summary: Create a partner record and its zero-balance capital account.
+=== what
+Adding a partner creates the partner record, a unique partner ID and a capital account with a zero balance. Capital is added later through contributions or an opening-capital adjustment.
+=== why
+Every capital entry must belong to a partner.
+=== who
+Users with **partners.create**.
+=== prerequisites
+- The partner's full name and date of joining. PAN and contact details are optional but recommended.
+=== step: Open the form | partners-list
+In **Partners** click **Add partner**.
+=== step: Fill in identity details | partner-create
+Enter **Full name** and **Date of joining** (required). Optionally enter **PAN** and a **profile photo**.
+=== step: Fill in contact details
+Email, mobile number, street address, city, state, country, PIN code and notes.
+=== step: Save
+Click save. The profile opens with the new partner ID, for example `PTR-0003`, and capital account `CAP-PTR-0003`.
+=== example: Adding a partner (illustrative)
+| Field | Value |
+|---|---|
+| Full name | Vikram Singh |
+| Date of joining | 15 Jul 2025 |
+| PAN | CVSPS9012M |
+| Email | vikram@example.com |
+| Mobile | 9811122233 |
+| City / State | Jaipur / Rajasthan |
+
+Result: partner **PTR-0003** with capital account **CAP-PTR-0003** at ₹0.00.
+=== result
+A new active partner with a zero-balance capital account.
+=== notes
+- **PAN** must match the PAN pattern (for example `ABCPE1234F`, with a valid holder-type letter in the 4th position) and must be unique.
+- Mobile numbers and PIN codes are validated.
+- The record shows who created it and when.
+=== mistakes
+- Entering a PAN with spaces or lowercase mistakes; type it exactly as on the card.
+- Recording capital in the notes field. Use a contribution or an opening-capital adjustment instead.
+=== faq: Does adding a partner create a login?
+No. Link or create a login from the partner's **Personal information** tab if the partner should sign in.

@@ -1,0 +1,28 @@
+title: The activity log
+slug: activity-log
+section: Security & activity
+keywords: activity log audit trail history who did what search filter timeline append-only
+related: login-activity-and-history, audit-logs-and-permission-changes, how-the-erp-protects-your-account
+summary: A read-only timeline of sign-ins and administrative actions.
+=== what
+The **Activity log** records sign-ins, sign-outs, failed sign-ins, lockouts, password events, user changes, settings changes, partner and capital actions, documentation changes and denied access. Each entry shows who, what, the action code and the IP address. Entries are grouped by day, newest first.
+
+The log is append-only: entries cannot be edited or deleted by anyone.
+=== why
+It answers “who did what, and when?” for reviews, audits and investigations.
+=== who
+Users with **activity_logs.view** (typically Super Admins and managers).
+=== step: Open the Activity log | activity-log
+Click **Activity Log** in the sidebar (or **Activity log** in your profile menu).
+=== step: Search and filter
+Type a name, description or IP address, choose a type, and click **Apply**. Click **Clear** to reset.
+=== example: Who changed Karan's access?
+Search `Karan`. The entry “Changed 1 permission override(s)” by Asha Verma at 14:10 answers it. Super Admins can see the exact old and new values in **Control Center → Audit logs**.
+=== result
+You can trace any recorded action to a person and a time.
+=== notes
+- Secrets such as passwords are never written to the log.
+=== mistakes
+- Looking for a field-by-field comparison here. Use **Control Center → Audit logs** for old and new values.
+=== faq: Can I delete wrong entries?
+No. The log is append-only by design.

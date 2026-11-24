@@ -1,0 +1,32 @@
+title: Your profile & account settings
+slug: your-profile-and-settings
+section: Getting started
+keywords: my account profile my permissions sign-ins personal information settings page
+related: changing-your-password, login-activity-and-history, application-layout-and-navigation
+summary: See your personal details, your roles and permissions, and your recent sign-ins.
+=== what
+**Settings → Profile** (open it from your profile menu) shows:
+
+- **Personal information**: name, email, roles, phone, last sign-in, when your password was last changed, and when your account was created.
+- **My permissions**: what your roles allow. Super Admins see “unrestricted access”.
+- **My recent sign-ins**: time, result, IP address and device of your latest sign-in attempts.
+
+The left menu also links to **Security** (change password) and, if you may view it, the **Activity log**.
+=== why
+To confirm what you can do, and to spot sign-ins you do not recognise.
+=== who
+Every user, for their own account.
+=== step: Open your profile | account-profile
+Click your initials in the top bar and choose **Profile**.
+=== step: Check your sign-ins
+Look at **My recent sign-ins**. If you see a sign-in you do not recognise, change your password immediately and tell your administrator.
+=== example: Spotting an unknown sign-in
+Priya notices a failed sign-in from an IP address she does not know. She changes her password and informs the Super Admin, who checks **Control Center → Login sessions**.
+=== result
+You know your access and can verify that only you use your account.
+=== notes
+- You cannot change your own roles or email here. Ask an administrator.
+=== mistakes
+- Ignoring failed sign-ins you did not make.
+=== faq: Can I change my name or email myself?
+No. An administrator with user-edit permission changes these from User Management.

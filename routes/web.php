@@ -15,6 +15,8 @@ use App\Controllers\ApprovalController;
 use App\Controllers\ActivityLogController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\HelpController;
+use App\Controllers\HelpManageController;
 use App\Controllers\PasswordResetController;
 use App\Controllers\SettingsController;
 use App\Controllers\UserController;
@@ -150,6 +152,42 @@ return static function (Router $r): void {
         $r->post('/approvals/{id}/cancel', [ApprovalController::class, 'cancel'], 'approvals.cancel');
 
         $r->post('/access-requests', [AccessRequestController::class, 'store'], 'access-requests.store');
+
+        // ---------- Help & User Guide ----------
+        // Reading is open to EVERY signed-in user: no module, role, record or field check.
+        // Drafts and management need documentation.* permissions (granted through the Control Center).
+        $r->group(['prefix' => 'help'], static function (Router $r): void {
+            $r->get('/', [HelpController::class, 'index'], 'help.index');
+            $r->get('/search', [HelpController::class, 'search'], 'help.search');
+            $r->get('/category/{slug}', [HelpController::class, 'category'], 'help.category');
+            $r->get('/guides/{slug}', [HelpController::class, 'guide'], 'help.guide');
+            $r->get('/media/{id}', [HelpController::class, 'media'], 'help.media');
+
+            $r->group(['prefix' => 'manage'], static function (Router $r): void {
+                $m = ['can:documentation.manage'];
+                $r->get('/', [HelpManageController::class, 'index'], 'help.manage', $m);
+                $r->get('/categories/create', [HelpManageController::class, 'createCategory'], 'help.manage.categories.create', $m);
+                $r->post('/categories', [HelpManageController::class, 'storeCategory'], 'help.manage.categories.store', $m);
+                $r->get('/categories/{id}/edit', [HelpManageController::class, 'editCategory'], 'help.manage.categories.edit', $m);
+                $r->post('/categories/{id}', [HelpManageController::class, 'updateCategory'], 'help.manage.categories.update', $m);
+                $r->post('/categories/{id}/move', [HelpManageController::class, 'moveCategory'], 'help.manage.categories.move', $m);
+                $r->post('/categories/{id}/delete', [HelpManageController::class, 'deleteCategory'], 'help.manage.categories.delete', ['can:documentation.delete']);
+                $r->get('/guides/create', [HelpManageController::class, 'createGuide'], 'help.manage.guides.create', $m);
+                $r->post('/guides', [HelpManageController::class, 'storeGuide'], 'help.manage.guides.store', $m);
+                $r->get('/guides/{id}/edit', [HelpManageController::class, 'editGuide'], 'help.manage.guides.edit', $m);
+                $r->get('/guides/{id}/preview', [HelpManageController::class, 'preview'], 'help.manage.guides.preview', $m);
+                $r->get('/guides/{id}/revisions', [HelpManageController::class, 'revisions'], 'help.manage.guides.revisions', $m);
+                $r->get('/guides/{id}/revisions/{rev}', [HelpManageController::class, 'revision'], 'help.manage.guides.revision', $m);
+                $r->post('/guides/{id}', [HelpManageController::class, 'updateGuide'], 'help.manage.guides.update', $m);
+                $r->post('/guides/{id}/move', [HelpManageController::class, 'moveGuide'], 'help.manage.guides.move', $m);
+                $r->post('/guides/{id}/publish', [HelpManageController::class, 'publish'], 'help.manage.guides.publish', ['can:documentation.publish']);
+                $r->post('/guides/{id}/unpublish', [HelpManageController::class, 'unpublish'], 'help.manage.guides.unpublish', ['can:documentation.publish']);
+                $r->post('/guides/{id}/delete', [HelpManageController::class, 'deleteGuide'], 'help.manage.guides.delete', ['can:documentation.delete']);
+                $r->post('/guides/{id}/media', [HelpManageController::class, 'uploadMedia'], 'help.manage.media.store', $m);
+                $r->post('/media/{id}', [HelpManageController::class, 'updateMedia'], 'help.manage.media.update', $m);
+                $r->post('/media/{id}/delete', [HelpManageController::class, 'deleteMedia'], 'help.manage.media.delete', ['can:documentation.delete']);
+            });
+        });
 
         // ---------- Super Admin Control Center (real Super Admins only — never delegable) ----------
         $r->group(['prefix' => 'admin', 'middleware' => ['super-admin']], static function (Router $r): void {

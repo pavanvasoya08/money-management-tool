@@ -1,0 +1,37 @@
+title: Editing and managing partner status
+slug: editing-and-managing-partners
+section: Partner management
+keywords: edit partner deactivate suspend archive restore reactivate partner status read-only
+related: adding-a-partner, partner-profile, linking-a-partner-login
+summary: Update partner details and change status: deactivate, suspend, archive or restore.
+=== what
+From a partner's profile you can **edit** the details and change the **status**:
+
+| Action | Effect |
+|---|---|
+| **Deactivate / Activate** | Marks the partner inactive or active again |
+| **Suspend access** | Suspends the partner with a reason. If you may suspend users, the linked login is suspended too |
+| **Reactivate** | Ends a suspension |
+| **Archive** | Closes the partner. Requires a **zero posted capital balance** and **no open entries**. The profile becomes read-only and history is kept |
+| **Restore** | Brings an archived partner back |
+=== why
+Partners join, pause and leave; their records must stay accurate without losing history.
+=== who
+Users with **partners.edit** (details), **partners.change_status**, **partners.suspend** and **partners.archive**.
+=== step: Open the partner's profile | partner-profile
+Click the partner in the **Partners** list.
+=== step: Edit details
+Click the edit (pencil) button on the profile card, change the fields and save. Changes are audited, with PAN masked in the audit log.
+=== step: Change status
+Click **Change status** and choose the action. Enter a reason where asked and confirm.
+=== example: A partner retires
+Vikram retires. First his remaining capital is paid out through a posted withdrawal, so his balance is ₹0.00 and he has no open entries. Then **Change status → Archive partner**. His profile and ledger remain available, read-only.
+=== result
+The partner's status and details are updated, with a full audit trail.
+=== notes
+- Archived partners cannot receive new entries or documents.
+- Status changes do not delete any capital entry.
+=== mistakes
+- Trying to archive a partner who still has capital or a pending entry; the ERP blocks it.
+=== faq: Can I delete a partner?
+No. Partners are archived, never deleted, so the capital history stays complete.

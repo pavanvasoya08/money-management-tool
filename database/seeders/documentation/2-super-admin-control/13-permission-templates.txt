@@ -1,0 +1,36 @@
+title: Permission templates
+slug: permission-templates
+section: Permission templates
+keywords: templates reusable permission set apply to role apply to user duplicate starter template
+related: role-management, permission-matrix, user-permission-overrides
+summary: Reusable permission sets you can apply to roles or individual users.
+=== what
+A **permission template** is a saved set of permissions, optionally with data scopes. You can:
+
+- **Apply to a role**: the role's permissions are **replaced** by the template's (you are asked to confirm).
+- **Apply to a user**: permissions the user is missing are **added** as explicit Allow overrides.
+- **Create**, **edit**, **duplicate** and **delete** templates.
+
+Six starter templates are provided. Review them before use; permissions for modules that are not released yet have no effect.
+=== why
+Templates make it quick and consistent to set up common job profiles.
+=== who
+Super Admins.
+=== step: Open Permission templates | templates
+In the Control Center click **Permission templates**.
+=== step: Create or edit
+Click **Create template** (or **Edit / apply**), name it, tick permissions in the matrix, optionally set data scopes, and save.
+=== step: Apply
+At the top of the template, choose a role or a user and click **Apply**. Confirm.
+=== example: Setting up a read-only role
+Create a role *Auditor*, then apply the starter template **Read-Only Auditor** to it. The role's permissions become exactly the template's: view and export, no changes.
+=== result
+The role or user receives the template's permissions; the change is audited.
+=== notes
+- Applying to a role replaces its permissions, so apply to an empty or copied role if you want to keep the original.
+- Deleting a template does not change roles or users it was applied to.
+- Super-Admin-only permissions are never granted by templates.
+=== mistakes
+- Applying a template to a system role and losing its existing permissions.
+=== faq: Can I undo applying a template to a role?
+The audit log records the role's previous permissions; re-tick them in the matrix or apply another template.
