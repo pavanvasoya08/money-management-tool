@@ -93,7 +93,7 @@ a.nav-item:hover, .nav-group-toggle:hover { background: var(--ui-fill); color: v
 .form-actions-bar {
     position: sticky; bottom: var(--sp-4); z-index: 20; margin-top: var(--sp-6);
     background: var(--ui-surface); border: 1px solid var(--ui-border); border-radius: var(--ui-radius-lg); padding: var(--sp-3) var(--sp-4);
-    display: flex; justify-content: flex-end; align-items: center; gap: var(--sp-3); flex-wrap: wrap; box-shadow: 0 8px 24px -12px rgba(0, 0, 0, .18);
+    display: flex; justify-content: flex-end; align-items: center; gap: var(--sp-3); flex-wrap: wrap; /* box-shadow: 0 8px 24px -12px rgba(0, 0, 0, .18); */
 }
 .form-actions-bar .hint { margin-right: auto; color: var(--ui-muted); font-size: var(--ui-fs-sm); }
 

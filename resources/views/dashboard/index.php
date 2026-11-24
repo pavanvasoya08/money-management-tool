@@ -42,7 +42,7 @@ $quick = array_filter([
     <div class="col-xl-8">
         <?php if ($counts !== null): ?>
         <div class="card app-card">
-            <div class="card-header">Overview<span class="small text-secondary fw-normal ms-auto">Users &amp; access</span></div>
+            <div class="card-header">Overview<span class="small text-secondary fw-normal">Users &amp; access</span></div>
             <div class="card-body">
         <div class="kpi-group">
             <a class="stat-card" href="<?= e(route('users.index')) ?>"><span class="stat-icon tone-navy"><i data-lucide="users"></i></span><span class="stat-label">Total users</span><span class="stat-value"><?= (int) $counts['total'] ?></span></a>

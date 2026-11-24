@@ -3,7 +3,7 @@
 $m = static fn (int $p): string => \App\Support\Money::format($p);
 ?>
 <div class="card app-card mb-3">
-    <div class="card-header">Partners &amp; capital<span class="small text-secondary fw-normal ms-auto">Posted entries only</span></div>
+    <div class="card-header">Partners &amp; capital<span class="small text-secondary fw-normal">Posted entries only</span></div>
     <div class="card-body">
 <div class="kpi-group">
     <?php if (isset($capital['partners'])): ?>
@@ -26,7 +26,7 @@ $m = static fn (int $p): string => \App\Support\Money::format($p);
 </div>
 <?php if (isset($capital['totals'])): ?>
 <div class="card app-card mb-3">
-    <div class="card-header">Partner-wise capital distribution<span class="small text-secondary fw-normal ms-auto">Closing capital balance</span></div>
+    <div class="card-header">Partner-wise capital distribution<span class="small text-secondary fw-normal">Closing capital balance</span></div>
     <div class="card-body">
         <?php if ($capital['chart'] === null): ?>
             <?= $view->partial('partials/empty', ['icon' => 'bar-chart-3', 'text' => 'No posted capital yet. Balances appear here once contributions are approved and posted.']) ?>
