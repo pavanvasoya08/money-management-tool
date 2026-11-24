@@ -1,0 +1,24 @@
+title: GST registration reports and exports
+slug: gst-registration-reports
+section: Reports
+keywords: report export csv excel xlsx pdf print state-wise partner-wise type summary cancelled suspended recently updated
+related: understanding-gst-registrations, mapping-partners-to-gst
+summary: Seven reports with filters, sorting and CSV, Excel and PDF export, all limited to what you may see.
+=== what
+Seven reports: **All registrations, Active registrations, Cancelled and suspended, State-wise summary, Registration type summary, Partner-wise registrations** and **Recently updated**.
+=== why
+Reports answer common questions (which states, which partners, what changed) in a printable, exportable form.
+=== who
+Viewing needs **gst_registrations.view**; exporting needs **export**; printing needs **print**.
+=== step: Choose a report | gst-reports
+Open **Registration reports** and pick one.
+=== step: Filter and export | gst-report-partner
+Filter by search text, state, type, status, partner and dates, choose the sort order, then **Export** as CSV, Excel or PDF, or **Print**.
+=== step: Export the register | gst-list
+The **Registrations** list has its own filters and an **Export** menu for the filtered list.
+=== result
+A report or file containing only the registrations and fields you are allowed to see.
+=== notes
+- Record scope and field rules apply on screen and in every export.
+- Archived registrations are excluded unless you choose **With archived**.
+- Exports are logged in the activity log.

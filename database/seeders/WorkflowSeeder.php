@@ -21,6 +21,10 @@ final class WorkflowSeeder extends Seeder
         'capital_adjustment' => ['Capital adjustment approval', 'capital_adjustments', 'Approve opening balances, corrections and reclassifications of partner capital.'],
         'sales_return' => ['Sales return approval', 'returns_refunds', 'Approve returns and refunds.'],
         'journal_entry' => ['Journal entry approval', 'accounting', 'Approve manual journal entries.'],
+        // Phase 4 — GST registration master data.
+        'gst_registration_create' => ['New GST registration approval', 'gst_registrations', 'Approve new GST registrations before they become usable.'],
+        'gst_registration_update' => ['GST key-detail change approval', 'gst_registrations', 'Approve changes to key details: GSTIN, legal name, PAN, registration type, registration and effective dates.'],
+        'gst_registration_cancel' => ['GST cancellation approval', 'gst_registrations', 'Approve marking a GST registration as cancelled.'],
     ];
 
     public function run(): void

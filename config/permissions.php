@@ -34,7 +34,8 @@ return [
                 'capital_contributions.view', 'capital_contributions.view_own',
                 'capital_withdrawals.view', 'capital_withdrawals.view_own',
                 'capital_ledger.view', 'capital_ledger.view_own',
-                'gst_registrations.view', 'gst_registrations.view_assigned',
+                // Phase 4: GST registrations mapped to the partner's own record (read-only).
+                'gst_registrations.view', 'gst_registrations.view_own', 'gst_registrations.download_documents',
                 'bank_accounts.view', 'bank_accounts.view_assigned',
                 'financial_reports.view', 'financial_reports.view_assigned',
             ],
@@ -55,6 +56,8 @@ return [
                 'capital_withdrawals.view', 'capital_withdrawals.view_assigned', 'capital_withdrawals.create', 'capital_withdrawals.edit',
                 'capital_ledger.view', 'capital_ledger.view_assigned', 'capital_ledger.export',
                 'partner_reports.view', 'partner_reports.export',
+                // Phase 4: assigned GST registrations, read-only, with documents and export.
+                'gst_registrations.view', 'gst_registrations.view_assigned', 'gst_registrations.download_documents', 'gst_registrations.view_history', 'gst_registrations.export', 'gst_registrations.print',
             ],
         ],
         'manager' => [
@@ -67,6 +70,8 @@ return [
                 'sales_orders.view', 'sales_orders.view_assigned', 'sales_orders.create', 'sales_orders.edit',
                 // Phase 3: partner directory only — no capital figures, no profit sharing.
                 'partners.view', 'partners.view_all',
+                // Phase 4: GST register, read-only.
+                'gst_registrations.view', 'gst_registrations.view_all',
             ],
         ],
         'viewer' => [

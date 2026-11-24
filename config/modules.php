@@ -118,16 +118,40 @@ return [
         'name' => 'Partner Reports', 'icon' => 'file-bar-chart', 'phase' => 3,
         'actions' => ['view' => 'View', 'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print'],
     ],
+    // Phase 4. Many-to-many with partners (gst_registration_partner_mappings); never stores portal passwords/OTPs.
     'gst_registrations' => [
         'name' => 'GST Registrations', 'icon' => 'file-badge', 'phase' => 4,
-        'actions' => $std,
+        'prune_actions' => true, // drop the generic placeholder actions reserved in Phase 2 (delete, download, import)
+        'actions' => [
+            'view' => 'View', 'view_all' => 'View all records', 'view_own' => 'View own records (mapped partner / created by me)', 'view_assigned' => 'View assigned records',
+            'create' => 'Add registrations', 'edit' => 'Edit registration details',
+            'activate' => 'Activate', 'deactivate' => 'Deactivate', 'suspend' => 'Suspend', 'cancel' => 'Mark as cancelled', 'archive' => 'Archive / restore',
+            'approve' => 'Approve requests', 'reject' => 'Reject requests',
+            'manage_partners' => 'Manage partner mappings', 'manage_business_mappings' => 'Manage business-activity mappings',
+            'manage_locations' => 'Manage business locations', 'manage_documents' => 'Upload & archive documents', 'download_documents' => 'View & download documents',
+            'manage_settings' => 'Manage registration settings', 'view_history' => 'View history & audit', 'manage_masters' => 'Manage GST masters & rules',
+            'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print',
+        ],
         'fields' => [
             'gstin' => $f('GSTIN'),
-            'legal_name' => $f('Legal name'),
-            'registered_address' => $f('Registered address', true),
-            'portal_username' => $f('GST portal username', true, 'full', 'hidden'),
+            'legal_name' => $f('Legal business name'),
+            'trade_name' => $f('Trade name'),
+            'pan' => $f('PAN', true, 'last4', 'visible'),
+            'contact_person' => $f('Primary contact person', true, 'full', 'visible'),
+            'contact_phone' => $f('Contact number', true, 'phone', 'visible'),
+            'contact_email' => $f('Email address', true, 'email', 'visible'),
+            'address' => $f('Business addresses', true, 'full', 'visible'),
+            'portal_reference' => $f('GST portal reference (ARN, application ref.)', true, 'full', 'visible'),
+            'internal_notes' => $f('Internal notes', true, 'full', 'visible'),
         ],
-        'data' => ['table' => 'gst_registrations', 'owner_column' => 'created_by', 'resource' => 'gst_registration', 'columns' => ['gst_registration' => 'id', 'partner' => 'partner_id']],
+        'data' => [
+            'table' => 'gst_registrations', 'owner_column' => null, 'resource' => 'gst_registration',
+            // Own = registrations actively mapped to the partner linked to my login, or created by me.
+            'owner_sql' => "SELECT m.gst_registration_id FROM gst_registration_partner_mappings m JOIN partners p ON p.id = m.partner_id WHERE p.user_id = ? AND m.status = 'active'"
+                . ' UNION SELECT g.id FROM gst_registrations g WHERE g.created_by = ?',
+            'columns' => ['gst_registration' => 'id'],
+            'columns_via' => ['partner' => "SELECT gst_registration_id FROM gst_registration_partner_mappings WHERE status = 'active' AND partner_id IN (%s)"],
+        ],
     ],
     'bank_accounts' => [
         'name' => 'Bank Accounts', 'icon' => 'landmark', 'phase' => 5,

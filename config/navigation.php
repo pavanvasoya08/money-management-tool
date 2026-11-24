@@ -11,6 +11,7 @@ declare(strict_types=1);
  *   'module'      — module key (Preview User Access shows whether the user will see it)
  *   'super_admin' — only real Super Admins see the item
  *   'approver'    — shown to users who can approve or reject in any module
+ *   'active'      — route-name prefix (or list of prefixes) that highlights the item
  */
 return [
     ['section' => 'Overview'],
@@ -25,8 +26,13 @@ return [
     ['label' => 'Profit Sharing', 'module' => 'profit_sharing', 'icon' => 'pie-chart', 'route' => 'profit-sharing.index', 'permission' => 'profit_sharing.view', 'active' => 'profit-sharing'],
     ['label' => 'Partner Reports', 'module' => 'partner_reports', 'icon' => 'file-bar-chart', 'route' => 'partner-reports.index', 'permission' => 'partner_reports.view', 'active' => 'partner-reports'],
 
+    ['section' => 'Compliance'],
+    ['label' => 'GST Dashboard', 'title' => 'GST Management dashboard', 'group' => ['key' => 'gst', 'label' => 'GST Management', 'icon' => 'file-badge'], 'module' => 'gst_registrations', 'icon' => 'layout-dashboard', 'route' => 'gst.dashboard', 'permission' => 'gst_registrations.view', 'active' => 'gst.dashboard'],
+    ['label' => 'Registrations', 'title' => 'GST registrations', 'group' => ['key' => 'gst', 'label' => 'GST Management', 'icon' => 'file-badge'], 'module' => 'gst_registrations', 'icon' => 'file-badge', 'route' => 'gst.index', 'permission' => 'gst_registrations.view', 'active' => ['gst.index', 'gst.show', 'gst.create', 'gst.edit']],
+    ['label' => 'Registration reports', 'title' => 'GST registration reports', 'group' => ['key' => 'gst', 'label' => 'GST Management', 'icon' => 'file-badge'], 'module' => 'gst_registrations', 'icon' => 'file-bar-chart', 'route' => 'gst.reports', 'permission' => 'gst_registrations.view', 'active' => 'gst.reports'],
+    ['label' => 'Masters & rules', 'title' => 'GST masters & rules', 'group' => ['key' => 'gst', 'label' => 'GST Management', 'icon' => 'file-badge'], 'module' => 'gst_registrations', 'icon' => 'sliders-horizontal', 'route' => 'gst.masters', 'permission' => 'gst_registrations.manage_masters', 'active' => 'gst.masters'],
+
     ['section' => 'Upcoming modules'],
-    ['label' => 'GST Registrations', 'group' => ['key' => 'compliance', 'label' => 'Compliance & Banking', 'icon' => 'landmark'], 'module' => 'gst_registrations', 'icon' => 'file-badge', 'route' => null, 'phase' => 4],
     ['label' => 'Bank Accounts', 'group' => ['key' => 'compliance', 'label' => 'Compliance & Banking', 'icon' => 'landmark'], 'module' => 'bank_accounts', 'icon' => 'landmark', 'route' => null, 'phase' => 5],
     ['label' => 'Products', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'products', 'icon' => 'package', 'route' => null, 'phase' => 6],
     ['label' => 'Suppliers', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'suppliers', 'icon' => 'truck', 'route' => null, 'phase' => 6],

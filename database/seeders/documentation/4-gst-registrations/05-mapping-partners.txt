@@ -1,0 +1,28 @@
+title: Mapping partners to GST registrations
+slug: mapping-partners-to-gst
+section: Associations
+keywords: partner mapping relationship owner proprietor authorized representative many to many history single owner
+related: managing-gst-registration-details, gst-masters-and-rules
+summary: Link partners to registrations with a relationship type and dates; mappings keep their history.
+=== what
+A mapping says how a partner relates to a registration: owner, proprietor, partner, authorised representative, business associate or other. One partner can be mapped to many registrations, and one registration to many partners.
+=== why
+It shows who is responsible for each registration and lets partner logins see the registrations they are connected to.
+=== who
+Users with **gst_registrations.manage_partners**.
+=== step: Add a mapping | gst-partners
+On **Partner associations**, choose the partner, the relationship, the **From** date and optionally the **To** date, then click **Add**.
+=== step: End a mapping
+Click **End mapping**, give the end date and reason. The mapping stays in the list as history.
+=== step: See it from the partner side | gst-partner-tab
+A partner's profile has a **GST registrations** tab listing current and ended associations. Partner logins see the same tab for themselves.
+=== step: Optional single-owner rule | gst-rules
+A Super Admin can switch on **Each GST registration may have only one active owner** in **Masters & rules → Business rules**.
+=== result
+Each registration shows its current and past partners with dates.
+=== notes
+- **A mapping does not change capital or profit-sharing.** Ownership shares are managed under Partners & Capital.
+- The same partner cannot have two active mappings to one registration at the same time.
+- Mappings of cancelled or archived registrations are read-only.
+=== mistakes
+- Deleting and re-adding to "correct" a date. End the mapping instead, so the history stays correct.

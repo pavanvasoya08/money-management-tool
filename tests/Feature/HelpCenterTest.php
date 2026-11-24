@@ -150,16 +150,20 @@ final class HelpCenterTest extends HttpTestCase
     public function testSeederIsCompleteIdempotentAndKeepsEdits(): void
     {
         $db = App::db();
-        $this->assertSame(3, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
+        $this->assertSame(4, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
         $guides = (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE status = 'published'");
-        $this->assertTrue($guides >= 45, 'Phase 1–3 guides seeded');
+        $this->assertTrue($guides >= 55, 'Phase 1–4 guides seeded');
+        $gstCat = (int) $db->scalar("SELECT id FROM documentation_categories WHERE slug = 'gst-registrations'");
+        $this->assertSame('Phase 4 – GST Registration Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$gstCat]));
+        $this->assertSame(10, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$gstCat]));
+        $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE g.category_id = ? AND NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id AND s.media_id IS NOT NULL)', [$gstCat]), 'every GST guide has a real screenshot');
         $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE summary = '' OR what_is IS NULL"), 'every guide has an introduction and explanation');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id)'), 'every guide has steps');
         $this->assertTrue((int) $db->scalar('SELECT COUNT(*) FROM documentation_media WHERE annotations IS NOT NULL') > 40, 'annotated screenshots');
         foreach ($db->select('SELECT stored_name FROM documentation_media') as $m) {
             $this->assertTrue(is_file(DocumentationMediaService::bundledDirectory() . '/' . substr((string) $m['stored_name'], 8)), 'bundled file exists: ' . $m['stored_name']);
         }
-        foreach (['GST Registration', 'Inventory Management', 'Sales & Order'] as $future) {
+        foreach (['Bank Account', 'Inventory Management', 'Sales & Order', 'E-commerce Platform'] as $future) {
             $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE title LIKE ?', ['%' . $future . '%']), "no guide for future module {$future}");
         }
         $db->update('documentation_guides', ['title' => 'Edited by a manager'], ['slug' => 'capital-ledger']);

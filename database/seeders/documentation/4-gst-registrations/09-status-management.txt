@@ -1,0 +1,26 @@
+title: Registration status, cancellation and archiving
+slug: gst-registration-status
+section: GST registrations
+keywords: status activate deactivate suspend cancel archive restore lifecycle approval effective date
+related: managing-gst-registration-details, understanding-gst-registrations
+summary: Move a registration through its lifecycle; cancellations may need approval; archived records are kept.
+=== what
+A registration is **Pending verification, Active, Inactive, Suspended** or **Cancelled**. Separately, it can be **archived**, which hides it from day-to-day lists without deleting it.
+=== why
+The status tells users and later modules whether a registration can be used.
+=== who
+Each action has its own permission: **activate, deactivate, suspend, cancel, archive**.
+=== step: Change the status | gst-status-menu
+Click **Change status** on the profile and choose the new status. Suspension and cancellation need a reason; cancellation also takes the cancellation date.
+=== step: Cancellation approval
+If the *GST cancellation* workflow is active, a cancellation waits for approval and the registration stays as it is until approved.
+=== step: Archive or restore
+An inactive or cancelled registration can be archived with a reason. Archived records are read-only; **Restore** brings them back.
+=== result
+Every change is recorded in the status history with who, when, the effective date and the reason.
+=== notes
+- Cancelled is final: a cancelled registration cannot be reactivated. Add a new registration if the business registers again.
+- Registrations are **never deleted**. A registration that other records refer to cannot even be archived.
+- The default registration must be changed before it can be archived.
+=== mistakes
+- Archiving an active registration that is still in use. Deactivate or cancel it first.

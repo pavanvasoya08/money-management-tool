@@ -342,6 +342,55 @@
         $$('[data-print]').forEach((b) => b.addEventListener('click', () => window.print()));
     }
 
+    /* Phase 4: live GSTIN format check, validity-period field and state-from-GSTIN on the registration form. */
+    function initGstForm() {
+        const form = document.getElementById('gst-form');
+        if (!form) { return; }
+        const input = form.querySelector('[data-gstin]');
+        const feedback = document.getElementById('gstin-feedback');
+        const type = form.querySelector('#registration_type_id');
+        const pan = form.querySelector('#pan');
+        const stateSel = form.querySelector('select[data-follow-gstin]');
+        const token = (form.querySelector('input[name="_csrf"]') || {}).value || '';
+        const validity = form.querySelector('[data-validity-field]');
+        const syncValidity = () => {
+            if (!validity || !type) { return; }
+            const opt = type.options[type.selectedIndex];
+            validity.hidden = !(opt && opt.dataset.validity === '1');
+        };
+        if (type) { type.addEventListener('change', syncValidity); syncValidity(); }
+        if (!input || !feedback || input.readOnly) { return; }
+        let timer = null; let seq = 0;
+        const say = (text, cls) => { feedback.textContent = text; feedback.className = 'form-text ' + (cls || ''); };
+        const check = () => {
+            const value = input.value.replace(/\s+/g, '').toUpperCase();
+            if (input.value !== value) { input.value = value; }
+            if (value.length < 15) { input.classList.remove('is-valid'); say(value === '' ? 'State, PAN and the check character are verified as you type.' : (15 - value.length) + ' more character(s) needed.', 'text-secondary'); return; }
+            const body = new URLSearchParams({ gstin: value, registration_type_id: type ? type.value : '', pan: pan ? pan.value : '', except: form.dataset.except || '0', _csrf: token });
+            const mine = ++seq;
+            fetch(form.dataset.checkUrl, { method: 'POST', body, headers: { 'X-CSRF-Token': token, Accept: 'application/json' }, credentials: 'same-origin' })
+                .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+                .then((d) => {
+                    if (mine !== seq) { return; }
+                    input.classList.toggle('is-valid', d.valid);
+                    if (d.valid) {
+                        say('Format OK · state ' + d.state.code + ' ' + d.state.name + ' · PAN ' + d.pan + '. ' + d.notice, 'text-success');
+                        if (stateSel && !stateSel.value) { stateSel.value = String(d.state.id); }
+                        const stateBox = document.getElementById('gst-state');
+                        if (stateBox) { stateBox.value = d.state.code + ' · ' + d.state.name; }
+                    } else {
+                        say(d.errors.join(' '), 'text-danger');
+                    }
+                })
+                .catch(() => { if (mine === seq) { say('Could not check right now; the GSTIN is validated again when you save.', 'text-secondary'); } });
+        };
+        const later = () => { clearTimeout(timer); timer = setTimeout(check, 350); };
+        input.addEventListener('input', later);
+        if (type) { type.addEventListener('change', later); }
+        if (pan) { pan.addEventListener('change', later); }
+        if (input.value) { check(); }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initCapitalForm();
         initAllocationForm();
@@ -359,5 +408,6 @@
         initRoleSentinel();
         initHistoryBack();
         initCharts();
+        initGstForm();
     });
 })();

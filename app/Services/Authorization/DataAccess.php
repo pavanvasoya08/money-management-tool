@@ -40,7 +40,16 @@ final class DataAccess
     {
     }
 
-    /** @return array{table: ?string, owner_column: ?string, owner_via: ?array{column: string, table: string, owner_column: string}, resource: ?string, resource_column: string, columns: array<string, string>} */
+    /**
+     * Module data mapping from config/modules.php.
+     * owner_sql   – "Own records" through a many-to-many link: `id IN (<owner_sql>)`; every `?` is bound to the user id
+     *               (e.g. GST registrations mapped to the partner linked to this login, or created by this user).
+     * columns_via – "Selected partners/…" through a link table: [type => sql with %s for the id placeholders],
+     *               matched against the module's `id`.
+     * Both are fixed SQL from configuration; only ids are bound as parameters.
+     *
+     * @return array{table: ?string, owner_column: ?string, owner_via: ?array{column: string, table: string, owner_column: string}, owner_sql: ?string, resource: ?string, resource_column: string, columns: array<string, string>, columns_via: array<string, string>}
+     */
     public static function mapping(string $module): array
     {
         $data = (array) Config::get("modules.{$module}.data", []);
@@ -48,10 +57,25 @@ final class DataAccess
             'table' => $data['table'] ?? null,
             'owner_column' => $data['owner_column'] ?? null,
             'owner_via' => isset($data['owner_via']) ? (array) $data['owner_via'] : null,
+            'owner_sql' => isset($data['owner_sql']) ? (string) $data['owner_sql'] : null,
             'resource' => $data['resource'] ?? null,
             'resource_column' => (string) ($data['resource_column'] ?? 'id'),
             'columns' => (array) ($data['columns'] ?? []),
+            'columns_via' => (array) ($data['columns_via'] ?? []),
         ];
+    }
+
+    /** Whether a scope can be applied to a module's records (drives the scope pickers in the Control Center). */
+    public static function supports(string $module, DataScope $scope): bool
+    {
+        $map = self::mapping($module);
+        return match ($scope) {
+            DataScope::Own => $map['owner_column'] !== null || $map['owner_via'] !== null || $map['owner_sql'] !== null,
+            DataScope::Assigned => $map['resource'] !== null,
+            DataScope::Selected => $map['table'] !== null,
+            DataScope::All, DataScope::None => true,
+            default => isset($map['columns'][(string) $scope->resourceType()]) || isset($map['columns_via'][(string) $scope->resourceType()]),
+        };
     }
 
     /** @param array<string, mixed> $user */
@@ -176,6 +200,9 @@ final class DataAccess
                     $v = $map['owner_via'];
                     $parts[] = $col($v['column']) . ' IN (SELECT id FROM ' . $this->db->identifier($v['table']) . ' WHERE ' . $this->db->identifier($v['owner_column']) . ' = ?)';
                     $params[] = (int) $user['id'];
+                } elseif ($map['owner_sql'] !== null) {
+                    $parts[] = $col('id') . ' IN (' . $map['owner_sql'] . ')';
+                    array_push($params, ...array_fill(0, substr_count($map['owner_sql'], '?'), (int) $user['id']));
                 }
             } elseif ($s === DataScope::Assigned) {
                 if ($map['resource'] !== null) {
@@ -194,6 +221,9 @@ final class DataAccess
                 $ids = $rule['ids'] !== [] ? $rule['ids'] : $this->assignedIds((int) $user['id'], $type);
                 if ($column !== null && $ids !== []) {
                     $parts[] = $col($column) . ' IN (' . implode(',', array_fill(0, count($ids), '?')) . ')';
+                    array_push($params, ...$ids);
+                } elseif (isset($map['columns_via'][$type]) && $ids !== []) {
+                    $parts[] = $col('id') . ' IN (' . sprintf($map['columns_via'][$type], implode(',', array_fill(0, count($ids), '?'))) . ')';
                     array_push($params, ...$ids);
                 }
             }

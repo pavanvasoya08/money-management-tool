@@ -1,0 +1,31 @@
+title: Managing registration details and settings
+slug: managing-gst-registration-details
+section: GST registrations
+keywords: edit gst registration key details change approval history profile tabs settings default registration place of supply
+related: gst-registration-status, adding-a-gst-registration
+summary: The eight profile tabs, editing details, key-detail changes and per-registration settings.
+=== what
+Each registration has a profile with eight tabs: **Overview, Registration details, Partner associations, Business activities, Business locations, Documents, Settings** and **History**.
+=== why
+All information about a registration lives in one place with its history.
+=== who
+Viewing needs **gst_registrations.view**; editing needs **edit**; settings need **manage_settings**; the History tab needs **view_history**.
+=== step: Open the profile | gst-profile
+Click a GSTIN in the list. The left card shows the GSTIN, status and key facts, with the edit button and **Change status**.
+=== step: Review and edit details | gst-details
+The **Registration details** tab shows sections A–C. Click the pencil to edit.
+=== step: Understand key-detail changes
+GSTIN, legal name, PAN, registration type, registration date and effective date are **key details**. When the *GST key-detail change* workflow is active, changing them creates an approval request and the old values stay until it is approved. Other fields save at once.
+=== step: Set defaults for later modules | gst-settings
+On **Settings**, mark the registration as the **default for business operations** (only one can be), choose the default place of supply, state and registration type, effective dates and tax-related flags. These are stored for future sales and purchase modules; nothing is calculated now.
+=== step: Check the history | gst-history
+**History** lists status changes, change requests with old and new values, and the audit log.
+=== result
+Details stay accurate, and every change can be traced.
+=== notes
+- Only an active, approved registration can be the default.
+- Fields hidden or masked by your field permissions appear that way here and in exports.
+=== mistakes
+- Editing the legal name to fix a typo without a reason. Add the reason so approvers understand the change.
+=== faq: Why is my change not visible yet?
+It is a key-detail change waiting for approval. The profile shows a banner while it is pending.

@@ -1325,5 +1325,495 @@
     "label": "Only Rohan Mehta's own partner record is listed."
    }
   ]
+ },
+ "gst-dashboard": {
+  "caption": "GST Management → GST Dashboard.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 25.4,
+    "y": 35.49,
+    "label": "Counts by status. Click a tile to open the matching list."
+   },
+   {
+    "x": 23.06,
+    "y": 54.45,
+    "label": "Quick search by GSTIN, name, partner, state, type, status or registration date."
+   },
+   {
+    "x": 23.06,
+    "y": 90.59,
+    "label": "Registrations that need action: pending verification or approval, expiring documents, missing certificates."
+   },
+   {
+    "x": 67.3,
+    "y": 90.59,
+    "label": "The registration future modules will use by default."
+   },
+   {
+    "x": 47.76,
+    "y": 18.28,
+    "label": "Add a new registration."
+   }
+  ]
+ },
+ "gst-dashboard-summaries": {
+  "caption": "State-wise and partner-wise summaries on the GST Dashboard.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 14.04,
+    "label": "Active and total registrations per state or union territory."
+   },
+   {
+    "x": 60.98,
+    "y": 14.04,
+    "label": "How many registrations each partner is mapped to."
+   },
+   {
+    "x": 23.06,
+    "y": 71.11,
+    "label": "The latest additions and updates."
+   }
+  ]
+ },
+ "gst-list": {
+  "caption": "GST Management → Registrations.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Search by GSTIN, legal name or trade name."
+   },
+   {
+    "x": 67.57,
+    "y": 28.95,
+    "label": "Filter by state, type, status or partner."
+   },
+   {
+    "x": 72.54,
+    "y": 34.7,
+    "label": "More filters: GSTIN, legal and trade name separately, registration dates, archived records."
+   },
+   {
+    "x": 79.75,
+    "y": 18.67,
+    "label": "Export the filtered list as CSV, Excel or PDF."
+   },
+   {
+    "x": 24.82,
+    "y": 51.01,
+    "label": "Open a registration's profile."
+   }
+  ]
+ },
+ "gst-create": {
+  "caption": "Adding a GST registration.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 44.51,
+    "label": "GSTIN: 15 characters. Checked as you type; uppercase is applied automatically."
+   },
+   {
+    "x": 24.82,
+    "y": 50.51,
+    "label": "The live check result: state, PAN and the check character."
+   },
+   {
+    "x": 48.68,
+    "y": 44.51,
+    "label": "Registration type (Regular, Composition, …)."
+   },
+   {
+    "x": 24.82,
+    "y": 62.3,
+    "label": "Legal name exactly as on the certificate."
+   },
+   {
+    "x": 72.55,
+    "y": 44.51,
+    "label": "State, filled in from the first two digits of the GSTIN."
+   }
+  ]
+ },
+ "gst-create-address": {
+  "caption": "Principal place of business and additional information on the form.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 31.29,
+    "label": "Principal place of business: address line 1 is required."
+   },
+   {
+    "x": 72.55,
+    "y": 41.7,
+    "label": "State of the principal place of business."
+   },
+   {
+    "x": 24.82,
+    "y": 52.11,
+    "label": "PIN code."
+   },
+   {
+    "x": 96.12,
+    "y": 92.78,
+    "label": "Save. If an approval workflow applies, the registration waits for approval."
+   }
+  ]
+ },
+ "gst-profile": {
+  "caption": "A GST registration profile (Overview tab).",
+  "width": 1366,
+  "height": 920,
+  "markers": [
+   {
+    "x": 27.92,
+    "y": 29.69,
+    "label": "The GSTIN and its current status."
+   },
+   {
+    "x": 48.34,
+    "y": 15.12,
+    "label": "Eight tabs: Overview, Details, Partners, Activities, Locations, Documents, Settings, History."
+   },
+   {
+    "x": 45.27,
+    "y": 15.34,
+    "label": "Edit the registration."
+   },
+   {
+    "x": 44.97,
+    "y": 98.6,
+    "label": "Activate, deactivate, suspend, cancel or archive."
+   },
+   {
+    "x": 50.1,
+    "y": 54.48,
+    "label": "The principal place of business."
+   },
+   {
+    "x": 50.1,
+    "y": 96.64,
+    "label": "Future modules (bank accounts, marketplaces, sales) will link here. Nothing is linked yet."
+   }
+  ]
+ },
+ "gst-details": {
+  "caption": "The Registration details tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 44.53,
+    "label": "Key details. Changing them may need approval."
+   },
+   {
+    "x": 74.22,
+    "y": 16.14,
+    "label": "Registration details tab."
+   }
+  ]
+ },
+ "gst-status-menu": {
+  "caption": "Changing the status of a registration.",
+  "width": 1366,
+  "height": 1280,
+  "markers": [
+   {
+    "x": 26.06,
+    "y": 73.34,
+    "label": "Choose the new status. Suspension and cancellation need a reason."
+   },
+   {
+    "x": 26.06,
+    "y": 86.48,
+    "label": "The effective date of the change."
+   }
+  ]
+ },
+ "gst-partners": {
+  "caption": "The Partner associations tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.94,
+    "label": "Choose the partner."
+   },
+   {
+    "x": 72.96,
+    "y": 43.94,
+    "label": "Relationship type: owner, partner, proprietor, authorised representative, …"
+   },
+   {
+    "x": 51.93,
+    "y": 54.65,
+    "label": "From and to dates of the association."
+   },
+   {
+    "x": 93.7,
+    "y": 53.4,
+    "label": "Add the mapping."
+   },
+   {
+    "x": 93.96,
+    "y": 81.08,
+    "label": "End a mapping. It stays in the history."
+   }
+  ]
+ },
+ "gst-activities": {
+  "caption": "The Business activities tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 41.42,
+    "label": "Choose a business activity from the master."
+   },
+   {
+    "x": 65.95,
+    "y": 41.42,
+    "label": "Effective from."
+   },
+   {
+    "x": 93.78,
+    "y": 59.33,
+    "label": "Change dates, status or notes."
+   }
+  ]
+ },
+ "gst-locations": {
+  "caption": "The Business locations tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.17,
+    "y": 35.21,
+    "label": "Add an additional place of business."
+   },
+   {
+    "x": 66.76,
+    "y": 45.3,
+    "label": "The principal place of business."
+   },
+   {
+    "x": 94.07,
+    "y": 67.43,
+    "label": "Make another active location the principal."
+   },
+   {
+    "x": 81.85,
+    "y": 72.68,
+    "label": "Deactivate a location. Locations are never deleted."
+   }
+  ]
+ },
+ "gst-documents": {
+  "caption": "The Documents tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 41.42,
+    "label": "Document type, e.g. the registration certificate (REG-06)."
+   },
+   {
+    "x": 79.97,
+    "y": 41.42,
+    "label": "Optional expiry date; the dashboard warns before it."
+   },
+   {
+    "x": 51.93,
+    "y": 52.13,
+    "label": "Choose the file (PDF, image, DOCX or XLSX up to 5 MB)."
+   },
+   {
+    "x": 85.06,
+    "y": 86.83,
+    "label": "Preview or download. Every access is logged."
+   },
+   {
+    "x": 94.16,
+    "y": 86.83,
+    "label": "Archive a document with a reason. It stays in the history."
+   }
+  ]
+ },
+ "gst-settings": {
+  "caption": "The Settings tab.",
+  "width": 1366,
+  "height": 920,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 32.78,
+    "label": "Mark as the default registration for business operations (only one)."
+   },
+   {
+    "x": 50.1,
+    "y": 44.09,
+    "label": "Default place of supply."
+   },
+   {
+    "x": 73.25,
+    "y": 54.27,
+    "label": "Effective dates of these settings."
+   },
+   {
+    "x": 60.11,
+    "y": 88.14,
+    "label": "Save."
+   }
+  ]
+ },
+ "gst-history": {
+  "caption": "The History tab.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 23.69,
+    "label": "Every status change with its effective date and reason."
+   },
+   {
+    "x": 50.1,
+    "y": 55.09,
+    "label": "Key-detail changes, new registrations and cancellations with old and new values."
+   },
+   {
+    "x": 50.1,
+    "y": 87.13,
+    "label": "The full audit trail for this registration."
+   }
+  ]
+ },
+ "gst-approval": {
+  "caption": "A GST change waiting in the Approvals inbox.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 36.31,
+    "label": "Open the request to review the requested values."
+   }
+  ]
+ },
+ "gst-masters": {
+  "caption": "GST Management → Masters & rules.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 29.66,
+    "label": "States, registration types, relationship types, business activities and business rules."
+   },
+   {
+    "x": 24.89,
+    "y": 40.45,
+    "label": "Add an entry."
+   },
+   {
+    "x": 24.82,
+    "y": 56.17,
+    "label": "Official two-digit state codes."
+   },
+   {
+    "x": 93.78,
+    "y": 55.98,
+    "label": "Edit or deactivate an entry. Codes in use cannot change."
+   }
+  ]
+ },
+ "gst-rules": {
+  "caption": "GST business rules.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 39.04,
+    "label": "Optional: allow only one owner per registration."
+   },
+   {
+    "x": 24.82,
+    "y": 54.57,
+    "label": "How many days ahead to warn about expiry."
+   }
+  ]
+ },
+ "gst-reports": {
+  "caption": "GST Management → Registration reports.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 26.83,
+    "label": "Choose a report."
+   }
+  ]
+ },
+ "gst-report-partner": {
+  "caption": "The partner-wise registration report.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 65.67,
+    "y": 36.45,
+    "label": "Filter by partner, state, type or status."
+   },
+   {
+    "x": 78.26,
+    "y": 36.45,
+    "label": "Include ended mappings for a history view."
+   },
+   {
+    "x": 87.78,
+    "y": 18.67,
+    "label": "Export as CSV, Excel or PDF, with your access rules applied."
+   },
+   {
+    "x": 95.53,
+    "y": 18.67,
+    "label": "Print."
+   }
+  ]
+ },
+ "gst-partner-tab": {
+  "caption": "A partner's GST registrations (partner's own view).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.85,
+    "y": 46.56,
+    "label": "Each registration the partner is associated with. Open it for details."
+   },
+   {
+    "x": 95.53,
+    "y": 32.83,
+    "label": "Ended associations stay visible as history."
+   }
+  ]
  }
 }

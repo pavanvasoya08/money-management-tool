@@ -15,6 +15,10 @@ use App\Controllers\ApprovalController;
 use App\Controllers\ActivityLogController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\Gst\GstMasterController;
+use App\Controllers\Gst\GstRegistrationController;
+use App\Controllers\Gst\GstRelationController;
+use App\Controllers\Gst\GstReportController;
 use App\Controllers\HelpController;
 use App\Controllers\HelpManageController;
 use App\Controllers\PasswordResetController;
@@ -152,6 +156,49 @@ return static function (Router $r): void {
         $r->post('/approvals/{id}/cancel', [ApprovalController::class, 'cancel'], 'approvals.cancel');
 
         $r->post('/access-requests', [AccessRequestController::class, 'store'], 'access-requests.store');
+
+        // ---------- Phase 4: GST registration management ----------
+        $r->group(['prefix' => 'gst'], static function (Router $r): void {
+            $v = ['can:gst_registrations.view'];
+            $r->get('/', [GstRegistrationController::class, 'dashboard'], 'gst.dashboard', $v);
+            $r->get('/registrations', [GstRegistrationController::class, 'index'], 'gst.index', $v);
+            $r->get('/registrations/export', [GstRegistrationController::class, 'export'], 'gst.export', ['can:gst_registrations.export']);
+            $r->get('/registrations/create', [GstRegistrationController::class, 'create'], 'gst.create', ['can:gst_registrations.create']);
+            $r->post('/registrations', [GstRegistrationController::class, 'store'], 'gst.store', ['can:gst_registrations.create']);
+            $r->post('/check-gstin', [GstRegistrationController::class, 'check'], 'gst.check', $v);
+            $r->get('/registrations/{id}', [GstRegistrationController::class, 'show'], 'gst.show', $v);
+            $r->get('/registrations/{id}/edit', [GstRegistrationController::class, 'edit'], 'gst.edit', ['can:gst_registrations.edit']);
+            $r->post('/registrations/{id}', [GstRegistrationController::class, 'update'], 'gst.update', ['can:gst_registrations.edit']);
+            // Target-specific permission (activate / deactivate / suspend / cancel) is checked in the service.
+            $r->post('/registrations/{id}/status', [GstRegistrationController::class, 'status'], 'gst.status', $v);
+            $r->post('/registrations/{id}/archive', [GstRegistrationController::class, 'archive'], 'gst.archive', ['can:gst_registrations.archive']);
+            $r->post('/registrations/{id}/restore', [GstRegistrationController::class, 'restore'], 'gst.restore', ['can:gst_registrations.archive']);
+            $r->post('/registrations/{id}/resubmit', [GstRegistrationController::class, 'resubmit'], 'gst.resubmit', ['can:gst_registrations.create']);
+
+            $r->post('/registrations/{id}/partners', [GstRelationController::class, 'addPartner'], 'gst.partners.add', ['can:gst_registrations.manage_partners']);
+            $r->post('/registrations/{id}/partners/{mapping}/end', [GstRelationController::class, 'endPartner'], 'gst.partners.end', ['can:gst_registrations.manage_partners']);
+            $r->post('/registrations/{id}/activities', [GstRelationController::class, 'addActivity'], 'gst.activities.add', ['can:gst_registrations.manage_business_mappings']);
+            $r->post('/registrations/{id}/activities/{mapping}', [GstRelationController::class, 'updateActivity'], 'gst.activities.update', ['can:gst_registrations.manage_business_mappings']);
+            $r->post('/registrations/{id}/locations', [GstRelationController::class, 'saveLocation'], 'gst.locations.add', ['can:gst_registrations.manage_locations']);
+            $r->post('/registrations/{id}/locations/{location}', [GstRelationController::class, 'updateLocation'], 'gst.locations.update', ['can:gst_registrations.manage_locations']);
+            $r->post('/registrations/{id}/locations/{location}/status', [GstRelationController::class, 'locationStatus'], 'gst.locations.status', ['can:gst_registrations.manage_locations']);
+            $r->post('/registrations/{id}/locations/{location}/principal', [GstRelationController::class, 'principal'], 'gst.locations.principal', ['can:gst_registrations.manage_locations']);
+            $r->post('/registrations/{id}/settings', [GstRelationController::class, 'saveSettings'], 'gst.settings', ['can:gst_registrations.manage_settings']);
+            $r->post('/registrations/{id}/documents', [GstRelationController::class, 'uploadDocument'], 'gst.documents.upload', ['can:gst_registrations.manage_documents']);
+            $r->get('/documents/{doc}/download', [GstRelationController::class, 'download'], 'gst.documents.download', ['can:gst_registrations.download_documents']);
+            $r->get('/documents/{doc}/preview', [GstRelationController::class, 'preview'], 'gst.documents.preview', ['can:gst_registrations.download_documents']);
+            $r->post('/documents/{doc}/archive', [GstRelationController::class, 'archiveDocument'], 'gst.documents.archive', ['can:gst_registrations.manage_documents']);
+
+            $r->get('/reports', [GstReportController::class, 'index'], 'gst.reports', $v);
+            $r->get('/reports/{report}', [GstReportController::class, 'show'], 'gst.reports.show', $v);
+            $r->get('/reports/{report}/export', [GstReportController::class, 'export'], 'gst.reports.export', ['can:gst_registrations.export']);
+
+            $m = ['can:gst_registrations.manage_masters'];
+            $r->get('/masters', [GstMasterController::class, 'index'], 'gst.masters', $m);
+            $r->post('/masters/rules', [GstMasterController::class, 'rules'], 'gst.masters.rules', $m);
+            $r->post('/masters/{master}', [GstMasterController::class, 'save'], 'gst.masters.store', $m);
+            $r->post('/masters/{master}/{id}', [GstMasterController::class, 'update'], 'gst.masters.update', $m);
+        });
 
         // ---------- Help & User Guide ----------
         // Reading is open to EVERY signed-in user: no module, role, record or field check.

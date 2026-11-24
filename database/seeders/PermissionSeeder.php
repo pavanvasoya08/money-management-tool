@@ -68,6 +68,29 @@ final class PermissionSeeder extends Seeder
                 }
             }
             $this->pruneRetiredFields($moduleId, array_keys($def['fields'] ?? []));
+            if (!empty($def['prune_actions'])) {
+                $this->pruneRetiredActions($key, array_keys($def['actions']));
+            }
+        }
+    }
+
+    /**
+     * Placeholder actions registered before a module was built (e.g. the generic
+     * delete / import actions Phase 2 reserved for GST registrations) are removed,
+     * with their grants and overrides, once the module defines its real actions.
+     * Opt-in per module ('prune_actions' => true) so released modules are never touched.
+     * @param list<string> $keep
+     */
+    private function pruneRetiredActions(string $module, array $keep): void
+    {
+        foreach ($this->db->select('SELECT id, action FROM permissions WHERE module = ?', [$module]) as $row) {
+            if (in_array($row['action'], $keep, true)) {
+                continue;
+            }
+            foreach (['role_permissions', 'user_permission_overrides', 'permission_template_items', 'access_requests'] as $table) {
+                $this->db->execute("DELETE FROM {$table} WHERE permission_id = ?", [$row['id']]);
+            }
+            $this->db->execute('DELETE FROM permissions WHERE id = ?', [$row['id']]);
         }
     }
 

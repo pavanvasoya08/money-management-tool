@@ -1,0 +1,37 @@
+title: How GSTIN validation works
+slug: gstin-validation
+section: GST registrations
+keywords: gstin validation format check digit checksum state code pan tan invalid
+related: adding-a-gst-registration, gst-masters-and-rules
+summary: What the system checks in a GSTIN, and what it cannot check.
+=== what
+Every GSTIN is checked on the server when saved, and in the browser while you type. The check covers the structure of the number only.
+=== why
+Mistyped GSTINs cause rejected invoices and mismatched returns. The format check catches almost every typing mistake before it spreads.
+=== who
+Everyone who adds or edits registrations.
+=== step: Understand the 15 characters | gst-create
+- **1–2:** state code from the state master (e.g. 24 Gujarat, 27 Maharashtra, 97 Other Territory, 99 Centre Jurisdiction).
+- **3–12:** the holder's PAN (or TAN for TDS registrations). Its 4th letter shows the holder type: P person, F firm, C company, and so on.
+- **13:** entity number for the same PAN in that state: 1–9, then A–Z.
+- **14:** normally **Z** for PAN-based registrations.
+- **15:** a check character computed from the first 14.
+=== step: Read the feedback
+Green feedback shows the state and PAN found. Red feedback says exactly what is wrong, for example a state code that does not exist or a check character that does not match.
+=== example: Common errors (illustrative)
+| Entered | Message |
+|---|---|
+| 24AAKFM4821R1Z | 1 more character needed |
+| 40AAKFM4821R1ZS | 40 is not a GST state code |
+| 24AAKDM4821R1ZS | Characters 3–12 must be a valid PAN |
+| 24AAKFM4821R1Z9 | The check character does not match |
+=== result
+Only well-formed, unique GSTINs are saved, always in uppercase with spaces removed.
+=== notes
+- **A valid format is not an official verification.** The system does not contact the GST portal. Check the certificate before activating a registration.
+- If you also enter a PAN, it must match characters 3–12.
+- Legacy codes such as 25 (Daman & Diu, now merged into 26) are kept for history but not accepted for new registrations.
+=== mistakes
+- Typing the letter O for zero, or I for one. The check character will not match.
+=== faq: The GSTIN is on the certificate but is refused. Why?
+Re-check each character. If it is still refused and the state code is new, ask a Super Admin to review the state master.

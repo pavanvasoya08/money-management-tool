@@ -181,17 +181,9 @@ final class AdminUserController extends AdminController
     /** Scope options available for a module (only scopes the module can actually evaluate). @return array<string, string> */
     public static function scopeOptions(string $module): array
     {
-        $map = \App\Services\Authorization\DataAccess::mapping($module);
         $out = [];
         foreach (DataScope::cases() as $s) {
-            $ok = match ($s) {
-                DataScope::Own => $map['owner_column'] !== null || $map['owner_via'] !== null,
-                DataScope::Assigned => $map['resource'] !== null,
-                DataScope::Selected => $map['table'] !== null,
-                DataScope::All, DataScope::None => true,
-                default => isset($map['columns'][(string) $s->resourceType()]),
-            };
-            if ($ok) {
+            if (\App\Services\Authorization\DataAccess::supports($module, $s)) {
                 $out[$s->value] = $s->label();
             }
         }

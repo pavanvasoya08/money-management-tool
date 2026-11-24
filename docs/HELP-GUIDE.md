@@ -8,7 +8,7 @@ An in-app, searchable user manual for the completed phases (1 – Setup & Authen
 git pull
 composer install                 # refreshes the autoloader
 php bin/console migrate          # 1 new migration (000028): 7 documentation tables
-php bin/console db:seed          # adds the documentation module/permissions and the 47 guides
+php bin/console db:seed          # adds the documentation module/permissions and the bundled guides (47 for Phases 1–3, 10 more for Phase 4)
 ```
 
 `db:seed` is safe to repeat. It never overwrites a category or guide whose URL name (slug) already exists, so edits made in the app survive.

@@ -1,0 +1,26 @@
+title: Business activities and GST masters
+slug: gst-masters-and-rules
+section: Associations
+keywords: business activity ecommerce wholesale retail masters states registration types relationship types rules
+related: mapping-partners-to-gst, gstin-validation
+summary: Map activities to registrations and maintain the configurable master lists.
+=== what
+Business activities (e-commerce, wholesale, retail and any you add) describe what each registration is used for. The masters hold states and union territories, registration types, partner relationship types and business activities.
+=== why
+Reports and future modules filter registrations by activity, and consistent master lists keep data clean.
+=== who
+Mapping activities needs **manage_business_mappings**; maintaining masters needs **manage_masters** (Super Admin by default).
+=== step: Map an activity | gst-activities
+On **Business activities**, choose the activity and its effective dates, then click **Add**. Use **Edit** to change dates, status or notes.
+=== step: Maintain masters | gst-masters
+Open **Masters & rules**. Each tab lists entries with how many records use them. Add an entry, or edit one to rename it or deactivate it.
+=== step: Business rules | gst-rules
+The **Business rules** tab holds the single-owner rule and how many days ahead expiry warnings appear.
+=== result
+Registrations carry accurate activity information, and the lists stay under control.
+=== notes
+- The code of an entry that is in use cannot change; deactivate it instead.
+- State codes must be the official two-digit codes. They are pre-loaded and rarely need changes.
+- Approval requirements are set in **Control Center → Approval workflows**.
+=== mistakes
+- Adding a near-duplicate activity ("Ecommerce" and "E-commerce"). Edit the existing one instead.

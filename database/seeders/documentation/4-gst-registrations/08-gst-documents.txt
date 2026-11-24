@@ -1,0 +1,26 @@
+title: GST documents
+slug: gst-documents
+section: Registration records
+keywords: document upload certificate reg-06 amendment cancellation preview download archive expiry
+related: managing-gst-registration-details, understanding-gst-registrations
+summary: Upload certificates and supporting documents securely; preview, download and archive with history.
+=== what
+The **Documents** tab stores the registration certificate, amendment and cancellation certificates, proof of place of business, authorisations and other supporting documents.
+=== why
+Keeping the certificate next to the record lets anyone with access check details quickly.
+=== who
+Uploading and archiving need **manage_documents**; downloading needs **download_documents**.
+=== step: Upload | gst-documents
+Choose the **document type**, optionally a title, expiry date and description, choose the file and click **Upload**.
+=== step: Preview or download
+**Preview** opens PDFs and images in the browser; the download button saves the original file. Each view and download is logged.
+=== step: Archive
+Click **Archive**, give a reason (for example "replaced by amended certificate") and confirm. Use **Show archived documents** to see the history.
+=== result
+Current documents are listed; archived ones stay available as history.
+=== notes
+- Allowed types: PDF, JPG, PNG, WEBP, DOCX and XLSX, up to 5 MB. The file content is checked, not just the extension.
+- Files are stored outside the public web folder under random names.
+- Documents with an expiry date appear on the dashboard before they expire.
+=== mistakes
+- Uploading a screenshot of the portal login page or anything containing passwords or OTPs. Never upload credentials.

@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 3 of 15 — Partner management & capital contributions.**
+**Current status: Phase 4 of 15 — GST registration management.**
 
 | | |
 |---|---|
@@ -14,7 +14,8 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 - 📘 [Installation guide](docs/INSTALLATION.md) — requirements, MySQL, `.env`, migrations, Super Admin, local dev, production
 - ✅ [Phase 1 report](docs/PHASE-1.md) — completed features, test results, PHP 8.5 verification
 - ✅ [Phase 2 report](docs/PHASE-2.md) — Control Center features, security test results
-- ✅ [Phase 3 report](docs/PHASE-3.md) — **update steps**, partners, capital ledger, profit sharing, reports, test results, pending Phase 4 work
+- ✅ [Phase 3 report](docs/PHASE-3.md) — partners, capital ledger, profit sharing, reports, test results
+- ✅ [Phase 4 report](docs/PHASE-4.md) — **update steps**, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
 ## Quick start (local)
@@ -61,9 +62,17 @@ Open http://127.0.0.1:8000 and sign in.
 - **Reports:** 8 partner reports with CSV, Excel and PDF export, plus dashboard widgets. All respect record and field permissions.
 - **Accounting foundation:** an idempotent posting queue ready for Phase 12.
 
+## What Phase 4 adds
+
+- **GST registrations:** an unlimited register with server-side GSTIN validation (state code, PAN/TAN segment, entity number, check character), duplicate protection and an official state master.
+- **Profile (8 tabs):** details, partner associations (many-to-many with dates and history), business activities, principal and additional places of business, secure documents, per-registration settings and history.
+- **Lifecycle:** pending verification, active, inactive, suspended, cancelled; archive instead of delete. Approval workflows for new registrations, key-detail changes and cancellations.
+- **Dashboard and 7 reports** with CSV, Excel and PDF export, all limited by record scope and field rules.
+- No tax calculation, filing or GST portal connection; a valid format is never presented as an official verification.
+
 ## Help & User Guide
 
-An in-app manual for Phases 1–3 (47 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+An in-app manual for Phases 1–4 (57 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
 
 ## Commands
 

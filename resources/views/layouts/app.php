@@ -49,7 +49,7 @@ $crumbs = $breadcrumbs ?? [];
             <?php endforeach; ?>
         <?php endforeach; ?>
     </nav>
-    <div class="sidebar-foot"><span class="phase-chip">Phase 3 · Partners &amp; Capital</span></div>
+    <div class="sidebar-foot"><span class="phase-chip">Phase 4 · GST Registrations</span></div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>
 

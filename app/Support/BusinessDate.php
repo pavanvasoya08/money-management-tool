@@ -20,6 +20,13 @@ final class BusinessDate
         return (new DateTimeImmutable($date, self::tz()))->modify(($days >= 0 ? '+' : '') . $days . ' days')->format('Y-m-d');
     }
 
+    /** A real calendar date in Y-m-d form (rejects 2026-02-30, 26-1-1, etc.). */
+    public static function isValid(string $date): bool
+    {
+        $d = DateTimeImmutable::createFromFormat('!Y-m-d', $date);
+        return $d !== false && $d->format('Y-m-d') === $date;
+    }
+
     public static function format(?string $date): string
     {
         if ($date === null || $date === '') {

@@ -32,6 +32,7 @@ final class DocumentationSeeder extends Seeder
         '1-setup-authentication' => ['setup-authentication', 'Setup & Authentication', 'Phase 1 — getting started, signing in, passwords, sessions, users, roles and the activity log.', 'log-in'],
         '2-super-admin-control' => ['super-admin-control', 'Super Admin Control System', 'Phase 2 — the Control Center: roles, permissions, overrides, record and field access, workflows, preview, sessions and audit.', 'shield-check'],
         '3-partners-capital' => ['partners-capital', 'Partner Management & Capital', 'Phase 3 — partners, documents, logins, capital contributions, withdrawals, adjustments, the ledger, profit sharing and reports.', 'users-round'],
+        '4-gst-registrations' => ['gst-registrations', 'Phase 4 – GST Registration Management', 'Phase 4 — GST registrations, GSTIN validation, partner and activity mappings, locations, documents, status and reports.', 'file-badge'],
     ];
     private const FIELD_MAP = ['what' => 'what_is', 'why' => 'why_used', 'who' => 'who_uses', 'prerequisites' => 'prerequisites', 'result' => 'expected_result', 'notes' => 'important_notes', 'mistakes' => 'common_mistakes'];
 

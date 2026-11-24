@@ -145,6 +145,7 @@ final class App
         return self::shared(\App\Services\Approval\ApprovalEngine::class, static function (): \App\Services\Approval\ApprovalEngine {
             // Modules that react to approval decisions register here (once per process).
             \App\Services\Partners\CapitalService::registerApprovalListener();
+            \App\Services\Gst\GstRegistrationService::registerApprovalListener();
             return new \App\Services\Approval\ApprovalEngine(self::db());
         });
     }

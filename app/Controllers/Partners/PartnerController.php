@@ -121,6 +121,9 @@ final class PartnerController extends Controller
                 fn (string $label, string $key): bool => $key !== 'photo' && (new DocumentService(App::db()))->categoryVisible($me, $key), ARRAY_FILTER_USE_BOTH)],
             'activity' => ['activity' => $this->activity($pid)],
             'reports' => ['reports' => (new PartnerReportService(App::db()))->available($me)],
+            // Phase 4: GST registrations mapped to this partner, within the viewer's GST record scope and field rules.
+            'gst' => ['gstMappings' => App::fields()->presentMany($me, 'gst_registrations',
+                (new \App\Services\Gst\GstRelationService(App::db()))->registrationsForPartner($pid, App::dataAccess()->constrain($me, 'gst_registrations', 'g')))],
             'personal' => ['links' => can('partners.link_account') ? $this->partners->linkHistory($pid) : [], 'linkable' => can('partners.link_account') && $partner['user_id'] === null ? $this->partners->linkableUsers() : []],
             default => [],
         };
@@ -239,7 +242,8 @@ final class PartnerController extends Controller
             return (bool) App::db()->scalar("SELECT 1 FROM partners p WHERE p.id = ? AND {$w}", array_merge([$pid], $p));
         };
         return match ($tab) {
-            'overview', 'personal', 'gst', 'bank' => true,
+            'overview', 'personal', 'bank' => true,
+            'gst' => can('gst_registrations.view'),
             'contributions' => can('capital_contributions.view') && $partnerVisibleIn('capital_contributions'),
             'withdrawals' => can('capital_withdrawals.view') && $partnerVisibleIn('capital_withdrawals'),
             'balance' => can('capital_ledger.view') && $partnerVisibleIn('capital_ledger'),

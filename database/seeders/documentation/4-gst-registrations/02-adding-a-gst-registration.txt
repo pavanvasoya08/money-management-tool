@@ -1,0 +1,46 @@
+title: Adding a GST registration
+slug: adding-a-gst-registration
+section: GST registrations
+featured: yes
+keywords: add gst registration new gstin create form principal place of business approval
+related: gstin-validation, understanding-gst-registrations, gst-business-locations, mapping-partners-to-gst
+summary: Enter a new registration with its principal place of business; it may need approval before use.
+=== what
+Adding a registration records the GSTIN, legal and trade name, registration type and dates, contact details and the principal place of business.
+=== why
+Every registration the business holds should exist exactly once so other records can refer to it.
+=== who
+Users with **gst_registrations.create**.
+=== prerequisites
+- The registration certificate (Form GST REG-06) in front of you.
+- The state and registration type exist in **Masters & rules** (all official state codes are pre-loaded).
+=== step: Open the form | gst-create
+In **Registrations** click **Add GST registration**. Type the **GSTIN**; it is checked as you type and the **State** fills in from the first two digits. Choose the **Registration type** and enter the **Legal business name** exactly as on the certificate.
+=== step: Fill in the remaining sections | gst-create-address
+Section A also takes the trade name, business constitution, registration status, registration date and effective date. Section B is the **principal place of business** (address line 1, city, state and PIN code are required). Section C holds contact details, the portal reference (e.g. the ARN) and internal notes.
+=== step: Save
+Click **Add registration**. The registration starts as **Pending verification**. If the *New GST registration* approval workflow is active, it waits in the approval inbox; otherwise the status you chose applies at once.
+=== step: Approve (if required) | gst-approval
+An approver opens **Approvals**, reviews the requested values and approves or rejects. Approval applies the requested status; rejection leaves the registration as a rejected request that can be corrected and resubmitted, or archived.
+=== example: A new state registration (illustrative)
+| Field | Value |
+|---|---|
+| GSTIN | 24AAKFM4821R1ZS |
+| Registration type | Regular |
+| Legal name | Mehta Traders |
+| Trade name | Mehta Home Store |
+| Registration date | 01 Apr 2025 |
+| Principal place | 14, Shreeji Complex, CG Road, Ahmedabad 380009 |
+
+Result: a Gujarat (24) registration, pending until approved, then **Active**.
+=== result
+The registration appears in the register with its principal place of business, default settings and a first history entry.
+=== notes
+- Duplicate GSTINs are refused, whatever the letter case.
+- Choose **Pending verification** until you have checked the certificate.
+- Casual and non-resident registrations show a **validity end date** field.
+=== mistakes
+- Typing the trade name in the legal name field.
+- Entering portal usernames or passwords in notes. Never store credentials.
+=== faq: Can I add the same GSTIN twice for two branches?
+No. One GSTIN is one registration. Add the branch as an **additional place of business** on the Locations tab.

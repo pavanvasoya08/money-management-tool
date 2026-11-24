@@ -1,0 +1,24 @@
+title: Principal and additional places of business
+slug: gst-business-locations
+section: Registration records
+keywords: location address principal place of business additional place branch godown warehouse
+related: adding-a-gst-registration, managing-gst-registration-details
+summary: Keep the principal place of business and unlimited additional places up to date.
+=== what
+Each registration has exactly one active **principal place of business** and any number of **additional places of business** such as godowns, branches or showrooms.
+=== why
+Addresses on invoices and e-way bills must match the registration.
+=== who
+Users with **gst_registrations.manage_locations**.
+=== step: Add a location | gst-locations
+On **Business locations**, open **Add a business location**, fill in the address (line 1, city, state and PIN code are required) and contact details, then save.
+=== step: Edit, change the principal or deactivate
+Use **Edit** to correct an address, **Make principal** to promote an active location (the old principal becomes an additional place), and **Deactivate** / **Activate** for the others.
+=== result
+The registration shows all current and former locations.
+=== notes
+- The principal cannot be deactivated; make another location principal first.
+- Locations are never deleted.
+- If address fields are masked for you, you can see the location but not edit it.
+=== mistakes
+- Creating a new registration for a branch in the same state. A branch is an additional place of business under the same GSTIN.

@@ -45,6 +45,9 @@ final class SettingsService
             'block_self_approval' => ['type' => 'boolean', 'default' => true, 'group' => 'access', 'label' => 'Block approving your own requests', 'rules' => 'nullable|boolean', 'help' => 'Segregation of duties for approval workflows.'],
             'allow_capital_overdraw' => ['type' => 'boolean', 'default' => false, 'group' => 'finance', 'label' => 'Exception policy: allow withdrawals beyond available capital', 'rules' => 'nullable|boolean', 'help' => 'Off = a withdrawal (or debit adjustment / reversal) can never take a partner\'s posted capital below zero. On = users who also hold "Capital Withdrawals: Exceed available capital" may do so; every use is audited.'],
             'access_requests_enabled' => ['type' => 'boolean', 'default' => false, 'group' => 'access', 'label' => 'Let users request access from the "Access denied" page', 'rules' => 'nullable|boolean'],
+            // Phase 4 — GST business rules (edited on GST Registrations → Masters & rules).
+            'gst_single_owner_rule' => ['type' => 'boolean', 'default' => false, 'group' => 'gst', 'label' => 'Each GST registration may have only one active owner', 'rules' => 'nullable|boolean', 'help' => 'When on, a registration can have at most one active partner mapping whose relationship type counts as an owner (e.g. Owner, Proprietor).'],
+            'gst_document_expiry_warning_days' => ['type' => 'integer', 'default' => 30, 'group' => 'gst', 'label' => 'Warn about expiring GST documents and registrations (days ahead)', 'rules' => 'required|integer|min:1|max:365'],
         ];
     }
 

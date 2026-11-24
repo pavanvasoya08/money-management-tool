@@ -1,0 +1,33 @@
+title: Understanding GST registrations
+slug: understanding-gst-registrations
+section: GST registrations
+featured: yes
+keywords: gst gstin registration dashboard overview compliance status states partners
+related: adding-a-gst-registration, gstin-validation, gst-registration-status
+summary: What the GST Registration Management module stores, who uses it and how the dashboard helps.
+=== what
+**GST Management** is the register of every GST registration (GSTIN) the business holds: one per state, plus any special registrations such as composition, casual or ISD. Each registration keeps its details, principal and additional places of business, linked partners, business activities, documents, settings and a full history.
+=== why
+Later modules (bank accounts, marketplaces, sales and purchases) need one reliable source for "which GSTIN applies here". Keeping registrations here, with their status and history, means those modules link to a record instead of retyping GSTINs.
+=== who
+- Users with **gst_registrations.view** open the dashboard and lists. What each user sees depends on their record scope: all registrations, only assigned ones, or (for partner logins) only those mapped to them.
+- Super Admins and compliance staff create and maintain registrations.
+=== prerequisites
+- Your administrator has granted access to the **GST Registrations** module in the Control Center.
+=== step: Open the dashboard | gst-dashboard
+In the sidebar open **Compliance → GST Management → GST Dashboard**. The tiles count registrations by status; click a tile to open the matching list. **Needs attention** lists registrations that are waiting for verification or approval, have expiring documents or registration validity, or have no certificate uploaded.
+=== step: Read the summaries | gst-dashboard-summaries
+Scroll down for the state-wise and partner-wise summaries and the most recently added and updated registrations.
+=== step: Go to the register
+Open **Registrations** to search, filter and export the full list, or **Registration reports** for formatted reports.
+=== result
+You know which registrations exist, their status, and which need attention.
+=== notes
+- This module stores master data only. It **does not calculate tax, file returns or connect to the GST portal**.
+- A GSTIN that passes the format check is **not** confirmed with the GST portal. Status changes such as "Active" record what you have verified yourself against the certificate.
+- Never store GST portal passwords, OTPs or other login credentials anywhere in the system.
+- Archived registrations are not counted on the dashboard. They stay available through filters and reports.
+=== mistakes
+- Assuming "Active" means the system verified the GSTIN online. It means a user activated it after checking the certificate.
+=== faq: Why do I see only some registrations?
+Your record scope limits the list. Accountants usually see registrations assigned to them; partner logins see the registrations they are mapped to. Ask a Super Admin if you need wider access.

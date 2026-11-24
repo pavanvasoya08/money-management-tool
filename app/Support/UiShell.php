@@ -169,7 +169,11 @@ final class UiShell
         if (($item['permission'] ?? null) !== null && !can((string) $item['permission'])) {
             return null;
         }
-        $active = isset($item['active']) && $currentRoute !== '' && str_starts_with($currentRoute, (string) $item['active']);
+        // 'active' is a route-name prefix, or a list of prefixes.
+        $active = false;
+        foreach ((array) ($item['active'] ?? []) as $prefix) {
+            $active = $active || ($currentRoute !== '' && str_starts_with($currentRoute, (string) $prefix));
+        }
         return ['soon' => false, 'url' => route((string) $item['route']), 'active' => $active] + $base;
     }
 }

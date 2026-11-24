@@ -123,8 +123,12 @@ abstract class TestCase
             if (!$e instanceof $class) {
                 throw new AssertionFailed("Expected {$class}, got " . $e::class . ': ' . $e->getMessage());
             }
-            if ($messageContains !== null && !str_contains($e->getMessage(), $messageContains)) {
-                throw new AssertionFailed("Exception message [{$e->getMessage()}] does not contain [{$messageContains}]");
+            $text = $e->getMessage();
+            if ($e instanceof \App\Exceptions\ValidationException) {
+                $text .= ' ' . json_encode($e->errors, JSON_UNESCAPED_UNICODE);
+            }
+            if ($messageContains !== null && !str_contains($text, $messageContains)) {
+                throw new AssertionFailed("Exception message [{$text}] does not contain [{$messageContains}]");
             }
             return;
         }

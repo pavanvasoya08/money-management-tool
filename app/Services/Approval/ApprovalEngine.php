@@ -73,12 +73,18 @@ final class ApprovalEngine
         return $orders;
     }
 
-    /** @param array<string, mixed> $user @return array<string, mixed> the request */
-    public function submit(string $workflowKey, string $subjectType, int $subjectId, float $amount, string $title, array $user): array
+    /**
+     * @param array<string, mixed> $user
+     * @param string|null $permission permission that entitles the user to submit (default "<module>.create");
+     *                                e.g. an edit or cancellation request is submitted with "<module>.edit" / "<module>.cancel"
+     * @return array<string, mixed> the request
+     */
+    public function submit(string $workflowKey, string $subjectType, int $subjectId, float $amount, string $title, array $user, ?string $permission = null): array
     {
         $wf = $this->workflow($workflowKey);
-        if (!App::gate()->allows($user, $wf['module_key'] . '.create')) {
-            throw new AuthorizationException($wf['module_key'] . '.create', 'You are not allowed to submit requests for this workflow.');
+        $permission ??= $wf['module_key'] . '.create';
+        if (!str_starts_with($permission, $wf['module_key'] . '.') || !App::gate()->allows($user, $permission)) {
+            throw new AuthorizationException($permission, 'You are not allowed to submit requests for this workflow.');
         }
         if ($amount < 0) {
             throw new DomainRuleException('Amount cannot be negative.');
