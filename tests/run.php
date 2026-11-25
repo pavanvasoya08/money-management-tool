@@ -65,7 +65,10 @@ foreach ($files as $file) {
             }
             $failed++;
             echo 'F';
-            $failures[] = sprintf("%s::%s\n    %s: %s\n    at %s:%d", $class, $method, $e::class, $e->getMessage(), $e->getFile(), $e->getLine());
+            $detail = $e instanceof \App\Exceptions\ValidationException ? ' ' . json_encode($e->errors, JSON_UNESCAPED_UNICODE) : '';
+            $trace = array_values(array_filter($e->getTrace(), static fn (array $f): bool => str_contains((string) ($f['file'] ?? ''), '/tests/')));
+            $failures[] = sprintf("%s::%s\n    %s: %s%s\n    at %s:%d%s", $class, $method, $e::class, $e->getMessage(), $detail, $e->getFile(), $e->getLine(),
+                isset($trace[0]) ? "\n    from {$trace[0]['file']}:{$trace[0]['line']}" : '');
         }
         $assertions += $test->assertions;
     }

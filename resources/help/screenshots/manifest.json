@@ -2495,5 +2495,712 @@
     "label": "The bank approval workflows. All are off until switched on."
    }
   ]
+ },
+ "product-dashboard": {
+  "caption": "Product Management → Product Dashboard.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 23.72,
+    "label": "Filter every figure by category, brand, type, status, GSTIN or activity."
+   },
+   {
+    "x": 25.4,
+    "y": 49.28,
+    "label": "Products by status. Click a tile to open the matching list."
+   },
+   {
+    "x": 23.06,
+    "y": 84.68,
+    "label": "Products missing a SKU, HSN/SAC, tax set-up or supplier."
+   },
+   {
+    "x": 62.74,
+    "y": 85.19,
+    "label": "Products by category."
+   },
+   {
+    "x": 97.36,
+    "y": 10.02,
+    "label": "Add a product."
+   }
+  ]
+ },
+ "product-list": {
+  "caption": "Product Management → All Products.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Search by name, code, SKU, barcode or HSN."
+   },
+   {
+    "x": 95.53,
+    "y": 27.2,
+    "label": "More filters: brand, GSTIN, activity, supplier, HSN and missing data."
+   },
+   {
+    "x": 24.82,
+    "y": 52.62,
+    "label": "Primary image, name, code and SKU."
+   },
+   {
+    "x": 83.98,
+    "y": 18.67,
+    "label": "Export the filtered list with your field rules applied."
+   }
+  ]
+ },
+ "product-create": {
+  "caption": "Adding a product.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 31.32,
+    "label": "Product name."
+   },
+   {
+    "x": 24.82,
+    "y": 40.69,
+    "label": "Physical product, bundle, kit, service or other (editable in settings)."
+   },
+   {
+    "x": 24.82,
+    "y": 50.06,
+    "label": "Category; the sub-category list follows it."
+   },
+   {
+    "x": 47.97,
+    "y": 59.43,
+    "label": "Leave empty to generate the SKU from the pattern in settings."
+   },
+   {
+    "x": 24.82,
+    "y": 59.43,
+    "label": "Brand. Barcode, tags and notes are further down; EAN/UPC check digits are verified."
+   }
+  ]
+ },
+ "product-profile": {
+  "caption": "A product's page with its ten tabs.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 17.11,
+    "label": "Primary image."
+   },
+   {
+    "x": 24.82,
+    "y": 39.06,
+    "label": "Name, status, code and SKU."
+   },
+   {
+    "x": 48.34,
+    "y": 13.91,
+    "label": "Ten tabs from Overview to History."
+   },
+   {
+    "x": 50.98,
+    "y": 22.52,
+    "label": "Prices in force today."
+   },
+   {
+    "x": 50.1,
+    "y": 52.79,
+    "label": "Preferred supplier and current GST/HSN."
+   }
+  ]
+ },
+ "product-categories": {
+  "caption": "Product Management → Categories.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 48.34,
+    "y": 31.6,
+    "label": "Categories nest under each other; sub-categories are indented."
+   },
+   {
+    "x": 24.82,
+    "y": 47.62,
+    "label": "Choose a parent to create a sub-category (up to 10 levels)."
+   },
+   {
+    "x": 24.82,
+    "y": 84.18,
+    "label": "Optional image."
+   },
+   {
+    "x": 95.53,
+    "y": 35.31,
+    "label": "Archive instead of deleting; products keep their category."
+   }
+  ]
+ },
+ "product-brands": {
+  "caption": "Product Management → Brands.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 33.58,
+    "y": 39.15,
+    "label": "Brand name and code."
+   },
+   {
+    "x": 35.33,
+    "y": 80.28,
+    "label": "Optional logo."
+   },
+   {
+    "x": 48.34,
+    "y": 32.84,
+    "label": "Brands with their product counts."
+   }
+  ]
+ },
+ "product-attributes": {
+  "caption": "Product Management → Variant attributes.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 54.4,
+    "y": 33.49,
+    "label": "Choice list, number or free text."
+   },
+   {
+    "x": 62.74,
+    "y": 48.69,
+    "label": "Values of a choice-list attribute."
+   },
+   {
+    "x": 24.82,
+    "y": 33.49,
+    "label": "Add your own attributes (e.g. fragrance, pattern)."
+   }
+  ]
+ },
+ "product-variants-tab": {
+  "caption": "The Variants tab.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.17,
+    "y": 37.73,
+    "label": "Add a variant from attribute values. Its SKU follows the variant pattern."
+   },
+   {
+    "x": 50.1,
+    "y": 53.72,
+    "label": "Each variant has its own code, SKU, barcode, image and status."
+   },
+   {
+    "x": 98.98,
+    "y": 56.64,
+    "label": "Change a variant SKU (the old one stays reserved)."
+   }
+  ]
+ },
+ "product-pricing-tab": {
+  "caption": "The Pricing tab.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 36.31,
+    "label": "Price type: standard, minimum, maximum, wholesale, marketplace, purchase or supplier price."
+   },
+   {
+    "x": 65.95,
+    "y": 36.31,
+    "label": "Amount and currency."
+   },
+   {
+    "x": 65.95,
+    "y": 44.1,
+    "label": "Effective from / until. A new price closes the previous one; nothing is overwritten."
+   },
+   {
+    "x": 50.1,
+    "y": 65.54,
+    "label": "Prices in force today; the full price history follows below."
+   }
+  ]
+ },
+ "product-tax-tab": {
+  "caption": "The GST / HSN tab.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 39.28,
+    "label": "HSN code (4, 6 or 8 digits) — format check only."
+   },
+   {
+    "x": 72.96,
+    "y": 39.28,
+    "label": "GST rate from your rate master."
+   },
+   {
+    "x": 83.48,
+    "y": 47.07,
+    "label": "Effective dates. Older periods keep their rate."
+   },
+   {
+    "x": 50.1,
+    "y": 88.67,
+    "label": "Every version with its period — e.g. 12% until 21 Sep 2025, then 5%."
+   }
+  ]
+ },
+ "product-tax-masters": {
+  "caption": "GST & HSN → Masters: rates, tax categories and HSN/SAC codes.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 61.88,
+    "label": "GST rates. The retired 12% and 28% slabs are kept inactive for history."
+   },
+   {
+    "x": 62.74,
+    "y": 53.69,
+    "label": "Add HSN or SAC codes with a default rate."
+   }
+  ]
+ },
+ "product-suppliers-tab": {
+  "caption": "The Suppliers tab of a product.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.17,
+    "y": 37.73,
+    "label": "Link a supplier, optionally for one variant, with a purchase price."
+   },
+   {
+    "x": 50.1,
+    "y": 28.05,
+    "label": "The preferred supplier — your choice, not automatically the cheapest."
+   },
+   {
+    "x": 98.98,
+    "y": 75.61,
+    "label": "Change the preferred supplier (may need approval)."
+   },
+   {
+    "x": 98.98,
+    "y": 58.16,
+    "label": "End a mapping; it stays as history."
+   }
+  ]
+ },
+ "product-gst-tab": {
+  "caption": "The GST registrations tab of a product.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.94,
+    "label": "Choose one of the company's GST registrations."
+   },
+   {
+    "x": 72.96,
+    "y": 43.94,
+    "label": "From and to dates."
+   },
+   {
+    "x": 50.1,
+    "y": 68.45,
+    "label": "Registrations this product is sold or bought under."
+   }
+  ]
+ },
+ "product-media-tab": {
+  "caption": "The Images & documents tab.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 29.67,
+    "label": "Upload JPG, PNG or WebP images (checked by content, not just the name)."
+   },
+   {
+    "x": 50.1,
+    "y": 38.67,
+    "label": "The primary image is shown in lists."
+   },
+   {
+    "x": 51.93,
+    "y": 81.79,
+    "label": "Specification sheets, certificates and other documents."
+   }
+  ]
+ },
+ "product-history-tab": {
+  "caption": "The History tab.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 21.32,
+    "label": "Every change with old and new values, who made it and when."
+   }
+  ]
+ },
+ "product-reports": {
+  "caption": "Product Management → Reports.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 29.54,
+    "label": "Ten product reports. Each respects your record and field access."
+   }
+  ]
+ },
+ "product-report-pricing": {
+  "caption": "The product pricing report.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 63.25,
+    "y": 43.95,
+    "label": "Prices in force on any date."
+   },
+   {
+    "x": 43.92,
+    "y": 43.95,
+    "label": "Filter by price type, category, brand, supplier or GSTIN."
+   },
+   {
+    "x": 87.78,
+    "y": 18.67,
+    "label": "Export as CSV, Excel or PDF."
+   }
+  ]
+ },
+ "product-settings": {
+  "caption": "Product Management → Settings.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 19.6,
+    "label": "SKU patterns, manual SKUs, single preferred supplier and GSTIN rules."
+   },
+   {
+    "x": 23.06,
+    "y": 96.29,
+    "label": "The eleven product and supplier workflows."
+   },
+   {
+    "x": 60.98,
+    "y": 19.6,
+    "label": "Product types."
+   }
+  ]
+ },
+ "supplier-dashboard": {
+  "caption": "Supplier Management → Supplier Dashboard.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 23.72,
+    "label": "Filter by type, status, GST treatment, state or our GSTIN."
+   },
+   {
+    "x": 25.4,
+    "y": 40.71,
+    "label": "Suppliers by status, linked and without products."
+   },
+   {
+    "x": 23.06,
+    "y": 70.52,
+    "label": "Recently added suppliers."
+   },
+   {
+    "x": 75.38,
+    "y": 76.62,
+    "label": "Suppliers by type and state."
+   }
+  ]
+ },
+ "supplier-list": {
+  "caption": "Supplier Management → All Suppliers.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Search by name, code, GSTIN, contact or email."
+   },
+   {
+    "x": 86.92,
+    "y": 27.2,
+    "label": "More filters: GST treatment, state, our GSTIN, activity, linked products."
+   },
+   {
+    "x": 24.82,
+    "y": 44.63,
+    "label": "Open a supplier."
+   }
+  ]
+ },
+ "supplier-create": {
+  "caption": "Adding a supplier.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 31.32,
+    "label": "Supplier and legal name."
+   },
+   {
+    "x": 24.82,
+    "y": 59.85,
+    "label": "Registered, composition, SEZ, unregistered or overseas."
+   },
+   {
+    "x": 40.25,
+    "y": 59.85,
+    "label": "GSTIN, checked as you type for structure, state and check character."
+   },
+   {
+    "x": 40.25,
+    "y": 65.25,
+    "label": "The check result. It is not a GST portal verification."
+   },
+   {
+    "x": 24.82,
+    "y": 75.8,
+    "label": "Confirm when another supplier shares the PAN (e.g. another state)."
+   }
+  ]
+ },
+ "supplier-profile": {
+  "caption": "A supplier's page with its ten tabs.",
+  "width": 1366,
+  "height": 950,
+  "markers": [
+   {
+    "x": 29.58,
+    "y": 28.75,
+    "label": "Name, status, code, GSTIN, state and terms."
+   },
+   {
+    "x": 48.34,
+    "y": 14.65,
+    "label": "Ten tabs from Overview to History."
+   },
+   {
+    "x": 50.1,
+    "y": 22.44,
+    "label": "Products with purchase price and preferred flag."
+   },
+   {
+    "x": 44.97,
+    "y": 95.38,
+    "label": "Change status or archive (with a reason)."
+   }
+  ]
+ },
+ "supplier-gst-tab": {
+  "caption": "The GST tab of a supplier.",
+  "width": 1366,
+  "height": 950,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 27.5,
+    "label": "Supplier GST treatment, GSTIN, PAN and state."
+   },
+   {
+    "x": 50.1,
+    "y": 43.07,
+    "label": "Format checks only — no portal verification is claimed."
+   },
+   {
+    "x": 51.93,
+    "y": 67.17,
+    "label": "Link our GST registrations that buy from this supplier."
+   }
+  ]
+ },
+ "supplier-bank-tab": {
+  "caption": "The Bank details tab of a supplier.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 24.93,
+    "label": "Supplier accounts are separate from company bank accounts and need approval."
+   },
+   {
+    "x": 70.94,
+    "y": 59.6,
+    "label": "Account numbers are encrypted and shown masked."
+   },
+   {
+    "x": 73.96,
+    "y": 61.35,
+    "label": "Show the full number (needs permission; every view is logged)."
+   },
+   {
+    "x": 50.17,
+    "y": 39.57,
+    "label": "Add bank details. Never enter passwords, PINs or OTPs."
+   }
+  ]
+ },
+ "supplier-payments": {
+  "caption": "Payments to a supplier already recorded in Bank Management.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 41.11,
+    "label": "References to posted withdrawals — nothing is paid or posted here."
+   },
+   {
+    "x": 51.93,
+    "y": 63.07,
+    "label": "Choose a posted withdrawal from an account you can see."
+   },
+   {
+    "x": 51.85,
+    "y": 79.51,
+    "label": "The linked bank entry."
+   }
+  ]
+ },
+ "supplier-products-tab": {
+  "caption": "The Products tab of a supplier.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.17,
+    "y": 35.21,
+    "label": "Link a product with codes, minimum order, lead time and purchase price."
+   },
+   {
+    "x": 51.85,
+    "y": 53.52,
+    "label": "The same mapping appears on the product's Suppliers tab."
+   }
+  ]
+ },
+ "supplier-documents-tab": {
+  "caption": "The Documents tab of a supplier.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.13,
+    "label": "Upload GST certificate, PAN, agreements and bank proofs."
+   },
+   {
+    "x": 86.98,
+    "y": 44.88,
+    "label": "Optional validity date; expired documents are flagged."
+   },
+   {
+    "x": 94.6,
+    "y": 75.18,
+    "label": "View or download (needs permission; logged)."
+   }
+  ]
+ },
+ "supplier-reports": {
+  "caption": "Supplier Management → Reports.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 29.54,
+    "label": "Eight supplier reports with filters and CSV, Excel or PDF export."
+   }
+  ]
+ },
+ "p6-approvals": {
+  "caption": "Product and supplier requests in the Approvals inbox.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 27.87,
+    "y": 48.57,
+    "label": "A price change waiting for approval."
+   },
+   {
+    "x": 27.87,
+    "y": 60.82,
+    "label": "New supplier bank details waiting for approval."
+   }
+  ]
+ },
+ "p6-permissions": {
+  "caption": "Control Center → Action permissions: the Products and Suppliers modules.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 54.66,
+    "y": 12.78,
+    "label": "Products has 30 actions and Suppliers 27 — pricing, GST/HSN, mappings, bank details, documents and more."
+   },
+   {
+    "x": 50.64,
+    "y": 52.26,
+    "label": "Record scope: all records, own records or assigned products only."
+   },
+   {
+    "x": 50.64,
+    "y": 60.99,
+    "label": "Each action is a separate permission you can grant to a role or a single user."
+   }
+  ]
+ },
+ "supplier-assigned-view": {
+  "caption": "An accountant with assigned suppliers sees only those.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 39.45,
+    "label": "Only assigned suppliers are listed."
+   }
+  ]
  }
 }

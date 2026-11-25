@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 5 of 15 — bank account management.**
+**Current status: Phase 6 of 15 — product & supplier management.**
 
 | | |
 |---|---|
@@ -17,6 +17,7 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 - ✅ [Phase 3 report](docs/PHASE-3.md) — partners, capital ledger, profit sharing, reports, test results
 - ✅ [Phase 4 report](docs/PHASE-4.md) — update steps, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
 - ✅ [Phase 5 report](docs/PHASE-5.md) — **update steps (incl. `key:generate`)**, bank accounts, ledger, transfers, statements, CSV import, reconciliation, reports, test results
+- ✅ [Phase 6 report](docs/PHASE-6.md) — **update steps**, products, variants, SKUs, pricing history, GST/HSN, suppliers, supplier bank details, product-supplier mapping, reports, test results
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
 ## Quick start (local)
@@ -82,9 +83,20 @@ Open http://127.0.0.1:8000 and sign in.
 - **Dashboard and 11 reports** with CSV, Excel and PDF export, all limited by record scope and field rules.
 - No bank API and no automatic bank synchronisation. Banking passwords, PINs, OTPs and card credentials are never stored.
 
+## What Phase 6 adds
+
+- **Product catalogue:** unlimited products of any type with nested categories, brands, variant attributes and variants. Each product and variant has its own SKU (generated from configurable patterns, unique and never reused), a GS1-checked barcode, images and documents. There is no delete: products are archived and can be restored.
+- **Pricing with history:** standard, minimum, maximum, wholesale, marketplace, purchase and supplier prices with effective dates. New prices never overwrite old ones, and any date's price can be looked up.
+- **GST / HSN:** dated HSN/SAC, rate, tax category and applicability per product, variant or GST registration. Rate, category and HSN/SAC masters are editable, including the retired 12 % and 28 % slabs kept for history. Codes are checked for format only; there is no tax filing.
+- **Suppliers:** GSTIN/PAN format checks with duplicate rules, contacts, addresses, payment terms, documents and statuses. Supplier bank details are encrypted, masked, approved before use and kept separate from company bank accounts.
+- **Product–supplier mapping:** many-to-many, optionally per variant, with supplier codes, order quantities, lead times, purchase prices and an explicitly chosen preferred supplier.
+- **Payment references:** a supplier can be linked to existing posted bank withdrawals. Nothing is posted.
+- **GST-registration and business-activity mappings** for products and suppliers.
+- **Two dashboards and 18 reports** with CSV, Excel and PDF export. Everything is limited by record scope and field rules, and 11 optional approval workflows cover sensitive changes.
+
 ## Help & User Guide
 
-An in-app manual for Phases 1–5 (71 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+An in-app manual for Phases 1–6 (85 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
 
 ## Commands
 

@@ -63,6 +63,9 @@ return [
                 'bank_accounts.view_dashboard', 'bank_accounts.view', 'bank_accounts.view_assigned', 'bank_accounts.manage_transactions', 'bank_accounts.create_deposit',
                 'bank_accounts.create_withdrawal', 'bank_accounts.manage_statements', 'bank_accounts.import_statements', 'bank_accounts.manage_reconciliation',
                 'bank_accounts.download_documents', 'bank_accounts.view_history', 'bank_accounts.export', 'bank_accounts.print',
+                // Phase 6: product catalogue read-only; assigned suppliers read-only (prices, GST and mappings are managed by others).
+                'products.view_dashboard', 'products.view', 'products.view_all', 'products.download_documents', 'products.view_history', 'products.export', 'products.print',
+                'suppliers.view_dashboard', 'suppliers.view', 'suppliers.view_assigned', 'suppliers.download_documents', 'suppliers.view_history', 'suppliers.export', 'suppliers.print',
             ],
         ],
         'manager' => [
@@ -79,6 +82,11 @@ return [
                 'gst_registrations.view', 'gst_registrations.view_all',
                 // Phase 5: bank accounts read-only.
                 'bank_accounts.view_dashboard', 'bank_accounts.view', 'bank_accounts.view_all',
+                // Phase 6: maintain products and suppliers; no pricing, GST/HSN, SKU, bank-detail or approval rights.
+                'products.view_dashboard', 'products.view', 'products.view_all', 'products.create', 'products.edit', 'products.manage_variants', 'products.manage_supplier_mappings',
+                'products.manage_documents', 'products.download_documents', 'products.view_history', 'products.export', 'products.print',
+                'suppliers.view_dashboard', 'suppliers.view', 'suppliers.view_all', 'suppliers.create', 'suppliers.edit', 'suppliers.manage_addresses', 'suppliers.manage_product_mappings',
+                'suppliers.manage_documents', 'suppliers.download_documents', 'suppliers.view_history', 'suppliers.export', 'suppliers.print',
             ],
         ],
         'viewer' => [

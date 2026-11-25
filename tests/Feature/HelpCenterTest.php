@@ -57,6 +57,8 @@ final class HelpCenterTest extends HttpTestCase
             $this->assertContains('Setup &amp; Authentication', $home['body']);
             $this->assertContains('Super Admin Control System', $home['body'], "{$email} sees all categories (no role-based content)");
             $this->assertContains('Partner Management &amp; Capital', $home['body']);
+            $this->assertContains('Phase 6 – Product &amp; Supplier Management', $home['body']);
+            $this->assertSame(200, $b->get('/help/guides/supplier-bank-details')['status'], "{$email} reads a Phase 6 guide");
             $this->assertSame(200, $b->get('/help/guides/capital-withdrawals')['status'], "{$email} reads a Phase 3 guide");
             $this->assertSame(200, $b->get('/help/guides/user-permission-overrides')['status'], "{$email} reads a Control Center guide");
             $this->assertSame(200, $b->get('/help/category/super-admin-control')['status']);
@@ -150,9 +152,9 @@ final class HelpCenterTest extends HttpTestCase
     public function testSeederIsCompleteIdempotentAndKeepsEdits(): void
     {
         $db = App::db();
-        $this->assertSame(5, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
+        $this->assertSame(6, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
         $guides = (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE status = 'published'");
-        $this->assertTrue($guides >= 69, 'Phase 1–5 guides seeded');
+        $this->assertTrue($guides >= 83, 'Phase 1–6 guides seeded');
         $gstCat = (int) $db->scalar("SELECT id FROM documentation_categories WHERE slug = 'gst-registrations'");
         $this->assertSame('Phase 4 – GST Registration Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$gstCat]));
         $this->assertSame(10, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$gstCat]));
@@ -161,6 +163,10 @@ final class HelpCenterTest extends HttpTestCase
         $this->assertSame('Phase 5 – Bank Account Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$bankCat]));
         $this->assertSame(14, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$bankCat]));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE g.category_id = ? AND NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id AND s.media_id IS NOT NULL)', [$bankCat]), 'every bank guide has a real screenshot');
+        $p6Cat = (int) $db->scalar("SELECT id FROM documentation_categories WHERE slug = 'products-suppliers'");
+        $this->assertSame('Phase 6 – Product & Supplier Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$p6Cat]));
+        $this->assertSame(14, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$p6Cat]));
+        $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE g.category_id = ? AND NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id AND s.media_id IS NOT NULL)', [$p6Cat]), 'every Phase 6 guide has screenshots');
         $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE summary = '' OR what_is IS NULL"), 'every guide has an introduction and explanation');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id)'), 'every guide has steps');
         $this->assertTrue((int) $db->scalar('SELECT COUNT(*) FROM documentation_media WHERE annotations IS NOT NULL') > 40, 'annotated screenshots');

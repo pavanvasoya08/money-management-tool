@@ -1,0 +1,27 @@
+title: GST rates and HSN / SAC configuration
+slug: gst-hsn-configuration
+section: Tax set-up
+keywords: gst rate hsn sac code tax category taxable exempt nil rated non gst inclusive exclusive effective date history 5% 18% 40% 12% 28% retired slab rate master registration specific
+related: product-pricing, gst-and-activity-mappings, adding-a-product
+summary: Give each product (or variant) its HSN or SAC code, GST rate and tax category with effective dates — format checks only, no tax filing.
+=== what
+The GST / HSN tab records, for a period, the HSN code (goods) or SAC code (services), the GST rate, tax category, applicability (taxable, exempt, nil rated, non-GST, zero rated) and whether prices include GST. It can apply to the whole product, one variant or one of your GST registrations.
+=== why
+Later phases (purchases, sales, GST reports) need the rate that applied on each date. Rates change — e.g. from 22 September 2025 the main slabs are 0%, 5%, 18% and 40% — so older periods keep their own rate.
+=== who
+Changing HSN/SAC codes needs **products.manage_hsn**; changing rates, tax category or applicability needs **products.manage_gst_rates**. A user can hold one without the other.
+=== step: Add a configuration | product-tax-tab
+On the product's **GST / HSN** tab fill in **New GST / HSN version**: HSN or SAC, applicability, rate, tax category, price inclusion, optional variant or GST registration and the effective dates, then **Save configuration**.
+=== step: Read what is in force | product-tax-tab
+**In force today** shows the configuration that applies now, most specific first (variant + registration, variant, registration, product). **All versions** keeps every earlier period.
+=== step: Maintain the masters | product-tax-masters
+**GST & HSN → Masters** holds the GST rates, tax categories and your HSN/SAC list with descriptions and default rates. The retired 12% and 28% slabs are kept inactive so older periods can still be recorded; a rate's percentage is locked once it is used.
+=== result
+Each product has a dated tax history; the product list, dashboard and reports show products still missing a configuration.
+=== notes
+- **HSN and SAC codes are checked for format only** (HSN 4, 6 or 8 digits; SAC 6 digits starting with 99). They are not verified with any government system.
+- No tax is calculated and no GST return is prepared or filed in this phase.
+- When the *GST / HSN change* workflow is on, new configurations wait for approval.
+- A registration-specific configuration needs the product to be linked to that registration first.
+=== mistakes
+- Giving every product the same rate "for now". Choose the right rate per product; there is no global default rate.

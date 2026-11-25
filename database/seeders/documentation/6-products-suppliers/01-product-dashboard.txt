@@ -1,0 +1,24 @@
+title: The Product Dashboard
+slug: product-dashboard
+section: Products
+featured: 1
+keywords: product dashboard catalogue overview status active inactive discontinued draft archived variants missing sku hsn tax supplier filters
+related: adding-a-product, product-supplier-reports, product-supplier-permissions
+summary: See your catalogue at a glance — products by status, what is missing, and products by category — filtered the way you need.
+=== what
+The Product Dashboard summarises the products you are allowed to see: how many are active, inactive, discontinued, waiting for approval, drafts or archived, how many variants exist, which products still miss a SKU, HSN/SAC code, GST set-up or supplier, and how products spread over categories.
+=== why
+It shows quickly where the catalogue needs work before products are used in purchases, inventory and sales in later phases.
+=== who
+Anyone with **products.view_dashboard**. Figures follow your record scope, so an accountant with assigned products only sees those.
+=== step: Open the dashboard and filter | product-dashboard
+Go to **Product Management → Product Dashboard**. Choose a category, brand, product type, status, GST registration, business activity, supplier or HSN/SAC and click **Apply**. Every figure and list on the page uses the same filters.
+=== step: Act on the gaps | product-dashboard
+Each status tile and each line under **Needs attention** opens the product list already filtered — for example all products without an HSN/SAC code — so you can fix them one by one.
+=== result
+You know how big the catalogue is, what state it is in and which products still need SKUs, tax set-up or suppliers.
+=== notes
+- All figures come from the database; nothing on the dashboard is sample data.
+- The "awaiting approval" link appears when price, GST/HSN or product changes wait in the Approvals inbox.
+=== mistakes
+- Expecting archived products in the totals of the status filter "Any status" — archived products are counted in their own tile.

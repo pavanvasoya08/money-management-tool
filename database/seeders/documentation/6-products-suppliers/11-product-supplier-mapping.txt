@@ -1,0 +1,24 @@
+title: Linking products and suppliers
+slug: product-supplier-mapping
+section: Suppliers
+keywords: product supplier mapping link many to many preferred supplier priority supplier product code supplier sku minimum order quantity lead time purchase price variant end mapping history
+related: product-pricing, adding-a-supplier, product-supplier-reports
+summary: Record which suppliers supply which products (or variants), with their codes, order quantities, lead times, purchase prices and the preferred supplier.
+=== what
+A product can have many suppliers and a supplier can supply many products. Each link records the supplier's product code and SKU, minimum and maximum order quantity, lead time, priority, an optional purchase price and whether this is the preferred supplier.
+=== who
+Linking from a product needs **products.manage_supplier_mappings**; from a supplier, **suppliers.manage_product_mappings**. Purchase prices also need **products.manage_pricing**.
+=== step: Link a supplier to a product | product-suppliers-tab
+On the product's **Suppliers** tab open **Link a supplier**. Choose the supplier and optionally one variant, enter the codes, quantities, lead time and priority, a purchase price and whether it is preferred, then save.
+=== step: Choose the preferred supplier | product-suppliers-tab
+Use **Make preferred** with a reason. The preferred supplier is the one you choose — it is not picked automatically by price. When the *Preferred supplier change* workflow is on, the change waits for approval.
+=== step: See it from the supplier's side | supplier-products-tab
+The supplier's **Products** tab lists the same links and lets you link a product from there.
+=== result
+Both pages show the link; purchase prices keep their full history on the product's Pricing tab.
+=== notes
+- With "Only one preferred supplier per product or variant" on (default), choosing a new preferred supplier removes the flag from the previous one.
+- **End** a link with a reason when a supplier stops supplying a product; ended links stay as history.
+- Product pages show only suppliers you are allowed to see; others appear as "Restricted supplier" in price lists.
+=== mistakes
+- Assuming the cheapest supplier is used automatically — set the preferred supplier deliberately.

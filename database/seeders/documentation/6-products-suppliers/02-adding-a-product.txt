@@ -1,0 +1,28 @@
+title: Adding and maintaining a product
+slug: adding-a-product
+section: Products
+featured: 1
+keywords: add product create new product type physical service bundle kit unit category sub-category brand draft submit approval edit status archive restore
+related: skus-and-barcodes, categories-and-brands, product-pricing, gst-hsn-configuration
+summary: Create a product, choose its type, category and brand, then activate it, change its status or archive it — every change is recorded.
+=== what
+A product is anything you buy, stock or sell: a physical item, a service, a bundle (combo) or a kit. Product types are an editable list in Product settings. Each product gets a permanent product code (PRD-000001), a stable identifier and, usually, a SKU.
+=== who
+Adding needs **products.create**; editing needs **products.edit**; status changes need **products.activate** / **products.deactivate**; archiving needs **products.archive**.
+=== prerequisites
+Create the categories and brands you need first (see *Categories, sub-categories and brands*).
+=== step: Fill in the product | product-create
+Open **Product Management → All Products → Add product**. Enter the name, product type and unit, then the category and sub-category (the sub-category list only shows those under the chosen category) and the brand. Leave **SKU** empty to generate it from the pattern in settings. Add an optional barcode, description, manufacturer, model number, tags and internal notes.
+=== step: Save and activate | product-create
+**Save & submit** activates the product, or sends it for approval when the *New product* workflow is on. **Save as draft** keeps it as a draft you can finish later.
+=== step: Work on the product page | product-profile
+The product page shows the primary image, status, codes and ten tabs: Overview, Basic information, Variants, Pricing, GST / HSN, Suppliers, GST registrations, Activities, Images & documents and History. Use **Change status** to activate, deactivate or discontinue (a reason is required) and **Archive** to retire it.
+=== result
+The product is listed under All Products with its status, and every change appears on its History tab and in the audit log.
+=== notes
+- Statuses: Draft, Pending approval, Active, Inactive, Discontinued and Archived. Products are never deleted — archive them instead; their history, prices and mappings stay.
+- On an active product, changing key details (name, type, category, brand, unit, barcode) waits for approval when the *Product key-detail change* workflow is on. Descriptions and notes change at once.
+- When "Require a GST/HSN configuration before activation" is on in settings, a product cannot become active without one.
+- An archived product can be restored by a user with **products.restore**.
+=== mistakes
+- Creating the same product twice under slightly different names — search the list first; codes, SKUs and barcodes must be unique.

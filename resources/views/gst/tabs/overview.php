@@ -40,9 +40,21 @@ use App\Services\Gst\GstRegistrationService;
         · <span class="badge rounded-pill badge-soft-<?= $b['designation'] === 'primary' ? 'primary' : 'secondary' ?>"><?= e(ucfirst($b['designation'])) ?></span><?= $b['status'] !== 'active' ? ' · ended ' . e(format_date($b['effective_to'])) : '' ?></li><?php endforeach; ?></ul>
 <?php endif; ?>
 <?php endif; ?>
+<?php if (can('products.view') || can('suppliers.view')):
+    $p6db = \App\Core\App::db(); $p6rid = (int) $raw['id']; $p6user = auth_user() ?? [];
+    $p6count = static function (string $module, string $alias, string $table, string $mapTable, string $col) use ($p6db, $p6rid, $p6user): int {
+        [$w, $prm] = \App\Core\App::dataAccess()->constrain($p6user, $module, $alias);
+        return (int) $p6db->scalar("SELECT COUNT(DISTINCT {$alias}.id) FROM {$table} {$alias} JOIN {$mapTable} m ON m.{$col} = {$alias}.id WHERE m.gst_registration_id = ? AND m.status = 'active' AND {$alias}.status <> 'archived' AND {$w}", array_merge([$p6rid], $prm));
+    }; ?>
+<h2 class="card-section-title">Products &amp; suppliers</h2>
+<ul class="list-unstyled small mb-3">
+    <?php if (can('products.view')): $n = $p6count('products', 'p', 'products', 'product_gst_mappings', 'product_id'); ?><li><a href="<?= e(route('products.index', ['gst' => $p6rid])) ?>"><?= $n ?> product<?= $n === 1 ? '' : 's' ?></a> sold or bought under this registration</li><?php endif; ?>
+    <?php if (can('suppliers.view')): $n = $p6count('suppliers', 's', 'suppliers', 'supplier_gst_mappings', 'supplier_id'); ?><li><a href="<?= e(route('suppliers.index', ['gst' => $p6rid])) ?>"><?= $n ?> supplier<?= $n === 1 ? '' : 's' ?></a> used by this registration</li><?php endif; ?>
+</ul>
+<?php endif; ?>
 <h2 class="card-section-title">Links to other modules</h2>
 <?php if ($links === []): ?>
-    <p class="text-secondary small mb-0">E-commerce platforms, seller accounts, warehouses, products and sales or purchase records will link to this registration when those modules are released.</p>
+    <p class="text-secondary small mb-0">E-commerce platforms, seller accounts, warehouses and sales or purchase records will link to this registration when those modules are released.</p>
 <?php else: ?>
     <ul class="mb-0"><?php foreach ($links as $l): ?><li><?= e($l['type_label']) ?>: <?= e($l['label']) ?><?= $l['relationship'] ? ' (' . e($l['relationship']) . ')' : '' ?></li><?php endforeach; ?></ul>
 <?php endif; ?>

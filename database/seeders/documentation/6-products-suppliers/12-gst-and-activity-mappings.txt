@@ -1,0 +1,24 @@
+title: GST registration and business-activity mappings
+slug: gst-and-activity-mappings
+section: Tax set-up
+keywords: gst registration mapping product registration supplier registration business activity retail wholesale ecommerce effective date end mapping multi gstin
+related: gst-hsn-configuration, adding-a-supplier, adding-a-product
+summary: Link products and suppliers to the company's GST registrations and business activities, with dates.
+=== what
+Products and suppliers can be linked to one or more of the company's GST registrations (from GST Management) and to business activities such as retail, wholesale or e-commerce. Each link has a start date and an optional end date.
+=== why
+In later phases purchases, stock and sales happen under a specific GSTIN. These links say which products are sold and which suppliers are used under each registration, and they drive the GSTIN filters on dashboards and reports.
+=== who
+Product links need **products.manage_gst_mappings** or **products.manage_business_mappings**; supplier links need **suppliers.manage_business_mappings**.
+=== step: Link a product to registrations | product-gst-tab
+On the product's **GST registrations** tab choose a registration, the dates and an optional note, and add it. The **Activities** tab works the same way for business activities.
+=== step: Link a supplier to registrations | supplier-gst-tab
+On the supplier's **GST** tab, under *Our GST registrations that buy from this supplier*, add the registrations that buy from this supplier.
+=== result
+The links show on the product and supplier pages and on the registration's own page in GST Management.
+=== notes
+- These links never make a supplier part of your business or change any GST registration.
+- End a link instead of removing it; ended links stay visible as history.
+- Users whose record scope is limited to certain GST registrations see only products and suppliers linked to them.
+=== mistakes
+- Forgetting to link a product to a registration before adding a registration-specific price or GST configuration — the system asks you to link it first.

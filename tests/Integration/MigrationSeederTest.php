@@ -23,7 +23,8 @@ final class MigrationSeederTest extends TestCase
         foreach (['users', 'roles', 'permissions', 'user_roles', 'role_permissions', 'user_permission_overrides', 'login_attempts', 'password_reset_tokens', 'activity_logs', 'system_settings', 'remember_tokens', 'migrations',
             'modules', 'role_data_scopes', 'user_data_scope_overrides', 'module_fields', 'role_field_permissions', 'user_field_overrides', 'user_resource_assignments',
             'approval_workflows', 'approval_workflow_steps', 'approval_requests', 'approval_actions', 'permission_templates', 'permission_template_items',
-            'permission_template_scopes', 'user_sessions', 'access_requests'] as $t) {
+            'permission_template_scopes', 'user_sessions', 'access_requests', 'products', 'product_variants', 'product_sku_registry', 'product_prices',
+            'product_tax_configs', 'suppliers', 'supplier_bank_details', 'product_supplier_mappings', 'product_history', 'supplier_history'] as $t) {
             $this->assertTrue($schema->hasTable($t), "missing table {$t}");
         }
     }
@@ -40,13 +41,16 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame($modules, (int) $db->scalar('SELECT COUNT(*) FROM modules'));
         $this->assertSame($actions, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM permissions WHERE module_id IS NULL'), 'every permission belongs to a module');
-        // Every definition is seeded, plus the one-time markers of Phase 4 (Partner GST scope) and Phase 5 (bank role defaults).
-        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 2, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
+        // Every definition is seeded, plus the one-time markers of Phase 4 (Partner GST scope), Phase 5 (bank role defaults) and Phase 6 (product role defaults).
+        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 3, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'bank_role_defaults_released'"));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'gst_partner_scope_released'"));
-        $this->assertSame(18, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
+        $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'product_defaults_released'"));
+        $this->assertSame(29, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM approval_requests'), 'no fake transactions');
-        foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue', 'gst_registrations', 'gst_registration_partner_mappings', 'gst_registration_documents', 'gst_registration_links', 'bank_accounts', 'bank_transactions', 'bank_transfers', 'bank_statement_rows', 'bank_reconciliation_matches'] as $table) {
+        foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue', 'gst_registrations', 'gst_registration_partner_mappings', 'gst_registration_documents', 'gst_registration_links', 'bank_accounts', 'bank_transactions', 'bank_transfers', 'bank_statement_rows', 'bank_reconciliation_matches',
+            'products', 'product_variants', 'product_categories', 'product_brands', 'product_prices', 'product_tax_configs', 'gst_hsn_sac_codes', 'product_attribute_values',
+            'suppliers', 'supplier_bank_details', 'product_supplier_mappings', 'supplier_bank_transaction_links'] as $table) {
             $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM {$table}"), "no example business data in {$table}");
         }
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM users'), 'no hardcoded user accounts');

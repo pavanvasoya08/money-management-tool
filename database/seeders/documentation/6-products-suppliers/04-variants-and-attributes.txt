@@ -1,0 +1,24 @@
+title: Variant attributes and product variants
+slug: variants-and-attributes
+section: Catalogue set-up
+keywords: variant attribute size colour material weight capacity values options combination variant sku variant status discontinued bundle components kit
+related: skus-and-barcodes, adding-a-product, product-pricing
+summary: Define attributes such as size and colour once, then add variants with their own SKU, barcode, image, prices and status.
+=== what
+Attributes describe how variants differ. Size, colour, material, weight, capacity and packaging type are provided; you add their values (e.g. 16 x 16 in, Indigo) and can add your own attributes. A variant is one combination of attribute values for a product.
+=== who
+Attributes need **products.manage_attributes**; variants need **products.manage_variants**.
+=== step: Set up attributes and values | product-attributes
+Open **Product Management → Attributes**. A *choice list* attribute has values you add here; a *number* attribute (e.g. weight in g) is typed on each variant; a *text* attribute is free text. Add your own attributes with a code, name and type.
+=== step: Add variants to a product | product-variants-tab
+On the product's **Variants** tab click **Add variant** and choose a value for each attribute you need. The name is built from the values (e.g. "16 x 16 in / Indigo") unless you type one, and the SKU follows the variant pattern (e.g. CUSH-00001-01) unless you type one.
+=== step: Manage variants | product-variants-tab
+Each variant has its own code, SKU, barcode, status (active, inactive, discontinued or archived), image and prices. Use **Edit**, **Status** and **SKU** on its row.
+=== result
+The product shows its variants with their attributes; prices, GST/HSN, suppliers and images can be set for one variant or the whole product.
+=== notes
+- Two variants of one product cannot have exactly the same attribute values.
+- An attribute's type cannot change once variants use it.
+- Bundles and kits list their components (products or variants with a quantity) on the Basic information tab. A bundle cannot contain itself, directly or through another bundle.
+=== mistakes
+- Creating separate products for each size or colour — use one product with variants so prices, suppliers and reports stay together.

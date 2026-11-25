@@ -38,6 +38,10 @@ final class App
         \App\Services\Gst\GstLinkRegistry::registerReference('bank_account_gst_mappings');
         \App\Services\Gst\GstLinkRegistry::registerReference('bank_transactions');
         \App\Services\Gst\GstLinkRegistry::registerReference('bank_transfers');
+        // Phase 6: registrations used by products, prices, tax configurations or suppliers.
+        foreach (['product_gst_mappings', 'product_prices', 'product_tax_configs', 'supplier_gst_mappings'] as $table) {
+            \App\Services\Gst\GstLinkRegistry::registerReference($table);
+        }
     }
 
     public static function basePath(string $path = ''): string
@@ -153,6 +157,10 @@ final class App
             \App\Services\Bank\BankAccountService::registerApprovalListener();
             \App\Services\Bank\BankTransactionService::registerApprovalListener();
             \App\Services\Bank\BankTransferService::registerApprovalListener();
+            \App\Services\Product\ProductService::registerApprovalListener();
+            \App\Services\Product\PricingService::registerApprovalListener();
+            \App\Services\Product\TaxConfigService::registerApprovalListener();
+            \App\Services\Supplier\SupplierService::registerApprovalListener();
             return new \App\Services\Approval\ApprovalEngine(self::db());
         });
     }

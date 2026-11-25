@@ -1,0 +1,23 @@
+title: Categories, sub-categories and brands
+slug: categories-and-brands
+section: Catalogue set-up
+keywords: category sub-category nested parent tree brand logo archive code image manage categories manage brands
+related: adding-a-product, variants-and-attributes
+summary: Organise products in nested categories and record the brands you buy and sell — without hardcoded lists.
+=== what
+Categories group products and can be nested: a category can have sub-categories, which can have their own sub-categories (up to ten levels). Brands record the brand name, code, website, manufacturer and an optional logo.
+=== who
+Categories need **products.manage_categories**; brands need **products.manage_brands**. Everyone with **products.view** can see them.
+=== step: Add a category or sub-category | product-categories
+Open **Product Management → Categories**. Enter a code and name; choose a **Parent** to make it a sub-category. Add an optional description, display order and image, then save. The list shows the tree with each category's product count.
+=== step: Add a brand | product-brands
+Open **Product Management → Brands**, enter the code and name, optionally a website (https only), description and logo, and save.
+=== result
+The categories and brands appear on the product form and as filters on the dashboard, product list and reports.
+=== notes
+- A category cannot be placed under itself or one of its own sub-categories.
+- Archive a category or brand when it is no longer used. Products keep the category or brand they already have; archived ones cannot be chosen for other products.
+- A category with active sub-categories cannot be archived until the sub-categories are.
+- Category codes are used by the default SKU pattern ({CAT}), so short codes such as HF or LAMP work best.
+=== mistakes
+- Renaming a category code after many SKUs were generated: existing SKUs do not change, so new SKUs will use the new prefix.

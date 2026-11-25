@@ -34,6 +34,7 @@ final class DocumentationSeeder extends Seeder
         '3-partners-capital' => ['partners-capital', 'Partner Management & Capital', 'Phase 3 — partners, documents, logins, capital contributions, withdrawals, adjustments, the ledger, profit sharing and reports.', 'users-round'],
         '4-gst-registrations' => ['gst-registrations', 'Phase 4 – GST Registration Management', 'Phase 4 — GST registrations, GSTIN validation, partner and activity mappings, locations, documents, status and reports.', 'file-badge'],
         '5-bank-accounts' => ['bank-accounts', 'Phase 5 – Bank Account Management', 'Phase 5 — bank accounts, the central funding account, deposits, withdrawals, internal transfers, statements, CSV import, reconciliation, reports and permissions.', 'landmark'],
+        '6-products-suppliers' => ['products-suppliers', 'Phase 6 – Product & Supplier Management', 'Phase 6 — products, categories, brands, variants, SKUs, prices, GST/HSN, images, suppliers, supplier bank details, product-supplier mapping, reports and permissions.', 'package'],
     ];
     private const FIELD_MAP = ['what' => 'what_is', 'why' => 'why_used', 'who' => 'who_uses', 'prerequisites' => 'prerequisites', 'result' => 'expected_result', 'notes' => 'important_notes', 'mistakes' => 'common_mistakes'];
 

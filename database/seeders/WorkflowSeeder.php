@@ -33,6 +33,18 @@ final class WorkflowSeeder extends Seeder
         'bank_withdrawal' => ['Bank withdrawal approval', 'bank_accounts', 'Approve withdrawals and bank charges before they are posted.', ['approve_transactions', 'reject_transactions']],
         'bank_adjustment' => ['Bank adjustment approval', 'bank_accounts', 'Approve other bank adjustments and opening-balance adjustments before they are posted.', ['approve_transactions', 'reject_transactions']],
         'bank_reconciliation_reopen' => ['Bank reconciliation reopening approval', 'bank_accounts', 'Approve reopening a completed bank reconciliation.'],
+        // Phase 6 — products and suppliers. All inactive until a Super Admin adds steps and activates them.
+        'product_create' => ['New product approval', 'products', 'Approve new products before they become active.'],
+        'product_update' => ['Product key-detail change approval', 'products', 'Approve changes to name, type, category, brand, unit, barcode and inventory tracking of active products.'],
+        'product_sku_change' => ['SKU change approval', 'products', 'Approve changing the SKU of a product or variant.'],
+        'product_tax_change' => ['GST / HSN change approval', 'products', 'Approve new or changed GST rates, HSN/SAC codes and tax categories before they take effect.'],
+        'product_price_change' => ['Price change approval', 'products', 'Approve new prices (standard, selling, wholesale, marketplace and supplier purchase prices) before they take effect.'],
+        'product_archive' => ['Product archival approval', 'products', 'Approve archiving a product.'],
+        'product_preferred_supplier' => ['Preferred supplier change approval', 'products', 'Approve changing the preferred supplier of a product or variant.'],
+        'supplier_create' => ['New supplier approval', 'suppliers', 'Approve new suppliers before they become active.'],
+        'supplier_gstin_change' => ['Supplier GSTIN change approval', 'suppliers', 'Approve changes to a supplier\'s GSTIN, PAN or GST treatment.'],
+        'supplier_bank_change' => ['Supplier bank detail approval', 'suppliers', 'Approve new or changed supplier bank details before they can be used.'],
+        'supplier_archive' => ['Supplier archival approval', 'suppliers', 'Approve archiving a supplier.'],
     ];
 
     public function run(): void

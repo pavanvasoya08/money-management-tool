@@ -1,0 +1,22 @@
+title: Product images and documents
+slug: product-images-and-documents
+section: Products
+keywords: image photo upload primary image gallery variant image document specification certificate manual download archive jpg png webp pdf file size
+related: adding-a-product, variants-and-attributes
+summary: Upload product and variant images, choose the primary image and keep specification sheets and certificates with the product.
+=== what
+The **Images & documents** tab holds product photos (optionally for one variant) and documents such as specification sheets, manuals, certificates, warranty and compliance documents.
+=== who
+Uploading and archiving needs **products.manage_images** or **products.manage_documents**; opening documents needs **products.download_documents**.
+=== step: Upload images | product-media-tab
+Choose a JPG, PNG or WebP image (up to 5 MB), optionally a variant and a caption, and upload. The first image becomes the primary image shown in lists and on the product card; use **Make primary** on another image to change it.
+=== step: Upload documents | product-media-tab
+Under documents choose the file, its category, a title and an optional validity date and upload. Use **View** or **Download** to open it.
+=== result
+Images appear in the gallery and in lists; documents are listed with who uploaded them and when.
+=== notes
+- Files are stored privately outside the public web folder and are only served after a permission check. Images are checked by their content, not just their file name.
+- Archive an image or document with a reason instead of deleting it; archived files stay in the history.
+- Every document view and download is logged.
+=== mistakes
+- Uploading a supplier's bank proof here — supplier documents belong on the supplier's Documents tab, where bank proofs are restricted.

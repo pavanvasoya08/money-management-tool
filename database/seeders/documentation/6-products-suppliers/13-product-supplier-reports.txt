@@ -1,0 +1,24 @@
+title: Product and supplier reports
+slug: product-supplier-reports
+section: Reports
+keywords: reports product list category brand variant pricing tax hsn without supplier without tax mapping inactive supplier list gst contacts payment terms purchase prices export csv excel pdf print filters
+related: product-dashboard, product-pricing, product-supplier-permissions
+summary: Ten product reports and eight supplier reports with filters, dates and CSV, Excel or PDF export — always within your access.
+=== what
+Product reports: complete product list, category-wise, brand-wise, variants, pricing, GST/HSN, products without suppliers, products without tax configuration, product-supplier mapping, and inactive/archived products. Supplier reports: complete supplier list, supplier-wise products, GST details, contacts, payment terms, purchase prices, suppliers without products, and active/inactive suppliers.
+=== who
+Reports need **products.view** / **suppliers.view**; exporting needs **products.export** / **suppliers.export**; printing needs **print**.
+=== step: Open a product report | product-reports
+Go to **Product Management → Reports** and choose a report.
+=== step: Filter, export and print | product-report-pricing
+Filter by search text, category, brand, type, status, GST registration, activity, supplier or HSN, and for dated reports choose **As of** to see the values in force on that date. Export as CSV, Excel or PDF, or print.
+=== step: Supplier reports | supplier-reports
+**Supplier Management → Reports** works the same way with supplier filters (type, status, GST treatment, state, GST registration, activity).
+=== result
+You get exactly the rows you may see, with the same masking on screen and in every export.
+=== notes
+- Exports are logged with the report, format, filters and columns.
+- Hidden fields are left out and masked fields stay masked in exports; supplier account numbers are always masked.
+- Suppliers outside your supplier scope are not listed in mapping reports.
+=== mistakes
+- Comparing a pricing report "as of" today with an invoice from last year — set **As of** to the invoice date.

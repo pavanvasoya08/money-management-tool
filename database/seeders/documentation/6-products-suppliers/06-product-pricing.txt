@@ -1,0 +1,28 @@
+title: Product prices and price history
+slug: product-pricing
+section: Pricing
+featured: 1
+keywords: price selling price mrp minimum maximum wholesale marketplace channel amazon flipkart standard purchase supplier purchase price effective date history version approval cancel future price
+related: product-supplier-mapping, gst-hsn-configuration, product-supplier-permissions
+summary: Record standard, minimum, maximum, wholesale, marketplace, purchase and supplier prices with effective dates; earlier prices are never overwritten.
+=== what
+A product or variant can have eight kinds of price: standard selling, minimum selling, maximum selling (MRP), wholesale, marketplace selling (per channel), standard purchase, supplier purchase (per supplier) and GST-registration-specific prices.
+=== why
+Prices change. Keeping every version with its dates means later purchases, orders and reports can always use the price that applied on their date.
+=== who
+Adding or cancelling prices needs **products.manage_pricing**. Field rules can hide or mask purchase costs and selling prices for some users.
+=== step: Add a price | product-pricing-tab
+On the product's **Pricing** tab open **Add price**. Choose the price type, amount and currency, optionally a variant, GST registration, supplier (for supplier purchase prices) or sales channel (for marketplace prices), the **Effective from** date and an optional end date, then **Save price**.
+=== step: Read prices in force and the history | product-pricing-tab
+**Prices in force today** shows the current price of each type and scope. **Price history** below lists every version with its period, status and who added it. Filter it by type, variant, supplier or status.
+=== step: Look across products | product-report-pricing
+**Product Management → Pricing** and the **Product pricing report** show prices for all products on any date you choose, with CSV, Excel and PDF export.
+=== result
+A new price closes the previous price of the same type and scope the day before it starts. The old price stays readable for its dates.
+=== notes
+- Selling prices must lie between the minimum and maximum selling prices in force.
+- A supplier purchase price needs the supplier to be linked to the product first.
+- When the *Price change* workflow is on, new prices wait for approval and do not apply before they are approved.
+- Only future or pending prices can be cancelled; cancelling a future price re-opens the price it would have replaced.
+=== mistakes
+- Editing an old price to correct a typo — add a new price with the right date instead, so the history stays truthful.

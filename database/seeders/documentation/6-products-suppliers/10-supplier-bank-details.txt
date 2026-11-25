@@ -1,0 +1,26 @@
+title: Supplier bank details and payment references
+slug: supplier-bank-details
+section: Suppliers
+keywords: supplier bank account ifsc swift account number masked encrypted primary approval reveal full number payment reference bank transaction link withdrawal neft rtgs cancelled cheque bank proof
+related: adding-a-supplier, product-supplier-permissions, recording-withdrawals
+summary: Keep suppliers' own bank accounts securely — masked, encrypted and approved before use — and reference payments already in Bank Management.
+=== what
+The supplier's **Bank details** tab stores the accounts you pay the supplier into. These are the supplier's accounts, kept completely separate from the company's own bank accounts in Bank Management.
+=== who
+Seeing bank details needs **suppliers.view_bank_details**; adding or changing them needs **suppliers.manage_bank_details**; the full number needs **suppliers.view_full_account_number**; payment references need **suppliers.link_bank_transactions**.
+=== step: Add bank details | supplier-bank-tab
+Open **Add bank details** and enter the account holder, bank, account number, IFSC (or SWIFT for overseas suppliers), branch and account type. Tick **Make primary once approved** for the main account. New details wait for approval when the *Supplier bank detail* workflow is on and cannot be used before.
+=== step: Show a full number when needed | supplier-bank-tab
+Numbers are shown masked. **Show** reveals the full number to users who may see it; every reveal is recorded in the audit log.
+=== step: Reference payments already made | supplier-payments
+Under **Payments recorded in the bank ledger**, choose a posted withdrawal from an account you can see and add the supplier's invoice or reference. This only links the two records.
+=== result
+Approved accounts are ready for supplier payments in a later phase; payment references show which bank entries were payments to this supplier.
+=== notes
+- Account numbers are encrypted in the database and never written in full to history or audit logs.
+- **Never record internet-banking passwords, ATM/UPI PINs, OTPs or card details.** There is no field for them.
+- Adding a payment reference does not post, change or create any bank transaction; payments themselves are recorded in Bank Management. Purchase invoices and supplier payments arrive in Phase 11.
+- Changing the primary account needs a reason and may need approval. Deactivate old accounts instead of deleting them.
+- Bank proofs (cancelled cheques, bank letters) on the Documents tab are visible only to users who may see bank details.
+=== mistakes
+- Entering a supplier account as a company bank account in Bank Management — supplier accounts belong only here.

@@ -23,6 +23,7 @@ final class DatabaseSeeder extends Seeder
         $this->call(TemplateSeeder::class);
         $this->call(GstSeeder::class);
         $this->call(BankSeeder::class);
+        $this->call(ProductSeeder::class);
         $this->call(DocumentationSeeder::class);
     }
 }

@@ -475,6 +475,72 @@
         }
     }
 
+    function initProductPages() {
+        // Product form: sub-categories follow the chosen top-level category.
+        const parent = document.querySelector('[data-subcategory-parent]'), sub = document.querySelector('[data-subcategory]');
+        if (parent && sub) {
+            const sync = () => {
+                Array.from(sub.options).forEach((o) => { if (o.value !== '') { o.hidden = o.disabled = parent.value === '' || o.dataset.root !== parent.value; } });
+                const cur = sub.options[sub.selectedIndex];
+                if (cur && cur.disabled) { sub.value = ''; }
+            };
+            parent.addEventListener('change', sync);
+            sync();
+        }
+        // Price form: supplier and channel fields only for the price types that use them.
+        document.querySelectorAll('form[data-price-form]').forEach((form) => {
+            const type = form.querySelector('[name="price_type"]');
+            if (!type) { return; }
+            const sync = () => form.querySelectorAll('[data-show-for]').forEach((el) => {
+                const show = el.dataset.showFor.split(',').includes(type.value);
+                el.hidden = !show;
+                el.querySelectorAll('input, select').forEach((i) => { i.disabled = !show; });
+            });
+            type.addEventListener('change', sync);
+            sync();
+        });
+        // Supplier form: live GSTIN structure check (not a GST portal verification).
+        const gf = document.querySelector('form[data-gstin-form]');
+        const gi = gf && gf.querySelector('[data-gstin-input]');
+        const out = gf && gf.querySelector('[data-gstin-result]');
+        if (gi && out) {
+            const base = out.textContent;
+            let timer = null;
+            const check = () => {
+                const v = gi.value.trim().toUpperCase();
+                if (v.length < 15) { out.textContent = base; out.className = 'form-text'; return; }
+                const pan = gf.querySelector('#pan');
+                const q = new URLSearchParams({ gstin: v, pan: pan && !pan.disabled ? pan.value.trim() : '', except: gf.dataset.except || '0' });
+                const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+                q.append('_csrf', token);
+                fetch(gf.dataset.gstinForm, { method: 'POST', headers: { 'X-CSRF-Token': token, Accept: 'application/json' }, body: q, credentials: 'same-origin' })
+                    .then((r) => r.json()).then((d) => {
+                        let msg; let ok = d.valid;
+                        if (!d.valid) { msg = (d.errors || ['Invalid GSTIN.']).join(' '); }
+                        else { msg = 'Format valid · state ' + (d.state || '—') + ' · PAN ' + (d.pan || '—') + '. Not verified with the GST portal.'; }
+                        if (d.duplicate) { msg += ' Already used by ' + d.duplicate + (d.duplicate_blocks ? ' — duplicates are not allowed.' : '.'); ok = ok && !d.duplicate_blocks; }
+                        out.textContent = msg;
+                        out.className = 'form-text ' + (ok ? 'gstin-ok' : 'gstin-bad');
+                        if (d.valid && pan && !pan.disabled && pan.value.trim() === '' && d.pan) { pan.value = d.pan; }
+                    }).catch(() => {});
+            };
+            gi.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(check, 300); });
+            if (gi.value.trim().length === 15) { check(); }
+        }
+        // Supplier bank details: show one full account number on request (permission-checked and logged).
+        document.querySelectorAll('[data-reveal-url]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+                const target = document.querySelector('[data-reveal-target="' + btn.dataset.revealFor + '"]');
+                fetch(btn.dataset.revealUrl, { method: 'POST', headers: { 'X-CSRF-Token': token, Accept: 'application/json' }, body: new URLSearchParams({ _csrf: token }), credentials: 'same-origin' })
+                    .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
+                    .then(({ ok, d }) => {
+                        if (ok && target) { target.textContent = d.number; btn.remove(); } else { btn.textContent = d.error || 'Not allowed'; btn.disabled = true; }
+                    }).catch(() => {});
+            });
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initCapitalForm();
         initAllocationForm();
@@ -495,5 +561,6 @@
         initGstForm();
         initBankCharts();
         initBankPages();
+        initProductPages();
     });
 })();

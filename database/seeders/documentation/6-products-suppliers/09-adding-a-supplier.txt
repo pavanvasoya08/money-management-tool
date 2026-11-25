@@ -1,0 +1,27 @@
+title: Adding and maintaining a supplier
+slug: adding-a-supplier
+section: Suppliers
+featured: 1
+keywords: supplier vendor add create gstin pan validation duplicate gst treatment overseas unregistered composition contact address payment terms credit period status inactive blocked archive types documents
+related: supplier-bank-details, product-supplier-mapping, gst-and-activity-mappings
+summary: Record suppliers with their GST details, contacts, addresses, terms and documents; GSTINs are checked for format and duplicates.
+=== what
+A supplier is a business you buy from. Each supplier gets a code (SUP-00001) and records its type, GST treatment, GSTIN and PAN, contacts, addresses, payment terms, credit period and currency.
+=== who
+Adding needs **suppliers.create**; editing needs **suppliers.edit**; GST details need **suppliers.manage_gst_details**; addresses and documents have their own permissions.
+=== step: Fill in the supplier | supplier-create
+Open **Supplier Management → All Suppliers → Add supplier**. Enter the name, legal name and type, then the GST treatment. For registered suppliers type the GSTIN: as you type it is checked for structure, state code, PAN segment and check character, and you are told if another supplier already uses it. The PAN is taken from the GSTIN when left empty.
+=== step: Save and review | supplier-profile
+**Save & submit** activates the supplier, or sends it for approval when the *New supplier* workflow is on. The supplier page shows its details, the products it supplies and ten tabs, including Addresses, GST, Bank details, Products, Documents and History.
+=== step: GST details after activation | supplier-gst-tab
+On an active supplier, changes to GSTIN, PAN, GST treatment or legal name need a reason and wait for approval when the *Supplier GSTIN change* workflow is on.
+=== result
+The supplier is listed under All Suppliers and can be linked to products. Changes are kept on the History tab and in the audit log.
+=== notes
+- **GSTIN checks are format checks only. They are not a verification with the GST portal.**
+- By default one GSTIN belongs to one supplier (setting "One supplier per GSTIN"). Several suppliers may share a PAN — e.g. registrations in different states — after you confirm it.
+- Statuses: Draft, Pending approval, Active, Inactive, Blocked and Archived. Use Inactive or Blocked with a reason; archive instead of deleting.
+- Overseas suppliers need a country other than IN and no GSTIN.
+- Supplier types are managed under **Supplier Types**.
+=== mistakes
+- Creating a second supplier for a new GST registration of the same business without confirming the shared PAN — check the existing supplier first.

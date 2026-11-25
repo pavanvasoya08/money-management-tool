@@ -1,0 +1,25 @@
+title: Product and supplier permissions and approvals
+slug: product-supplier-permissions
+section: Security
+keywords: permissions roles products suppliers assigned records field rules mask hide purchase cost approval workflows price change gst hsn change supplier bank change new supplier archive preferred supplier inbox settings
+related: product-pricing, supplier-bank-details, product-dashboard
+summary: Who can see and change products and suppliers, how field rules protect costs and contact details, and which changes can require approval.
+=== what
+Products and Suppliers are two modules in the Control Center with 30 and 27 actions. Roles and user overrides grant actions, record scope limits which products and suppliers someone sees, field rules hide or mask values, and eleven approval workflows control sensitive changes.
+=== who
+Super Admins manage these in the **Control Center** and **Product settings**.
+=== step: Grant permissions | p6-permissions
+**Control Center → Action permissions** lists every product and supplier action — for example pricing, HSN, GST rates, SKUs, variants, mappings, bank details, full account numbers and payment references. Grant them to roles in **Module permissions** or to one user with an override.
+=== step: Limit what a user sees | supplier-assigned-view
+Give a user *assigned* scope and assign products or suppliers; they then see only those in lists, dashboards, reports and exports, and other records answer "not found". Field rules can hide or mask purchase cost, selling price, supplier details, tax set-up, contacts, GSTIN, PAN, addresses, payment terms and bank account numbers.
+=== step: Turn on approvals | product-settings
+**Product settings → Approval workflows** links to the eleven workflows: new product, key-detail change, SKU change, GST/HSN change, price change, product archival, preferred supplier change, new supplier, supplier GSTIN change, supplier bank detail and supplier archival. All are off until a Super Admin switches them on.
+=== step: Decide requests | p6-approvals
+Requests appear in **Approvals**. Nothing applies until approved; a rejected request leaves the record unchanged, and the rejection and its reason are kept on the record's History tab (a rejected new product or supplier returns to draft with the reason shown).
+=== result
+Each user sees and changes only what they are allowed to, and sensitive changes can require a second person.
+=== notes
+- By default managers maintain the catalogue and suppliers without pricing, tax or bank-detail rights; accountants view products and their assigned suppliers; viewers and partner logins have no access. Adjust this per role or user.
+- Every change, approval, document download and full-number reveal is recorded in the audit log.
+=== mistakes
+- Giving **products.manage_pricing** to many users without the price-change workflow — turn the workflow on if prices need a second check.

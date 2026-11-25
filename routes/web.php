@@ -28,6 +28,13 @@ use App\Controllers\Gst\GstRegistrationController;
 use App\Controllers\Gst\GstRelationController;
 use App\Controllers\Gst\GstReportController;
 use App\Controllers\HelpController;
+use App\Controllers\Product\ProductCatalogController;
+use App\Controllers\Product\ProductController;
+use App\Controllers\Product\ProductDetailController;
+use App\Controllers\Product\ProductReportController;
+use App\Controllers\Supplier\SupplierController;
+use App\Controllers\Supplier\SupplierDetailController;
+use App\Controllers\Supplier\SupplierReportController;
 use App\Controllers\HelpManageController;
 use App\Controllers\PasswordResetController;
 use App\Controllers\SettingsController;
@@ -292,6 +299,135 @@ return static function (Router $r): void {
             $r->post('/settings/types', [BankSettingsController::class, 'storeType'], 'bank.settings.types.store', ['can:bank_accounts.manage_account_types']);
             $r->post('/settings/types/{id}', [BankSettingsController::class, 'updateType'], 'bank.settings.types.update', ['can:bank_accounts.manage_account_types']);
             $r->post('/settings/rules', [BankSettingsController::class, 'rules'], 'bank.settings.rules', ['can:bank_accounts.manage_settings']);
+        });
+
+        // ---------- Phase 6: products ----------
+        // Route guards check the permission; every record is also loaded through the product record scope (404 outside it).
+        // Static paths are registered before /{id} so they are matched first.
+        $r->group(['prefix' => 'products'], static function (Router $r): void {
+            $v = ['can:products.view'];
+            $r->get('/dashboard', [ProductController::class, 'dashboard'], 'products.dashboard', ['can:products.view_dashboard']);
+            $r->get('/', [ProductController::class, 'index'], 'products.index', $v);
+            $r->get('/export', [ProductController::class, 'export'], 'products.export', ['can:products.export']);
+            $r->get('/create', [ProductController::class, 'create'], 'products.create', ['can:products.create']);
+            $r->post('/', [ProductController::class, 'store'], 'products.store', ['can:products.create']);
+            $r->get('/history', [ProductController::class, 'historyPage'], 'products.history', ['can:products.view_history']);
+
+            $r->get('/categories', [ProductCatalogController::class, 'categories'], 'products.categories', $v);
+            $r->post('/categories', [ProductCatalogController::class, 'saveCategory'], 'products.categories.store', ['can:products.manage_categories']);
+            $r->post('/categories/{id}', [ProductCatalogController::class, 'saveCategory'], 'products.categories.update', ['can:products.manage_categories']);
+            $r->post('/categories/{id}/status', [ProductCatalogController::class, 'categoryStatus'], 'products.categories.status', ['can:products.manage_categories']);
+            $r->get('/categories/{id}/image', [ProductCatalogController::class, 'categoryImage'], 'products.categories.image', $v);
+            $r->get('/brands', [ProductCatalogController::class, 'brands'], 'products.brands', $v);
+            $r->post('/brands', [ProductCatalogController::class, 'saveBrand'], 'products.brands.store', ['can:products.manage_brands']);
+            $r->post('/brands/{id}', [ProductCatalogController::class, 'saveBrand'], 'products.brands.update', ['can:products.manage_brands']);
+            $r->post('/brands/{id}/status', [ProductCatalogController::class, 'brandStatus'], 'products.brands.status', ['can:products.manage_brands']);
+            $r->get('/brands/{id}/logo', [ProductCatalogController::class, 'brandLogo'], 'products.brands.logo', $v);
+            $r->get('/attributes', [ProductCatalogController::class, 'attributes'], 'products.attributes', $v);
+            $r->post('/attributes', [ProductCatalogController::class, 'saveAttribute'], 'products.attributes.store', ['can:products.manage_attributes']);
+            $r->post('/attributes/{id}', [ProductCatalogController::class, 'saveAttribute'], 'products.attributes.update', ['can:products.manage_attributes']);
+            $r->post('/attributes/{id}/values', [ProductCatalogController::class, 'saveValue'], 'products.attributes.values.store', ['can:products.manage_attributes']);
+            $r->post('/attributes/{id}/values/{value}', [ProductCatalogController::class, 'saveValue'], 'products.attributes.values.update', ['can:products.manage_attributes']);
+            $r->get('/variants', [ProductCatalogController::class, 'variants'], 'products.variants', $v);
+            $r->get('/pricing', [ProductCatalogController::class, 'pricing'], 'products.pricing', $v);
+            $r->get('/tax', [ProductCatalogController::class, 'tax'], 'products.tax', $v);
+            $r->post('/tax/rates', [ProductCatalogController::class, 'saveRate'], 'products.tax.rates.store', ['can:products.manage_settings']);
+            $r->post('/tax/rates/{id}', [ProductCatalogController::class, 'saveRate'], 'products.tax.rates.update', ['can:products.manage_settings']);
+            $r->post('/tax/categories', [ProductCatalogController::class, 'saveTaxCategory'], 'products.tax.categories.store', ['can:products.manage_settings']);
+            $r->post('/tax/categories/{id}', [ProductCatalogController::class, 'saveTaxCategory'], 'products.tax.categories.update', ['can:products.manage_settings']);
+            $r->post('/tax/codes', [ProductCatalogController::class, 'saveCode'], 'products.tax.codes.store', ['can:products.manage_settings']);
+            $r->post('/tax/codes/{id}', [ProductCatalogController::class, 'saveCode'], 'products.tax.codes.update', ['can:products.manage_settings']);
+            $r->get('/supplier-mappings', [ProductCatalogController::class, 'mappings'], 'products.mappings', $v);
+            $r->get('/documents', [ProductCatalogController::class, 'documents'], 'products.documents', $v);
+            $r->get('/settings', [ProductCatalogController::class, 'settings'], 'products.settings', ['can:products.manage_settings']);
+            $r->post('/settings/rules', [ProductCatalogController::class, 'saveRules'], 'products.settings.rules', ['can:products.manage_settings']);
+            $r->post('/settings/types', [ProductCatalogController::class, 'saveType'], 'products.settings.types.store', ['can:products.manage_settings']);
+            $r->post('/settings/types/{id}', [ProductCatalogController::class, 'saveType'], 'products.settings.types.update', ['can:products.manage_settings']);
+            $r->get('/reports', [ProductReportController::class, 'index'], 'products.reports', $v);
+            $r->get('/reports/{report}', [ProductReportController::class, 'show'], 'products.reports.show', $v);
+            $r->get('/reports/{report}/export', [ProductReportController::class, 'export'], 'products.reports.export', ['can:products.export']);
+
+            $r->get('/{id}', [ProductController::class, 'show'], 'products.show', $v);
+            $r->get('/{id}/edit', [ProductController::class, 'edit'], 'products.edit', ['can:products.edit']);
+            $r->post('/{id}', [ProductController::class, 'update'], 'products.update', ['can:products.edit']);
+            $r->post('/{id}/submit', [ProductController::class, 'submit'], 'products.submit', ['can:products.create']);
+            $r->post('/{id}/status', [ProductController::class, 'status'], 'products.status', $v);
+            $r->post('/{id}/sku', [ProductController::class, 'sku'], 'products.sku', ['can:products.manage_sku']);
+            $r->post('/{id}/archive', [ProductController::class, 'archive'], 'products.archive', ['can:products.archive']);
+            $r->post('/{id}/restore', [ProductController::class, 'restore'], 'products.restore', ['can:products.restore']);
+            $r->post('/{id}/archived-use', [ProductController::class, 'archivedUse'], 'products.archived-use', ['can:products.restore']);
+
+            $r->post('/{id}/variants', [ProductDetailController::class, 'addVariant'], 'products.variants.store', ['can:products.manage_variants']);
+            $r->post('/{id}/variants/{variant}', [ProductDetailController::class, 'updateVariant'], 'products.variants.update', ['can:products.manage_variants']);
+            $r->post('/{id}/variants/{variant}/status', [ProductDetailController::class, 'variantStatus'], 'products.variants.status', ['can:products.manage_variants']);
+            $r->post('/{id}/components', [ProductDetailController::class, 'addComponent'], 'products.components.store', ['can:products.edit']);
+            $r->post('/{id}/components/{item}/remove', [ProductDetailController::class, 'removeComponent'], 'products.components.remove', ['can:products.edit']);
+            $r->post('/{id}/prices', [ProductDetailController::class, 'addPrice'], 'products.prices.store', ['can:products.manage_pricing']);
+            $r->post('/{id}/prices/{price}/cancel', [ProductDetailController::class, 'cancelPrice'], 'products.prices.cancel', ['can:products.manage_pricing']);
+            $r->post('/{id}/tax', [ProductDetailController::class, 'addTax'], 'products.tax.store', $v);
+            $r->post('/{id}/tax/{config}/cancel', [ProductDetailController::class, 'cancelTax'], 'products.tax.cancel', $v);
+            $r->post('/{id}/gst', [ProductDetailController::class, 'addGst'], 'products.gst.store', ['can:products.manage_gst_mappings']);
+            $r->post('/{id}/gst/{mapping}/end', [ProductDetailController::class, 'endGst'], 'products.gst.end', ['can:products.manage_gst_mappings']);
+            $r->post('/{id}/activities', [ProductDetailController::class, 'addActivity'], 'products.activities.store', ['can:products.manage_business_mappings']);
+            $r->post('/{id}/activities/{mapping}/end', [ProductDetailController::class, 'endActivity'], 'products.activities.end', ['can:products.manage_business_mappings']);
+            $r->post('/{id}/suppliers', [ProductDetailController::class, 'addSupplier'], 'products.suppliers.store', ['can:products.manage_supplier_mappings']);
+            $r->post('/{id}/suppliers/{mapping}', [ProductDetailController::class, 'updateSupplier'], 'products.suppliers.update', ['can:products.manage_supplier_mappings']);
+            $r->post('/{id}/suppliers/{mapping}/end', [ProductDetailController::class, 'endSupplier'], 'products.suppliers.end', ['can:products.manage_supplier_mappings']);
+            $r->post('/{id}/suppliers/{mapping}/preferred', [ProductDetailController::class, 'preferSupplier'], 'products.suppliers.preferred', ['can:products.manage_supplier_mappings']);
+            $r->post('/{id}/images', [ProductDetailController::class, 'uploadImage'], 'products.images.store', ['can:products.manage_documents']);
+            $r->get('/{id}/images/{image}', [ProductDetailController::class, 'image'], 'products.images.show', $v);
+            $r->post('/{id}/images/{image}/primary', [ProductDetailController::class, 'primaryImage'], 'products.images.primary', ['can:products.manage_documents']);
+            $r->post('/{id}/images/{image}/archive', [ProductDetailController::class, 'archiveImage'], 'products.images.archive', ['can:products.manage_documents']);
+            $r->post('/{id}/documents', [ProductDetailController::class, 'uploadDocument'], 'products.documents.store', ['can:products.manage_documents']);
+            $r->get('/{id}/documents/{doc}', [ProductDetailController::class, 'document'], 'products.documents.show', ['can:products.download_documents']);
+            $r->post('/{id}/documents/{doc}/archive', [ProductDetailController::class, 'archiveDocument'], 'products.documents.archive', ['can:products.manage_documents']);
+        });
+
+        // ---------- Phase 6: suppliers ----------
+        $r->group(['prefix' => 'suppliers'], static function (Router $r): void {
+            $v = ['can:suppliers.view'];
+            $r->get('/dashboard', [SupplierController::class, 'dashboard'], 'suppliers.dashboard', ['can:suppliers.view_dashboard']);
+            $r->get('/', [SupplierController::class, 'index'], 'suppliers.index', $v);
+            $r->get('/export', [SupplierController::class, 'export'], 'suppliers.export', ['can:suppliers.export']);
+            $r->get('/create', [SupplierController::class, 'create'], 'suppliers.create', ['can:suppliers.create']);
+            $r->post('/', [SupplierController::class, 'store'], 'suppliers.store', ['can:suppliers.create']);
+            $r->post('/check-gstin', [SupplierController::class, 'checkGstin'], 'suppliers.check-gstin', $v);
+            $r->get('/types', [SupplierDetailController::class, 'types'], 'suppliers.types', $v);
+            $r->post('/types', [SupplierDetailController::class, 'saveType'], 'suppliers.types.store', ['can:suppliers.manage_supplier_types']);
+            $r->post('/types/{id}', [SupplierDetailController::class, 'saveType'], 'suppliers.types.update', ['can:suppliers.manage_supplier_types']);
+            $r->get('/addresses', [SupplierDetailController::class, 'addressList'], 'suppliers.addresses', $v);
+            $r->get('/bank-details', [SupplierDetailController::class, 'bankList'], 'suppliers.bank-details', ['can:suppliers.view_bank_details']);
+            $r->get('/documents', [SupplierDetailController::class, 'documentList'], 'suppliers.documents', $v);
+            $r->get('/product-mappings', [SupplierDetailController::class, 'mappingList'], 'suppliers.mappings', $v);
+            $r->get('/history', [SupplierDetailController::class, 'historyList'], 'suppliers.history', ['can:suppliers.view_history']);
+            $r->get('/reports', [SupplierReportController::class, 'index'], 'suppliers.reports', $v);
+            $r->get('/reports/{report}', [SupplierReportController::class, 'show'], 'suppliers.reports.show', $v);
+            $r->get('/reports/{report}/export', [SupplierReportController::class, 'export'], 'suppliers.reports.export', ['can:suppliers.export']);
+
+            $r->get('/{id}', [SupplierController::class, 'show'], 'suppliers.show', $v);
+            $r->get('/{id}/edit', [SupplierController::class, 'edit'], 'suppliers.edit', ['can:suppliers.edit']);
+            $r->post('/{id}', [SupplierController::class, 'update'], 'suppliers.update', ['can:suppliers.edit']);
+            $r->post('/{id}/submit', [SupplierController::class, 'submit'], 'suppliers.submit', ['can:suppliers.create']);
+            $r->post('/{id}/status', [SupplierController::class, 'status'], 'suppliers.status', $v);
+            $r->post('/{id}/archive', [SupplierController::class, 'archive'], 'suppliers.archive', ['can:suppliers.archive']);
+            $r->post('/{id}/restore', [SupplierController::class, 'restore'], 'suppliers.restore', ['can:suppliers.restore']);
+            $r->post('/{id}/addresses', [SupplierDetailController::class, 'saveAddress'], 'suppliers.addresses.store', ['can:suppliers.manage_addresses']);
+            $r->post('/{id}/addresses/{address}', [SupplierDetailController::class, 'saveAddress'], 'suppliers.addresses.update', ['can:suppliers.manage_addresses']);
+            $r->post('/{id}/addresses/{address}/archive', [SupplierDetailController::class, 'archiveAddress'], 'suppliers.addresses.archive', ['can:suppliers.manage_addresses']);
+            $r->post('/{id}/bank', [SupplierDetailController::class, 'addBank'], 'suppliers.bank.store', ['can:suppliers.manage_bank_details']);
+            $r->post('/{id}/bank/{detail}/primary', [SupplierDetailController::class, 'primaryBank'], 'suppliers.bank.primary', ['can:suppliers.manage_bank_details']);
+            $r->post('/{id}/bank/{detail}/deactivate', [SupplierDetailController::class, 'deactivateBank'], 'suppliers.bank.deactivate', ['can:suppliers.manage_bank_details']);
+            $r->post('/{id}/bank/{detail}/reveal', [SupplierDetailController::class, 'revealBank'], 'suppliers.bank.reveal', ['can:suppliers.view_full_account_number']);
+            $r->post('/{id}/documents', [SupplierDetailController::class, 'uploadDocument'], 'suppliers.documents.store', ['can:suppliers.manage_documents']);
+            $r->get('/{id}/documents/{doc}', [SupplierDetailController::class, 'document'], 'suppliers.documents.show', ['can:suppliers.download_documents']);
+            $r->post('/{id}/documents/{doc}/archive', [SupplierDetailController::class, 'archiveDocument'], 'suppliers.documents.archive', ['can:suppliers.manage_documents']);
+            $r->post('/{id}/gst', [SupplierDetailController::class, 'addGst'], 'suppliers.gst.store', ['can:suppliers.manage_business_mappings']);
+            $r->post('/{id}/gst/{mapping}/end', [SupplierDetailController::class, 'endGst'], 'suppliers.gst.end', ['can:suppliers.manage_business_mappings']);
+            $r->post('/{id}/activities', [SupplierDetailController::class, 'addActivity'], 'suppliers.activities.store', ['can:suppliers.manage_business_mappings']);
+            $r->post('/{id}/activities/{mapping}/end', [SupplierDetailController::class, 'endActivity'], 'suppliers.activities.end', ['can:suppliers.manage_business_mappings']);
+            $r->post('/{id}/products', [SupplierDetailController::class, 'addProduct'], 'suppliers.products.store', ['can:suppliers.manage_product_mappings']);
+            $r->post('/{id}/payments', [SupplierDetailController::class, 'linkPayment'], 'suppliers.payments.store', ['can:suppliers.link_bank_transactions']);
+            $r->post('/{id}/payments/{link}/remove', [SupplierDetailController::class, 'unlinkPayment'], 'suppliers.payments.remove', ['can:suppliers.link_bank_transactions']);
         });
 
         // ---------- Help & User Guide ----------
