@@ -15,6 +15,14 @@ use App\Controllers\ApprovalController;
 use App\Controllers\ActivityLogController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\Bank\BankAccountController;
+use App\Controllers\Bank\BankReconciliationController;
+use App\Controllers\Bank\BankRelationController;
+use App\Controllers\Bank\BankReportController;
+use App\Controllers\Bank\BankSettingsController;
+use App\Controllers\Bank\BankStatementController;
+use App\Controllers\Bank\BankTransactionController;
+use App\Controllers\Bank\BankTransferController;
 use App\Controllers\Gst\GstMasterController;
 use App\Controllers\Gst\GstRegistrationController;
 use App\Controllers\Gst\GstRelationController;
@@ -198,6 +206,92 @@ return static function (Router $r): void {
             $r->post('/masters/rules', [GstMasterController::class, 'rules'], 'gst.masters.rules', $m);
             $r->post('/masters/{master}', [GstMasterController::class, 'save'], 'gst.masters.store', $m);
             $r->post('/masters/{master}/{id}', [GstMasterController::class, 'update'], 'gst.masters.update', $m);
+        });
+
+        // ---------- Phase 5: bank account management ----------
+        // Route guards check the permission; every action also loads records through the bank-account record scope (404 outside it).
+        $r->group(['prefix' => 'bank'], static function (Router $r): void {
+            $v = ['can:bank_accounts.view'];
+            $r->get('/', [BankAccountController::class, 'dashboard'], 'bank.dashboard', ['can:bank_accounts.view_dashboard']);
+            $r->get('/accounts', [BankAccountController::class, 'index'], 'bank.index', $v);
+            $r->get('/accounts/export', [BankAccountController::class, 'export'], 'bank.export', ['can:bank_accounts.export']);
+            $r->get('/accounts/create', [BankAccountController::class, 'create'], 'bank.create', ['can:bank_accounts.create']);
+            $r->post('/accounts', [BankAccountController::class, 'store'], 'bank.store', ['can:bank_accounts.create']);
+            $r->get('/accounts/{id}', [BankAccountController::class, 'show'], 'bank.show', $v);
+            $r->post('/accounts/{id}/reveal', [BankAccountController::class, 'reveal'], 'bank.reveal', ['can:bank_accounts.view_full_account_number']);
+            $r->get('/accounts/{id}/edit', [BankAccountController::class, 'edit'], 'bank.edit', ['can:bank_accounts.edit']);
+            $r->post('/accounts/{id}', [BankAccountController::class, 'update'], 'bank.update', ['can:bank_accounts.edit']);
+            $r->post('/accounts/{id}/submit', [BankAccountController::class, 'submit'], 'bank.submit', ['can:bank_accounts.create']);
+            $r->post('/accounts/{id}/status', [BankAccountController::class, 'status'], 'bank.status', $v);
+            $r->post('/accounts/{id}/central', [BankAccountController::class, 'central'], 'bank.central', ['can:bank_accounts.manage_central_account']);
+            $r->post('/accounts/{id}/archive', [BankAccountController::class, 'archive'], 'bank.archive', ['can:bank_accounts.archive']);
+            $r->post('/accounts/{id}/restore', [BankAccountController::class, 'restore'], 'bank.restore', ['can:bank_accounts.archive']);
+            $p = ['can:bank_accounts.manage_partners'];
+            $r->post('/accounts/{id}/partners', [BankRelationController::class, 'addPartner'], 'bank.partners.add', $p);
+            $r->post('/accounts/{id}/partners/{mapping}/end', [BankRelationController::class, 'endPartner'], 'bank.partners.end', $p);
+            $g = ['can:bank_accounts.manage_gst_mappings'];
+            $r->post('/accounts/{id}/gst', [BankRelationController::class, 'addGst'], 'bank.gst.add', $g);
+            $r->post('/accounts/{id}/gst/{mapping}/designation', [BankRelationController::class, 'designation'], 'bank.gst.designation', $g);
+            $r->post('/accounts/{id}/gst/{mapping}/end', [BankRelationController::class, 'endGst'], 'bank.gst.end', $g);
+            $b = ['can:bank_accounts.manage_business_mappings'];
+            $r->post('/accounts/{id}/activities', [BankRelationController::class, 'addActivity'], 'bank.activities.add', $b);
+            $r->post('/accounts/{id}/activities/{mapping}', [BankRelationController::class, 'updateActivity'], 'bank.activities.update', $b);
+            $r->post('/accounts/{id}/documents', [BankRelationController::class, 'uploadDocument'], 'bank.documents.upload', ['can:bank_accounts.manage_documents']);
+            $r->get('/documents/{doc}/download', [BankRelationController::class, 'download'], 'bank.documents.download', ['can:bank_accounts.download_documents']);
+            $r->get('/documents/{doc}/preview', [BankRelationController::class, 'preview'], 'bank.documents.preview', ['can:bank_accounts.download_documents']);
+            $r->post('/documents/{doc}/archive', [BankRelationController::class, 'archiveDocument'], 'bank.documents.archive', ['can:bank_accounts.manage_documents']);
+
+            $r->get('/transactions', [BankTransactionController::class, 'index'], 'bank.transactions.index', $v);
+            $r->get('/transactions/export', [BankTransactionController::class, 'export'], 'bank.transactions.export', ['can:bank_accounts.export']);
+            $r->get('/transactions/create', [BankTransactionController::class, 'create'], 'bank.transactions.create', $v);
+            $r->post('/transactions', [BankTransactionController::class, 'store'], 'bank.transactions.store', $v);
+            $r->get('/transactions/{id}', [BankTransactionController::class, 'show'], 'bank.transactions.show', $v);
+            $r->get('/transactions/{id}/edit', [BankTransactionController::class, 'edit'], 'bank.transactions.edit', $v);
+            $r->post('/transactions/{id}', [BankTransactionController::class, 'update'], 'bank.transactions.update', $v);
+            $r->post('/transactions/{id}/submit', [BankTransactionController::class, 'submit'], 'bank.transactions.submit', $v);
+            $r->post('/transactions/{id}/cancel', [BankTransactionController::class, 'cancel'], 'bank.transactions.cancel', $v);
+            $r->post('/transactions/{id}/post', [BankTransactionController::class, 'post'], 'bank.transactions.post', ['can:bank_accounts.approve_transactions']);
+            $r->post('/transactions/{id}/reverse', [BankTransactionController::class, 'reverse'], 'bank.transactions.reverse', ['can:bank_accounts.reverse_transactions']);
+            $r->post('/transactions/{id}/link-capital', [BankTransactionController::class, 'linkCapital'], 'bank.transactions.link', ['can:bank_accounts.manage_transactions']);
+
+            $r->get('/transfers', [BankTransferController::class, 'index'], 'bank.transfers.index', $v);
+            $r->get('/transfers/create', [BankTransferController::class, 'create'], 'bank.transfers.create', ['can:bank_accounts.manage_transfers']);
+            $r->post('/transfers', [BankTransferController::class, 'store'], 'bank.transfers.store', ['can:bank_accounts.manage_transfers']);
+            $r->get('/transfers/{id}', [BankTransferController::class, 'show'], 'bank.transfers.show', $v);
+            $r->post('/transfers/{id}/submit', [BankTransferController::class, 'submit'], 'bank.transfers.submit', ['can:bank_accounts.manage_transfers']);
+            $r->post('/transfers/{id}/cancel', [BankTransferController::class, 'cancel'], 'bank.transfers.cancel', ['can:bank_accounts.manage_transfers']);
+            $r->post('/transfers/{id}/post', [BankTransferController::class, 'post'], 'bank.transfers.post', ['can:bank_accounts.approve_transfers']);
+            $r->post('/transfers/{id}/reverse', [BankTransferController::class, 'reverse'], 'bank.transfers.reverse', ['can:bank_accounts.reverse_transactions']);
+
+            $r->get('/statements', [BankStatementController::class, 'index'], 'bank.statements.index', $v);
+            $r->post('/statements', [BankStatementController::class, 'store'], 'bank.statements.store', ['can:bank_accounts.manage_statements']);
+            $r->get('/statements/{id}', [BankStatementController::class, 'show'], 'bank.statements.show', $v);
+            $r->get('/statements/{id}/import', [BankStatementController::class, 'import'], 'bank.statements.import', ['can:bank_accounts.import_statements']);
+            $r->post('/statements/{id}/preview', [BankStatementController::class, 'preview'], 'bank.statements.preview', ['can:bank_accounts.import_statements']);
+            $r->post('/statements/{id}/imports/{import}/confirm', [BankStatementController::class, 'confirm'], 'bank.statements.confirm', ['can:bank_accounts.import_statements']);
+            $r->post('/statements/{id}/imports/{import}/discard', [BankStatementController::class, 'discard'], 'bank.statements.discard', ['can:bank_accounts.import_statements']);
+            $r->get('/statements/{id}/download', [BankStatementController::class, 'download'], 'bank.statements.download', ['can:bank_accounts.download_documents']);
+            $r->post('/statements/{id}/archive', [BankStatementController::class, 'archive'], 'bank.statements.archive', ['can:bank_accounts.manage_statements']);
+
+            $rc = ['can:bank_accounts.manage_reconciliation'];
+            $r->get('/reconciliation', [BankReconciliationController::class, 'index'], 'bank.reconciliation.index', $v);
+            $r->post('/reconciliation', [BankReconciliationController::class, 'store'], 'bank.reconciliation.store', $rc);
+            $r->get('/reconciliation/{id}', [BankReconciliationController::class, 'show'], 'bank.reconciliation.show', $v);
+            $r->post('/reconciliation/{id}/match', [BankReconciliationController::class, 'match'], 'bank.reconciliation.match', $rc);
+            $r->post('/reconciliation/{id}/accept', [BankReconciliationController::class, 'accept'], 'bank.reconciliation.accept', $rc);
+            $r->post('/reconciliation/{id}/matches/{match}/remove', [BankReconciliationController::class, 'unmatch'], 'bank.reconciliation.unmatch', $rc);
+            $r->post('/reconciliation/{id}/rows/{row}/ignore', [BankReconciliationController::class, 'ignore'], 'bank.reconciliation.ignore', $rc);
+            $r->post('/reconciliation/{id}/complete', [BankReconciliationController::class, 'complete'], 'bank.reconciliation.complete', $rc);
+            $r->post('/reconciliation/{id}/reopen', [BankReconciliationController::class, 'reopen'], 'bank.reconciliation.reopen', ['can:bank_accounts.reopen_reconciliation']);
+
+            $r->get('/reports', [BankReportController::class, 'index'], 'bank.reports', $v);
+            $r->get('/reports/{report}', [BankReportController::class, 'show'], 'bank.reports.show', $v);
+            $r->get('/reports/{report}/export', [BankReportController::class, 'export'], 'bank.reports.export', ['can:bank_accounts.export']);
+
+            $r->get('/settings', [BankSettingsController::class, 'index'], 'bank.settings', ['can:bank_accounts.manage_account_types']);
+            $r->post('/settings/types', [BankSettingsController::class, 'storeType'], 'bank.settings.types.store', ['can:bank_accounts.manage_account_types']);
+            $r->post('/settings/types/{id}', [BankSettingsController::class, 'updateType'], 'bank.settings.types.update', ['can:bank_accounts.manage_account_types']);
+            $r->post('/settings/rules', [BankSettingsController::class, 'rules'], 'bank.settings.rules', ['can:bank_accounts.manage_settings']);
         });
 
         // ---------- Help & User Guide ----------

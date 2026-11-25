@@ -153,17 +153,51 @@ return [
             'columns_via' => ['partner' => "SELECT gst_registration_id FROM gst_registration_partner_mappings WHERE status = 'active' AND partner_id IN (%s)"],
         ],
     ],
+    // Phase 5. Bank accounts, ledger, transfers, statements and reconciliation. Never stores banking passwords, PINs or OTPs.
     'bank_accounts' => [
         'name' => 'Bank Accounts', 'icon' => 'landmark', 'phase' => 5,
-        'actions' => $std + $approvals + ['transfer' => 'Initiate transfer'],
-        'fields' => [
-            'bank_name' => $f('Bank name'),
-            'account_holder' => $f('Account holder', true),
-            'account_number' => $f('Account number', true, 'last4', 'masked'),
-            'ifsc' => $f('IFSC', true, 'last4', 'masked'),
-            'current_balance' => $f('Current balance', true, 'amount', 'hidden'),
+        'prune_actions' => true, // drop the generic placeholder actions reserved in Phase 2 (delete, download, import, transfer)
+        'actions' => [
+            'view_dashboard' => 'View bank dashboard', 'view' => 'View bank accounts', 'view_all' => 'View all records',
+            'view_own' => 'View own records (mapped partner / created by me)', 'view_assigned' => 'View assigned records',
+            'create' => 'Add bank accounts', 'edit' => 'Edit account details',
+            'activate' => 'Activate', 'deactivate' => 'Deactivate', 'freeze' => 'Freeze / unfreeze', 'close' => 'Close accounts', 'archive' => 'Archive / restore',
+            'approve' => 'Approve account requests', 'reject' => 'Reject account requests',
+            'manage_central_account' => 'Designate the central funding account',
+            'manage_account_types' => 'Manage account types', 'manage_settings' => 'Manage bank settings',
+            'manage_partners' => 'Manage partner mappings', 'manage_gst_mappings' => 'Manage GST mappings', 'manage_business_mappings' => 'Manage business-activity mappings',
+            'view_full_account_number' => 'View full account numbers',
+            'manage_transactions' => 'Record transactions (all types)', 'create_deposit' => 'Record deposits', 'create_withdrawal' => 'Record withdrawals',
+            'approve_transactions' => 'Approve transactions', 'reject_transactions' => 'Reject transactions', 'reverse_transactions' => 'Reverse posted transactions',
+            'manage_transfers' => 'Create internal transfers', 'approve_transfers' => 'Approve transfers', 'reject_transfers' => 'Reject transfers',
+            'manage_statements' => 'Upload & archive statements', 'import_statements' => 'Import statement CSV files',
+            'manage_reconciliation' => 'Reconcile', 'reopen_reconciliation' => 'Reopen completed reconciliations',
+            'manage_documents' => 'Upload & archive documents', 'download_documents' => 'View & download documents and statement files',
+            'view_history' => 'View history & audit', 'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print',
         ],
-        'data' => ['table' => 'bank_accounts', 'owner_column' => 'created_by', 'resource' => 'bank_account', 'columns' => ['bank_account' => 'id', 'gst_registration' => 'gst_registration_id', 'partner' => 'partner_id']],
+        'fields' => [
+            // The full number additionally needs bank_accounts.view_full_account_number.
+            'account_number' => $f('Account number', true, 'last4', 'visible'),
+            'ifsc_code' => $f('IFSC code', true, 'full', 'visible'),
+            'micr_code' => $f('MICR code', true, 'full', 'visible'),
+            'account_holder_name' => $f('Account holder name', true, 'full', 'visible'),
+            'branch_name' => $f('Branch name'),
+            'opening_balance' => $f('Opening balance', true, 'amount', 'visible'),
+            'current_balance' => $f('Balances', true, 'amount', 'visible'),
+            'counterparty_name' => $f('Counterparty name', true, 'full', 'visible'),
+            'internal_notes' => $f('Internal notes', true, 'full', 'visible'),
+        ],
+        'data' => [
+            'table' => 'bank_accounts', 'owner_column' => null, 'resource' => 'bank_account',
+            // Own = accounts actively mapped to the partner linked to my login, or created by me.
+            'owner_sql' => "SELECT m.bank_account_id FROM bank_account_partner_mappings m JOIN partners p ON p.id = m.partner_id WHERE p.user_id = ? AND m.status = 'active'"
+                . ' UNION SELECT a.id FROM bank_accounts a WHERE a.created_by = ?',
+            'columns' => ['bank_account' => 'id'],
+            'columns_via' => [
+                'partner' => "SELECT bank_account_id FROM bank_account_partner_mappings WHERE status = 'active' AND partner_id IN (%s)",
+                'gst_registration' => "SELECT bank_account_id FROM bank_account_gst_mappings WHERE status = 'active' AND gst_registration_id IN (%s)",
+            ],
+        ],
     ],
     'products' => [
         'name' => 'Products', 'icon' => 'package', 'phase' => 6,

@@ -22,6 +22,7 @@ final class DatabaseSeeder extends Seeder
         $this->call(WorkflowSeeder::class);
         $this->call(TemplateSeeder::class);
         $this->call(GstSeeder::class);
+        $this->call(BankSeeder::class);
         $this->call(DocumentationSeeder::class);
     }
 }

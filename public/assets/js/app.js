@@ -391,6 +391,90 @@
         if (input.value) { check(); }
     }
 
+    /* ---------- Phase 5: bank pages (UX only; the server enforces every rule) ---------- */
+    function initBankCharts() {
+        const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+        const compact = new Intl.NumberFormat('en-IN', { notation: 'compact', maximumFractionDigits: 1 });
+        const tick = (v) => (v < 0 ? '−₹' : '₹') + compact.format(Math.abs(v));
+        const bal = $('#bank-balance-chart');
+        const mon = $('#bank-monthly-chart');
+        if ((bal || mon) && !window.Chart) {
+            [bal, mon].forEach((c) => { if (c) { c.parentElement.innerHTML = '<div class="empty-state"><p class="mb-0">Chart unavailable — see the table below.</p></div>'; } });
+            return;
+        }
+        if (bal) {
+            const d = JSON.parse(bal.dataset.chart || '{}');
+            // One series → one hue, no legend; negative (overdrawn) balances extend left of zero.
+            new window.Chart(bal, {
+                type: 'bar',
+                data: { labels: d.labels || [], datasets: [{ label: 'Current balance', data: d.values || [], backgroundColor: '#2a85ff', hoverBackgroundColor: '#1f6fe0', borderRadius: 4, borderSkipped: false, barThickness: 18 }] },
+                options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ' ' + inr.format(ctx.parsed.x) } } },
+                    scales: { x: { border: { display: false }, grid: { color: '#ededed' }, ticks: { callback: tick } }, y: { grid: { display: false }, border: { display: false }, ticks: { color: '#404040' } } } }
+            });
+        }
+        if (mon) {
+            const d = JSON.parse(mon.dataset.chart || '{}');
+            // Two series (validated pair: blue #2a85ff / orange #eb6834), legend on top, 2px gap between bars.
+            new window.Chart(mon, {
+                type: 'bar',
+                data: { labels: d.labels || [], datasets: [
+                    { label: 'Received', data: d.received || [], backgroundColor: '#2a85ff', borderRadius: 4, borderSkipped: 'start', maxBarThickness: 22, borderColor: '#ffffff', borderWidth: { left: 1, right: 1 } },
+                    { label: 'Paid', data: d.paid || [], backgroundColor: '#eb6834', borderRadius: 4, borderSkipped: 'start', maxBarThickness: 22, borderColor: '#ffffff', borderWidth: { left: 1, right: 1 } }
+                ] },
+                options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, color: '#404040' } }, tooltip: { callbacks: { label: (ctx) => ' ' + ctx.dataset.label + ': ' + inr.format(ctx.parsed.y) } } },
+                    scales: { x: { grid: { display: false }, border: { display: false } }, y: { beginAtZero: true, grid: { color: '#ededed' }, border: { display: false }, ticks: { callback: tick } } } }
+            });
+        }
+    }
+    function initBankPages() {
+        // Show full account number on request (permission-checked and logged on the server).
+        document.querySelectorAll('[data-reveal-number]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const token = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+                fetch(btn.dataset.revealNumber, { method: 'POST', headers: { 'X-CSRF-Token': token, Accept: 'application/json' }, body: new URLSearchParams({ _csrf: token }), credentials: 'same-origin' })
+                    .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
+                    .then(({ ok, d }) => {
+                        const target = document.querySelector('[data-account-number]');
+                        if (ok && target) { target.textContent = d.number; btn.remove(); } else if (target) { target.insertAdjacentHTML('afterend', '<span class="small text-danger ms-2"></span>'); target.nextElementSibling.textContent = d.error || 'Not allowed.'; }
+                    }).catch(() => {});
+            });
+        });
+        // Select / clear all suggested matches.
+        document.querySelectorAll('[data-check-all]').forEach((all) => {
+            all.addEventListener('change', () => document.querySelectorAll('input[name="' + all.dataset.checkAll + '"]').forEach((c) => { c.checked = all.checked; }));
+        });
+        // Transfer form: show the source's available balance and warn when the amount exceeds it.
+        const tf = document.querySelector('form[data-transfer-form]');
+        if (tf) {
+            const from = tf.querySelector('#from_account_id'), to = tf.querySelector('#to_account_id'), amount = tf.querySelector('#amount');
+            const text = tf.querySelector('[data-available-text]'), warn = tf.querySelector('[data-over-warning]');
+            const inr = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' });
+            const sync = () => {
+                const opt = from.options[from.selectedIndex];
+                const avail = opt && opt.dataset.available !== undefined ? parseFloat(opt.dataset.available) : null;
+                text.textContent = avail === null ? '' : 'Available: ' + inr.format(avail) + ' (posted balance minus pending withdrawals and transfers)';
+                const val = parseFloat((amount.value || '').replace(/,/g, ''));
+                warn.hidden = !(avail !== null && !isNaN(val) && val > avail);
+                Array.from(to.options).forEach((o) => { o.disabled = o.value !== '' && o.value === from.value; });
+            };
+            [from, amount].forEach((el) => el.addEventListener('input', sync));
+            from.addEventListener('change', sync);
+            sync();
+        }
+        // Reconciliation start: take period and closing balance from the chosen statement.
+        const st = document.getElementById('r-st');
+        if (st) {
+            st.addEventListener('change', () => {
+                const o = st.options[st.selectedIndex];
+                if (!o || !o.value) { return; }
+                document.getElementById('r-from').value = o.dataset.from || '';
+                document.getElementById('r-to').value = o.dataset.to || '';
+                if (o.dataset.closing) { document.getElementById('r-cb').value = o.dataset.closing; }
+            });
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         initCapitalForm();
         initAllocationForm();
@@ -409,5 +493,7 @@
         initHistoryBack();
         initCharts();
         initGstForm();
+        initBankCharts();
+        initBankPages();
     });
 })();

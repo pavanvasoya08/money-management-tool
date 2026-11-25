@@ -1,0 +1,30 @@
+title: The bank dashboard
+slug: bank-dashboard
+section: Getting started
+featured: yes
+keywords: bank dashboard balances central funding account money received paid transfers reconciliation pending filters overview
+related: adding-a-bank-account, central-funding-account, bank-reports
+summary: One page with every account's balance, the central funding account, recent money movement and reconciliations that are due.
+=== what
+The bank dashboard (**Bank Management → Bank Dashboard**) summarises the bank accounts you are allowed to see: how many there are in each status, opening and current balances, money received and paid, internal transfers, the central funding account and recent activity.
+=== why
+It answers "how much money is where?" at a glance and shows what needs attention: entries waiting for approval or posting, and accounts that have not been reconciled recently.
+=== who
+Users with **bank_accounts.view_dashboard**. Every figure respects your record scope: an accountant assigned two accounts sees totals for those two only.
+=== step: Read the account tiles | bank-dashboard
+The **Accounts** card counts accounts by status and shows opening balances, current balances, money received, money paid and internal transfers. Click a status tile to open the matching list.
+=== step: Check the central funding account | bank-dashboard
+The **Central joint funding account** card shows what partners deposited, what was transferred out to business accounts, what came back, the current balance and the balance still available after pending transfers.
+=== step: Filter the dashboard | bank-dashboard
+Narrow every figure by bank, account type, status, partner, GST registration, business activity or date range, then click **Apply**.
+=== step: Review recent activity | bank-dashboard-lists
+Lower on the page are the account-wise balance summary, the latest bank transactions and transfers, and the accounts whose reconciliation is pending or overdue.
+=== result
+You see the current position of every account you can access, with links into each account, transaction and transfer.
+=== notes
+- Balances are always calculated from posted ledger entries. They cannot be typed in.
+- Totals in rupees include INR accounts only.
+- Partner capital deposited into the bank counts as money received. It is never treated as revenue.
+- The charts need an internet connection to load the chart library. Each chart has **Show as table** with the same figures.
+=== mistakes
+- Expecting draft or pending entries in the balances. Only posted entries change a balance; pending ones show as "awaiting approval or posting".

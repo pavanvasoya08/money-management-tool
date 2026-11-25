@@ -73,6 +73,7 @@ cp .env.example .env
 | `APP_DEBUG` | `false` | Stack traces are only ever shown when `true` **and** `APP_ENV=local` |
 | `APP_URL` | `https://erp.example.com` | Used to build password-reset links |
 | `APP_TIMEZONE` | `Asia/Kolkata` | Default display timezone |
+| `APP_KEY` | `base64:…` | Encrypts bank account numbers (Phase 5). Create it once with `php bin/console key:generate`. Back it up with the database and **never change it** once bank accounts exist |
 | `TRUSTED_PROXIES` | `10.0.0.5` | Only these proxy IPs may set `X-Forwarded-For/Proto` |
 | `DB_HOST` … `DB_PASSWORD` | | MySQL connection |
 | `SESSION_NAME` | `erp_session` | Cookie name |
@@ -87,6 +88,7 @@ Real environment variables always override values in `.env`, so secrets can be i
 ## 4. Database migrations and seeders
 
 ```bash
+php bin/console key:generate        # once: writes APP_KEY to .env (skipped if a key exists)
 php bin/console migrate --pretend   # optional: print the MySQL DDL first
 php bin/console migrate             # create all tables
 php bin/console db:seed             # permissions, 5 roles, default settings

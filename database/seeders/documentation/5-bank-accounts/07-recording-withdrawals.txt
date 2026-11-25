@@ -1,0 +1,22 @@
+title: Recording withdrawals and bank charges
+slug: recording-withdrawals
+section: Transactions
+keywords: withdrawal debit payment bank charges overdraft negative balance approval capital withdrawal
+related: recording-deposits, internal-transfers, viewing-bank-transactions
+summary: Record money paid out of an account; the balance is checked and approval can be required.
+=== what
+A withdrawal records money paid out of an account. **Bank charges** are recorded from **Other entry** and follow the same rules.
+=== why
+Posted withdrawals reduce the balance and appear on reports and in reconciliation.
+=== who
+**bank_accounts.create_withdrawal** (or **manage_transactions**).
+=== step: Fill in the form | bank-withdrawal-form
+Click **Record withdrawal**, choose the account, date and amount, and add the reference and counterparty. A partner's approved capital withdrawal can be linked in **Capital entry**.
+=== step: Approval | bank-approval
+When the *Bank withdrawal* workflow is on, the entry waits in **Approvals**. Approvers need **bank_accounts.approve_transactions**.
+=== result
+A posted withdrawal that lowers the balance.
+=== notes
+- A withdrawal that would make the balance negative is refused unless the account allows an overdraft, and then only up to its limit.
+- If the balance has changed by the time an approved entry posts, it stays **approved** with the reason shown and can be posted later.
+- Withdrawals are not allowed from frozen or closed accounts.

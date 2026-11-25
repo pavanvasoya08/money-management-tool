@@ -1,0 +1,25 @@
+title: Linking partners to bank accounts
+slug: linking-partners-to-bank-accounts
+section: Associations
+keywords: partner mapping account holder joint holder authorised operator beneficiary effective dates history ownership
+related: linking-gst-and-activities, adding-a-bank-account, bank-permissions-and-security
+summary: Record which partners hold, jointly hold, operate or benefit from an account, with dates and history.
+=== what
+A partner mapping records how a partner relates to an account: account holder, joint holder, authorised operator, beneficiary or other. One partner can be linked to many accounts and one account to many partners.
+=== why
+It shows who can operate each account and lets partner logins see the accounts they are linked to.
+=== who
+Users with **bank_accounts.manage_partners**.
+=== step: Add a mapping | bank-partners
+On the account's **Partners** tab choose the partner, the relationship and the **From** date (optionally a **To** date), then click **Add**.
+=== step: End a mapping | bank-partners
+Click **End mapping** and give the end date and reason. The mapping stays in the list as history.
+=== step: See it from the partner's side | bank-partner-tab
+A partner's profile has a **Bank accounts** tab listing current and ended links. A partner's own login sees the same tab, with numbers masked.
+=== result
+Each account shows its current and past partners with dates.
+=== notes
+- **A mapping never changes ownership, capital share or profit share.** Those are managed under Partners & Capital.
+- The same partner cannot have two active mappings with the same relationship on one account.
+=== mistakes
+- Deleting and re-adding a mapping to correct a date. End it instead so the history stays accurate.

@@ -1,0 +1,23 @@
+title: The central joint funding account
+slug: central-funding-account
+section: Accounts
+keywords: central joint funding account designate primary partner contributions transfers available balance change process
+related: internal-transfers, recording-deposits, bank-dashboard
+summary: Designate the one account that receives partner capital and funds the business accounts; changing it is controlled.
+=== what
+The central funding account is the single account partners pay their capital into. Money then moves to the business accounts by internal transfer.
+=== why
+Tracking one central account shows clearly how much partner money arrived, how much was sent to each business account and how much is still available.
+=== who
+Designating or removing it needs **bank_accounts.manage_central_account**.
+=== step: See the central account | bank-profile
+The central account carries a **Central** badge. Its overview tab shows contributions received (linked to Partners & Capital), transfers out, transfers back in, the current balance and the available balance after pending transfers.
+=== step: Designate an account | bank-central-settings
+Open an active account, go to the **Settings** tab, enter a reason and click **Designate as central funding account**. If the *Bank account change* workflow is on, the change waits for approval.
+=== result
+Only one account is central at a time. When the new designation takes effect, the previous account loses it automatically and both changes are recorded in the history.
+=== notes
+- Only active accounts can be designated.
+- Designating an account does not move any money and does not change capital or profit-sharing.
+=== mistakes
+- Recording partner capital straight into a business account. That is allowed, but the central account's "received" figure will then not include it.

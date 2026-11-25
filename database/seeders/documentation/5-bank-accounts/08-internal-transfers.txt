@@ -1,0 +1,24 @@
+title: Internal transfers
+slug: internal-transfers
+section: Transfers
+keywords: internal transfer move money between accounts central funding source destination approval reversal both sides
+related: central-funding-account, recording-withdrawals, viewing-bank-transactions
+summary: Move money between your own accounts; both sides post together under one transfer reference.
+=== what
+An internal transfer moves money from one of your accounts to another, for example from the central funding account to a business account.
+=== why
+Transfers keep both balances right in one step. They are not income or expense and are left out of revenue and spending figures.
+=== who
+**bank_accounts.manage_transfers** to create; **approve_transfers** or **reject_transfers** to decide.
+=== step: Create the transfer | bank-transfer-form
+Go to **Internal Transfers → New transfer**. Choose the source and destination accounts, the date, amount, reference and purpose. The form shows the source's available balance.
+=== step: Approve and post | bank-transfer-show
+With the *Internal transfer* workflow on, the transfer waits for approval. Once approved, a debit on the source and a credit on the destination are posted together with the same TRF number.
+=== result
+Two linked ledger entries, one on each account.
+=== notes
+- The source and destination must be different, active accounts in the same currency.
+- The source balance is checked and locked while posting. A transfer that would make it negative is refused unless overdraft allows it.
+- Reversing a transfer reverses both sides together.
+=== mistakes
+- Recording a transfer as a withdrawal plus a deposit. Use a transfer so it is not counted as money paid and received.

@@ -74,6 +74,6 @@ final class RememberAndAuditTest extends TestCase
         $this->assertSame(['app_name', 'login_max_attempts'], $changed);
         $this->assertSame(7, App::settings()->get('login_max_attempts'));
         $this->assertSame(0, (int) App::db()->scalar("SELECT COUNT(*) FROM system_settings WHERE setting_key = 'unknown_key'"));
-        $this->assertSame(18, count(SettingsService::definitions())); // + 2 GST business rules (Phase 4)
+        $this->assertSame(21, count(SettingsService::definitions())); // + 2 GST business rules (Phase 4) + 3 bank rules (Phase 5)
     }
 }

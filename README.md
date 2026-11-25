@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 4 of 15 — GST registration management.**
+**Current status: Phase 5 of 15 — bank account management.**
 
 | | |
 |---|---|
@@ -15,7 +15,8 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 - ✅ [Phase 1 report](docs/PHASE-1.md) — completed features, test results, PHP 8.5 verification
 - ✅ [Phase 2 report](docs/PHASE-2.md) — Control Center features, security test results
 - ✅ [Phase 3 report](docs/PHASE-3.md) — partners, capital ledger, profit sharing, reports, test results
-- ✅ [Phase 4 report](docs/PHASE-4.md) — **update steps**, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
+- ✅ [Phase 4 report](docs/PHASE-4.md) — update steps, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
+- ✅ [Phase 5 report](docs/PHASE-5.md) — **update steps (incl. `key:generate`)**, bank accounts, ledger, transfers, statements, CSV import, reconciliation, reports, test results
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
 ## Quick start (local)
@@ -23,7 +24,8 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 ```bash
 composer install
 cp .env.example .env            # set DB_* and APP_ENV=local, APP_DEBUG=true, SESSION_SECURE_COOKIE=false
-php bin/console app:check       # verifies PHP version, extensions, permissions, DB
+php bin/console key:generate    # writes APP_KEY (encrypts bank account numbers; back it up, never change it)
+php bin/console app:check       # verifies PHP version, extensions, permissions, DB, APP_KEY
 php bin/console migrate
 php bin/console db:seed
 php bin/console admin:create    # creates the first Super Admin (password typed hidden)
@@ -70,9 +72,19 @@ Open http://127.0.0.1:8000 and sign in.
 - **Dashboard and 7 reports** with CSV, Excel and PDF export, all limited by record scope and field rules.
 - No tax calculation, filing or GST portal connection; a valid format is never presented as an official verification.
 
+## What Phase 5 adds
+
+- **Bank accounts:** unlimited accounts with encrypted, masked account numbers (full number only with its own permission, every reveal logged), duplicate detection per IFSC, statuses from draft to closed, and partner, GST and business-activity mappings with dates and history.
+- **Central joint funding account:** one designated account, changed through a controlled process, showing partner contributions received (linked to Phase 3 capital), transfers out and the available balance.
+- **Ledger:** deposits, withdrawals, bank charges, interest and adjustments in exact decimals. Balances are calculated from posted entries only, posting is locked and never duplicated, negative balances are refused unless an overdraft is configured, and posted entries are corrected only by reversal.
+- **Internal transfers:** both sides posted together under one reference, with approval and two-sided reversal; never counted as income or expense.
+- **Statements and reconciliation:** statement upload, CSV import with column mapping, preview and duplicate detection (no entries are created), and reconciliation with suggestions, manual matching, history and approved reopening.
+- **Dashboard and 11 reports** with CSV, Excel and PDF export, all limited by record scope and field rules.
+- No bank API and no automatic bank synchronisation. Banking passwords, PINs, OTPs and card credentials are never stored.
+
 ## Help & User Guide
 
-An in-app manual for Phases 1–4 (57 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+An in-app manual for Phases 1–5 (71 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
 
 ## Commands
 

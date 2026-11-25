@@ -1,0 +1,24 @@
+title: Viewing transactions and reversals
+slug: viewing-bank-transactions
+section: Transactions
+keywords: transactions list ledger running balance filter reversal posted correct mistake statuses draft pending approved rejected reversed
+related: recording-deposits, recording-withdrawals, bank-reports
+summary: Find entries, read an account's ledger with running balances, and correct posted entries by reversal.
+=== what
+**Bank Management → Transactions** lists every entry you can see. Each account's **Transactions** tab shows its ledger with opening and closing balances for each entry.
+=== why
+The ledger is the single source of truth for balances, so every figure can be traced to entries.
+=== who
+Anyone with bank view access. Reversing needs **bank_accounts.reverse_transactions**.
+=== step: Search and filter | bank-transactions
+Filter by account, type, status, direction, dates, partner or GST registration. Export the list if you have the export permission.
+=== step: Read an account ledger | bank-account-ledger
+On the account's **Transactions** tab, each posted entry shows the balance before and after it.
+=== step: Reverse a posted entry | bank-transaction-reversed
+Open the entry, click **Reverse**, give a reason and date. A new reversal entry cancels it; the original is marked **reversed** and both stay visible.
+=== result
+Every change to a balance is explained by an entry in the ledger.
+=== notes
+- Statuses: draft, pending approval, approved, rejected, posted and reversed.
+- Drafts can be edited or cancelled. Posted entries are never edited or deleted.
+- An entry can be reversed only once.

@@ -1,0 +1,29 @@
+title: Recording deposits
+slug: recording-deposits
+section: Transactions
+keywords: deposit credit receipt capital contribution link utr cheque reference draft submit approval posted interest
+related: recording-withdrawals, viewing-bank-transactions, internal-transfers
+summary: Record money received into an account, optionally linked to a partner's capital contribution.
+=== what
+A deposit records money received into an account: customer receipts, marketplace settlements, partner capital and so on. **Interest received** is recorded the same way from **Other entry**.
+=== why
+Posted deposits increase the account balance and appear on reports and in reconciliation.
+=== who
+**bank_accounts.create_deposit** (or **manage_transactions**).
+=== step: Open the deposit form | bank-deposit-form
+Click **Record deposit** on the dashboard, an account or the Transactions page. Choose the account, the date and the amount, and add the reference, UTR or cheque number and counterparty.
+=== step: Link partner capital (optional) | bank-deposit-form
+If the money is a partner's capital contribution, choose it in **Capital entry**. The amount must match the contribution, and the partner is taken from it. The contribution then shows a link to this bank entry.
+=== step: Save or submit
+**Save as draft** lets you finish later. **Save & submit** posts the entry, or sends it for approval when the *Bank deposit* workflow is on. Approved entries post automatically.
+=== step: Check the posted entry | bank-transaction-show
+The entry page shows its status, amounts, links and the full audit trail.
+=== result
+A posted deposit that raises the balance.
+=== notes
+- Amounts are stored as exact decimals.
+- The same account, date, amount and reference within a few days is flagged as a possible duplicate before saving.
+- A contribution can be linked to only one live bank entry.
+- Posted entries are never edited or deleted; see *Viewing transactions and reversals*.
+=== mistakes
+- Recording partner capital a second time in Partners & Capital. Record it there once and link the bank deposit to it.

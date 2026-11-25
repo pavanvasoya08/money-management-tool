@@ -36,7 +36,8 @@ return [
                 'capital_ledger.view', 'capital_ledger.view_own',
                 // Phase 4: GST registrations mapped to the partner's own record (read-only).
                 'gst_registrations.view', 'gst_registrations.view_own', 'gst_registrations.download_documents',
-                'bank_accounts.view', 'bank_accounts.view_assigned',
+                // Phase 5: bank accounts mapped to the partner's own record (read-only).
+                'bank_accounts.view', 'bank_accounts.view_assigned', 'bank_accounts.view_own',
                 'financial_reports.view', 'financial_reports.view_assigned',
             ],
         ],
@@ -58,6 +59,10 @@ return [
                 'partner_reports.view', 'partner_reports.export',
                 // Phase 4: assigned GST registrations, read-only, with documents and export.
                 'gst_registrations.view', 'gst_registrations.view_assigned', 'gst_registrations.download_documents', 'gst_registrations.view_history', 'gst_registrations.export', 'gst_registrations.print',
+                // Phase 5: assigned bank accounts — record transactions, statements and reconciliation; cannot approve, reverse or see full account numbers.
+                'bank_accounts.view_dashboard', 'bank_accounts.view', 'bank_accounts.view_assigned', 'bank_accounts.manage_transactions', 'bank_accounts.create_deposit',
+                'bank_accounts.create_withdrawal', 'bank_accounts.manage_statements', 'bank_accounts.import_statements', 'bank_accounts.manage_reconciliation',
+                'bank_accounts.download_documents', 'bank_accounts.view_history', 'bank_accounts.export', 'bank_accounts.print',
             ],
         ],
         'manager' => [
@@ -72,6 +77,8 @@ return [
                 'partners.view', 'partners.view_all',
                 // Phase 4: GST register, read-only.
                 'gst_registrations.view', 'gst_registrations.view_all',
+                // Phase 5: bank accounts read-only.
+                'bank_accounts.view_dashboard', 'bank_accounts.view', 'bank_accounts.view_all',
             ],
         ],
         'viewer' => [

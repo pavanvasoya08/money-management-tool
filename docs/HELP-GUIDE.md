@@ -8,7 +8,7 @@ An in-app, searchable user manual for the completed phases (1 – Setup & Authen
 git pull
 composer install                 # refreshes the autoloader
 php bin/console migrate          # 1 new migration (000028): 7 documentation tables
-php bin/console db:seed          # adds the documentation module/permissions and the bundled guides (47 for Phases 1–3, 10 more for Phase 4)
+php bin/console db:seed          # adds the documentation module/permissions and the bundled guides (47 for Phases 1–3, 10 more for Phase 4, 14 more for Phase 5)
 ```
 
 `db:seed` is safe to repeat. It never overwrites a category or guide whose URL name (slug) already exists, so edits made in the app survive.
@@ -28,7 +28,7 @@ The three `documentation.*` permissions belong to the new **Help & User Guide** 
 
 | Table | Holds |
 |---|---|
-| `documentation_categories` | The three categories (slug, name, description, icon, order) |
+| `documentation_categories` | The categories, one per phase (slug, name, description, icon, order) |
 | `documentation_guides` | One guide per row in the standard structure: introduction, what, why, who, prerequisites, example, expected result, notes, common mistakes; plus keywords, status (draft/published), featured flag, view count, audit columns |
 | `documentation_steps` | Numbered steps, each optionally linked to a screenshot |
 | `documentation_media` | Screenshots with caption, alt text and numbered markers (`annotations` JSON, x/y as % of the image) |

@@ -34,6 +34,10 @@ final class App
         date_default_timezone_set('UTC');
         mb_internal_encoding('UTF-8');
         ErrorHandler::register();
+        // Phase 5: bank records refer to GST registrations, so a referenced registration is never archived.
+        \App\Services\Gst\GstLinkRegistry::registerReference('bank_account_gst_mappings');
+        \App\Services\Gst\GstLinkRegistry::registerReference('bank_transactions');
+        \App\Services\Gst\GstLinkRegistry::registerReference('bank_transfers');
     }
 
     public static function basePath(string $path = ''): string
@@ -146,6 +150,9 @@ final class App
             // Modules that react to approval decisions register here (once per process).
             \App\Services\Partners\CapitalService::registerApprovalListener();
             \App\Services\Gst\GstRegistrationService::registerApprovalListener();
+            \App\Services\Bank\BankAccountService::registerApprovalListener();
+            \App\Services\Bank\BankTransactionService::registerApprovalListener();
+            \App\Services\Bank\BankTransferService::registerApprovalListener();
             return new \App\Services\Approval\ApprovalEngine(self::db());
         });
     }

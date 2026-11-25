@@ -121,6 +121,9 @@ abstract class CapitalController extends Controller
             'available' => $this->balanceVisible($me, (int) $txn['partner_id']) && $txn['direction'] === 'debit' && !in_array($txn['status'], ['posted', 'reversed', 'cancelled', 'rejected'], true) ? App::capitalLedger()->available((int) $txn['partner_id'], (int) $txn['id']) : null,
             'balance' => $this->balanceVisible($me, (int) $txn['partner_id']) ? App::capitalLedger()->balance((int) $txn['partner_id']) : null,
             'mayOverdraw' => $svc->mayOverdraw($me),
+            // Phase 5: the bank movement(s) this capital entry is linked to (only accounts the viewer may see).
+            'bankLinks' => can('bank_accounts.view') ? array_values(array_filter((new \App\Services\Bank\BankTransactionService(App::db()))->forCapital((int) $txn['id']),
+                static fn (array $b): bool => App::dataAccess()->canAccess($me, 'bank_accounts', (int) $b['account_id']))) : [],
             'postings' => App::gate()->isSuperAdmin($me) ? App::postingQueue()->forSource(CapitalService::SUBJECT, (int) $txn['id']) : [],
             'particulars' => PartnerReportService::particulars($raw),
             'today' => BusinessDate::today(),

@@ -33,9 +33,16 @@ use App\Services\Gst\GstRegistrationService;
     </div>
 </div>
 <hr class="my-4">
+<?php if (can('bank_accounts.view')): $bankMaps = (new \App\Services\Bank\BankRelationService(\App\Core\App::db()))->accountsForRegistration((int) $raw['id'], \App\Core\App::dataAccess()->constrain(auth_user() ?? [], 'bank_accounts', 'a')); ?>
+<h2 class="card-section-title">Bank accounts</h2>
+<?php if ($bankMaps === []): ?><p class="text-secondary small">No bank account is mapped to this registration<?= can('bank_accounts.manage_gst_mappings') ? ' (map it from the bank account\'s GST associations tab)' : '' ?>.</p><?php else: ?>
+    <ul class="list-unstyled small mb-3"><?php foreach ($bankMaps as $b): ?><li class="<?= $b['status'] !== 'active' ? 'text-secondary' : '' ?>"><a href="<?= e(route('bank.show', ['id' => $b['bank_account_id']])) ?>"><?= e($b['display_name']) ?></a> · <?= e($b['bank_name']) ?> XXXXXX<?= e($b['account_number_last4']) ?>
+        · <span class="badge rounded-pill badge-soft-<?= $b['designation'] === 'primary' ? 'primary' : 'secondary' ?>"><?= e(ucfirst($b['designation'])) ?></span><?= $b['status'] !== 'active' ? ' · ended ' . e(format_date($b['effective_to'])) : '' ?></li><?php endforeach; ?></ul>
+<?php endif; ?>
+<?php endif; ?>
 <h2 class="card-section-title">Links to other modules</h2>
 <?php if ($links === []): ?>
-    <p class="text-secondary small mb-0">Bank accounts, e-commerce platforms, seller accounts, warehouses, products and sales or purchase records will link to this registration when those modules are released. Nothing is linked yet.</p>
+    <p class="text-secondary small mb-0">E-commerce platforms, seller accounts, warehouses, products and sales or purchase records will link to this registration when those modules are released.</p>
 <?php else: ?>
     <ul class="mb-0"><?php foreach ($links as $l): ?><li><?= e($l['type_label']) ?>: <?= e($l['label']) ?><?= $l['relationship'] ? ' (' . e($l['relationship']) . ')' : '' ?></li><?php endforeach; ?></ul>
 <?php endif; ?>

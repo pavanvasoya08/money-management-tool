@@ -19,6 +19,7 @@ $env = [
     'APP_ENV' => 'testing', 'APP_DEBUG' => 'false', 'APP_URL' => 'http://127.0.0.1:8765',
     'DB_CONNECTION' => 'sqlite', 'DB_DATABASE' => $tmp . '/test.sqlite',
     'SESSION_SECURE_COOKIE' => 'false', 'MAIL_DRIVER' => 'log',
+    'APP_KEY' => 'base64:' . base64_encode(str_repeat('t', 32)), // test-only key for the account-number cipher
 ];
 foreach ($env as $k => $v) {
     putenv("{$k}={$v}");

@@ -33,7 +33,14 @@ $routeFor = static fn (?string $type): ?string => ['contribution' => 'capital.co
             <?php if ($raw['type'] === 'adjustment' || ($isRev && $raw['adjustment_category'])): ?><dt>Adjustment type</dt><dd><?= e(CapitalService::CATEGORIES[$raw['adjustment_category']] ?? '—') ?></dd><?php endif; ?>
             <?php if ($raw['payment_method']): ?><dt>Payment method</dt><dd><?= e(CapitalService::METHODS[$raw['payment_method']] ?? '—') ?></dd><?php endif; ?>
             <?php if (array_key_exists('payment_reference', $entry) && $raw['type'] !== 'adjustment'): ?><dt>Payment reference</dt><dd><?= e($entry['payment_reference'] ?? '—') ?></dd><?php endif; ?>
-            <?php if (array_key_exists('payment_source_ref', $entry) && $raw['type'] !== 'adjustment'): ?><dt><?= $raw['direction'] === 'credit' ? 'Received in' : 'Paid from' ?></dt><dd><?= e($entry['payment_source_ref'] ?? '—') ?> <span class="small text-secondary">(temporary reference until Phase 5)</span></dd><?php endif; ?>
+            <?php if (array_key_exists('payment_source_ref', $entry) && $raw['type'] !== 'adjustment'): ?><dt><?= $raw['direction'] === 'credit' ? 'Received in' : 'Paid from' ?></dt><dd><?= e($entry['payment_source_ref'] ?? '—') ?></dd><?php endif; ?>
+            <?php if (in_array($raw['type'], ['contribution', 'withdrawal'], true) && can('bank_accounts.view')): ?>
+                <dt>Bank movement</dt><dd><?php if (!empty($bankLinks)): ?><?php foreach ($bankLinks as $b): ?><a href="<?= e(route('bank.transactions.show', ['id' => $b['id']])) ?>"><?= e($b['transaction_no']) ?></a> · <?= e($b['account_name']) ?> · <?= $view->partial('partials/capital-status', ['status' => $b['status']]) ?><br><?php endforeach; ?>
+                <?php elseif (in_array($raw['status'], ['approved', 'posted'], true) && (can('bank_accounts.manage_transactions') || can('bank_accounts.' . ($raw['type'] === 'contribution' ? 'create_deposit' : 'create_withdrawal')))): ?>
+                    <a class="btn btn-sm btn-light" href="<?= e(route('bank.transactions.create', ['type' => $raw['type'] === 'contribution' ? 'deposit' : 'withdrawal', 'capital' => $raw['id']])) ?>"><i data-lucide="landmark" class="icon-sm"></i>Record the bank <?= $raw['type'] === 'contribution' ? 'deposit' : 'withdrawal' ?></a>
+                    <span class="d-block small text-secondary">Links this entry to the bank movement — the capital itself is not recorded twice.</span>
+                <?php else: ?><span class="text-secondary">Not linked to a bank entry yet.</span><?php endif; ?></dd>
+            <?php endif; ?>
             <?php if ($raw['reason']): ?><dt>Reason</dt><dd><?= e($raw['reason']) ?></dd><?php endif; ?>
             <?php if (array_key_exists('notes', $entry) && $raw['notes']): ?><dt>Notes</dt><dd class="text-prewrap"><?= e($entry['notes']) ?></dd><?php endif; ?>
             <?php if ($isRev): ?><dt>Reverses</dt><dd><?php $r = $routeFor($raw['reversal_of_type']); ?><a href="<?= e(route($r . '.show', ['id' => $raw['reversal_of_id']])) ?>"><?= e($raw['reversal_of_no']) ?></a></dd><?php endif; ?>

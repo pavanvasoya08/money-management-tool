@@ -1,0 +1,22 @@
+title: Linking GST registrations and business activities
+slug: linking-gst-and-activities
+section: Associations
+keywords: gst mapping primary secondary business activity marketplace settlements supplier payments effective dates
+related: linking-partners-to-bank-accounts, bank-reports
+summary: Mark which GST registrations and business activities an account serves, with a primary designation and dates.
+=== what
+A GST mapping links an account to a GST registration as **primary** or **secondary**. An activity mapping links it to a business activity from the shared master, such as marketplace settlements or supplier payments.
+=== why
+Reports can then group accounts and money by GSTIN or activity, and the GST registration's page lists the accounts used for it.
+=== who
+**bank_accounts.manage_gst_mappings** for GST, **bank_accounts.manage_business_mappings** for activities.
+=== step: Add a GST mapping | bank-gst
+On the **GST** tab choose the registration, primary or secondary, and the effective dates, then click **Add**. Making an account primary for a registration turns the previous primary into secondary.
+=== step: Add a business activity | bank-activities
+On the **Activities** tab choose the activity and the effective dates, then click **Add**.
+=== result
+The account shows its current and past GST and activity links; the GST registration's overview lists it.
+=== notes
+- Only registrations you are allowed to see can be chosen.
+- A GST registration referenced by an account or by bank entries cannot be archived.
+- Mappings say what an account is used for. They do not split money between GSTINs.

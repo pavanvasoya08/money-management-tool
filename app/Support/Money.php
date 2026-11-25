@@ -40,6 +40,13 @@ final class Money
         return (int) $m[1] * 100 + (int) str_pad($m[2] ?? '0', 2, '0');
     }
 
+    /** Like parse(), but allows a leading minus (e.g. an overdrawn statement balance). */
+    public static function parseSigned(string $value): int
+    {
+        $value = str_replace(',', '', trim($value));
+        return str_starts_with($value, '-') ? -self::parse(substr($value, 1)) : self::parse($value);
+    }
+
     /** Convert a value read from a DECIMAL column (string in MySQL, string/number in SQLite). */
     public static function fromDb(mixed $value): int
     {

@@ -21,6 +21,12 @@ final class BusinessDate
     }
 
     /** A real calendar date in Y-m-d form (rejects 2026-02-30, 26-1-1, etc.). */
+    /** First day of the month that is $months away from $date's month (Y-m-d). */
+    public static function addMonths(string $date, int $months): string
+    {
+        return (new \DateTimeImmutable(substr($date, 0, 7) . '-01'))->modify(($months >= 0 ? '+' : '') . $months . ' months')->format('Y-m-d');
+    }
+
     public static function isValid(string $date): bool
     {
         $d = DateTimeImmutable::createFromFormat('!Y-m-d', $date);

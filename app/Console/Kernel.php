@@ -33,6 +33,7 @@ final class Kernel
                 'db:seed' => $this->seed(),
                 'admin:create' => $this->createAdmin($options),
                 'app:check' => $this->check(),
+                'key:generate' => $this->generateKey(isset($options['force'])),
                 'help', '--help', '-h' => $this->help(),
                 default => $this->fail("Unknown command [{$command}]. Run: php bin/console help"),
             };
@@ -171,6 +172,27 @@ final class Kernel
         return 0;
     }
 
+    /**
+     * Write a new APP_KEY to .env. Refuses to replace an existing key (encrypted bank
+     * account numbers would become unreadable) unless --force is given.
+     */
+    private function generateKey(bool $force): int
+    {
+        $file = App::basePath('.env');
+        if (!is_file($file) || !is_writable($file)) {
+            return $this->fail('.env not found or not writable. Copy .env.example to .env first.');
+        }
+        $env = (string) file_get_contents($file);
+        if (\App\Support\FieldCipher::configured() && !$force) {
+            return $this->fail('APP_KEY is already set. Replacing it makes stored bank account numbers unreadable. Use --force only on a fresh install.');
+        }
+        $line = 'APP_KEY=' . \App\Support\FieldCipher::generateKey();
+        $env = preg_match('/^APP_KEY=.*$/m', $env) ? (string) preg_replace('/^APP_KEY=.*$/m', $line, $env) : rtrim($env) . "\n" . $line . "\n";
+        file_put_contents($file, $env);
+        $this->line('[OK] APP_KEY written to .env. Back it up securely: it is needed to read encrypted bank account numbers.');
+        return 0;
+    }
+
     private function check(): int
     {
         $ok = true;
@@ -187,6 +209,7 @@ final class Kernel
             $report("{$dir} writable", is_writable(App::basePath($dir)));
         }
         $report('.env present', is_file(App::basePath('.env')));
+        $report('APP_KEY set (bank account encryption)', \App\Support\FieldCipher::configured(), \App\Support\FieldCipher::configured() ? '' : 'run: php bin/console key:generate');
         $report('APP_DEBUG off in production', !(Config::get('app.env') === 'production' && Config::get('app.debug') === true));
         try {
             App::db()->scalar('SELECT 1');
@@ -203,6 +226,7 @@ final class Kernel
             Business ERP console
 
               migrate                 Run pending database migrations   [--pretend: print MySQL SQL only]
+              key:generate            Create APP_KEY in .env (encrypts bank account numbers) [--force]
               migrate:status          Show migration status
               migrate:rollback        Roll back the last batch   [--step=N]
               migrate:fresh           Drop all tables and re-run migrations (blocked in production unless --force)

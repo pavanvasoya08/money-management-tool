@@ -4,6 +4,7 @@
     $subjRoute = $subj ? (['contribution' => 'capital.contributions', 'withdrawal' => 'capital.withdrawals', 'adjustment' => 'capital.adjustments'][$subj['type']] ?? null) : null; ?>
     <?php if ($subjRoute): ?><div class="alert alert-secondary small d-flex justify-content-between align-items-center"><span><i data-lucide="piggy-bank" class="icon-sm"></i> Partner capital entry. Approving does not post it: posting to the capital ledger is a separate step.</span><a class="btn btn-sm btn-light" href="<?= e(route($subjRoute . '.show', ['id' => $subj['id']])) ?>">Open entry</a></div><?php endif; ?>
 <?php endif; ?>
+<?= $view->partial('approvals/_bank', ['req' => $req]) ?>
 <?php if ($req['subject_type'] === \App\Services\Gst\GstRegistrationService::SUBJECT && ($gstChange = (new \App\Services\Gst\GstRegistrationService(\App\Core\App::db()))->change((int) $req['subject_id'])) !== null):
     $gstMe = auth_user() ?? [];
     $gstShow = static fn (?array $vals): array => $vals === null ? [] : \App\Core\App::fields()->present($gstMe, 'gst_registrations', $vals); ?>

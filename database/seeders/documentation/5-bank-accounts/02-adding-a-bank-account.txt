@@ -1,0 +1,32 @@
+title: Adding a bank account
+slug: adding-a-bank-account
+section: Accounts
+keywords: add bank account create new account number ifsc micr opening balance overdraft draft submit approval duplicate masked
+related: central-funding-account, linking-partners-to-bank-accounts, bank-permissions-and-security
+summary: Record a bank account with its number, IFSC, type and opening balance; numbers are encrypted and shown masked.
+=== what
+A bank account record holds the bank and branch, the account holder, the account number, IFSC and MICR codes, the account type, currency, opening date, opening balance and its effective date, the purpose and internal notes.
+=== why
+Every deposit, withdrawal, transfer, statement and reconciliation belongs to an account. The opening balance is the starting point of the ledger.
+=== who
+Users with **bank_accounts.create**.
+=== prerequisites
+The account type must exist in **Bank settings**. A Super Admin can add types such as "Escrow account".
+=== step: Fill in the account details | bank-create
+Go to **Bank Management → Bank Accounts → Add bank account**. Enter a display name, account type, bank, branch, account holder, account number and IFSC code. MICR is optional.
+=== step: Enter the opening balance | bank-create-opening
+Give the opening balance and the date it applies from. Tick **Allow overdraft** only for overdraft or cash-credit accounts, and enter the limit.
+=== step: Save as draft or submit
+**Save as draft** keeps the account private to you as a draft. **Save & submit** activates it, or sends it for approval when the *New bank account* workflow is switched on.
+=== step: Find it in the list | bank-list
+The account appears in **Bank Accounts** with its code (for example BNK-0003) and the masked number.
+=== result
+An active account with an opening balance, ready for transactions.
+=== notes
+- **Never enter internet-banking passwords, ATM PINs, UPI PINs, OTPs or card details anywhere in this system.** There are no fields for them, and notes must not contain them.
+- The account number is encrypted when stored. Lists and pages show only the last four digits; the full number needs **bank_accounts.view_full_account_number**, and every reveal is logged.
+- The same account number at the same IFSC is refused as a duplicate. The same number at a different IFSC can be saved only after you confirm it is a different account.
+- After activation the opening balance is locked. Correct it with an *opening-balance adjustment* entry, which can require approval.
+- Accounts with transactions are never deleted. Close or archive them instead.
+=== mistakes
+- Using the opening balance to "fix" today's balance. Record the missing deposits or withdrawals instead, so the ledger explains the balance.

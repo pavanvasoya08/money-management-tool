@@ -1,0 +1,21 @@
+title: Bank permissions and security
+slug: bank-permissions-and-security
+section: Security
+keywords: permissions roles accountant partner assigned accounts field rules masked balance full account number workflows approval settings security credentials
+related: adding-a-bank-account, linking-partners-to-bank-accounts
+summary: Who can see and do what in Bank Management, and how account numbers and balances are protected.
+=== what
+Bank Management uses the Control Center: module permissions for each action, user-specific overrides, record scope, assigned accounts, field rules and approval workflows.
+=== who
+Super Admins manage these in the **Control Center** and **Bank settings**.
+=== step: Grant permissions by role | bank-permissions
+**Control Center → Action permissions** lists every Bank Accounts action. Grant them to roles in **Module permissions** (choose the role, tick the actions, **Save permissions**). User overrides can allow or deny single actions for one person.
+=== step: Limit which accounts a user sees | bank-assigned-view
+Give a user *assigned* scope and assign accounts in their access settings. They then see only those accounts in lists, reports, exports and the dashboard; other accounts answer "not found".
+=== step: Workflows and rules | bank-settings
+**Bank settings** holds account types, the duplicate, matching and overdue rules, and links to the bank approval workflows. Every workflow is off until a Super Admin switches it on.
+=== notes
+- By default accountants record entries on assigned accounts, managers view all accounts, and partner logins see only accounts they are linked to.
+- Field rules can mask or hide balances, IFSC, holder name, counterparty and notes, including in exports.
+- The full account number needs **view_full_account_number**, and each reveal is logged. Audit logs never contain full numbers.
+- **Never store internet-banking passwords, ATM or UPI PINs, OTPs or card credentials.** The system has no field for them.

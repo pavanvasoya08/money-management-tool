@@ -1,0 +1,20 @@
+title: Uploading bank statements
+slug: uploading-bank-statements
+section: Statements
+keywords: upload bank statement pdf csv period opening closing balance download archive import status
+related: importing-statement-csv, reconciling-bank-accounts
+summary: Keep each period's bank statement with its balances; CSV statements can then be imported for reconciliation.
+=== what
+A statement record keeps the file your bank gave you, the period it covers, its opening and closing balances and its import status.
+=== why
+Statements are the evidence that reconciliation compares the ledger against.
+=== who
+**bank_accounts.manage_statements** to upload or archive; **download_documents** to download files.
+=== step: Upload a statement | bank-statements
+On **Statements**, choose the account, the period, the opening and closing balances from the statement and the file, then click **Upload**. PDF, image, spreadsheet and CSV files up to 10 MB are accepted.
+=== result
+The statement is listed with its period and status. CSV files can be imported; other files are kept as documents.
+=== notes
+- The period cannot end in the future.
+- Files are stored outside the public web folder and every download is logged.
+- This system has no connection to any bank. Statements are always uploaded by a user.

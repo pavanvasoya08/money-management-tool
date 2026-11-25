@@ -1,0 +1,26 @@
+title: Reconciling a bank account
+slug: reconciling-bank-accounts
+section: Reconciliation
+keywords: reconciliation match suggestions statement lines ledger missing entries ignore complete reopen approval difference
+related: importing-statement-csv, viewing-bank-transactions, bank-reports
+summary: Match statement lines with ledger entries, deal with what is left, and complete the reconciliation.
+=== what
+Reconciliation compares an account's imported statement lines with its posted ledger entries for a period.
+=== why
+It proves the ledger agrees with the bank and finds missing, wrong or duplicated entries.
+=== who
+**bank_accounts.manage_reconciliation**; reopening needs **reopen_reconciliation**.
+=== step: Start a reconciliation
+On **Reconciliation**, choose the account, the period and the imported statement, then click **Start**.
+=== step: Accept suggested matches | bank-reconciliation
+Suggestions pair lines and entries with the same amount and direction within a few days, ranked higher when references agree. Tick the ones that are right and click **Accept selected matches**.
+=== step: Handle what is left | bank-reconciliation-lists
+Match the remaining lines manually, **Record missing entry** for lines the ledger lacks, or **Ignore line** with a reason. Ledger entries not on the statement are listed separately. **Unmatch** undoes a match.
+=== step: Complete
+When every line is matched or ignored, click **Complete reconciliation**. If the ledger and statement closing balances differ, a note explaining why is required.
+=== result
+A completed reconciliation recording who reconciled it and when.
+=== notes
+- Reconciliation never changes ledger entries.
+- Each line and each entry can be in only one active match.
+- Reopening a completed reconciliation can require approval and is always audited.

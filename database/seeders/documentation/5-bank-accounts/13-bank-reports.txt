@@ -1,0 +1,19 @@
+title: Bank reports
+slug: bank-reports
+section: Reports
+keywords: bank reports summary balances transactions deposits withdrawals transfers partner gst cash flow reconciliation unmatched charges interest export csv excel pdf
+related: bank-dashboard, viewing-bank-transactions
+summary: Eleven reports with filters and CSV, Excel or PDF export, all limited by your access.
+=== what
+**Bank Reports** offers: bank account summary, account-wise balances, transactions, deposits and withdrawals, internal transfers, partner-linked accounts, GST-wise accounts, monthly cash flow, reconciliation, unmatched statement lines, and bank charges and interest.
+=== who
+Bank view access; exporting needs **bank_accounts.export**.
+=== step: Choose a report | bank-reports
+Click a report card.
+=== step: Filter, export or print | bank-report-transactions
+Set the filters and click **Apply**, then **Export** as CSV, Excel or PDF, or **Print**.
+=== result
+A report of the accounts and entries you are allowed to see.
+=== notes
+- Record scope and field rules apply to the screen and to every export: masked fields stay masked and hidden fields are left out.
+- Account numbers are always masked in reports.

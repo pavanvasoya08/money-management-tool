@@ -246,10 +246,11 @@ final class AccessController extends AdminController
         foreach (App::db()->select('SELECT w.*, m.module_key FROM approval_workflows w JOIN modules m ON m.id = w.module_id ORDER BY w.name') as $wf) {
             $steps = [];
             foreach (App::approvals()->steps((int) $wf['id']) as $s) {
-                $fake = ['status' => 'pending', 'requested_by' => 0, 'module_key' => $wf['module_key'], 'workflow_id' => $wf['id'], 'current_step' => $s['step_order']];
+                $fake = ['status' => 'pending', 'requested_by' => 0, 'module_key' => $wf['module_key'], 'workflow_id' => $wf['id'], 'current_step' => $s['step_order'],
+                    'approve_action' => $wf['approve_action'], 'reject_action' => $wf['reject_action']];
                 $steps[] = ['step' => $s, 'approve' => App::approvals()->whyNot($target, $fake, 'approve') === null, 'reject' => App::approvals()->whyNot($target, $fake, 'reject') === null];
             }
-            $approvals[] = ['wf' => $wf, 'submit' => $gate->allows($target, $wf['module_key'] . '.create'), 'approve' => $gate->allows($target, $wf['module_key'] . '.approve'), 'reject' => $gate->allows($target, $wf['module_key'] . '.reject'), 'steps' => $steps];
+            $approvals[] = ['wf' => $wf, 'submit' => $gate->allows($target, $wf['module_key'] . '.create'), 'approve' => $gate->allows($target, $wf['module_key'] . '.' . ($wf['approve_action'] ?: 'approve')), 'reject' => $gate->allows($target, $wf['module_key'] . '.' . ($wf['reject_action'] ?: 'reject')), 'steps' => $steps];
         }
 
         App::activity()->log('access.previewed', "Previewed access of {$target['name']}", 'user', (int) $target['id'], module: 'super_admin');

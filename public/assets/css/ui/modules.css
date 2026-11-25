@@ -297,3 +297,30 @@
 }
 @media print { .inline-edit, .toolbar-more, .add-panel { display: none !important; } }
 .gst-kpis .stat-icon { width: 36px; height: 36px; }
+
+/* ---------- Phase 5: bank accounts ---------- */
+.bank-money-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--sp-3); }
+.bank-money { background: var(--ui-fill); border-radius: var(--ui-radius-lg); padding: var(--sp-3); display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.bank-money .stat-label { overflow-wrap: normal; word-break: normal; }
+.bank-money-value { font-size: 1.15rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bank-central { border-left: 3px solid var(--ui-primary); }
+.bank-title { font-size: 1.25rem; margin: 0; word-break: break-word; }
+.bank-balance-box { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-3); margin: var(--sp-3) 0; background: var(--ui-fill); border-radius: var(--ui-radius-lg); }
+.bank-balance { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bank-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--sp-2); }
+.bank-breakdown > div { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--ui-border); border-radius: var(--ui-radius); font-variant-numeric: tabular-nums; }
+.bank-breakdown-total { background: var(--ui-fill); font-weight: 700; }
+.bank-mini-ledger li { display: flex; gap: var(--sp-2); align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--ui-border); }
+.bank-mini-ledger li:last-child { border-bottom: 0; }
+.bank-entry-amount { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bank-transfer-visual { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--sp-3); align-items: center; }
+.bank-transfer-visual > div:not(.bank-transfer-arrow) { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-3); background: var(--ui-fill); border-radius: var(--ui-radius-lg); min-width: 0; }
+.bank-transfer-arrow { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--ui-text-nav); }
+.bank-flow { display: flex; flex-wrap: wrap; gap: 6px; }
+.bank-flow span { font-size: .8rem; padding: 4px 10px; border-radius: 999px; background: var(--ui-fill); color: var(--ui-text-nav); }
+.bank-csv-sample td, .bank-csv-sample th { white-space: nowrap; }
+@media (max-width: 767.98px) {
+    .bank-transfer-visual { grid-template-columns: 1fr; }
+    .bank-transfer-arrow { flex-direction: row; justify-content: center; }
+    .bank-transfer-arrow svg { transform: rotate(90deg); }
+}

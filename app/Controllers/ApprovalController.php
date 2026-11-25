@@ -33,7 +33,7 @@ final class ApprovalController extends Controller
         $me = $this->user();
         $req = App::approvals()->request($this->intParam($id));
         $canSee = App::gate()->isSuperAdmin($me) || (int) $req['requested_by'] === (int) $me['id']
-            || App::gate()->allows($me, $req['module_key'] . '.approve') || App::gate()->allows($me, $req['module_key'] . '.reject');
+            || App::gate()->allows($me, $req['module_key'] . '.' . ($req['approve_action'] ?: 'approve')) || App::gate()->allows($me, $req['module_key'] . '.' . ($req['reject_action'] ?: 'reject'));
         if (!$canSee) {
             throw new HttpException(404, 'Request not found.');
         }

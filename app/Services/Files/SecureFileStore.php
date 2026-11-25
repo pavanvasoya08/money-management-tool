@@ -29,7 +29,11 @@ final class SecureFileStore
         'jpg' => ['image/jpeg'], 'jpeg' => ['image/jpeg'], 'png' => ['image/png'], 'webp' => ['image/webp'],
         'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/octet-stream'],
         'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/octet-stream'],
+        // Bank statements (Phase 5). Never offered in a generic document picker unless asked for via $onlyExt.
+        'csv' => ['text/csv', 'text/plain', 'application/csv', 'text/x-comma-separated-values'],
     ];
+    /** Extensions accepted when a caller does not restrict them (CSV only where explicitly requested). */
+    public const DEFAULT_EXT = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'docx', 'xlsx'];
     public const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp'];
     /** Types a browser can safely preview inline (sandboxed). */
     public const PREVIEWABLE = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
@@ -63,7 +67,7 @@ final class SecureFileStore
         }
         $original = self::safeOriginalName($file['name']);
         $ext = strtolower(pathinfo($original, PATHINFO_EXTENSION));
-        $allowed = $onlyExt ?? array_keys(self::TYPES);
+        $allowed = $onlyExt ?? self::DEFAULT_EXT;
         if (!isset(self::TYPES[$ext]) || !in_array($ext, $allowed, true)) {
             throw ValidationException::withMessage($field, 'Allowed file types: ' . strtoupper(implode(', ', array_unique(array_map(static fn (string $e): string => $e === 'jpeg' ? 'jpg' : $e, $allowed)))) . '.');
         }
@@ -139,6 +143,8 @@ final class SecureFileStore
             $ext === 'pdf' => !str_starts_with($head, '%PDF-'),
             in_array($ext, self::IMAGE_EXT, true) => @getimagesize($path) === false,
             in_array($ext, ['docx', 'xlsx'], true) => !str_starts_with($head, "PK\x03\x04"),
+            // CSV must be plain text: no executable / archive / PDF signature and no NUL bytes.
+            $ext === 'csv' => preg_match('/^(MZ|\x7fELF|PK\x03\x04|%PDF)/', $head) === 1 || str_contains((string) file_get_contents($path, false, null, 0, 65536), "\0"),
             default => true,
         };
         // Reject anything that carries server-side script markers, whatever the type.

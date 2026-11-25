@@ -40,12 +40,13 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame($modules, (int) $db->scalar('SELECT COUNT(*) FROM modules'));
         $this->assertSame($actions, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM permissions WHERE module_id IS NULL'), 'every permission belongs to a module');
-        // Every definition is seeded, plus the one-time Phase 4 marker recording that the Partner role's GST scope was released.
-        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 1, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
+        // Every definition is seeded, plus the one-time markers of Phase 4 (Partner GST scope) and Phase 5 (bank role defaults).
+        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 2, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
+        $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'bank_role_defaults_released'"));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'gst_partner_scope_released'"));
-        $this->assertSame(11, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
+        $this->assertSame(18, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM approval_requests'), 'no fake transactions');
-        foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue', 'gst_registrations', 'gst_registration_partner_mappings', 'gst_registration_documents', 'gst_registration_links'] as $table) {
+        foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue', 'gst_registrations', 'gst_registration_partner_mappings', 'gst_registration_documents', 'gst_registration_links', 'bank_accounts', 'bank_transactions', 'bank_transfers', 'bank_statement_rows', 'bank_reconciliation_matches'] as $table) {
             $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM {$table}"), "no example business data in {$table}");
         }
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM users'), 'no hardcoded user accounts');

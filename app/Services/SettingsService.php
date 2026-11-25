@@ -48,6 +48,10 @@ final class SettingsService
             // Phase 4 — GST business rules (edited on GST Registrations → Masters & rules).
             'gst_single_owner_rule' => ['type' => 'boolean', 'default' => false, 'group' => 'gst', 'label' => 'Each GST registration may have only one active owner', 'rules' => 'nullable|boolean', 'help' => 'When on, a registration can have at most one active partner mapping whose relationship type counts as an owner (e.g. Owner, Proprietor).'],
             'gst_document_expiry_warning_days' => ['type' => 'integer', 'default' => 30, 'group' => 'gst', 'label' => 'Warn about expiring GST documents and registrations (days ahead)', 'rules' => 'required|integer|min:1|max:365'],
+            // Phase 5 — bank rules (edited on Bank Management → Settings).
+            'bank_duplicate_window_days' => ['type' => 'integer', 'default' => 3, 'group' => 'bank', 'label' => 'Possible-duplicate check window (days)', 'rules' => 'required|integer|min:0|max:30', 'help' => 'A new entry with the same account, amount and reference (or same amount and counterparty) within this many days is flagged; the user must confirm it is not a duplicate.'],
+            'bank_match_tolerance_days' => ['type' => 'integer', 'default' => 3, 'group' => 'bank', 'label' => 'Reconciliation: suggest matches up to this many days apart', 'rules' => 'required|integer|min:0|max:15', 'help' => 'Suggestions need the same amount and direction; a matching reference number ranks first.'],
+            'bank_reconciliation_overdue_days' => ['type' => 'integer', 'default' => 30, 'group' => 'bank', 'label' => 'Reconciliation is pending when the last completed one is older than (days)', 'rules' => 'required|integer|min:1|max:365'],
         ];
     }
 

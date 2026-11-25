@@ -1815,5 +1815,685 @@
     "label": "Ended associations stay visible as history."
    }
   ]
+ },
+ "bank-dashboard": {
+  "caption": "Bank Management → Bank Dashboard.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 26.65,
+    "label": "Filter every figure by bank, type, status, partner, GSTIN, activity or dates."
+   },
+   {
+    "x": 25.4,
+    "y": 49.89,
+    "label": "Accounts by status. Click a tile to open the matching list."
+   },
+   {
+    "x": 24.82,
+    "y": 62.68,
+    "label": "Opening and current balances, money received and paid, internal transfers."
+   },
+   {
+    "x": 22.99,
+    "y": 76.43,
+    "label": "The central joint funding account: contributions in, transfers out, available balance."
+   },
+   {
+    "x": 61.95,
+    "y": 14.95,
+    "label": "Add a bank account."
+   }
+  ]
+ },
+ "bank-dashboard-lists": {
+  "caption": "Balance summary and recent activity on the Bank Dashboard.",
+  "width": 1366,
+  "height": 1250,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 8.95,
+    "label": "Every account with its opening and current balance."
+   },
+   {
+    "x": 23.06,
+    "y": 49.16,
+    "label": "The latest entries with their status."
+   },
+   {
+    "x": 60.98,
+    "y": 49.16,
+    "label": "The latest internal transfers, including pending ones."
+   },
+   {
+    "x": 60.98,
+    "y": 91.72,
+    "label": "Accounts whose reconciliation is due."
+   }
+  ]
+ },
+ "bank-list": {
+  "caption": "Bank Management → Bank Accounts.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Search by name, bank, code or the last digits of the number."
+   },
+   {
+    "x": 33.89,
+    "y": 34.2,
+    "label": "More filters: partner, GST registration, activity, central account, archived."
+   },
+   {
+    "x": 81.03,
+    "y": 18.67,
+    "label": "Export the filtered list."
+   },
+   {
+    "x": 24.82,
+    "y": 49.96,
+    "label": "Open an account. Numbers are always masked in lists."
+   }
+  ]
+ },
+ "bank-create": {
+  "caption": "Adding a bank account.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 44.51,
+    "label": "A short name your team recognises."
+   },
+   {
+    "x": 60.61,
+    "y": 44.51,
+    "label": "Account type: current, savings, cash credit, overdraft, fixed deposit, …"
+   },
+   {
+    "x": 24.82,
+    "y": 65.33,
+    "label": "Account holder exactly as the bank records it."
+   },
+   {
+    "x": 60.61,
+    "y": 65.33,
+    "label": "Account number. Stored encrypted; shown masked."
+   },
+   {
+    "x": 24.82,
+    "y": 80.88,
+    "label": "IFSC (11 characters). MICR is optional."
+   }
+  ]
+ },
+ "bank-create-opening": {
+  "caption": "Opening balance, overdraft and saving.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 41.02,
+    "label": "Opening balance from the bank's records."
+   },
+   {
+    "x": 48.68,
+    "y": 41.02,
+    "label": "The date the opening balance applies from."
+   },
+   {
+    "x": 72.55,
+    "y": 39.26,
+    "label": "Allow overdraft only for OD / cash-credit accounts, with a limit."
+   },
+   {
+    "x": 96.12,
+    "y": 83.25,
+    "label": "Activate, or send for approval if the workflow is on."
+   }
+  ]
+ },
+ "bank-profile": {
+  "caption": "The central funding account's overview.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 26.2,
+    "y": 27.31,
+    "label": "Account name, code, masked number and status. Central accounts carry a Central badge."
+   },
+   {
+    "x": 48.34,
+    "y": 13.91,
+    "label": "Twelve tabs from Overview to History."
+   },
+   {
+    "x": 24.82,
+    "y": 37.94,
+    "label": "Current balance from posted ledger entries."
+   },
+   {
+    "x": 50.1,
+    "y": 55.89,
+    "label": "Contributions received, transfers out and available balance."
+   },
+   {
+    "x": 44.97,
+    "y": 92.9,
+    "label": "Record entries or start a transfer from this account. Status changes are further down."
+   }
+  ]
+ },
+ "bank-central-settings": {
+  "caption": "Designating the central funding account (Settings tab).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 40.81,
+    "label": "The account that is central today."
+   },
+   {
+    "x": 50.1,
+    "y": 50.53,
+    "label": "A reason is required. The change may need approval."
+   },
+   {
+    "x": 71.94,
+    "y": 55.28,
+    "label": "Designate this account."
+   },
+   {
+    "x": 50.1,
+    "y": 64.13,
+    "label": "Overdraft, opening balance and currency rules."
+   }
+  ]
+ },
+ "bank-partners": {
+  "caption": "The Partners tab of an account.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.94,
+    "label": "Choose the partner."
+   },
+   {
+    "x": 72.96,
+    "y": 43.94,
+    "label": "Holder, joint holder, authorised operator, beneficiary or other."
+   },
+   {
+    "x": 51.93,
+    "y": 54.65,
+    "label": "From and to dates."
+   },
+   {
+    "x": 93.78,
+    "y": 79.82,
+    "label": "End a mapping. It stays as history."
+   }
+  ]
+ },
+ "bank-partner-tab": {
+  "caption": "A partner's own login sees the accounts they are linked to.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.85,
+    "y": 49.32,
+    "label": "Each linked account, with the number masked."
+   }
+  ]
+ },
+ "bank-gst": {
+  "caption": "The GST tab of an account.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.94,
+    "label": "Choose a GST registration you can see."
+   },
+   {
+    "x": 72.96,
+    "y": 43.94,
+    "label": "Primary or secondary."
+   },
+   {
+    "x": 98.98,
+    "y": 73.91,
+    "label": "Change the designation. Only one primary account per registration."
+   }
+  ]
+ },
+ "bank-activities": {
+  "caption": "The Activities tab of an account.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 61.45,
+    "label": "Business activities from the shared master, with dates."
+   }
+  ]
+ },
+ "bank-deposit-form": {
+  "caption": "Recording a deposit.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 39.58,
+    "label": "The account that received the money."
+   },
+   {
+    "x": 78.51,
+    "y": 39.58,
+    "label": "Amount in rupees."
+   },
+   {
+    "x": 24.82,
+    "y": 49.99,
+    "label": "Optional: link a partner's capital contribution (amount must match)."
+   },
+   {
+    "x": 24.82,
+    "y": 67.78,
+    "label": "UTR or cheque number, used for matching."
+   },
+   {
+    "x": 96.12,
+    "y": 92.78,
+    "label": "Post, or send for approval if the workflow is on."
+   }
+  ]
+ },
+ "bank-withdrawal-form": {
+  "caption": "Recording a withdrawal.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 37.17,
+    "label": "The account the money left. The balance is checked."
+   },
+   {
+    "x": 78.51,
+    "y": 37.17,
+    "label": "Amount. Refused if the balance would go negative without overdraft."
+   },
+   {
+    "x": 60.61,
+    "y": 65.37,
+    "label": "Who was paid."
+   }
+  ]
+ },
+ "bank-transaction-show": {
+  "caption": "A posted deposit linked to partner capital.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 26.31,
+    "label": "Amount and direction."
+   },
+   {
+    "x": 67.3,
+    "y": 49.53,
+    "label": "Every action on this entry."
+   }
+  ]
+ },
+ "bank-approval": {
+  "caption": "Bank requests waiting in the Approvals inbox.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 36.31,
+    "label": "Open the request to approve or reject it."
+   }
+  ]
+ },
+ "bank-transfer-form": {
+  "caption": "Creating an internal transfer.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 37.65,
+    "label": "Source account. Its available balance is shown."
+   },
+   {
+    "x": 60.61,
+    "y": 37.65,
+    "label": "Destination account (must be different, same currency)."
+   },
+   {
+    "x": 42.72,
+    "y": 48.72,
+    "label": "Amount to move."
+   },
+   {
+    "x": 24.82,
+    "y": 59.13,
+    "label": "Why the money is moved."
+   }
+  ]
+ },
+ "bank-transfer-show": {
+  "caption": "A transfer waiting for approval.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 33.61,
+    "label": "From and to accounts with the amount."
+   },
+   {
+    "x": 23.06,
+    "y": 67.16,
+    "label": "After posting: one debit and one credit with the same TRF number."
+   }
+  ]
+ },
+ "bank-transactions": {
+  "caption": "Bank Management → Transactions.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 35.95,
+    "label": "Search by number, reference or description."
+   },
+   {
+    "x": 55.34,
+    "y": 41.7,
+    "label": "More filters: dates, direction, partner, GSTIN."
+   },
+   {
+    "x": 54.99,
+    "y": 26.7,
+    "label": "Record a deposit, withdrawal or other entry."
+   },
+   {
+    "x": 23.06,
+    "y": 57.34,
+    "label": "Each entry with its status."
+   }
+  ]
+ },
+ "bank-account-ledger": {
+  "caption": "An account's ledger with running balances.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 28.23,
+    "label": "Choose the period."
+   },
+   {
+    "x": 50.1,
+    "y": 53.94,
+    "label": "Each posted entry with the balance before and after it."
+   }
+  ]
+ },
+ "bank-transaction-reversed": {
+  "caption": "A reversed entry: the original stays, cancelled by a reversal entry.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 26.31,
+    "label": "The original amount, now marked reversed."
+   },
+   {
+    "x": 67.3,
+    "y": 49.53,
+    "label": "Who reversed it, when and why."
+   }
+  ]
+ },
+ "bank-statements": {
+  "caption": "Bank Management → Statements.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 31.89,
+    "label": "The account the statement belongs to."
+   },
+   {
+    "x": 48.49,
+    "y": 31.89,
+    "label": "The statement period."
+   },
+   {
+    "x": 72.16,
+    "y": 31.89,
+    "label": "Opening and closing balances from the statement."
+   },
+   {
+    "x": 24.82,
+    "y": 41.41,
+    "label": "The file: PDF, image, spreadsheet or CSV up to 10 MB."
+   },
+   {
+    "x": 92.17,
+    "y": 71.51,
+    "label": "Import the lines of a CSV statement."
+   }
+  ]
+ },
+ "bank-import": {
+  "caption": "Mapping the columns of a statement CSV.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 40.61,
+    "label": "The first lines exactly as the file holds them."
+   },
+   {
+    "x": 24.82,
+    "y": 72.82,
+    "label": "Which column holds each field. Common headers are detected."
+   },
+   {
+    "x": 78.51,
+    "y": 81.34,
+    "label": "The date format, detected from the data."
+   },
+   {
+    "x": 95.53,
+    "y": 95.23,
+    "label": "Check the lines before importing."
+   }
+  ]
+ },
+ "bank-import-preview": {
+  "caption": "The import preview on the statement page.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 52.85,
+    "label": "Each line: valid, invalid with the reason, or duplicate."
+   },
+   {
+    "x": 48.17,
+    "y": 34.25,
+    "label": "Import the valid lines. Ledger entries are not created."
+   },
+   {
+    "x": 38.67,
+    "y": 34.25,
+    "label": "Discard and change the mapping."
+   }
+  ]
+ },
+ "bank-reconciliation": {
+  "caption": "Reconciling an account.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 21.72,
+    "label": "Statement and ledger balances and the difference."
+   },
+   {
+    "x": 23.06,
+    "y": 41.06,
+    "label": "Suggested pairs: same amount and direction, close dates, matching references."
+   },
+   {
+    "x": 95.53,
+    "y": 73.41,
+    "label": "Accept the ticked suggestions."
+   }
+  ]
+ },
+ "bank-reconciliation-lists": {
+  "caption": "Unmatched lines and ledger entries.",
+  "width": 1366,
+  "height": 1200,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 9.35,
+    "label": "Match manually, record the missing entry, or ignore with a reason."
+   },
+   {
+    "x": 60.98,
+    "y": 9.35,
+    "label": "Entries the bank has not shown yet."
+   },
+   {
+    "x": 36.76,
+    "y": 21.53,
+    "label": "Record a missing entry from the line."
+   }
+  ]
+ },
+ "bank-reports": {
+  "caption": "Bank Management → Bank Reports.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 29.54,
+    "label": "Eleven reports. Choose one."
+   }
+  ]
+ },
+ "bank-report-transactions": {
+  "caption": "The bank transaction report.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 52.34,
+    "y": 36.45,
+    "label": "Set the filters and apply."
+   },
+   {
+    "x": 87.78,
+    "y": 18.67,
+    "label": "Export as CSV, Excel or PDF with your field rules applied."
+   },
+   {
+    "x": 95.53,
+    "y": 18.67,
+    "label": "Print."
+   }
+  ]
+ },
+ "bank-permissions": {
+  "caption": "Control Center → Action permissions: the Bank Accounts module and its actions.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 52.64,
+    "y": 12.93,
+    "label": "39 bank actions. Click a count to see who holds a permission; disable an action for everyone if needed."
+   },
+   {
+    "x": 52.1,
+    "y": 56.6,
+    "label": "Record scope: all records, own records or assigned accounts only."
+   },
+   {
+    "x": 52.1,
+    "y": 65.32,
+    "label": "Each action, e.g. adding accounts, approving transfers or seeing full numbers, is a separate permission."
+   }
+  ]
+ },
+ "bank-assigned-view": {
+  "caption": "An accountant sees only the accounts assigned to her.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 49.96,
+    "label": "Only the two assigned accounts are listed."
+   }
+  ]
+ },
+ "bank-settings": {
+  "caption": "Bank Management → Bank settings.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 16.18,
+    "label": "Account types used on the account form."
+   },
+   {
+    "x": 24.82,
+    "y": 95.07,
+    "label": "Duplicate, matching and overdue rules."
+   },
+   {
+    "x": 22.99,
+    "y": 16.18,
+    "label": "The bank approval workflows. All are off until switched on."
+   }
+  ]
  }
 }

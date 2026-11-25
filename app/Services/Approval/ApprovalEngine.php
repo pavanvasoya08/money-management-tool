@@ -160,7 +160,8 @@ final class ApprovalEngine
         if ((int) $request['requested_by'] === (int) $user['id'] && (bool) App::settings()->get('block_self_approval', true)) {
             return 'You cannot act on your own request.';
         }
-        $permission = $request['module_key'] . '.' . ($action === 'reject' ? 'reject' : 'approve');
+        // A workflow may name its own approver permission (e.g. bank_accounts.approve_transfers).
+        $permission = $request['module_key'] . '.' . ($action === 'reject' ? ($request['reject_action'] ?? null ?: 'reject') : ($request['approve_action'] ?? null ?: 'approve'));
         if (!App::gate()->allows($user, $permission)) {
             return "Requires permission {$permission}.";
         }
@@ -218,7 +219,7 @@ final class ApprovalEngine
     public function request(int $id): array
     {
         return $this->db->first(
-            'SELECT r.*, w.workflow_key, w.name AS workflow_name, m.module_key, u.name AS requester_name FROM approval_requests r
+            'SELECT r.*, w.workflow_key, w.name AS workflow_name, w.approve_action, w.reject_action, m.module_key, u.name AS requester_name FROM approval_requests r
              JOIN approval_workflows w ON w.id = r.workflow_id JOIN modules m ON m.id = w.module_id JOIN users u ON u.id = r.requested_by WHERE r.id = ?',
             [$id]
         ) ?? throw new DomainRuleException('Approval request not found.');
@@ -234,7 +235,7 @@ final class ApprovalEngine
     public function pendingFor(array $user, int $limit = 100): array
     {
         $rows = $this->db->select(
-            "SELECT r.*, w.workflow_key, w.name AS workflow_name, m.module_key, u.name AS requester_name FROM approval_requests r
+            "SELECT r.*, w.workflow_key, w.name AS workflow_name, w.approve_action, w.reject_action, m.module_key, u.name AS requester_name FROM approval_requests r
              JOIN approval_workflows w ON w.id = r.workflow_id JOIN modules m ON m.id = w.module_id JOIN users u ON u.id = r.requested_by
              WHERE r.status = 'pending' ORDER BY r.submitted_at LIMIT " . max(1, min(500, $limit))
         );

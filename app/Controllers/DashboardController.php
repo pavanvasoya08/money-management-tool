@@ -47,7 +47,22 @@ final class DashboardController extends Controller
             'chart' => $canLogins ? LoginAttempt::dailyCounts(14) : null,
             'capital' => $capital = $this->capitalWidgets($user),
             'withCharts' => $canLogins || !empty($capital['chart']),
+            'bank' => $this->bankWidget($user),
         ]);
+    }
+
+    /** Phase 5 widget: accounts and balances within the user's bank-account scope. @param array<string, mixed> $user @return array<string, mixed>|null */
+    private function bankWidget(array $user): ?array
+    {
+        if (!App::gate()->allows($user, 'bank_accounts.view_dashboard')) {
+            return null;
+        }
+        $data = (new \App\Services\Bank\BankDashboardService(App::db()))->data(['archived' => ''], App::dataAccess()->constrain($user, 'bank_accounts', 'a'));
+        $monthStart = substr(\App\Support\BusinessDate::today(), 0, 7) . '-01';
+        $inr = array_map(static fn (array $a): int => (int) $a['id'], array_filter($data['accounts'], static fn (array $a): bool => $a['currency'] === 'INR'));
+        return ['total' => $data['total'], 'active' => $data['counts']['active'], 'current' => $data['current'], 'pendingRec' => count($data['pendingRec']), 'awaiting' => $data['awaiting'],
+            'month' => (new \App\Services\Bank\BankLedgerService(App::db()))->movement(array_values($inr), $monthStart, null), 'central' => $data['central'],
+            'amounts' => App::fields()->access($user, 'bank_accounts', 'current_balance')];
     }
 
     /**

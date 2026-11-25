@@ -1,0 +1,24 @@
+title: Importing a statement CSV
+slug: importing-statement-csv
+section: Statements
+keywords: import csv column mapping date format preview validation duplicates skipped statement lines
+related: uploading-bank-statements, reconciling-bank-accounts
+summary: Map the columns of your bank's CSV, check the preview and import the lines for reconciliation.
+=== what
+Importing reads the lines of an uploaded CSV statement so they can be matched against the ledger.
+=== why
+Matching imported lines is faster and more reliable than comparing a statement by eye.
+=== who
+**bank_accounts.import_statements**.
+=== step: Map the columns | bank-import
+Click **Import** next to the statement in the list (or **Column mapping** on the statement's page). Pick the separator, then tell the system which column holds the date, description, reference, debit, credit (or one signed amount) and balance, and the date format. Common headers and date formats are detected for you.
+=== step: Check the preview | bank-import-preview
+Click **Preview lines**. The statement page opens with the preview: each line shows as valid, invalid with the reason, or a duplicate of a line already imported for this account.
+=== step: Import
+Click **Import N line(s)** to keep the valid lines, or **Discard & change mapping** to start again.
+=== result
+The statement's lines are stored and ready for reconciliation.
+=== notes
+- **Importing never creates, changes or posts ledger entries.** Missing entries are recorded separately during reconciliation.
+- Indian amounts like 1,23,456.78, ₹ signs and Dr/Cr suffixes are understood.
+- Each import is kept in the statement's history with its counts.

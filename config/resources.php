@@ -13,7 +13,7 @@ declare(strict_types=1);
 return [
     'partner' => ['label' => 'Partners', 'table' => 'partners', 'label_column' => 'name', 'phase' => 3],
     'gst_registration' => ['label' => 'GST registrations', 'table' => 'gst_registrations', 'label_column' => 'gstin', 'phase' => 4],
-    'bank_account' => ['label' => 'Bank accounts', 'table' => 'bank_accounts', 'label_column' => 'account_name', 'phase' => 5],
+    'bank_account' => ['label' => 'Bank accounts', 'table' => 'bank_accounts', 'label_column' => 'display_name', 'phase' => 5],
     'product' => ['label' => 'Products', 'table' => 'products', 'label_column' => 'name', 'phase' => 6],
     'supplier' => ['label' => 'Suppliers', 'table' => 'suppliers', 'label_column' => 'name', 'phase' => 6],
     'warehouse' => ['label' => 'Warehouses', 'table' => 'warehouses', 'label_column' => 'name', 'phase' => 7],
