@@ -1,0 +1,19 @@
+title: Inventory reports
+slug: inventory-reports
+section: Inventory
+keywords: inventory reports stock summary warehouse product variant ledger inward outward transfers adjustments opening batch expiry serial reserved available low out of stock valuation movement summary damaged export csv excel pdf filters
+related: stock-ledger, inventory-valuation, low-stock-management
+summary: Twenty inventory reports with filters and CSV, Excel or PDF export — limited to your warehouses and permissions.
+=== what
+Reports: complete stock summary, warehouse-wise, product-wise and variant-wise stock, stock ledger, inward, outward, transfers, adjustments, opening stock, batch-wise stock, expiry, serial numbers, reserved stock, available stock, low stock with suggested reorder, out-of-stock, valuation, stock movement summary and damaged stock.
+=== who
+Anyone with **inventory.view**; export needs **inventory.export**; cost and value columns need **inventory.view_stock_cost**.
+=== step: Choose a report | inv-reports
+Open **Inventory → Inventory Reports** and pick a report.
+=== step: Filter and export | inv-report-summary
+Filter by dates, warehouse, location, product, variant, category, brand, batch, serial number, movement type, status, GST registration and business activity (where they apply). **Export** downloads exactly what you see as CSV, Excel or PDF; every export is logged.
+=== result
+You get reliable stock figures for any slice of your inventory.
+=== notes
+- Reports cover only the warehouses you may see, and value columns follow your field permissions.
+- Totals that add different units are indicative only.

@@ -66,6 +66,9 @@ return [
                 // Phase 6: product catalogue read-only; assigned suppliers read-only (prices, GST and mappings are managed by others).
                 'products.view_dashboard', 'products.view', 'products.view_all', 'products.download_documents', 'products.view_history', 'products.export', 'products.print',
                 'suppliers.view_dashboard', 'suppliers.view', 'suppliers.view_assigned', 'suppliers.download_documents', 'suppliers.view_history', 'suppliers.export', 'suppliers.print',
+                // Phase 7: stock and valuation read-only; moves no stock.
+                'inventory.view_dashboard', 'inventory.view', 'inventory.view_all', 'inventory.view_stock_cost', 'inventory.view_stock_ledger', 'inventory.download_documents',
+                'inventory.view_history', 'inventory.export', 'inventory.print',
             ],
         ],
         'manager' => [
@@ -74,7 +77,6 @@ return [
             'is_super_admin' => false,
             'grants' => [
                 'dashboard.view', 'users.view', 'users.view_all', 'users.view_login_history', 'activity_logs.view',
-                'inventory.view', 'inventory.view_assigned', 'inventory.create', 'inventory.edit',
                 'sales_orders.view', 'sales_orders.view_assigned', 'sales_orders.create', 'sales_orders.edit',
                 // Phase 3: partner directory only — no capital figures, no profit sharing.
                 'partners.view', 'partners.view_all',
@@ -87,6 +89,11 @@ return [
                 'products.manage_documents', 'products.download_documents', 'products.view_history', 'products.export', 'products.print',
                 'suppliers.view_dashboard', 'suppliers.view', 'suppliers.view_all', 'suppliers.create', 'suppliers.edit', 'suppliers.manage_addresses', 'suppliers.manage_product_mappings',
                 'suppliers.manage_documents', 'suppliers.download_documents', 'suppliers.view_history', 'suppliers.export', 'suppliers.print',
+                // Phase 7: run the warehouses — record inward, outward, transfers and counts; no approvals, costs, opening stock or settings.
+                'inventory.view_dashboard', 'inventory.view', 'inventory.view_all', 'inventory.view_stock_ledger', 'inventory.manage_locations',
+                'inventory.manage_stock_inward', 'inventory.manage_stock_outward', 'inventory.manage_stock_transfers', 'inventory.receive_stock_transfers',
+                'inventory.manage_stock_adjustments', 'inventory.manage_batches', 'inventory.manage_serial_numbers', 'inventory.manage_reservations', 'inventory.release_reservations',
+                'inventory.manage_documents', 'inventory.download_documents', 'inventory.view_history', 'inventory.export', 'inventory.print',
             ],
         ],
         'viewer' => [

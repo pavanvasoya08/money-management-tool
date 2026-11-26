@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 6 of 15 — product & supplier management.**
+**Current status: Phase 7 of 15 — inventory management.**
 
 | | |
 |---|---|
@@ -17,6 +17,7 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 - ✅ [Phase 3 report](docs/PHASE-3.md) — partners, capital ledger, profit sharing, reports, test results
 - ✅ [Phase 4 report](docs/PHASE-4.md) — update steps, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
 - ✅ [Phase 5 report](docs/PHASE-5.md) — **update steps (incl. `key:generate`)**, bank accounts, ledger, transfers, statements, CSV import, reconciliation, reports, test results
+- ✅ [Phase 7 report](docs/PHASE-7.md) — **update steps**, warehouses, locations, stock ledger, opening stock, inward/outward, transfers, adjustments, batches, serials, reservations, FIFO / weighted average, reports, test results
 - ✅ [Phase 6 report](docs/PHASE-6.md) — **update steps**, products, variants, SKUs, pricing history, GST/HSN, suppliers, supplier bank details, product-supplier mapping, reports, test results
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
@@ -94,9 +95,25 @@ Open http://127.0.0.1:8000 and sign in.
 - **GST-registration and business-activity mappings** for products and suppliers.
 - **Two dashboards and 18 reports** with CSV, Excel and PDF export. Everything is limited by record scope and field rules, and 11 optional approval workflows cover sensitive changes.
 
+## What Phase 7 adds
+
+- **Warehouses and storage locations:** unlimited warehouses of editable types with GST-registration and business-activity mappings, assigned users, and safe deactivate, archive and delete rules. Locations nest up to six levels, and circular nesting is refused.
+- **Immutable stock ledger:** every quantity and value comes from posted movements.
+  - Posting is transactional and row-locked, and duplicates are refused through unique posting keys.
+  - Corrections are reversals or adjustments.
+  - Balance summaries can be reconciled with the ledger.
+- **Stock documents:** opening stock, inward (purchase receipts, customer returns with condition) and outward (dispatches, supplier returns, write-offs, consumption). All go through optional approval and support unit conversion.
+- **Transfers:** in-transit stock, partial receipts and loss write-offs, plus location moves.
+- **Adjustments:** physical counts with recount protection and condition changes.
+- **Batches, expiry and serials:** batches with expiry and FEFO picking, unique serial numbers with full history.
+- **Reservations:** stock held for orders or requirements, kept out of available stock.
+- **Valuation:** FIFO cost layers or weighted average cost in exact decimals, with revaluation through approval. No journal entries.
+- **Monitoring and reports:** low-stock monitoring with suggested reorder quantities and preferred suppliers, a dashboard and 20 reports with export.
+- **Access control:** warehouse record scope, cost and contact field rules, and 10 optional approval workflows.
+
 ## Help & User Guide
 
-An in-app manual for Phases 1–6 (85 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+An in-app manual for Phases 1–7 (104 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
 
 ## Commands
 

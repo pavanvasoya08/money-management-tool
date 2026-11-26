@@ -1,0 +1,18 @@
+title: Managing warehouse locations
+slug: managing-warehouse-locations
+section: Inventory
+keywords: storage location zone section aisle rack shelf bin hierarchy parent nested capacity deactivate archive circular location stock
+related: creating-warehouses, warehouse-transfers, recording-opening-stock
+summary: Organise each warehouse into zones, racks, shelves and bins, and see the stock each location holds.
+=== what
+Each warehouse can have any number of storage locations nested up to six levels — zone, section, aisle, rack, shelf and bin. Stock can be received into, issued from and moved between locations.
+=== who
+**inventory.manage_locations**. Anyone with **inventory.view** can see locations and their stock.
+=== step: Add locations | inv-locations
+Open **Inventory → Storage Locations** (or a warehouse's Locations tab) and choose the warehouse. Enter a code and name, choose the type and the location it sits **Inside**, and optionally a capacity and description. The list shows the tree with the stock and number of products in each location.
+=== result
+Receipts, issues, transfers and counts can name the exact location, and the stock ledger and reports show stock per location.
+=== notes
+- A location cannot be placed inside itself or inside one of its own sub-locations.
+- **Deactivate** stops new stock going into a location; **Archive** is refused while it holds stock or has active sub-locations. Locations are never deleted, so their history stays.
+- When a warehouse requires locations, every receipt line must name one.

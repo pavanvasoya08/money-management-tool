@@ -48,6 +48,15 @@ use App\Controllers\Partners\PartnerDocumentController;
 use App\Controllers\Partners\PartnerReportController;
 use App\Controllers\Partners\ProfitSharingController;
 use App\Controllers\Partners\WithdrawalController;
+use App\Controllers\Inventory\AdjustmentController as InventoryAdjustmentController;
+use App\Controllers\Inventory\BatchSerialController;
+use App\Controllers\Inventory\EntryController as InventoryEntryController;
+use App\Controllers\Inventory\InventoryController;
+use App\Controllers\Inventory\InventorySettingsController;
+use App\Controllers\Inventory\ProductInventoryController;
+use App\Controllers\Inventory\ReservationController as InventoryReservationController;
+use App\Controllers\Inventory\TransferController as InventoryTransferController;
+use App\Controllers\Inventory\WarehouseController;
 use App\Core\Router;
 
 /*
@@ -428,6 +437,114 @@ return static function (Router $r): void {
             $r->post('/{id}/products', [SupplierDetailController::class, 'addProduct'], 'suppliers.products.store', ['can:suppliers.manage_product_mappings']);
             $r->post('/{id}/payments', [SupplierDetailController::class, 'linkPayment'], 'suppliers.payments.store', ['can:suppliers.link_bank_transactions']);
             $r->post('/{id}/payments/{link}/remove', [SupplierDetailController::class, 'unlinkPayment'], 'suppliers.payments.remove', ['can:suppliers.link_bank_transactions']);
+        });
+
+        // ---------- Phase 7: inventory ----------
+        // Route guards check the permission; every record is loaded through the warehouse record scope (404 outside it).
+        $r->group(['prefix' => 'inventory'], static function (Router $r): void {
+            $v = ['can:inventory.view'];
+            $r->get('/', [InventoryController::class, 'dashboard'], 'inventory.dashboard', ['can:inventory.view_dashboard']);
+            $r->get('/stock', [InventoryController::class, 'stock'], 'inventory.stock', $v);
+            $r->get('/ledger', [InventoryController::class, 'ledger'], 'inventory.ledger', ['can:inventory.view_stock_ledger']);
+            $r->get('/valuation', [InventoryController::class, 'valuation'], 'inventory.valuation', ['can:inventory.view_stock_cost']);
+            $r->post('/valuation/reconcile', [InventoryController::class, 'reconcile'], 'inventory.valuation.reconcile', ['can:inventory.manage_stock_valuation']);
+            $r->get('/low-stock', [InventoryController::class, 'lowStock'], 'inventory.low-stock', $v);
+            $r->get('/history', [InventoryController::class, 'history'], 'inventory.history', ['can:inventory.view_history']);
+            $r->get('/reports', [InventoryController::class, 'reports'], 'inventory.reports', $v);
+            $r->get('/reports/{report}', [InventoryController::class, 'report'], 'inventory.reports.show', $v);
+            $r->get('/reports/{report}/export', [InventoryController::class, 'exportReport'], 'inventory.reports.export', ['can:inventory.export']);
+            $r->get('/documents/{doc}', [InventoryController::class, 'document'], 'inventory.documents.show', ['can:inventory.download_documents']);
+            $r->post('/documents/{doc}/archive', [InventoryController::class, 'archiveDocument'], 'inventory.documents.archive', ['can:inventory.manage_documents']);
+
+            $r->get('/settings', [InventorySettingsController::class, 'index'], 'inventory.settings', $v);
+            $r->post('/settings/rules', [InventorySettingsController::class, 'saveRules'], 'inventory.settings.rules', ['can:inventory.manage_inventory_settings']);
+            $r->post('/settings/method', [InventorySettingsController::class, 'saveMethod'], 'inventory.settings.method', ['can:inventory.manage_stock_valuation']);
+            $r->post('/settings/units', [InventorySettingsController::class, 'saveUnit'], 'inventory.settings.units', ['can:inventory.manage_units']);
+            $r->post('/settings/conversions', [InventorySettingsController::class, 'addConversion'], 'inventory.settings.conversions', ['can:inventory.manage_units']);
+            $r->post('/settings/conversions/{id}/end', [InventorySettingsController::class, 'endConversion'], 'inventory.settings.conversions.end', ['can:inventory.manage_units']);
+            $r->post('/settings/types', [InventorySettingsController::class, 'saveType'], 'inventory.settings.types', ['can:inventory.manage_warehouses']);
+
+            $r->get('/warehouses', [WarehouseController::class, 'index'], 'inventory.warehouses.index', $v);
+            $r->get('/warehouses/create', [WarehouseController::class, 'create'], 'inventory.warehouses.create', ['can:inventory.create_warehouse']);
+            $r->post('/warehouses', [WarehouseController::class, 'store'], 'inventory.warehouses.store', ['can:inventory.create_warehouse']);
+            $r->get('/warehouses/{id}', [WarehouseController::class, 'show'], 'inventory.warehouses.show', $v);
+            $r->get('/warehouses/{id}/edit', [WarehouseController::class, 'edit'], 'inventory.warehouses.edit', ['can:inventory.edit_warehouse']);
+            $r->post('/warehouses/{id}', [WarehouseController::class, 'update'], 'inventory.warehouses.update', ['can:inventory.edit_warehouse']);
+            $r->post('/warehouses/{id}/status', [WarehouseController::class, 'status'], 'inventory.warehouses.status', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/archive', [WarehouseController::class, 'archive'], 'inventory.warehouses.archive', ['can:inventory.archive_warehouse']);
+            $r->post('/warehouses/{id}/restore', [WarehouseController::class, 'restore'], 'inventory.warehouses.restore', ['can:inventory.archive_warehouse']);
+            $r->post('/warehouses/{id}/delete', [WarehouseController::class, 'destroy'], 'inventory.warehouses.delete', ['can:inventory.archive_warehouse']);
+            $r->post('/warehouses/{id}/gst', [WarehouseController::class, 'addGst'], 'inventory.warehouses.gst.store', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/gst/{mapping}/end', [WarehouseController::class, 'endGst'], 'inventory.warehouses.gst.end', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/activities', [WarehouseController::class, 'addActivity'], 'inventory.warehouses.activities.store', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/activities/{mapping}/end', [WarehouseController::class, 'endActivity'], 'inventory.warehouses.activities.end', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/users', [WarehouseController::class, 'assign'], 'inventory.warehouses.users', ['can:inventory.manage_warehouses']);
+            $r->post('/warehouses/{id}/documents', [WarehouseController::class, 'uploadDoc'], 'inventory.warehouses.documents.store', ['can:inventory.manage_documents']);
+            $r->post('/warehouses/{id}/locations', [WarehouseController::class, 'saveLocation'], 'inventory.locations.store', ['can:inventory.manage_locations']);
+            $r->post('/warehouses/{id}/locations/{location}/status', [WarehouseController::class, 'locationStatus'], 'inventory.locations.status', ['can:inventory.manage_locations']);
+            $r->get('/locations', [WarehouseController::class, 'locations'], 'inventory.locations', $v);
+
+            $r->get('/products', [ProductInventoryController::class, 'index'], 'inventory.products.index', $v);
+            $r->get('/products/{id}', [ProductInventoryController::class, 'show'], 'inventory.products.show', $v);
+            $r->post('/products/{id}/settings', [ProductInventoryController::class, 'saveSettings'], 'inventory.products.settings', ['can:inventory.manage_inventory_settings']);
+            $r->post('/products/{id}/rules', [ProductInventoryController::class, 'saveRule'], 'inventory.products.rules', ['can:inventory.manage_reorder_settings']);
+            $r->post('/products/{id}/rules/{rule}/end', [ProductInventoryController::class, 'endRule'], 'inventory.products.rules.end', ['can:inventory.manage_reorder_settings']);
+            $r->post('/products/{id}/conversions', [ProductInventoryController::class, 'addConversion'], 'inventory.products.conversions', ['can:inventory.manage_units']);
+            $r->post('/products/{id}/revalue', [ProductInventoryController::class, 'revalue'], 'inventory.products.revalue', ['can:inventory.manage_stock_valuation']);
+
+            foreach (['opening' => 'manage_opening_stock', 'inward' => 'manage_stock_inward', 'outward' => 'manage_stock_outward'] as $dir => $perm) {
+                $r->get("/{$dir}", [InventoryEntryController::class, 'index'], "inventory.{$dir}.index", $v);
+                $r->get("/{$dir}/create", [InventoryEntryController::class, 'create'], "inventory.{$dir}.create", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}", [InventoryEntryController::class, 'store'], "inventory.{$dir}.store", ["can:inventory.{$perm}"]);
+                $r->get("/{$dir}/{id}", [InventoryEntryController::class, 'show'], "inventory.{$dir}.show", $v);
+                $r->get("/{$dir}/{id}/edit", [InventoryEntryController::class, 'edit'], "inventory.{$dir}.edit", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}/{id}", [InventoryEntryController::class, 'update'], "inventory.{$dir}.update", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}/{id}/submit", [InventoryEntryController::class, 'submit'], "inventory.{$dir}.submit", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}/{id}/post", [InventoryEntryController::class, 'post'], "inventory.{$dir}.post", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}/{id}/cancel", [InventoryEntryController::class, 'cancel'], "inventory.{$dir}.cancel", ["can:inventory.{$perm}"]);
+                $r->post("/{$dir}/{id}/reverse", [InventoryEntryController::class, 'reverse'], "inventory.{$dir}.reverse", ['can:inventory.reverse_stock_movements']);
+                $r->post("/{$dir}/{id}/documents", [InventoryEntryController::class, 'uploadDoc'], "inventory.{$dir}.documents.store", ['can:inventory.manage_documents']);
+            }
+
+            $r->get('/transfers', [InventoryTransferController::class, 'index'], 'inventory.transfers.index', $v);
+            $r->get('/transfers/create', [InventoryTransferController::class, 'create'], 'inventory.transfers.create', ['can:inventory.manage_stock_transfers']);
+            $r->post('/transfers', [InventoryTransferController::class, 'store'], 'inventory.transfers.store', ['can:inventory.manage_stock_transfers']);
+            $r->get('/transfers/{id}', [InventoryTransferController::class, 'show'], 'inventory.transfers.show', $v);
+            $r->get('/transfers/{id}/edit', [InventoryTransferController::class, 'edit'], 'inventory.transfers.edit', ['can:inventory.manage_stock_transfers']);
+            $r->post('/transfers/{id}', [InventoryTransferController::class, 'update'], 'inventory.transfers.update', ['can:inventory.manage_stock_transfers']);
+            $r->post('/transfers/{id}/submit', [InventoryTransferController::class, 'submit'], 'inventory.transfers.submit', ['can:inventory.manage_stock_transfers']);
+            $r->post('/transfers/{id}/dispatch', [InventoryTransferController::class, 'dispatch'], 'inventory.transfers.dispatch', ['can:inventory.receive_stock_transfers']);
+            $r->post('/transfers/{id}/receive', [InventoryTransferController::class, 'receive'], 'inventory.transfers.receive', ['can:inventory.receive_stock_transfers']);
+            $r->post('/transfers/{id}/loss', [InventoryTransferController::class, 'loss'], 'inventory.transfers.loss', ['can:inventory.receive_stock_transfers']);
+            $r->post('/transfers/{id}/cancel', [InventoryTransferController::class, 'cancel'], 'inventory.transfers.cancel', ['can:inventory.manage_stock_transfers']);
+            $r->post('/transfers/{id}/reverse', [InventoryTransferController::class, 'reverse'], 'inventory.transfers.reverse', ['can:inventory.reverse_stock_movements']);
+            $r->post('/transfers/{id}/documents', [InventoryTransferController::class, 'uploadDoc'], 'inventory.transfers.documents.store', ['can:inventory.manage_documents']);
+
+            $r->get('/adjustments', [InventoryAdjustmentController::class, 'index'], 'inventory.adjustments.index', $v);
+            $r->get('/adjustments/create', [InventoryAdjustmentController::class, 'create'], 'inventory.adjustments.create', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments', [InventoryAdjustmentController::class, 'store'], 'inventory.adjustments.store', ['can:inventory.manage_stock_adjustments']);
+            $r->get('/adjustments/{id}', [InventoryAdjustmentController::class, 'show'], 'inventory.adjustments.show', $v);
+            $r->get('/adjustments/{id}/edit', [InventoryAdjustmentController::class, 'edit'], 'inventory.adjustments.edit', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments/{id}', [InventoryAdjustmentController::class, 'update'], 'inventory.adjustments.update', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments/{id}/submit', [InventoryAdjustmentController::class, 'submit'], 'inventory.adjustments.submit', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments/{id}/post', [InventoryAdjustmentController::class, 'post'], 'inventory.adjustments.post', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments/{id}/cancel', [InventoryAdjustmentController::class, 'cancel'], 'inventory.adjustments.cancel', ['can:inventory.manage_stock_adjustments']);
+            $r->post('/adjustments/{id}/reverse', [InventoryAdjustmentController::class, 'reverse'], 'inventory.adjustments.reverse', ['can:inventory.reverse_stock_movements']);
+            $r->post('/adjustments/{id}/documents', [InventoryAdjustmentController::class, 'uploadDoc'], 'inventory.adjustments.documents.store', ['can:inventory.manage_documents']);
+
+            $r->get('/batches', [BatchSerialController::class, 'batches'], 'inventory.batches', $v);
+            $r->get('/batches/{id}', [BatchSerialController::class, 'batch'], 'inventory.batches.show', $v);
+            $r->post('/batches/{id}', [BatchSerialController::class, 'updateBatch'], 'inventory.batches.update', ['can:inventory.manage_batches']);
+            $r->post('/batches/{id}/correct', [BatchSerialController::class, 'correctBatch'], 'inventory.batches.correct', ['can:inventory.manage_batches']);
+            $r->get('/serials', [BatchSerialController::class, 'serials'], 'inventory.serials', $v);
+            $r->get('/serials/{id}', [BatchSerialController::class, 'serial'], 'inventory.serials.show', $v);
+            $r->post('/serials/{id}/correct', [BatchSerialController::class, 'correctSerial'], 'inventory.serials.correct', ['can:inventory.manage_serial_numbers']);
+
+            $r->get('/reservations', [InventoryReservationController::class, 'index'], 'inventory.reservations', $v);
+            $r->get('/reservations/create', [InventoryReservationController::class, 'create'], 'inventory.reservations.create', ['can:inventory.manage_reservations']);
+            $r->post('/reservations', [InventoryReservationController::class, 'store'], 'inventory.reservations.store', ['can:inventory.manage_reservations']);
+            $r->get('/reservations/{id}', [InventoryReservationController::class, 'show'], 'inventory.reservations.show', $v);
+            $r->post('/reservations/{id}/close', [InventoryReservationController::class, 'close'], 'inventory.reservations.close', ['can:inventory.release_reservations']);
         });
 
         // ---------- Help & User Guide ----------

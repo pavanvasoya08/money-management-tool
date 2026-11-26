@@ -39,7 +39,7 @@ final class App
         \App\Services\Gst\GstLinkRegistry::registerReference('bank_transactions');
         \App\Services\Gst\GstLinkRegistry::registerReference('bank_transfers');
         // Phase 6: registrations used by products, prices, tax configurations or suppliers.
-        foreach (['product_gst_mappings', 'product_prices', 'product_tax_configs', 'supplier_gst_mappings'] as $table) {
+        foreach (['product_gst_mappings', 'product_prices', 'product_tax_configs', 'supplier_gst_mappings', 'warehouse_gst_mappings'] as $table) {
             \App\Services\Gst\GstLinkRegistry::registerReference($table);
         }
     }
@@ -161,6 +161,10 @@ final class App
             \App\Services\Product\PricingService::registerApprovalListener();
             \App\Services\Product\TaxConfigService::registerApprovalListener();
             \App\Services\Supplier\SupplierService::registerApprovalListener();
+            \App\Services\Inventory\EntryService::registerApprovalListener();
+            \App\Services\Inventory\TransferService::registerApprovalListener();
+            \App\Services\Inventory\AdjustmentService::registerApprovalListener();
+            \App\Services\Inventory\CorrectionService::registerApprovalListener();
             return new \App\Services\Approval\ApprovalEngine(self::db());
         });
     }
@@ -184,6 +188,7 @@ final class App
     public static function flushAuthorization(): void
     {
         self::gate()->flush();
+        \App\Services\Inventory\InventoryScope::flush();
         if (isset(self::$instances[DataAccess::class])) {
             self::dataAccess()->flush();
         }

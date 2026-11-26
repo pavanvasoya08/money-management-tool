@@ -4,6 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
 <?php endif; ?>
 <script src="<?= e(asset('assets/js/app.js')) ?>"></script>
+<script src="<?= e(asset('assets/js/inventory.js')) ?>"></script>
 <?php if (!empty($withAdmin)): ?>
 <script src="<?= e(asset('assets/js/admin.js')) ?>"></script>
 <?php endif; ?>

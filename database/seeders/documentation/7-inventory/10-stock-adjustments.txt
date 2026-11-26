@@ -1,0 +1,20 @@
+title: Stock adjustments
+slug: stock-adjustments
+section: Inventory
+keywords: stock adjustment physical count difference damaged goods expired missing found data correction other condition change inspection system quantity physical quantity approval reversal
+related: stock-ledger, warehouse-transfers, stock-outward
+summary: Correct stock after a physical count or move it between available, inspection and damaged — with a reason and approval.
+=== what
+An adjustment has count lines (the counted quantity is compared with the system quantity and the difference is posted) and condition lines (move a quantity between available, inspection and damaged stock). Reasons: physical stock difference, damaged goods, expired goods, missing stock, found stock, data correction and other.
+=== who
+**inventory.manage_stock_adjustments**; approvers in the *Stock adjustment* workflow; reversals need **inventory.reverse_stock_movements**.
+=== step: Record the adjustment | inv-adjustment-form
+**Inventory → Stock Adjustments → New adjustment**, choose the warehouse, reason, date and explanation. Add count lines with the counted quantity or condition lines with the quantity and target condition. The current stock of the warehouse is shown for reference.
+=== step: Review the result | inv-adjustment
+Each line keeps the system quantity, the physical quantity and the difference; the value change appears once posted.
+=== result
+After approval the differences are posted to the stock ledger.
+=== notes
+- If stock moved between counting and posting, posting is refused — count again.
+- Stock found is valued at the cost you enter, otherwise at the current average cost.
+- Posted adjustments are never deleted; **Reverse** posts the opposite movements.

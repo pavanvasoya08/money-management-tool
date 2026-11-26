@@ -1,0 +1,19 @@
+title: Stock ledger
+slug: stock-ledger
+section: Inventory
+keywords: stock ledger movement source of truth immutable posted reversal duplicate posting movement type in out unit cost value reference posted by approved by reconcile
+related: inventory-valuation, stock-adjustments, inventory-reports
+summary: Every stock change as a permanent ledger movement — the single source of truth for quantities and values.
+=== what
+Every posted document creates movements in the stock ledger: date, product, variant, warehouse, location, batch, condition, movement type, quantity in or out, unit cost, value change, source document, who posted and who approved it. Stock balances are summaries kept in step with the ledger.
+=== who
+**inventory.view_stock_ledger**; values need **inventory.view_stock_cost**.
+=== step: Search the ledger | inv-ledger
+Open **Inventory → Stock Ledger** and filter by warehouse, location, product, variant, movement type, condition, category, brand, serial number or dates. Export it from the menu.
+=== result
+Any quantity can be traced back to the documents that produced it.
+=== notes
+- Posted movements are never edited or deleted; corrections are reversals or adjustments that post new movements.
+- Each document can be posted only once, even when two people post at the same moment.
+- Pending, rejected and cancelled documents never create movements.
+- **Valuation → Reconcile with ledger** checks every balance against the ledger.

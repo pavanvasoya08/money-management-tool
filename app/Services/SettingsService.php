@@ -60,6 +60,13 @@ final class SettingsService
             'product_single_preferred_supplier' => ['type' => 'boolean', 'default' => true, 'group' => 'products', 'label' => 'Only one preferred supplier per product or variant', 'rules' => 'nullable|boolean', 'help' => 'Marking a new preferred supplier removes the mark from the previous one.'],
             'product_tax_required_for_activation' => ['type' => 'boolean', 'default' => false, 'group' => 'products', 'label' => 'Require a GST/HSN configuration before a product can be activated', 'rules' => 'nullable|boolean'],
             'supplier_gstin_unique' => ['type' => 'boolean', 'default' => true, 'group' => 'products', 'label' => 'One supplier per GSTIN', 'rules' => 'nullable|boolean', 'help' => 'Off = the same GSTIN may be saved for more than one supplier after the user confirms (e.g. separate buying relationships with one company).'],
+            // Phase 7 — inventory rules (edited on Inventory → Settings).
+            'inventory_valuation_method' => ['type' => 'string', 'default' => 'weighted_average', 'group' => 'inventory', 'label' => 'Default stock valuation method', 'rules' => 'required|in:fifo,weighted_average', 'help' => 'FIFO or weighted average cost. Products can choose their own method. The default cannot change while stock valued with it is on hand.'],
+            'inventory_removal_method' => ['type' => 'string', 'default' => 'fefo', 'group' => 'inventory', 'label' => 'Batch picking when no batch is chosen', 'rules' => 'required|in:fefo,fifo', 'help' => 'FEFO = earliest expiry first; FIFO = oldest batch first.'],
+            'inventory_expiry_warning_days' => ['type' => 'integer', 'default' => 30, 'group' => 'inventory', 'label' => 'Near-expiry warning (days)', 'rules' => 'required|integer|min:1|max:730'],
+            'inventory_block_expired_dispatch' => ['type' => 'boolean', 'default' => true, 'group' => 'inventory', 'label' => 'Block expired batches from normal issues', 'rules' => 'nullable|boolean', 'help' => 'Expired stock can still be written off. Issuing it otherwise needs an expired-stock override.'],
+            'inventory_transfer_in_transit' => ['type' => 'boolean', 'default' => true, 'group' => 'inventory', 'label' => 'Warehouse transfers go in transit until received', 'rules' => 'nullable|boolean', 'help' => 'Off = an approved transfer moves the stock at once. Transfers between locations of one warehouse never go in transit.'],
+            'inventory_reservation_days' => ['type' => 'integer', 'default' => 7, 'group' => 'inventory', 'label' => 'Default reservation validity (days)', 'rules' => 'required|integer|min:0|max:365', 'help' => '0 = reservations do not expire unless a date is entered.'],
         ];
     }
 

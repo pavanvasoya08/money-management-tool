@@ -1,0 +1,19 @@
+title: Inventory permissions and approvals
+slug: inventory-permissions
+section: Security
+keywords: inventory permissions roles assigned warehouses record scope field rules stock value unit cost approval workflows opening inward outward transfer adjustment override corrections valuation stock operator template
+related: creating-warehouses, stock-ledger, inventory-valuation
+summary: Who can see and move stock, how warehouse assignments limit access, and which inventory documents need approval.
+=== what
+Inventory is one module in the Control Center with its own actions (view, dashboard, warehouses, locations, settings, units, opening stock, inward, outward, transfers, adjustments, batches, serials, reservations, valuation, ledger, documents, export, history, approvals and overrides). Visibility can be all warehouses, own records or assigned warehouses. Field rules protect stock value, unit cost, warehouse contacts and internal notes.
+=== who
+Super Admins manage these in the **Control Center**.
+=== step: Limit a user to their warehouses | inv-neha-view
+Give a user *assigned warehouses* visibility and assign warehouses on each warehouse's Overview tab. They then see only those warehouses — and their stock, documents, reports and exports; other records answer "not found".
+=== step: Approvals | inv-outward-pending
+Ten workflows can require approval: opening stock, stock inward, stock outward, warehouse transfers, stock adjustments, batch corrections, serial number corrections, reservation overrides, negative-stock overrides and valuation corrections. Switch them on in **Control Center → Approval workflows**; self-approval is blocked.
+=== result
+Each person moves only the stock they are allowed to, and sensitive changes need a second person.
+=== notes
+- The *Stock operator* permission template can record documents but not approve them.
+- Without **inventory.view_stock_cost**, values and costs are hidden on every page, report and export.

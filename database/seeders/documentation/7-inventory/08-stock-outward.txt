@@ -1,0 +1,20 @@
+title: Stock outward
+slug: stock-outward
+section: Inventory
+keywords: stock outward issue sales dispatch supplier return damaged stock expired stock internal consumption adjustment out negative stock reserved stock override fefo fifo batch serial approval not posted
+related: stock-reservations, expiry-management, stock-inward
+summary: Issue stock — dispatches, supplier returns, write-offs and consumption — without going below zero or touching reserved stock.
+=== what
+A stock outward document issues stock from a warehouse. Types: **Sales dispatch** (manual until Sales Management links orders), **Supplier return**, **Damaged stock**, **Expired stock**, **Internal consumption** and **Adjustment out**.
+=== who
+**inventory.manage_stock_outward**; overrides need **inventory.override_stock_rules**.
+=== step: Record the issue | inv-outward-form
+**Inventory → Stock Outward → New stock outward**, choose the warehouse, type, date, reference and reason. For each line choose the item, quantity and, if needed, location, batch, serial numbers and whether to issue from available, damaged or inspection stock. A line can fulfil an open reservation.
+=== step: Approval | inv-outward-pending
+Submitted documents wait in **Approvals** when the workflow is on. Stock moves only after approval. If the stock is no longer there when it is approved, the document stays *Approved* with the reason and can be posted again later or cancelled.
+=== result
+The stock leaves the warehouse at its cost, and serial numbers and batches show the issue in their history.
+=== notes
+- Issues beyond free stock are refused unless the product allows negative stock or an approved override is set.
+- Reserved stock, expired batches (while blocking is on) and batches on hold are not issued unless overridden.
+- Without a batch, batches are picked by the removal method in settings — earliest expiry first (FEFO) by default.

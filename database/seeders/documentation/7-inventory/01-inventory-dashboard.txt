@@ -1,0 +1,21 @@
+title: Inventory dashboard
+slug: inventory-dashboard
+section: Inventory
+featured: yes
+keywords: inventory dashboard stock position available reserved damaged expired valuation low stock out of stock pending transfers adjustments recent movements activity filters warehouse batch gstin activity
+related: stock-ledger, low-stock-management, inventory-reports
+summary: See stock across your warehouses at a glance — every figure is calculated from the stock ledger and limited to the warehouses you may see.
+=== what
+The inventory dashboard summarises stock in the warehouses you have access to: inventory products and variants, active warehouses, available, reserved, damaged and expired stock, inventory value, low-stock and out-of-stock products, pending transfers and adjustments, stock by warehouse, expiring batches, recent stock movements and recent inventory activity.
+=== who
+Anyone with **inventory.view_dashboard**. Values need **inventory.view_stock_cost** and follow your field permissions; the ledger list needs **inventory.view_stock_ledger**.
+=== step: Open the dashboard | inv-dashboard
+Open **Inventory → Inventory Dashboard**. Narrow it with the filters: warehouse, product, variant, category, brand, batch, GST registration, business activity, stock status and a date range (the date range applies to the received / issued totals and the recent movements). Each tile opens the matching list.
+=== step: Read the lists | inv-dashboard-lists
+Below the tiles: stock by warehouse, items at or below their reorder level, batches near or past expiry, the items with the highest value, recent stock movements and recent inventory activity. Alerts above the lists point to documents waiting for approval, approved documents that could not be posted, and transfers in transit.
+=== result
+You see the real stock position of your warehouses without opening each one.
+=== notes
+- Quantity tiles add up different units (pieces, kilograms …) and are indicative; per-item figures are on **Warehouse Stock**.
+- **Available** = sellable stock minus reservations, expired batches and batches on hold. Damaged and inspection stock is never counted as available.
+- A user whose inventory visibility is *assigned warehouses* sees only those warehouses everywhere, including on this dashboard.

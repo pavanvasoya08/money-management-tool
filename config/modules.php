@@ -278,14 +278,42 @@ return [
         ],
         'data' => ['table' => 'purchases', 'owner_column' => 'created_by', 'resource' => null, 'columns' => ['gst_registration' => 'gst_registration_id', 'bank_account' => 'bank_account_id', 'supplier' => 'supplier_id']],
     ],
+    // Phase 7. Records are warehouses: record scope (all / own / assigned warehouses / GST registration)
+    // limits every stock figure, document and report to the warehouses a user may see.
     'inventory' => [
         'name' => 'Inventory', 'icon' => 'boxes', 'phase' => 7,
-        'actions' => $std + ['adjust_stock' => 'Adjust stock', 'transfer_stock' => 'Transfer between warehouses'],
-        'fields' => [
-            'stock_value' => $f('Stock value', true, 'amount', 'hidden'),
-            'unit_cost' => $f('Unit cost', true, 'amount', 'hidden'),
+        'prune_actions' => true, // drop the Phase 2 placeholder actions (create, edit, adjust_stock, transfer_stock, …)
+        'actions' => [
+            'view_dashboard' => 'View inventory dashboard', 'view' => 'View stock & warehouses', 'view_all' => 'View all warehouses',
+            'view_own' => 'View own warehouses (created by me)', 'view_assigned' => 'View assigned warehouses',
+            'manage_warehouses' => 'Activate / deactivate warehouses & manage mappings', 'create_warehouse' => 'Add warehouses', 'edit_warehouse' => 'Edit warehouses',
+            'archive_warehouse' => 'Archive / restore warehouses', 'manage_locations' => 'Manage storage locations',
+            'manage_inventory_settings' => 'Manage product inventory settings & inventory settings', 'manage_units' => 'Manage units & conversions',
+            'manage_opening_stock' => 'Record opening stock', 'approve_opening_stock' => 'Approve opening stock',
+            'manage_stock_inward' => 'Record stock inward', 'manage_stock_outward' => 'Record stock outward',
+            'manage_stock_transfers' => 'Create stock transfers', 'approve_stock_transfers' => 'Approve stock transfers', 'receive_stock_transfers' => 'Dispatch & receive transfers',
+            'manage_stock_adjustments' => 'Create stock adjustments', 'approve_stock_adjustments' => 'Approve stock adjustments',
+            'approve' => 'Approve other inventory requests (inward, outward, corrections, overrides)',
+            'override_stock_rules' => 'Request negative-stock, reserved-stock and expired-stock overrides',
+            'manage_batches' => 'Manage batches', 'manage_serial_numbers' => 'Manage serial numbers',
+            'manage_reservations' => 'Create reservations', 'release_reservations' => 'Release & cancel reservations',
+            'manage_stock_valuation' => 'Valuation methods & revaluation', 'view_stock_cost' => 'View stock cost & valuation',
+            'view_stock_ledger' => 'View stock ledger', 'reverse_stock_movements' => 'Reverse posted stock documents',
+            'manage_reorder_settings' => 'Manage reorder levels', 'manage_documents' => 'Upload & archive documents', 'download_documents' => 'View & download documents',
+            'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print', 'view_history' => 'View history & audit',
         ],
-        'data' => ['table' => 'inventory_items', 'owner_column' => 'created_by', 'resource' => 'warehouse', 'columns' => ['warehouse' => 'warehouse_id', 'product' => 'product_id']],
+        'fields' => [
+            // Kept from Phase 2 so existing field rules carry over. Seeing them also needs inventory.view_stock_cost.
+            'stock_value' => $f('Stock value & valuation', true, 'amount'),
+            'unit_cost' => $f('Unit cost', true, 'amount'),
+            'warehouse_contact' => $f('Warehouse contact person, mobile & email', true),
+            'internal_notes' => $f('Internal notes', true),
+        ],
+        'data' => [
+            'table' => 'warehouses', 'owner_column' => 'created_by', 'resource' => 'warehouse',
+            'columns' => ['warehouse' => 'id'],
+            'columns_via' => ['gst_registration' => "SELECT warehouse_id FROM warehouse_gst_mappings WHERE status = 'active' AND gst_registration_id IN (%s)"],
+        ],
     ],
     'platforms' => [
         'name' => 'E-commerce Platforms', 'icon' => 'store', 'phase' => 8,

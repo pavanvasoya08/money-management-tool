@@ -1,0 +1,17 @@
+title: Low stock management
+slug: low-stock-management
+section: Inventory
+keywords: low stock reorder level reorder quantity minimum maximum safety stock out of stock suggested order preferred supplier alert
+related: configuring-product-inventory, inventory-reports
+summary: Watch items at or below their reorder level and see a suggested order quantity with the preferred supplier.
+=== what
+Items whose free stock is at or below their reorder level, minimum or safety stock are *Low*; items without free stock are *Out of stock*. Levels are set per product, and per warehouse or variant when needed.
+=== who
+Anyone with **inventory.view**; levels need **inventory.manage_reorder_settings**.
+=== step: Review low stock | inv-low-stock
+**Inventory → Low Stock** lists low, out-of-stock and negative items with available quantity, levels, a suggested order quantity and the preferred supplier from Supplier Management. Export it for purchasing.
+=== result
+You know what to reorder and from whom.
+=== notes
+- Suggested order = up to the maximum (or reorder level + reorder quantity) minus free stock.
+- No purchase order is created; purchasing comes with Purchase Management.

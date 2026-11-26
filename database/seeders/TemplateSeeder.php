@@ -10,6 +10,16 @@ use App\Core\Seeder;
 /** Starter permission templates (inserted once; freely editable afterwards). */
 final class TemplateSeeder extends Seeder
 {
+    /** Phase 7 actions of the Inventory Manager template (also re-applied once to existing installs by InventorySeeder). */
+    public const INVENTORY_MANAGER = [
+        'dashboard.view', 'inventory.view_dashboard', 'inventory.view', 'inventory.view_assigned', 'inventory.view_stock_ledger', 'inventory.view_stock_cost',
+        'inventory.manage_locations', 'inventory.manage_stock_inward', 'inventory.manage_stock_outward', 'inventory.manage_stock_transfers', 'inventory.approve_stock_transfers',
+        'inventory.receive_stock_transfers', 'inventory.manage_stock_adjustments', 'inventory.approve_stock_adjustments', 'inventory.manage_batches', 'inventory.manage_serial_numbers',
+        'inventory.manage_reservations', 'inventory.release_reservations', 'inventory.manage_reorder_settings', 'inventory.manage_documents', 'inventory.download_documents',
+        'inventory.view_history', 'inventory.export', 'inventory.print',
+        'products.view', 'products.view_all', 'suppliers.view', 'suppliers.view_all', 'purchases.view', 'purchases.view_assigned', 'purchases.create',
+    ];
+
     public function run(): void
     {
         $modules = array_keys((array) Config::get('modules', []));
@@ -38,9 +48,11 @@ final class TemplateSeeder extends Seeder
                 'accounting.view', 'accounting.view_all', 'accounting.create', 'accounting.edit', 'accounting.approve', 'accounting.reject', 'accounting.export',
                 'gst_reports.view', 'gst_reports.view_all', 'gst_reports.export', 'financial_reports.view', 'financial_reports.view_all', 'financial_reports.export',
             ]],
-            'inventory-manager' => ['Inventory Manager', 'Stock, products and suppliers for assigned warehouses.', [
-                'dashboard.view', 'inventory.view', 'inventory.view_assigned', 'inventory.create', 'inventory.edit', 'inventory.adjust_stock', 'inventory.transfer_stock', 'inventory.export',
-                'products.view', 'products.view_all', 'products.edit', 'suppliers.view', 'suppliers.view_all', 'purchases.view', 'purchases.view_assigned', 'purchases.create',
+            'inventory-manager' => ['Inventory Manager', 'Runs assigned warehouses: stock in and out, transfers, counts, batches, serials and reservations, with approval rights for transfers and adjustments.', self::INVENTORY_MANAGER],
+            'stock-operator' => ['Stock Operator', 'Records stock inward, outward and transfer requests for assigned warehouses; cannot approve, adjust or see costs.', [
+                'dashboard.view', 'inventory.view_dashboard', 'inventory.view', 'inventory.view_assigned', 'inventory.manage_stock_inward', 'inventory.manage_stock_outward',
+                'inventory.manage_stock_transfers', 'inventory.receive_stock_transfers', 'inventory.manage_batches', 'inventory.manage_serial_numbers', 'inventory.download_documents',
+                'products.view', 'products.view_all',
             ]],
             'sales-manager' => ['Sales Manager', 'Orders, returns and settlements for assigned seller accounts.', [
                 'dashboard.view', 'sales_orders.view', 'sales_orders.view_assigned', 'sales_orders.create', 'sales_orders.edit', 'sales_orders.cancel_order', 'sales_orders.export',

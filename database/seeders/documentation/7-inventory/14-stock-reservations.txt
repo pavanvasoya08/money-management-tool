@@ -1,0 +1,20 @@
+title: Stock reservations
+slug: stock-reservations
+section: Inventory
+keywords: reservation reserve stock sales order internal requirement reference release cancel expire fulfil partially fulfilled available stock
+related: stock-outward, inventory-dashboard
+summary: Hold free stock for an order or requirement so it is not issued elsewhere, then fulfil, release or let it expire.
+=== what
+A reservation holds stock in a warehouse for a reference — a sales order, an internal requirement or another authorised reference. Reserved stock is not available for other issues. Statuses: Active, Partially fulfilled, Fulfilled, Released, Expired and Cancelled.
+=== who
+**inventory.manage_reservations** to reserve; **inventory.release_reservations** to release or cancel.
+=== step: See reservations | inv-reservations
+**Inventory → Reservations** lists open reservations (or any status) with reference, warehouse, dates and items. **Reserve stock** creates one: choose the warehouse, reference type and number, expiry date and the items.
+=== step: Release or cancel | inv-reservation
+On a reservation, **Release** frees the outstanding quantity when it is no longer needed; **Cancel** is for one created in error. A stock outward line can fulfil a reservation.
+=== result
+Reserved quantities are excluded from available stock until fulfilled, released or expired.
+=== notes
+- Only free stock can be reserved, and the same reference cannot reserve the same item twice.
+- Reservations past their expiry date expire automatically.
+- Sales orders will reserve stock automatically once Sales Management is added.

@@ -1,0 +1,19 @@
+title: Inventory valuation
+slug: inventory-valuation
+section: Inventory
+keywords: inventory valuation fifo weighted average cost cost layers revaluation default method valuation history reconcile stock value cogs accounting
+related: stock-ledger, configuring-product-inventory, inventory-reports
+summary: Value stock with FIFO or weighted average cost, see cost layers and history, and revalue through approval.
+=== what
+Stock is valued with **weighted average cost** (each receipt updates the average) or **FIFO** (each receipt is a cost layer and issues consume the oldest layers first). The company default is set in settings; a product can use its own method. Amounts are exact decimals — no accounting entries are created in this phase.
+=== who
+**inventory.view_stock_cost** to see values; **inventory.manage_stock_valuation** to change the method, revalue and reconcile.
+=== step: See the valuation | inv-valuation
+**Inventory → Valuation** shows quantity, average and last cost and value per item and warehouse, with pending revaluations and the valuation history. **Reconcile with ledger** checks the summaries against the ledger.
+=== step: FIFO layers and revaluation | inv-product-valuation
+A product's **Valuation** tab shows its value per warehouse, open FIFO cost layers and history. **Revalue** requests a new unit cost with a reason; it is applied after approval.
+=== result
+Stock values are consistent with the ledger and ready for the future accounting phase.
+=== notes
+- The default method is changed in **Inventory Settings** with a reason; a product's method is locked while it has stock.
+- Values follow your field permissions in pages, reports and exports.

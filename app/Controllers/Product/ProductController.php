@@ -267,7 +267,7 @@ final class ProductController extends ProductBaseController
         return $this->view('products/form', [
             'title' => $p === null ? 'Add product' : 'Edit ' . $p['name'],
             'breadcrumbs' => self::CRUMB + ['All products' => route('products.index')] + ($p === null ? ['Add' => null] : [$p['product_code'] => route('products.show', ['id' => $p['id']]), 'Edit' => null]),
-            'p' => $p, 'units' => ProductService::UNITS, 'barcodeTypes' => Barcode::TYPES, 'keyFields' => ProductService::KEY_FIELDS,
+            'p' => $p, 'units' => ProductService::units(), 'barcodeTypes' => Barcode::TYPES, 'keyFields' => ProductService::KEY_FIELDS,
             'fields' => App::fields()->accessMap($this->user(), 'products'), 'skuAuto' => (bool) setting('product_sku_auto_generate', true), 'skuManual' => (bool) setting('product_sku_manual_allowed', true),
             'skuPattern' => (string) setting('product_sku_pattern', '{CAT}-{SEQ:5}'), 'today' => BusinessDate::today(),
         ] + $this->masters(true));

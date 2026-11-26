@@ -1,0 +1,23 @@
+title: Configuring product inventory
+slug: configuring-product-inventory
+section: Inventory
+featured: yes
+keywords: product inventory settings track inventory variant level product level stock unit default warehouse reorder level minimum maximum safety stock negative stock batch expiry serial valuation method inventory status unit conversion box carton dozen
+related: low-stock-management, batch-management, serial-number-tracking, inventory-valuation
+summary: Decide how each product's stock is kept — per product or per variant, in which unit, with which levels, tracking and valuation method.
+=== what
+Inventory uses the products and variants from Product Management; nothing is duplicated. A product tracks stock when **Track inventory** is on in Product Management (services never do). Its inventory page shows stock and holds its inventory settings.
+=== who
+Settings need **inventory.manage_inventory_settings**, reorder levels **inventory.manage_reorder_settings**, unit conversions **inventory.manage_units**.
+=== step: Open the product | inv-products
+**Inventory → Product Inventory** lists products and variants that track stock with on-hand, available, reserved and reorder figures. Open one to see its eight tabs: Stock summary, Warehouse-wise stock, Stock ledger, Batches, Serial numbers, Reservations, Valuation and History (tabs for batches and serials appear when that tracking is on).
+=== step: Set the inventory settings | inv-product-settings
+On **Stock summary → Inventory settings** choose whether stock is kept per product or per variant, the default warehouse, the inventory status, reorder level and quantity, minimum, maximum and safety stock, batch / expiry / serial tracking, negative stock and the valuation method.
+=== step: Levels per warehouse and unit conversions | inv-product-units
+Add reorder levels for a single warehouse or variant — the most specific one applies. Under **Unit conversions** add conversions for this product, such as 1 box = 12 pieces, so documents can be entered in boxes while stock is kept in pieces.
+=== result
+Every document for the product is checked against these settings, and low-stock monitoring uses its levels.
+=== notes
+- The stock unit is the product's unit from Product Management. It and the tracking level cannot change once stock has moved.
+- Batch / serial tracking and the valuation method are locked while stock is on hand.
+- **Negative stock** is off by default: issues larger than the free stock are refused.

@@ -3202,5 +3202,566 @@
     "label": "Only assigned suppliers are listed."
    }
   ]
+ },
+ "inv-dashboard": {
+  "caption": "Inventory → Inventory Dashboard.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 26.35,
+    "label": "Filter by warehouse, product, variant, category, brand, batch, GSTIN, activity, status and dates."
+   },
+   {
+    "x": 25.4,
+    "y": 60.08,
+    "label": "Every tile is calculated from the stock ledger and opens the matching list."
+   }
+  ]
+ },
+ "inv-dashboard-lists": {
+  "caption": "Lower part of the dashboard: warehouses, low stock, expiry and activity.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 11.29,
+    "label": "Stock value and items per warehouse."
+   },
+   {
+    "x": 60.98,
+    "y": 11.29,
+    "label": "Items at or below their reorder level."
+   }
+  ]
+ },
+ "inv-warehouses": {
+  "caption": "Inventory → Warehouses.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 52.32,
+    "label": "Open a warehouse to see its nine tabs."
+   },
+   {
+    "x": 95.53,
+    "y": 18.67,
+    "label": "Add a warehouse."
+   }
+  ]
+ },
+ "inv-warehouse-create": {
+  "caption": "Adding a warehouse.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 41.86,
+    "label": "Name and type are required; the code is generated when left empty."
+   },
+   {
+    "x": 24.82,
+    "y": 48.59,
+    "label": "Require a storage location on every receipt."
+   }
+  ]
+ },
+ "inv-warehouse-overview": {
+  "caption": "A warehouse page: summary card and nine tabs.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 48.34,
+    "y": 15.46,
+    "label": "Overview, Stock, Locations, Inward, Outward, Transfers, Adjustments, Documents, History."
+   },
+   {
+    "x": 50.1,
+    "y": 52.56,
+    "label": "Link the GST registrations and business activities it operates under."
+   }
+  ]
+ },
+ "inv-warehouse-users": {
+  "caption": "Assigned users and recent movements of a warehouse.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 14.52,
+    "label": "Users with assigned-warehouse visibility see only these warehouses."
+   }
+  ]
+ },
+ "inv-locations": {
+  "caption": "Inventory → Storage Locations.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 65.93,
+    "y": 45.15,
+    "label": "Nest locations: zone → rack → shelf → bin."
+   },
+   {
+    "x": 24.82,
+    "y": 65.38,
+    "label": "Each location shows the stock it holds."
+   }
+  ]
+ },
+ "inv-products": {
+  "caption": "Inventory → Product Inventory.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 52.32,
+    "label": "Products and variants that track stock."
+   }
+  ]
+ },
+ "inv-product-settings": {
+  "caption": "A product's inventory page with its settings.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 20.02,
+    "label": "Keep stock per product or per variant."
+   },
+   {
+    "x": 52.29,
+    "y": 40.08,
+    "label": "Turn on batches, expiry and serial numbers only where needed."
+   },
+   {
+    "x": 80.97,
+    "y": 32.44,
+    "label": "Valuation method: company default, FIFO or weighted average."
+   }
+  ]
+ },
+ "inv-product-units": {
+  "caption": "Reorder levels and unit conversions on the product page.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 23.62,
+    "label": "Levels per warehouse or variant override the product-wide ones."
+   },
+   {
+    "x": 50.1,
+    "y": 46.88,
+    "label": "1 box = 12 pieces: documents can be entered in boxes."
+   }
+  ]
+ },
+ "inv-units": {
+  "caption": "Inventory → Settings → Units & conversions.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 26.65,
+    "y": 48.22,
+    "label": "Add units; built-in units can be renamed."
+   },
+   {
+    "x": 49.17,
+    "y": 24.85,
+    "label": "Company-wide conversions; loops are refused."
+   }
+  ]
+ },
+ "inv-opening-list": {
+  "caption": "Inventory → Opening Stock.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 58.03,
+    "label": "Each opening entry is posted to the ledger once approved."
+   }
+  ]
+ },
+ "inv-opening-form": {
+  "caption": "Recording opening stock.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 25.77,
+    "y": 52.98,
+    "label": "Pick the product or variant, quantity, unit, cost and location."
+   },
+   {
+    "x": 32.52,
+    "y": 74.91,
+    "label": "Add more lines."
+   }
+  ]
+ },
+ "inv-opening-show": {
+  "caption": "A posted opening stock entry.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 31.86,
+    "label": "Lines with location, batch, quantity, unit cost and value."
+   }
+  ]
+ },
+ "inv-inward-return": {
+  "caption": "A customer return recorded as stock inward.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 33.67,
+    "y": 59.33,
+    "label": "Each returned item is classified: sellable, damaged, inspection required, rejected or restock pending."
+   }
+  ]
+ },
+ "inv-outward-form": {
+  "caption": "Recording stock outward.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 25.77,
+    "y": 52.84,
+    "label": "Issue from available, damaged or inspection stock."
+   },
+   {
+    "x": 25.48,
+    "y": 24.33,
+    "label": "Overrides go to their own approval workflow."
+   }
+  ]
+ },
+ "inv-outward-pending": {
+  "caption": "An outward waiting for approval.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 26.83,
+    "label": "Stock moves only after approval."
+   }
+  ]
+ },
+ "inv-transfers": {
+  "caption": "Inventory → Stock Transfers.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 50.34,
+    "label": "Status shows where each transfer stands."
+   }
+  ]
+ },
+ "inv-transfer-receive": {
+  "caption": "A transfer in transit, partly received.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 23.85,
+    "label": "What is still in transit."
+   },
+   {
+    "x": 23.06,
+    "y": 87.98,
+    "label": "The destination records what arrived, including damaged goods."
+   }
+  ]
+ },
+ "inv-transfer-form": {
+  "caption": "Creating a transfer.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 31.89,
+    "label": "Source and destination; the same warehouse twice moves stock between locations."
+   },
+   {
+    "x": 25.77,
+    "y": 90.76,
+    "label": "Items with source and destination locations."
+   }
+  ]
+ },
+ "inv-adjustment": {
+  "caption": "A posted physical-count adjustment.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 39.83,
+    "label": "System quantity, counted quantity and the difference posted."
+   }
+  ]
+ },
+ "inv-adjustment-form": {
+  "caption": "Creating an adjustment.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 53.18,
+    "label": "Choose a reason and explain it."
+   },
+   {
+    "x": 48.8,
+    "y": 75.02,
+    "label": "Physical count or condition change (to damaged or inspection)."
+   }
+  ]
+ },
+ "inv-batches": {
+  "caption": "Inventory → Batches & Expiry.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 62.02,
+    "y": 59.27,
+    "label": "Batches expiring within the warning period are flagged."
+   }
+  ]
+ },
+ "inv-batch": {
+  "caption": "A batch: stock, movements and corrections.",
+  "width": 1366,
+  "height": 1000,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 23.58,
+    "label": "Where the batch is held."
+   },
+   {
+    "x": 73.62,
+    "y": 99.05,
+    "label": "Corrections go through approval once stock has moved."
+   }
+  ]
+ },
+ "inv-expiry-report": {
+  "caption": "Reports → Expiry report.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 65.34,
+    "label": "Expired and near-expiry batches with days left."
+   }
+  ]
+ },
+ "inv-serials": {
+  "caption": "Inventory → Serial Numbers.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 52.22,
+    "label": "Each unit's serial number, status and location."
+   }
+  ]
+ },
+ "inv-serial": {
+  "caption": "A serial number's history.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 29.47,
+    "label": "Receipt, transfers and dispatch of this unit."
+   }
+  ]
+ },
+ "inv-reservations": {
+  "caption": "Inventory → Reservations.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 60.74,
+    "label": "Open reservations hold stock for a reference."
+   }
+  ]
+ },
+ "inv-reservation": {
+  "caption": "A reservation with release / cancel.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 73.62,
+    "y": 54.01,
+    "label": "Release the outstanding quantity back to free stock."
+   }
+  ]
+ },
+ "inv-ledger": {
+  "caption": "Inventory → Stock Ledger.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 70.28,
+    "y": 31.96,
+    "label": "Filter by warehouse, location, product, movement type, condition, serial and dates."
+   },
+   {
+    "x": 23.06,
+    "y": 64.3,
+    "label": "Every posted movement with its reference, quantities, value and who posted it."
+   }
+  ]
+ },
+ "inv-valuation": {
+  "caption": "Inventory → Valuation.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 48.87,
+    "y": 23.81,
+    "label": "Check the summaries against the ledger."
+   },
+   {
+    "x": 23.06,
+    "y": 53.82,
+    "label": "Quantity, average and last cost, and value per item."
+   }
+  ]
+ },
+ "inv-product-valuation": {
+  "caption": "A FIFO product's valuation tab.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 45.23,
+    "label": "Each receipt is a cost layer; issues consume the oldest first."
+   },
+   {
+    "x": 97.18,
+    "y": 36.25,
+    "label": "Revaluation goes through approval."
+   }
+  ]
+ },
+ "inv-low-stock": {
+  "caption": "Inventory → Low Stock.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 57.34,
+    "label": "Suggested order quantity and the preferred supplier from Supplier Management."
+   }
+  ]
+ },
+ "inv-reports": {
+  "caption": "Inventory → Reports.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 22.99,
+    "y": 26.26,
+    "label": "Twenty reports with filters and CSV, Excel or PDF export."
+   }
+  ]
+ },
+ "inv-report-summary": {
+  "caption": "The complete stock summary report.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 25.74,
+    "label": "Filters; exports use the same filters."
+   }
+  ]
+ },
+ "inv-settings": {
+  "caption": "Inventory → Settings.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 36.73,
+    "label": "FEFO or FIFO batch picking for issues."
+   },
+   {
+    "x": 24.82,
+    "y": 75.29,
+    "label": "Change the company default (logged with a reason)."
+   }
+  ]
+ },
+ "inv-neha-view": {
+  "caption": "A user with assigned-warehouse visibility.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 52.32,
+    "label": "Only the assigned warehouses are listed."
+   }
+  ]
+ },
+ "inv-inward-form": {
+  "caption": "Recording stock inward.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 50.77,
+    "label": "Purchase receipt, customer return or other receipt."
+   },
+   {
+    "x": 66.58,
+    "y": 50.77,
+    "label": "Supplier and challan / invoice reference."
+   }
+  ]
  }
 }

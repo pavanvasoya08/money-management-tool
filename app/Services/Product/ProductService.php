@@ -37,6 +37,17 @@ final class ProductService
     public const DIRECT_FIELDS = ['short_description', 'description', 'manufacturer', 'model_number', 'tags', 'internal_notes'];
     public const UNITS = ['pcs' => 'Pieces', 'set' => 'Set', 'pack' => 'Pack', 'box' => 'Box', 'pair' => 'Pair', 'dozen' => 'Dozen', 'kg' => 'Kilogram', 'g' => 'Gram',
         'l' => 'Litre', 'ml' => 'Millilitre', 'm' => 'Metre', 'cm' => 'Centimetre', 'sqm' => 'Square metre', 'hour' => 'Hour', 'service' => 'Service unit'];
+    /** Units of measure: the Phase 7 unit master (editable), or the built-in list before it exists. @return array<string, string> */
+    public static function units(): array
+    {
+        try {
+            $rows = \App\Core\App::db()->select('SELECT code, name FROM inventory_units WHERE is_active = 1 ORDER BY sort_order, name');
+        } catch (\Throwable) {
+            $rows = [];
+        }
+        return $rows !== [] ? array_column($rows, 'name', 'code') : self::UNITS;
+    }
+
     public const WORKFLOWS = ['create' => 'product_create', 'update' => 'product_update', 'sku' => 'product_sku_change', 'archive' => 'product_archive', 'preferred_supplier' => 'product_preferred_supplier'];
     private const TITLES = ['create' => 'New product', 'update' => 'Product key-detail change', 'sku' => 'SKU change', 'archive' => 'Product archival', 'preferred_supplier' => 'Preferred supplier change'];
     private static bool $listening = false;
@@ -593,7 +604,7 @@ final class ProductService
             'product_type_id' => 'required|integer|exists:product_types,id', 'category_id' => 'nullable|integer|exists:product_categories,id',
             'subcategory_id' => 'nullable|integer|exists:product_categories,id', 'brand_id' => 'nullable|integer|exists:product_brands,id',
             'manufacturer' => 'nullable|string|max:150', 'model_number' => 'nullable|string|max:100', 'barcode' => 'nullable|string|max:50',
-            'unit' => 'required|in:' . implode(',', array_keys(self::UNITS)), 'internal_notes' => 'nullable|string|max:5000',
+            'unit' => 'required|in:' . implode(',', array_keys(self::units())), 'internal_notes' => 'nullable|string|max:5000',
         ], ['product_type_id' => 'Product type', 'category_id' => 'Category', 'subcategory_id' => 'Sub-category', 'brand_id' => 'Brand']);
         if ($v->fails()) {
             throw new ValidationException($v->errors());
@@ -647,6 +658,12 @@ final class ProductService
         $tracks = array_key_exists('tracks_inventory', $data) ? (!empty($data['tracks_inventory']) ? 1 : 0) : ($p !== null ? (int) $p['tracks_inventory'] : (int) $type['tracks_inventory']);
         if ((int) $type['is_service'] === 1) {
             $tracks = 0;
+        }
+        // Phase 7: quantities in the stock ledger are in the product's unit — neither may change once stock has moved.
+        if ($p !== null && ((int) $p['tracks_inventory'] !== $tracks || (string) $p['unit'] !== (string) $data['unit'])
+            && $this->db->scalar('SELECT 1 FROM inventory_stock_movements WHERE product_id = ? LIMIT 1', [(int) $p['id']])) {
+            throw ValidationException::withMessage((string) $p['unit'] !== (string) $data['unit'] ? 'unit' : 'tracks_inventory',
+                'This product already has stock movements, so its unit and inventory tracking can no longer change.');
         }
         $n = static fn (string $k) => $data[$k] !== '' ? $data[$k] : null;
         return [

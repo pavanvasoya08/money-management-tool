@@ -1,0 +1,23 @@
+title: Warehouse transfers
+slug: warehouse-transfers
+section: Inventory
+keywords: stock transfer warehouse to warehouse location move in transit dispatch receive partial receipt damaged lost write off reverse approval
+related: managing-warehouse-locations, stock-adjustments, stock-ledger
+summary: Move stock between warehouses (through transit, with partial receipts and losses) or between locations of one warehouse.
+=== what
+A transfer moves stock from a source to a destination. Between warehouses the stock is in transit after dispatch — still counted at the source as *in transit* — until the destination records its receipt. Choosing the same warehouse twice moves stock between its locations at once.
+=== who
+**inventory.manage_stock_transfers** to create; **inventory.receive_stock_transfers** to dispatch and receive; approvers in the *Warehouse transfer* workflow.
+=== step: Create the transfer | inv-transfer-form
+**Inventory → Stock Transfers → New transfer**: choose the source and destination warehouses, the date and reason, then the items with quantities and, where used, source and destination locations, batch and serial numbers. Submit it.
+=== step: Follow it | inv-transfers
+Statuses: Draft, Pending approval, Approved, In transit, Partially received, Received, Rejected, Cancelled and Reversed. Once approved it is dispatched automatically.
+=== step: Receive the goods | inv-transfer-receive
+At the destination, open the transfer and **Record receipt**: enter what arrived in good condition and what arrived damaged, optionally per location. Anything not received stays in transit for a later receipt.
+=== result
+Both warehouses show the right balances; the ledger keeps linked source and destination movements.
+=== notes
+- A transfer to the same location, or beyond the free stock, is refused.
+- Goods that will never arrive are written off with **Write off loss in transit** (an authorised adjustment).
+- A fully received transfer can be reversed while the destination still holds the stock; one with a written-off loss cannot.
+- Transfers are never counted as purchases or sales.

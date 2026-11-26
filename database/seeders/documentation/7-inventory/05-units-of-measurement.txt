@@ -1,0 +1,18 @@
+title: Units of measurement and conversions
+slug: units-of-measurement
+section: Inventory
+keywords: unit of measurement uom piece box carton kilogram gram litre millilitre metre custom unit conversion factor circular loop company wide product specific
+related: configuring-product-inventory, stock-inward
+summary: Manage the list of units and the conversions that let you enter quantities in boxes, cartons or kilograms.
+=== what
+Units (pieces, boxes, cartons, kilograms, grams, litres, millilitres, metres and your own) are shared with Product Management. Conversions such as 1 carton = 12 pieces let documents be entered in another unit; stock is always kept in the product's own unit.
+=== who
+**inventory.manage_units**.
+=== step: Manage units and conversions | inv-units
+Open **Inventory → Inventory Settings → Units & conversions**. Add a unit with its code, name, type and decimal places, or edit one. Below, add a company-wide conversion: *1 × unit = factor of other unit*. Product-specific conversions are added on the product's inventory page.
+=== result
+Documents accept quantities in any unit that converts to the product's stock unit, and the quantity is converted exactly.
+=== notes
+- A conversion that would create a loop or a second path between two units is refused.
+- Ending a conversion does not change documents already recorded.
+- A unit used by products stays active and keeps its code; built-in units keep their code too.

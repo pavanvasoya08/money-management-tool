@@ -1,0 +1,20 @@
+title: Stock inward
+slug: stock-inward
+section: Inventory
+keywords: stock inward receipt purchase receipt customer return other receipt supplier challan reference return condition sellable damaged inspection rejected restock pending location batch serial unit cost approval
+related: recording-opening-stock, stock-outward, batch-management
+summary: Receive stock — purchase receipts, customer returns and other authorised receipts — through approval into the stock ledger.
+=== what
+A stock inward document receives stock into a warehouse. Types: **Purchase receipt** (recorded manually now; it can be linked to its purchase document once Purchase Management exists), **Customer return** and **Other authorised receipt**. Transfers in and adjustments in are recorded through Transfers and Adjustments.
+=== who
+**inventory.manage_stock_inward**; approvers in the *Stock inward* workflow.
+=== step: Record the receipt | inv-inward-form
+**Inventory → Stock Inward → New stock inward**, choose the warehouse, the type, date, supplier and reference (challan or invoice number). Add lines with quantity, unit, unit cost, location and — where tracked — batch and dates or serial numbers. Submit it.
+=== step: Classify returned goods | inv-inward-return
+For a customer return, choose a condition for each line: **Sellable** goes to available stock; **Damaged** to damaged stock; **Inspection required**, **Rejected** and **Restock pending** go to inspection stock. Returned goods are never all added to sellable stock automatically.
+=== result
+Once approved, the stock is posted to the ledger at the entered cost and appears in the warehouse.
+=== notes
+- No purchase invoice, supplier payment or bank transaction is created.
+- An *Other receipt* needs a reason.
+- A posted inward can be reversed only while the received stock is still on hand.

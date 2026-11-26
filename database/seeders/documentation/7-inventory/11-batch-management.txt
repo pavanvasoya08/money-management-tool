@@ -1,0 +1,19 @@
+title: Batch management
+slug: batch-management
+section: Inventory
+keywords: batch number lot manufacturing date expiry date supplier reference purchase reference hold quarantine batch correction batch-wise stock movements
+related: expiry-management, configuring-product-inventory, stock-inward
+summary: Track stock batch by batch with manufacturing and expiry dates, hold a batch, and correct batch details through approval.
+=== what
+For products with batch tracking, each receipt names a batch. The batch keeps its manufacturing and expiry dates, supplier and purchase references, receipt cost and full movement history.
+=== who
+**inventory.view** to see batches; **inventory.manage_batches** to change status, references and request corrections.
+=== step: Find batches | inv-batches
+**Inventory → Batches & Expiry** lists batches with stock (or all batches), with dates, quantities received and in stock, supplier and status. Filter by warehouse, product, expiry or status.
+=== step: Work with a batch | inv-batch
+The batch page shows where it is held, its movements and corrections. Set the status to **On hold** to stop it being issued, or update the references. Batch number and dates are corrected through **Correct batch number or dates** — at once if no stock has moved, otherwise after approval.
+=== result
+Batch-wise stock is visible everywhere and issues pick the right batches.
+=== notes
+- Batch tracking is optional per product; products that do not need it never ask for a batch.
+- A batch number is unique per product and variant.

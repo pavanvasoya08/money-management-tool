@@ -204,6 +204,12 @@ final class Database
         }
     }
 
+    /** Whether a transaction() callback is running (stock posting must happen inside one). */
+    public function inTransaction(): bool
+    {
+        return $this->transactionLevel > 0;
+    }
+
     /** Validate and quote an identifier (table/column). Prevents identifier injection. */
     public function identifier(string $name): string
     {

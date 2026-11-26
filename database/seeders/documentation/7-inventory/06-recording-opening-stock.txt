@@ -1,0 +1,22 @@
+title: Recording opening stock
+slug: recording-opening-stock
+section: Inventory
+keywords: opening stock existing inventory setup quantity unit cost value effective date reference approval duplicate correction batch serial location
+related: stock-inward, stock-adjustments, inventory-valuation
+summary: Enter the stock you already hold when you start using inventory; it reaches the stock ledger only once approved.
+=== what
+Opening stock records what you held on the day you start. Each line names the product or variant, location, quantity, unit cost and, where tracked, the batch with its dates or the serial numbers. Its value is kept for the future accounting phase.
+=== who
+**inventory.manage_opening_stock** to record; approvers in the *Opening stock* workflow to approve.
+=== step: Open opening stock | inv-opening-list
+**Inventory → Opening Stock** lists every opening entry with its status: Draft, Pending approval, Approved, Posted, Rejected, Cancelled or Reversed.
+=== step: Enter the lines | inv-opening-form
+Click **New opening stock**, choose the warehouse, then the date and reference. For each line pick the item, quantity (in any convertible unit), unit cost and location; add batch number and dates or serial numbers when the product tracks them. **Save draft** keeps it; **Save & submit** sends it for approval, or posts it straight away when the workflow is off.
+=== step: Check the posted entry | inv-opening-show
+The entry shows each line with its value, the stock ledger movements it created, who created, approved and posted it, documents and history.
+=== result
+The stock appears in the warehouse with its cost, and the opening entry is kept permanently.
+=== notes
+- Pending, rejected and cancelled entries never affect stock.
+- Each item can have only one posted opening entry per warehouse; a second one is refused.
+- Fix mistakes with an adjustment or by reversing the entry — a posted entry is never edited.

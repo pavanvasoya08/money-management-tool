@@ -1,0 +1,19 @@
+title: Serial number tracking
+slug: serial-number-tracking
+section: Inventory
+keywords: serial number imei unique unit electronics device register dispatch transfer history status in stock correction duplicate
+related: configuring-product-inventory, stock-outward, warehouse-transfers
+summary: Register one serial number per unit and follow each unit from receipt to dispatch.
+=== what
+For products with serial tracking, every receipt registers one serial number per unit, and every issue or transfer names the serial numbers moved. Each serial number knows its current warehouse, location, batch and status.
+=== who
+Anyone with **inventory.view** can see serial numbers in their warehouses; corrections need **inventory.manage_serial_numbers**.
+=== step: Find serial numbers | inv-serials
+**Inventory → Serial Numbers** lists serial numbers with product, status, warehouse, location and batch.
+=== step: Follow one unit | inv-serial
+A serial number's page shows every movement — receipt, transfers, dispatch and reversals. A wrongly keyed number is corrected through approval; its history moves with it.
+=== result
+You know exactly where each unit is and what happened to it.
+=== notes
+- The number of serial numbers must equal the quantity on the line.
+- Duplicate serial numbers for the same product are refused, and only serial numbers in stock at that warehouse can be issued.

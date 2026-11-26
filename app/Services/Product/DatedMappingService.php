@@ -25,6 +25,9 @@ final class DatedMappingService
         'product_activity' => ['product_business_mappings', 'product_id', 'business_activity_id', 'gst_business_activities', 'product', 'business activity'],
         'supplier_gst' => ['supplier_gst_mappings', 'supplier_id', 'gst_registration_id', 'gst_registrations', 'supplier', 'GST registration'],
         'supplier_activity' => ['supplier_business_mappings', 'supplier_id', 'business_activity_id', 'gst_business_activities', 'supplier', 'business activity'],
+        // Phase 7 — which GST registrations and business activities a warehouse serves.
+        'warehouse_gst' => ['warehouse_gst_mappings', 'warehouse_id', 'gst_registration_id', 'gst_registrations', 'warehouse', 'GST registration'],
+        'warehouse_activity' => ['warehouse_business_mappings', 'warehouse_id', 'business_activity_id', 'gst_business_activities', 'warehouse', 'business activity'],
     ];
 
     private string $table;
@@ -130,6 +133,12 @@ final class DatedMappingService
     private function record(array $owner, string $event, ?array $old, array $new, ?string $reason, ?string $date, array $actor, string $text): void
     {
         $event = ($this->targetTable === 'gst_registrations' ? 'gst_' : 'activity_') . $event;
+        if ($this->owner === 'warehouse') {
+            \App\Services\Inventory\InventoryHistory::write($this->db, 'warehouse', (int) $owner['id'], $event, $old, $new, $reason, $actor, (int) $owner['id'], date: $date);
+            App::activity()->log('inventory.warehouse_' . $event, $text . ' on warehouse ' . ($owner['code'] ?? '#' . $owner['id']), 'warehouse', (int) $owner['id'], module: 'inventory',
+                oldValues: $old, newValues: $new + ($reason !== null ? ['reason' => $reason] : []));
+            return;
+        }
         $history = $this->owner === 'product' ? 'product_history' : 'supplier_history';
         HistoryWriter::write($this->db, $history, $this->ownerCol, (int) $owner['id'], $event, null, null, $old, $new, $reason, $date, $actor);
         $code = (string) ($owner['product_code'] ?? $owner['supplier_code'] ?? '#' . $owner['id']);

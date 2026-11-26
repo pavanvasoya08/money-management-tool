@@ -20,7 +20,7 @@ $writable = $p['status'] !== 'archived';
     <div><dt>Manufacturer</dt><dd><?= e($p['manufacturer'] ?? '—') ?></dd></div>
     <div><dt>Model number</dt><dd><?= e($p['model_number'] ?? '—') ?></dd></div>
     <div><dt>Barcode</dt><dd class="text-mono"><?= e($p['barcode'] ?? '—') ?><?= $p['barcode_type'] ? ' <span class="small text-secondary">' . e(\App\Support\Barcode::TYPES[$p['barcode_type']] ?? $p['barcode_type']) . '</span>' : '' ?></dd></div>
-    <div><dt>Unit</dt><dd><?= e(\App\Services\Product\ProductService::UNITS[$p['unit']] ?? $p['unit']) ?></dd></div>
+    <div><dt>Unit</dt><dd><?= e(\App\Services\Product\ProductService::units()[$p['unit']] ?? $p['unit']) ?></dd></div>
     <div><dt>Stock tracking</dt><dd><?= (int) $p['tracks_inventory'] ? 'Tracked (Phase 7 inventory)' : 'Not tracked' ?></dd></div>
     <div><dt>Tags</dt><dd><?php if ($p['tags']): foreach (explode(', ', (string) $p['tags']) as $t): ?><span class="badge badge-soft-secondary me-1"><?= e($t) ?></span><?php endforeach; else: ?>—<?php endif; ?></dd></div>
     <div><dt>Created</dt><dd><?= e(format_datetime($p['created_at'])) ?><span class="d-block small text-secondary"><?= e($p['created_by_name'] ?? '—') ?></span></dd></div>

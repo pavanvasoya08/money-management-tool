@@ -1,0 +1,26 @@
+title: Creating and managing warehouses
+slug: creating-warehouses
+section: Inventory
+featured: yes
+keywords: warehouse add create edit type main secondary fulfilment marketplace retail store returns damaged custom address contact gst registration business activity assign users deactivate archive restore delete
+related: managing-warehouse-locations, inventory-dashboard, inventory-permissions
+summary: Add warehouses of any type, link them to GST registrations and business activities, assign users, and deactivate or archive them safely.
+=== what
+A warehouse is any place where you keep stock — your own warehouse, a retail store, a fulfilment or marketplace warehouse, or a virtual location for returns or damaged goods. Warehouse types are an editable list in **Inventory → Settings → Warehouse types**.
+=== who
+Adding needs **inventory.create_warehouse**, editing **inventory.edit_warehouse**, status, mappings and user assignment **inventory.manage_warehouses**, archiving **inventory.archive_warehouse**.
+=== step: Open the list | inv-warehouses
+**Inventory → Warehouses** lists your warehouses with type, city, locations, products in stock, stock value and status. Filter by type, status, state, GST registration or business activity.
+=== step: Add a warehouse | inv-warehouse-create
+Click **Add warehouse**. Enter the name and type; leave the code empty to generate one. Add the address, contact person, mobile and email. Switch on **Storage locations are required for every receipt** if every receipt must name a rack, shelf or bin.
+=== step: Link GST registrations and activities | inv-warehouse-overview
+The warehouse page has nine tabs: Overview, Stock, Locations, Inward, Outward, Transfers, Adjustments, Documents and History. On **Overview**, link the company GST registrations (from GST Management — never duplicated) and business activities the warehouse operates under, with effective dates.
+=== step: Assign users | inv-warehouse-users
+Under **Assigned users**, assign the people who work there. Users whose inventory visibility is *assigned warehouses* then see only these warehouses in every list, report and export.
+=== result
+The warehouse can receive and issue stock, and its stock, documents and history are on its page.
+=== notes
+- **Deactivate** stops all stock movements until it is activated again (a reason is required).
+- **Archive** is possible only when the warehouse holds no stock and has nothing open (in-transit transfers, pending documents, open reservations). History stays readable.
+- **Delete** is offered only for an archived warehouse that was never used; a warehouse with any stock or transaction history is never deleted.
+- Contact details and internal notes follow your field permissions.

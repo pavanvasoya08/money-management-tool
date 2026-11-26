@@ -41,16 +41,18 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame($modules, (int) $db->scalar('SELECT COUNT(*) FROM modules'));
         $this->assertSame($actions, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM permissions WHERE module_id IS NULL'), 'every permission belongs to a module');
-        // Every definition is seeded, plus the one-time markers of Phase 4 (Partner GST scope), Phase 5 (bank role defaults) and Phase 6 (product role defaults).
-        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 3, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
+        // Every definition is seeded, plus the one-time markers of Phase 4 (Partner GST scope), Phase 5 (bank role defaults), Phase 6 (product role defaults) and Phase 7 (inventory defaults).
+        $this->assertSame(count(\App\Services\SettingsService::definitions()) + 4, (int) $db->scalar('SELECT COUNT(*) FROM system_settings'));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'bank_role_defaults_released'"));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'gst_partner_scope_released'"));
         $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'product_defaults_released'"));
-        $this->assertSame(29, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
+        $this->assertSame('1', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'inventory_defaults_released'"));
+        $this->assertSame(39, (int) $db->scalar('SELECT COUNT(*) FROM approval_workflows WHERE is_active = 0'), 'workflow types seeded inactive');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM approval_requests'), 'no fake transactions');
         foreach (['partners', 'partner_capital_transactions', 'profit_sharing_arrangements', 'profit_sharing_allocations', 'partner_documents', 'accounting_posting_queue', 'gst_registrations', 'gst_registration_partner_mappings', 'gst_registration_documents', 'gst_registration_links', 'bank_accounts', 'bank_transactions', 'bank_transfers', 'bank_statement_rows', 'bank_reconciliation_matches',
             'products', 'product_variants', 'product_categories', 'product_brands', 'product_prices', 'product_tax_configs', 'gst_hsn_sac_codes', 'product_attribute_values',
-            'suppliers', 'supplier_bank_details', 'product_supplier_mappings', 'supplier_bank_transaction_links'] as $table) {
+            'suppliers', 'supplier_bank_details', 'product_supplier_mappings', 'supplier_bank_transaction_links',
+            'warehouses', 'warehouse_locations', 'inventory_entries', 'inventory_stock_items', 'inventory_stock_movements', 'inventory_stock_balances', 'inventory_cost_layers', 'inventory_batches', 'inventory_serial_numbers', 'inventory_transfers', 'inventory_adjustments', 'inventory_reservations', 'product_inventory_settings'] as $table) {
             $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM {$table}"), "no example business data in {$table}");
         }
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM users'), 'no hardcoded user accounts');
@@ -77,7 +79,7 @@ final class MigrationSeederTest extends TestCase
         $this->assertSame($perms, (int) $db->scalar('SELECT COUNT(*) FROM permissions'));
         $this->assertSame($grants - 1, (int) $db->scalar('SELECT COUNT(*) FROM role_permissions'), 'removed grant stays removed');
         $this->assertSame(0, (int) $db->scalar("SELECT is_active FROM modules WHERE module_key = 'inventory'"), 'disabled module stays disabled');
-        $this->assertSame(6, (int) $db->scalar('SELECT COUNT(*) FROM permission_templates'));
+        $this->assertSame(7, (int) $db->scalar('SELECT COUNT(*) FROM permission_templates'));
         $this->assertSame('7', (string) $db->scalar("SELECT value FROM system_settings WHERE setting_key = 'login_max_attempts'"));
     }
 

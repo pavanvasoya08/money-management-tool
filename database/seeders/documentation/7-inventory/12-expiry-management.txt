@@ -1,0 +1,19 @@
+title: Expiry management
+slug: expiry-management
+section: Inventory
+keywords: expiry date near expiry expired batches warning period fefo block expired dispatch override expiry report write off expired stock
+related: batch-management, stock-outward, inventory-reports
+summary: Spot near-expiry and expired batches, keep expired stock out of normal issues, and write it off.
+=== what
+Products with expiry tracking record an expiry date on every batch. Batches expiring within the warning period are flagged *Near expiry*; past their date they are *Expired*.
+=== who
+Anyone with **inventory.view**; the warning period and blocking are set with **inventory.manage_inventory_settings**.
+=== step: Watch expiry | inv-expiry-report
+**Inventory → Inventory Reports → Expiry report** lists expired and near-expiry batches with quantity and days left. The dashboard and the Batches page flag them too.
+=== step: Set the rules | inv-settings
+**Inventory → Inventory Settings** holds the expiry warning period, whether expired stock is blocked from dispatch and the removal method (FEFO picks the earliest expiry first).
+=== result
+Expired stock is not issued by mistake and is easy to find.
+=== notes
+- Expired stock is not counted as available.
+- Remove expired stock with a stock outward of type **Expired stock**; issuing it for other purposes needs an approved override.

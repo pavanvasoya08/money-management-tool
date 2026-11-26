@@ -8,7 +8,7 @@ An in-app, searchable user manual for the completed phases (1 – Setup & Authen
 git pull
 composer install                 # refreshes the autoloader
 php bin/console migrate          # 1 new migration (000028): 7 documentation tables
-php bin/console db:seed          # adds the documentation module/permissions and the bundled guides (47 for Phases 1–3, 10 more for Phase 4, 14 more for Phase 5, 14 more for Phase 6)
+php bin/console db:seed          # adds the documentation module/permissions and the bundled guides (47 for Phases 1–3, 10 more for Phase 4, 14 more for Phase 5, 14 more for Phase 6, 19 more for Phase 7)
 ```
 
 `db:seed` is safe to repeat. It never overwrites a category or guide whose URL name (slug) already exists, so edits made in the app survive.
@@ -40,7 +40,7 @@ Guide text is plain text formatted by `App\Support\DocText`. Everything is HTML-
 
 ## Content and screenshots
 
-- **Content:** the guides live in `database/seeders/documentation/<category>/NN-<slug>.txt` (85 files in 6 categories) plus `general-faqs.txt`, and are loaded by `DocumentationSeeder`. The format is described at the top of the seeder.
+- **Content:** the guides live in `database/seeders/documentation/<category>/NN-<slug>.txt` (104 files in 7 categories) plus `general-faqs.txt`, and are loaded by `DocumentationSeeder`. The format is described at the top of the seeder.
 - **Screenshots:** 56 screenshots (WEBP, about 2.8 MB) are in `resources/help/screenshots`, outside `public/`. They were captured from the running application with demo data. `manifest.json` holds each one's caption and its numbered markers, measured from the real positions of the buttons and fields. All images are served by `HelpController` after the access check.
 - **Uploads:** screenshots uploaded in the app (PNG, JPG or WEBP, max 5 MB) are checked for real image content and stored with random names in `storage/uploads/documentation/YYYY/MM`.
 - **Replacing a screenshot:** in **Manage guides → edit guide → Screenshots**, upload the new image. Click on it to place numbered markers, label them and save, then select it on the step. Delete the old one.

@@ -45,6 +45,17 @@ final class WorkflowSeeder extends Seeder
         'supplier_gstin_change' => ['Supplier GSTIN change approval', 'suppliers', 'Approve changes to a supplier\'s GSTIN, PAN or GST treatment.'],
         'supplier_bank_change' => ['Supplier bank detail approval', 'suppliers', 'Approve new or changed supplier bank details before they can be used.'],
         'supplier_archive' => ['Supplier archival approval', 'suppliers', 'Approve archiving a supplier.'],
+        // Phase 7 — inventory. Nothing is posted to the stock ledger until the request is approved.
+        'inventory_opening_stock' => ['Opening stock approval', 'inventory', 'Approve opening stock before it is posted to the stock ledger.', ['approve_opening_stock', 'approve_opening_stock']],
+        'inventory_inward' => ['Stock inward approval', 'inventory', 'Approve purchase receipts, customer returns and other stock receipts before they are posted.'],
+        'inventory_outward' => ['Stock outward approval', 'inventory', 'Approve dispatches, supplier returns, write-offs and consumption before they are posted.'],
+        'inventory_transfer' => ['Stock transfer approval', 'inventory', 'Approve transfers between warehouses or locations before stock is dispatched.', ['approve_stock_transfers', 'approve_stock_transfers']],
+        'inventory_adjustment' => ['Stock adjustment approval', 'inventory', 'Approve stock counts, condition changes and other adjustments before they are posted.', ['approve_stock_adjustments', 'approve_stock_adjustments']],
+        'inventory_batch_correction' => ['Batch correction approval', 'inventory', 'Approve corrections to batch numbers, manufacturing and expiry dates of batches that hold or held stock.'],
+        'inventory_serial_correction' => ['Serial number correction approval', 'inventory', 'Approve corrections to registered serial numbers.'],
+        'inventory_reservation_override' => ['Reserved stock override approval', 'inventory', 'Approve issuing stock that is reserved for another reference.'],
+        'inventory_negative_override' => ['Negative stock override approval', 'inventory', 'Approve issuing more stock than is on hand.'],
+        'inventory_valuation_correction' => ['Inventory valuation correction approval', 'inventory', 'Approve revaluing the unit cost of stock on hand.'],
     ];
 
     public function run(): void
