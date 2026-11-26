@@ -386,3 +386,16 @@
 details.card > summary { cursor: pointer; list-style: none; }
 details.card > summary::-webkit-details-marker { display: none; }
 @media print { .line-card { break-inside: avoid; } }
+
+/* Phase 8A — e-commerce platforms */
+.platform-logo { border-radius: 12px; background: var(--ui-fill); }
+.platform-logo.has-image { background: #fff; border: 1px solid var(--ui-border); }
+.platform-logo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.readiness-bar { width: 72px; display: inline-flex; }
+.readiness-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; }
+.readiness-list li { display: flex; align-items: center; gap: .5rem; font-size: var(--ui-fs-sm); }
+.readiness-list .ok { color: var(--bs-success); }
+.readiness-list .todo { color: var(--ui-text-muted, #8a94a6); }
+.capability-table select { min-width: 8.5rem; }
+.capability-table input { min-width: 10rem; }
+.placeholder-panel { border: 1px dashed var(--ui-border); border-radius: 12px; padding: 1.5rem; background: var(--ui-fill); }

@@ -1,0 +1,19 @@
+title: Managing platform categories
+slug: platform-categories
+section: E-commerce
+featured: no
+keywords: platform category categories marketplace e-commerce store social commerce b2b own website offline channel other custom add edit deactivate quick commerce
+related: adding-platforms, platform-master
+summary: Use the standard categories or add your own, such as Quick commerce, and deactivate the ones you do not use.
+=== what
+Categories describe the kind of sales channel. Seven are provided — Marketplace, E-commerce store, Social commerce, B2B platform, Own website, Offline channel and Other — and you can add more.
+=== who
+Anyone who can view platforms sees the list; adding and editing needs **platforms.manage_categories**.
+=== step: Add or edit a category | ec-categories
+Go to **E-commerce → Platform Categories**. Enter a name (the code is generated when empty), an optional description and the order. Click **Edit** on a row to rename it or switch it off.
+=== result
+Active categories appear in the platform form and in every category filter.
+=== notes
+- A category used by a platform that is not archived cannot be deactivated — move those platforms first.
+- The codes of the standard categories do not change.
+- The page also lists the platform capabilities and the phase that will implement each.

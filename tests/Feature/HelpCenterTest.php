@@ -152,9 +152,9 @@ final class HelpCenterTest extends HttpTestCase
     public function testSeederIsCompleteIdempotentAndKeepsEdits(): void
     {
         $db = App::db();
-        $this->assertSame(7, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
+        $this->assertSame(8, (int) $db->scalar('SELECT COUNT(*) FROM documentation_categories'));
         $guides = (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE status = 'published'");
-        $this->assertTrue($guides >= 102, 'Phase 1–7 guides seeded');
+        $this->assertTrue($guides >= 112, 'Phase 1–8A guides seeded');
         $gstCat = (int) $db->scalar("SELECT id FROM documentation_categories WHERE slug = 'gst-registrations'");
         $this->assertSame('Phase 4 – GST Registration Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$gstCat]));
         $this->assertSame(10, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$gstCat]));
@@ -171,13 +171,17 @@ final class HelpCenterTest extends HttpTestCase
         $this->assertSame('Phase 7 – Inventory Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$p7Cat]));
         $this->assertSame(19, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$p7Cat]));
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE g.category_id = ? AND NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id AND s.media_id IS NOT NULL)', [$p7Cat]), 'every Phase 7 guide has screenshots');
+        $p8Cat = (int) $db->scalar("SELECT id FROM documentation_categories WHERE slug = 'ecommerce-platforms'");
+        $this->assertSame('Phase 8A – E-commerce Platform Management', (string) $db->scalar('SELECT name FROM documentation_categories WHERE id = ?', [$p8Cat]));
+        $this->assertSame(10, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE category_id = ?', [$p8Cat]));
+        $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE g.category_id = ? AND NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id AND s.media_id IS NOT NULL)', [$p8Cat]), 'every Phase 8A guide has screenshots');
         $this->assertSame(0, (int) $db->scalar("SELECT COUNT(*) FROM documentation_guides WHERE summary = '' OR what_is IS NULL"), 'every guide has an introduction and explanation');
         $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides g WHERE NOT EXISTS (SELECT 1 FROM documentation_steps s WHERE s.guide_id = g.id)'), 'every guide has steps');
         $this->assertTrue((int) $db->scalar('SELECT COUNT(*) FROM documentation_media WHERE annotations IS NOT NULL') > 40, 'annotated screenshots');
         foreach ($db->select('SELECT stored_name FROM documentation_media') as $m) {
             $this->assertTrue(is_file(DocumentationMediaService::bundledDirectory() . '/' . substr((string) $m['stored_name'], 8)), 'bundled file exists: ' . $m['stored_name']);
         }
-        foreach (['Sales & Order', 'E-commerce Platform', 'Purchase invoice'] as $future) {
+        foreach (['Sales & Order', 'Seller account', 'Purchase invoice'] as $future) {
             $this->assertSame(0, (int) $db->scalar('SELECT COUNT(*) FROM documentation_guides WHERE title LIKE ?', ['%' . $future . '%']), "no guide for future module {$future}");
         }
         $db->update('documentation_guides', ['title' => 'Edited by a manager'], ['slug' => 'capital-ledger']);

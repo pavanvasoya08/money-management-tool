@@ -1,0 +1,27 @@
+title: The platform master
+slug: platform-master
+section: E-commerce
+featured: yes
+keywords: platform list master search filter export csv excel pdf status active inactive under configuration archived connection country currency gstin warehouse configured logo code
+related: adding-platforms, ecommerce-dashboard, platform-configuration, platform-history
+summary: Find, filter and export platforms, open a platform page, and understand statuses, activation, deactivation and archiving.
+=== what
+The platform master is the list of every sales channel the business uses. There is no fixed list: add as many platforms as you need. Each platform has a code, category, website, country, currencies, languages, configuration, mappings, documents, notes and a full history.
+=== who
+Viewing needs **platforms.view**; exporting **platforms.export**. Activating needs **platforms.activate**, deactivating **platforms.deactivate**, archiving and restoring **platforms.archive**.
+=== step: Search and filter | ec-list
+**E-commerce → Platforms** lists active, inactive and under-configuration platforms. Search by name, code or website and filter by category, status, connection, country or GST registration. Choose *Archived* in the status filter to see archived platforms. **Export** downloads the filtered list as CSV, Excel or PDF.
+=== step: Open a platform | ec-overview
+The platform page has a summary card and tabs: Overview, Configuration, GST mappings, Business mappings, Warehouse mappings, Seller accounts (Phase 8B), Documents, Notes and History. The **Configuration checklist** shows what is still missing.
+=== step: Activate or deactivate | ec-status
+A new platform starts as **Under configuration**. Click **Activate** once the required items (category, country, default currency, language) are complete. **Deactivate** needs a reason; nothing is deleted and the platform can still be configured.
+=== step: Archive and restore | ec-archived
+**Archive** needs a reason. If mappings, documents or product prices still refer to the platform, they are listed and you must tick the confirmation. An archived platform is read-only; **Restore** brings it back as *Inactive*.
+=== step: Seller accounts come next | ec-accounts
+The **Seller accounts** tab is a placeholder. Seller accounts, with their GST registration, partner, warehouses and encrypted credentials, are added in Phase 8B.
+=== result
+Every platform's status is recorded in its history with the user, time and reason.
+=== notes
+- Platforms are **never deleted**, so later seller accounts, orders and settlements always have their platform.
+- *Connection* stays **Not connected** until a real integration exists (a later phase).
+- Internal notes and the website follow your field permissions, also in exports.

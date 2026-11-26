@@ -28,6 +28,12 @@ final class DatedMappingService
         // Phase 7 — which GST registrations and business activities a warehouse serves.
         'warehouse_gst' => ['warehouse_gst_mappings', 'warehouse_id', 'gst_registration_id', 'gst_registrations', 'warehouse', 'GST registration'],
         'warehouse_activity' => ['warehouse_business_mappings', 'warehouse_id', 'business_activity_id', 'gst_business_activities', 'warehouse', 'business activity'],
+        // Phase 8A — the GST registrations, business activities, partners and warehouses a platform is used with
+        // (defaults / permitted scopes, never ownership or profit sharing).
+        'platform_gst' => ['ecommerce_platform_gst_mappings', 'platform_id', 'gst_registration_id', 'gst_registrations', 'platform', 'GST registration'],
+        'platform_activity' => ['ecommerce_platform_business_mappings', 'platform_id', 'business_activity_id', 'gst_business_activities', 'platform', 'business activity'],
+        'platform_partner' => ['ecommerce_platform_partner_mappings', 'platform_id', 'partner_id', 'partners', 'platform', 'partner'],
+        'platform_warehouse' => ['ecommerce_platform_warehouse_mappings', 'platform_id', 'warehouse_id', 'warehouses', 'platform', 'warehouse'],
     ];
 
     private string $table;
@@ -48,9 +54,12 @@ final class DatedMappingService
     /** @return list<array<string, mixed>> active first, then ended (newest first) */
     public function list(int $ownerId, bool $withEnded = true): array
     {
-        $cols = $this->targetTable === 'gst_registrations'
-            ? 't.gstin AS target_code, COALESCE(t.trade_name, t.legal_name) AS target_name, t.status AS target_status'
-            : 't.code AS target_code, t.name AS target_name, CASE WHEN t.is_active = 1 THEN \'active\' ELSE \'inactive\' END AS target_status';
+        $cols = match ($this->targetTable) {
+            'gst_registrations' => 't.gstin AS target_code, COALESCE(t.trade_name, t.legal_name) AS target_name, t.status AS target_status',
+            'partners' => 't.partner_code AS target_code, t.name AS target_name, t.status AS target_status',
+            'warehouses' => 't.code AS target_code, t.name AS target_name, t.status AS target_status',
+            default => 't.code AS target_code, t.name AS target_name, CASE WHEN t.is_active = 1 THEN \'active\' ELSE \'inactive\' END AS target_status',
+        };
         return $this->db->select("SELECT m.*, m.{$this->targetCol} AS target_id, {$cols}, cu.name AS created_by_name FROM {$this->table} m
             JOIN {$this->targetTable} t ON t.id = m.{$this->targetCol} LEFT JOIN users cu ON cu.id = m.created_by
             WHERE m.{$this->ownerCol} = ?" . ($withEnded ? '' : " AND m.status = 'active'") . " ORDER BY CASE WHEN m.status = 'active' THEN 0 ELSE 1 END, m.effective_from DESC, m.id DESC", [$ownerId]);
@@ -125,6 +134,14 @@ final class DatedMappingService
             $r = $this->db->first('SELECT gstin, legal_name, is_archived, status FROM gst_registrations WHERE id = ?', [$id]);
             return $r === null || (int) $r['is_archived'] === 1 ? null : ['label' => $r['gstin'] . ' (' . $r['legal_name'] . ')'];
         }
+        if ($this->targetTable === 'partners') {
+            $r = $this->db->first('SELECT partner_code, name, status FROM partners WHERE id = ?', [$id]);
+            return $r === null || $r['status'] === 'archived' ? null : ['label' => $r['name'] . ' (' . $r['partner_code'] . ')'];
+        }
+        if ($this->targetTable === 'warehouses') {
+            $r = $this->db->first('SELECT code, name, status FROM warehouses WHERE id = ?', [$id]);
+            return $r === null || $r['status'] === 'archived' ? null : ['label' => $r['code'] . ' · ' . $r['name']];
+        }
         $r = $this->db->first('SELECT code, name, is_active FROM gst_business_activities WHERE id = ?', [$id]);
         return $r === null || !(int) $r['is_active'] ? null : ['label' => $r['name']];
     }
@@ -132,7 +149,15 @@ final class DatedMappingService
     /** @param array<string, mixed> $owner @param array<string, mixed>|null $old @param array<string, mixed> $new @param array<string, mixed> $actor */
     private function record(array $owner, string $event, ?array $old, array $new, ?string $reason, ?string $date, array $actor, string $text): void
     {
-        $event = ($this->targetTable === 'gst_registrations' ? 'gst_' : 'activity_') . $event;
+        $event = match ($this->targetTable) {
+            'gst_registrations' => 'gst_', 'partners' => 'partner_', 'warehouses' => 'warehouse_', default => 'activity_',
+        } . $event;
+        if ($this->owner === 'platform') {
+            \App\Services\Ecommerce\PlatformHistory::write($this->db, (int) $owner['id'], $event, $old, $new, $reason, $actor, date: $date);
+            App::activity()->log('platforms.' . $event, $text . ' on platform ' . ($owner['platform_code'] ?? '#' . $owner['id']), 'platform', (int) $owner['id'], module: 'platforms',
+                oldValues: $old, newValues: $new + ($reason !== null ? ['reason' => $reason] : []));
+            return;
+        }
         if ($this->owner === 'warehouse') {
             \App\Services\Inventory\InventoryHistory::write($this->db, 'warehouse', (int) $owner['id'], $event, $old, $new, $reason, $actor, (int) $owner['id'], date: $date);
             App::activity()->log('inventory.warehouse_' . $event, $text . ' on warehouse ' . ($owner['code'] ?? '#' . $owner['id']), 'warehouse', (int) $owner['id'], module: 'inventory',

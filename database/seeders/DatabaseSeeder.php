@@ -25,6 +25,7 @@ final class DatabaseSeeder extends Seeder
         $this->call(BankSeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(InventorySeeder::class);
+        $this->call(EcommerceSeeder::class);
         $this->call(DocumentationSeeder::class);
     }
 }

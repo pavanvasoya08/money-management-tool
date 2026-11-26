@@ -69,6 +69,8 @@ return [
                 // Phase 7: stock and valuation read-only; moves no stock.
                 'inventory.view_dashboard', 'inventory.view', 'inventory.view_all', 'inventory.view_stock_cost', 'inventory.view_stock_ledger', 'inventory.download_documents',
                 'inventory.view_history', 'inventory.export', 'inventory.print',
+                // Phase 8A: e-commerce platform master read-only (no internal notes field, no partner mappings).
+                'platforms.view_dashboard', 'platforms.view', 'platforms.view_all', 'platforms.download_documents', 'platforms.view_history', 'platforms.export', 'platforms.print',
             ],
         ],
         'manager' => [
@@ -94,6 +96,10 @@ return [
                 'inventory.manage_stock_inward', 'inventory.manage_stock_outward', 'inventory.manage_stock_transfers', 'inventory.receive_stock_transfers',
                 'inventory.manage_stock_adjustments', 'inventory.manage_batches', 'inventory.manage_serial_numbers', 'inventory.manage_reservations', 'inventory.release_reservations',
                 'inventory.manage_documents', 'inventory.download_documents', 'inventory.view_history', 'inventory.export', 'inventory.print',
+                // Phase 8A: maintain platforms and their warehouse mappings; no activation, archiving, GST, business or partner mappings.
+                'platforms.view_dashboard', 'platforms.view', 'platforms.view_all', 'platforms.create', 'platforms.edit', 'platforms.manage_configurations',
+                'platforms.manage_warehouse_mappings', 'platforms.manage_documents', 'platforms.download_documents', 'platforms.manage_notes', 'platforms.view_history',
+                'platforms.export', 'platforms.print',
             ],
         ],
         'viewer' => [

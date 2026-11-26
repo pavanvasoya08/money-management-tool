@@ -1,0 +1,19 @@
+title: Warehouse mappings
+slug: warehouse-mappings
+section: E-commerce
+featured: no
+keywords: warehouse mapping fulfilment fba marketplace warehouse dispatch stock platform inventory effective date
+related: gst-mappings, business-mappings
+summary: Link the warehouses that fulfil a platform's orders, including marketplace fulfilment centres.
+=== what
+Warehouse mappings record which Phase 7 warehouses dispatch orders for the platform — your own warehouses and marketplace fulfilment centres alike.
+=== who
+**platforms.manage_warehouse_mappings**, plus Inventory access to choose warehouses. Only warehouses you can see in Inventory are offered.
+=== step: Add or end a link | ec-warehouses
+Open the **Warehouse mappings** tab, choose a warehouse, the start date and an optional note, and click **Add**. Use **End link** with a reason when a warehouse stops serving the platform.
+=== result
+The warehouse counts toward the configuration checklist and the dashboard's linked records.
+=== notes
+- Several warehouses can serve one platform, and one warehouse can serve several platforms.
+- Stock sync with the platform is not available yet; stock still moves only through Inventory documents.
+- Archived warehouses cannot be added.

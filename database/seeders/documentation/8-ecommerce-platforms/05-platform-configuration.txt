@@ -1,0 +1,22 @@
+title: Platform configuration and capabilities
+slug: platform-configuration
+section: E-commerce
+featured: yes
+keywords: configuration currencies default currency languages time zone date format number format reference prefix capabilities product listing sku mapping inventory sync order sync settlement sync return sync api webhooks settings key value
+related: adding-platforms, platform-master, gst-mappings
+summary: Set the currencies, languages, time zone, formats and reference prefix, record which capabilities the platform offers, and add platform-specific settings.
+=== what
+The **Configuration** tab holds how the platform works: the currencies and languages it supports, its time zone, date and number formats, and a reference prefix for its references in later phases. It also records which capabilities the platform offers and any extra key–value settings.
+=== who
+**platforms.manage_configurations**. Others see the tab read-only.
+=== step: General configuration | ec-config
+Tick every **supported currency**; the **default currency** must be one of them. Tick the **languages**, choose the **time zone**, **date format** and **number format**, and enter a **reference prefix** of up to 12 capital letters, digits or dashes (e.g. *AMZ*). Click **Save configuration**.
+=== step: Capabilities and settings | ec-capabilities
+For each capability — product listing, SKU mapping, inventory sync, order sync, settlement sync, return sync, API integration and webhooks — record whether the platform **offers** it and its status **in this ERP** (*Not available* or *Planned*). Below, add **platform-specific settings** such as *return_window_days = 10*.
+=== result
+Every change is written to the platform history with the old and new values.
+=== notes
+- A capability can be marked **Operational** only when the ERP really implements it. None are implemented in Phase 8A; the phase that adds each one is shown.
+- Settings whose key looks like a password, token, secret or API key are refused.
+- Saving an existing setting key with an empty value removes it.
+- Inactive platforms can still be configured; archived ones are read-only.

@@ -1,0 +1,23 @@
+title: Platform documents and notes
+slug: platform-documents
+section: E-commerce
+featured: no
+keywords: documents upload agreement seller policy commission fee schedule integration download view archive notes visibility private managers everyone
+related: platform-history, platform-master
+summary: Keep agreements, policies, commission and fee documents with the platform, and add notes with the right visibility.
+=== what
+Each platform has its own private document store and internal notes. Documents can be platform agreements, seller policies, commission documents, fee schedules, integration documentation or other business documents.
+=== who
+Uploading and archiving needs **platforms.manage_documents**; viewing and downloading **platforms.download_documents**; notes **platforms.manage_notes**.
+=== step: Upload a document | ec-documents
+On the **Documents** tab enter a title, choose the type and the file, add an optional description and click **Upload**. Use **View**, **Download** or **Archive** (with a reason) on each row.
+=== step: Add a note | ec-notes
+On the **Notes** tab enter a title and the note, and choose who can see it: **everyone** who can see the platform, **note managers only**, or **only me** (and Super Admins). Authors can edit or archive their notes.
+=== result
+Uploads, views, downloads and archiving are logged in the platform history and the audit log.
+=== notes
+- Files are stored outside the public web folder with random names and are checked by content; PDF, images, Office documents, CSV and text up to 10 MB are accepted.
+- A document is only served after checking your permission and that you may see the platform.
+- The history records a restricted note's visibility, not its text.
+=== mistakes
+- Never upload password lists, API keys or seller-portal logins.

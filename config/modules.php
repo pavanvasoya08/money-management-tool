@@ -315,15 +315,31 @@ return [
             'columns_via' => ['gst_registration' => "SELECT warehouse_id FROM warehouse_gst_mappings WHERE status = 'active' AND gst_registration_id IN (%s)"],
         ],
     ],
+    // Phase 8A. Records are platforms: record scope (all / own / assigned platforms / GST registration)
+    // limits lists, the dashboard, exports and every platform page. Seller accounts arrive in 8B.
     'platforms' => [
         'name' => 'E-commerce Platforms', 'icon' => 'store', 'phase' => 8,
-        'actions' => $std,
-        'fields' => [
-            'seller_id' => $f('Seller ID', true, 'last4', 'masked'),
-            'api_credentials' => $f('API credentials', true, 'full', 'hidden'),
-            'commission_rate' => $f('Commission rate'),
+        'prune_actions' => true, // drop the Phase 2 placeholder actions (delete, download, import, manage_settings)
+        'actions' => [
+            'view_dashboard' => 'View e-commerce dashboard', 'view' => 'View platforms', 'view_all' => 'View all platforms',
+            'view_own' => 'View own platforms (created by me)', 'view_assigned' => 'View assigned platforms',
+            'create' => 'Add platforms', 'edit' => 'Edit platform details & logo', 'activate' => 'Activate platforms', 'deactivate' => 'Deactivate platforms',
+            'archive' => 'Archive / restore platforms', 'manage_categories' => 'Manage platform categories',
+            'manage_configurations' => 'Manage configuration, capabilities & settings', 'manage_gst_mappings' => 'Manage GST registration mappings',
+            'manage_business_mappings' => 'Manage business activity, partner & currency mappings', 'manage_warehouse_mappings' => 'Manage warehouse mappings',
+            'manage_documents' => 'Upload & archive documents', 'download_documents' => 'View & download documents', 'manage_notes' => 'Add notes & read restricted notes',
+            'view_history' => 'View history & audit', 'export' => 'Export (CSV / Excel / PDF)', 'print' => 'Print',
         ],
-        'data' => ['table' => 'ecommerce_platforms', 'owner_column' => 'created_by', 'resource' => 'platform', 'columns' => ['platform' => 'id', 'gst_registration' => 'gst_registration_id']],
+        'fields' => [
+            'internal_notes' => $f('Internal notes', true, 'full', 'hidden'),
+            'partner_mappings' => $f('Partner mappings', true, 'full', 'hidden'),
+            'website_url' => $f('Website URL'),
+        ],
+        'data' => [
+            'table' => 'ecommerce_platforms', 'owner_column' => 'created_by', 'resource' => 'platform',
+            'columns' => ['platform' => 'id'],
+            'columns_via' => ['gst_registration' => "SELECT platform_id FROM ecommerce_platform_gst_mappings WHERE status = 'active' AND gst_registration_id IN (%s)"],
+        ],
     ],
     'sales_orders' => [
         'name' => 'Sales & Orders', 'icon' => 'receipt', 'phase' => 9,

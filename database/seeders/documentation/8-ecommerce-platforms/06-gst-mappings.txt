@@ -1,0 +1,19 @@
+title: GST mappings
+slug: gst-mappings
+section: E-commerce
+featured: no
+keywords: gst mapping gstin registration platform state seller effective date end link history multiple registrations
+related: business-mappings, warehouse-mappings, platform-configuration
+summary: Link the GST registrations the business uses on a platform, with effective dates, and end links that no longer apply.
+=== what
+A platform is usually used with one GST registration per state where the business sells or stores stock. GST mappings record which registrations apply to the platform and from when. They are **defaults and permitted scopes** — not ownership.
+=== who
+**platforms.manage_gst_mappings**. You can only choose GST registrations you are allowed to see in GST Management.
+=== step: Add or end a link | ec-gst
+Open the platform's **GST mappings** tab. Choose a registration, the start date and an optional end date and note, then click **Add**. To stop using a registration, click **End link**, enter the end date and a reason.
+=== result
+The registration counts toward the platform's configuration checklist and appears in the list's GSTIN filter.
+=== notes
+- Several registrations can be active at the same time, and one registration can serve several platforms.
+- Ended links stay in the table and in the history.
+- Seller-specific GST details are handled with seller accounts in Phase 8B.

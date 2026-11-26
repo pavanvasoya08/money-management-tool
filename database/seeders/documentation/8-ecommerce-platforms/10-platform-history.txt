@@ -1,0 +1,20 @@
+title: Platform history
+slug: platform-history
+section: E-commerce
+featured: no
+keywords: history audit trail changes created updated configuration status activated deactivated archived restored mapping document uploaded downloaded note filter event
+related: platform-master, platform-documents, ecommerce-dashboard
+summary: See every change to platforms — creation, edits, configuration, status, mappings, documents and notes — with old and new values.
+=== what
+Every change to a platform is written to an insert-only history: creation, edits, configuration and capability changes, settings, status changes, archiving and restoring, GST, business, partner and warehouse mappings, document uploads, views, downloads and archiving, and notes.
+=== who
+**platforms.view_history**. You only see the history of platforms you are allowed to see.
+=== step: History of one platform | ec-history
+Open the platform's **History** tab. Each row shows the event, old and new values, the reason, the user and the time. The audit log underneath lists the same actions from the system-wide activity log.
+=== step: History of all platforms | ec-history-all
+**E-commerce → Platform History** lists changes across all visible platforms. Filter by platform, event and dates.
+=== result
+You can trace who changed what, when and why.
+=== notes
+- History entries are never edited or deleted.
+- Partner mapping details are hidden from users without access to the partner-mappings field.

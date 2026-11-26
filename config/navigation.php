@@ -86,9 +86,14 @@ return [
     ['label' => 'Inventory History', 'title' => 'Inventory history', 'group' => ['key' => 'inventory', 'label' => 'Inventory', 'icon' => 'boxes'], 'module' => 'inventory', 'icon' => 'history', 'route' => 'inventory.history', 'permission' => 'inventory.view_history', 'active' => 'inventory.history'],
     ['label' => 'Inventory Settings', 'title' => 'Inventory settings', 'group' => ['key' => 'inventory', 'label' => 'Inventory', 'icon' => 'boxes'], 'module' => 'inventory', 'icon' => 'settings-2', 'route' => 'inventory.settings', 'permission' => 'inventory.view', 'active' => 'inventory.settings'],
 
+    ['section' => 'E-commerce'],
+    ['label' => 'E-commerce Dashboard', 'title' => 'E-commerce dashboard', 'group' => ['key' => 'ecommerce', 'label' => 'E-commerce', 'icon' => 'store'], 'module' => 'platforms', 'icon' => 'layout-dashboard', 'route' => 'ecommerce.dashboard', 'permission' => 'platforms.view_dashboard', 'active' => 'ecommerce.dashboard'],
+    ['label' => 'Platforms', 'title' => 'E-commerce platforms', 'group' => ['key' => 'ecommerce', 'label' => 'E-commerce', 'icon' => 'store'], 'module' => 'platforms', 'icon' => 'store', 'route' => 'ecommerce.platforms.index', 'permission' => 'platforms.view', 'active' => 'ecommerce.platforms.'],
+    ['label' => 'Platform Categories', 'title' => 'Platform categories', 'group' => ['key' => 'ecommerce', 'label' => 'E-commerce', 'icon' => 'store'], 'module' => 'platforms', 'icon' => 'tags', 'route' => 'ecommerce.categories', 'permission' => 'platforms.view', 'active' => 'ecommerce.categories'],
+    ['label' => 'Platform History', 'title' => 'Platform history', 'group' => ['key' => 'ecommerce', 'label' => 'E-commerce', 'icon' => 'store'], 'module' => 'platforms', 'icon' => 'history', 'route' => 'ecommerce.history', 'permission' => 'platforms.view_history', 'active' => 'ecommerce.history'],
+
     ['section' => 'Upcoming modules'],
     ['label' => 'Purchases', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'purchases', 'icon' => 'shopping-cart', 'route' => null, 'phase' => 11],
-    ['label' => 'E-commerce Platforms', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'platforms', 'icon' => 'store', 'route' => null, 'phase' => 8],
     ['label' => 'Sales & Orders', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'sales_orders', 'icon' => 'receipt', 'route' => null, 'phase' => 9],
     ['label' => 'Returns & Refunds', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'returns_refunds', 'icon' => 'undo-2', 'route' => null, 'phase' => 10],
     ['label' => 'Settlements', 'group' => ['key' => 'operations', 'label' => 'Operations', 'icon' => 'package'], 'module' => 'settlements', 'icon' => 'handshake', 'route' => null, 'phase' => 10],

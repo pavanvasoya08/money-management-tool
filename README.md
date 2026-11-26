@@ -2,7 +2,7 @@
 
 A secure, modular ERP for multi-partner e-commerce businesses, built on a lightweight custom PHP MVC framework (no Laravel/WordPress).
 
-**Current status: Phase 7 of 15 — inventory management.**
+**Current status: Phase 8A of 15 — e-commerce platform management.**
 
 | | |
 |---|---|
@@ -18,6 +18,7 @@ A secure, modular ERP for multi-partner e-commerce businesses, built on a lightw
 - ✅ [Phase 4 report](docs/PHASE-4.md) — update steps, GST registrations, GSTIN validation, mappings, documents, approvals, reports, test results
 - ✅ [Phase 5 report](docs/PHASE-5.md) — **update steps (incl. `key:generate`)**, bank accounts, ledger, transfers, statements, CSV import, reconciliation, reports, test results
 - ✅ [Phase 7 report](docs/PHASE-7.md) — **update steps**, warehouses, locations, stock ledger, opening stock, inward/outward, transfers, adjustments, batches, serials, reservations, FIFO / weighted average, reports, test results
+- ✅ [Phase 8A report](docs/PHASE-8A.md) — **update steps**, platform master, categories, configuration and capabilities, GST / business / warehouse mappings, documents, notes, history, test results
 - ✅ [Phase 6 report](docs/PHASE-6.md) — **update steps**, products, variants, SKUs, pricing history, GST/HSN, suppliers, supplier bank details, product-supplier mapping, reports, test results
 - 🏛️ [Architecture](docs/ARCHITECTURE.md) — folder layout, request lifecycle, authorization model, how to add a module
 
@@ -111,9 +112,18 @@ Open http://127.0.0.1:8000 and sign in.
 - **Monitoring and reports:** low-stock monitoring with suggested reorder quantities and preferred suppliers, a dashboard and 20 reports with export.
 - **Access control:** warehouse record scope, cost and contact field rules, and 10 optional approval workflows.
 
+## What Phase 8A adds
+
+- **Platform master:** unlimited sales channels (marketplaces, online stores, social commerce, B2B, own website, offline) with code, logo, editable category, website, country, currencies and languages. Nothing is hard-coded.
+- **Configuration:** supported currencies, languages, time zone, date and number formats, a reference prefix, platform-specific settings (credentials refused) and a capability register that can only mark a capability *operational* once the ERP implements it.
+- **Mappings:** dated links to existing GST registrations, business activities, partners and warehouses, plus a default business currency. These are scopes, never ownership or profit sharing.
+- **Lifecycle:** under configuration → active ↔ inactive, controlled archiving with warnings and confirmation, restore; platforms are never deleted. Every change is in an insert-only history.
+- **Documents and notes:** private, content-checked documents with logged downloads; notes visible to everyone, note managers or only the author.
+- **Dashboard, export and access:** an e-commerce dashboard without fake sales figures, CSV / Excel / PDF export, platform record scope and field rules. Seller accounts, credentials and integrations arrive in Phase 8B and later.
+
 ## Help & User Guide
 
-An in-app manual for Phases 1–7 (104 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
+An in-app manual for Phases 1–8A (114 guides, annotated screenshots, search, FAQs) is available to every signed-in user under **Help & User Guide**. Managing it uses the `documentation.*` permissions. See [docs/HELP-GUIDE.md](docs/HELP-GUIDE.md).
 
 ## Commands
 
@@ -132,5 +142,5 @@ php tests/run.php [filter]              # automated tests (needs pdo_sqlite + cu
 
 1. Project setup & authentication ✅
 2. Super Admin complete control system ✅
-3. **Partner management & capital** ✅ ← current
-4. GST registrations · 5. Bank accounts · 6. Products & suppliers · 7. Inventory · 8. E-commerce platforms · 9. Sales & orders · 10. Returns, refunds & settlements · 11. Expenses & purchases · 12. Accounting · 13. GST & tax · 14. Dashboard & financial reports · 15. Automation, audit & deployment
+3. Partner management & capital ✅
+4. GST registrations ✅ · 5. Bank accounts ✅ · 6. Products & suppliers ✅ · 7. Inventory ✅ · 8. **E-commerce platforms** (8A platform master ✅ ← current; 8B seller accounts next) · 9. Sales & orders · 10. Returns, refunds & settlements · 11. Expenses & purchases · 12. Accounting · 13. GST & tax · 14. Dashboard & financial reports · 15. Automation, audit & deployment

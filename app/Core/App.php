@@ -189,6 +189,7 @@ final class App
     {
         self::gate()->flush();
         \App\Services\Inventory\InventoryScope::flush();
+        \App\Services\Ecommerce\PlatformScope::flush();
         if (isset(self::$instances[DataAccess::class])) {
             self::dataAccess()->flush();
         }

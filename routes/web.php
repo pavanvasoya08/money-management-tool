@@ -48,6 +48,7 @@ use App\Controllers\Partners\PartnerDocumentController;
 use App\Controllers\Partners\PartnerReportController;
 use App\Controllers\Partners\ProfitSharingController;
 use App\Controllers\Partners\WithdrawalController;
+use App\Controllers\Ecommerce\PlatformController;
 use App\Controllers\Inventory\AdjustmentController as InventoryAdjustmentController;
 use App\Controllers\Inventory\BatchSerialController;
 use App\Controllers\Inventory\EntryController as InventoryEntryController;
@@ -550,6 +551,37 @@ return static function (Router $r): void {
         // ---------- Help & User Guide ----------
         // Reading is open to EVERY signed-in user: no module, role, record or field check.
         // Drafts and management need documentation.* permissions (granted through the Control Center).
+        // Phase 8A — e-commerce platform master (no seller accounts, credentials, integrations or transactions).
+        $r->group(['prefix' => 'ecommerce'], static function (Router $r): void {
+            $v = ['can:platforms.view'];
+            $r->get('', [PlatformController::class, 'dashboard'], 'ecommerce.dashboard', ['can:platforms.view_dashboard']);
+            $r->get('/platforms', [PlatformController::class, 'index'], 'ecommerce.platforms.index', $v);
+            $r->get('/platforms/export', [PlatformController::class, 'export'], 'ecommerce.platforms.export', ['can:platforms.export']);
+            $r->get('/platforms/create', [PlatformController::class, 'create'], 'ecommerce.platforms.create', ['can:platforms.create']);
+            $r->post('/platforms', [PlatformController::class, 'store'], 'ecommerce.platforms.store', ['can:platforms.create']);
+            $r->get('/platforms/{id}', [PlatformController::class, 'show'], 'ecommerce.platforms.show', $v);
+            $r->get('/platforms/{id}/edit', [PlatformController::class, 'edit'], 'ecommerce.platforms.edit', ['can:platforms.edit']);
+            $r->post('/platforms/{id}', [PlatformController::class, 'update'], 'ecommerce.platforms.update', ['can:platforms.edit']);
+            $r->get('/platforms/{id}/logo', [PlatformController::class, 'logo'], 'ecommerce.platforms.logo', $v);
+            $r->post('/platforms/{id}/status', [PlatformController::class, 'status'], 'ecommerce.platforms.status', $v);
+            $r->post('/platforms/{id}/archive', [PlatformController::class, 'archive'], 'ecommerce.platforms.archive', ['can:platforms.archive']);
+            $r->post('/platforms/{id}/restore', [PlatformController::class, 'restore'], 'ecommerce.platforms.restore', ['can:platforms.archive']);
+            $r->post('/platforms/{id}/configuration', [PlatformController::class, 'configure'], 'ecommerce.platforms.configure', ['can:platforms.manage_configurations']);
+            $r->post('/platforms/{id}/capabilities', [PlatformController::class, 'capabilities'], 'ecommerce.platforms.capabilities', ['can:platforms.manage_configurations']);
+            $r->post('/platforms/{id}/settings', [PlatformController::class, 'setting'], 'ecommerce.platforms.settings', ['can:platforms.manage_configurations']);
+            $r->post('/platforms/{id}/business-currency', [PlatformController::class, 'businessCurrency'], 'ecommerce.platforms.currency', ['can:platforms.manage_business_mappings']);
+            $r->post('/platforms/{id}/mappings/{kind}', [PlatformController::class, 'addMapping'], 'ecommerce.platforms.mappings.store', $v);
+            $r->post('/platforms/{id}/mappings/{kind}/{mapping}/end', [PlatformController::class, 'endMapping'], 'ecommerce.platforms.mappings.end', $v);
+            $r->post('/platforms/{id}/documents', [PlatformController::class, 'uploadDocument'], 'ecommerce.platforms.documents.store', ['can:platforms.manage_documents']);
+            $r->get('/platforms/{id}/documents/{doc}', [PlatformController::class, 'document'], 'ecommerce.platforms.documents.show', ['can:platforms.download_documents']);
+            $r->post('/platforms/{id}/documents/{doc}/archive', [PlatformController::class, 'archiveDocument'], 'ecommerce.platforms.documents.archive', ['can:platforms.manage_documents']);
+            $r->post('/platforms/{id}/notes', [PlatformController::class, 'saveNote'], 'ecommerce.platforms.notes.store', ['can:platforms.manage_notes']);
+            $r->post('/platforms/{id}/notes/{note}/archive', [PlatformController::class, 'archiveNote'], 'ecommerce.platforms.notes.archive', ['can:platforms.manage_notes']);
+            $r->get('/history', [PlatformController::class, 'history'], 'ecommerce.history', ['can:platforms.view_history']);
+            $r->get('/categories', [PlatformController::class, 'categories'], 'ecommerce.categories', $v);
+            $r->post('/categories', [PlatformController::class, 'saveCategory'], 'ecommerce.categories.save', ['can:platforms.manage_categories']);
+        });
+
         $r->group(['prefix' => 'help'], static function (Router $r): void {
             $r->get('/', [HelpController::class, 'index'], 'help.index');
             $r->get('/search', [HelpController::class, 'search'], 'help.search');

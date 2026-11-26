@@ -1,0 +1,21 @@
+title: E-commerce dashboard
+slug: ecommerce-dashboard
+section: E-commerce
+featured: yes
+keywords: ecommerce dashboard platforms marketplace active inactive under configuration archived connected disconnected need configuration filter category status connection date recent activity
+related: platform-master, adding-platforms, platform-history
+summary: See how many platforms you have, which still need configuration, and what changed recently — figures come from the platform master only.
+=== what
+The e-commerce dashboard summarises the sales platforms the business uses: marketplaces, online stores, social channels, B2B portals, your own website and offline channels. It shows counts by status, the configuration progress of each platform, platforms by category, recently added platforms and recent changes.
+=== who
+Anyone with **platforms.view_dashboard**. The figures cover only the platforms you are allowed to see.
+=== step: Open the dashboard | ec-dashboard
+Go to **E-commerce → E-commerce Dashboard**. Filter by platform, category, status, connection status and the date the platform was added. Each tile opens the matching list of platforms.
+=== step: Check configuration progress | ec-dashboard-lists
+**Configuration status** shows each platform's checklist progress and how many GST registrations, warehouses, business activities and documents are linked. **Platforms by category** counts the platforms that are not archived.
+=== result
+You can see at a glance which platforms are ready, which are still being set up and what changed recently.
+=== notes
+- The dashboard has **no sales, orders or revenue** — those arrive with Phase 9. Nothing is estimated or invented.
+- Connection figures appear only once a marketplace integration exists (later phase). Today every platform is *Not connected*.
+- Seller accounts arrive in Phase 8B.

@@ -1,0 +1,18 @@
+title: Business mappings
+slug: business-mappings
+section: E-commerce
+featured: no
+keywords: business mapping business activity line of business partner scope default business currency profit sharing ownership
+related: gst-mappings, warehouse-mappings
+summary: Set the default business currency and link business activities and partners to a platform as permitted scopes.
+=== what
+The **Business mappings** tab holds the currency the business records this channel in, the business activities (lines of business) the platform is used for, and the partners permitted to work with it.
+=== who
+**platforms.manage_business_mappings**. Partner mappings are a sensitive field: users without access to it do not see them.
+=== step: Currency, activities and partners | ec-business
+Choose the **default business currency** and click **Save**. Under **Business activities** and **Partners**, choose a record, the start date and an optional note, then click **Add**. End a link with a date and reason.
+=== result
+The links are recorded with effective dates and appear in the history.
+=== notes
+- A partner mapping is **only a scope**. It creates no ownership, capital or profit-sharing rights, and no profit-sharing percentage is derived from it.
+- Business activities and partners are the existing records from Phases 3 and 4; nothing is duplicated.

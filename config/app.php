@@ -12,8 +12,8 @@ return [
     // Default display timezone (overridable in Settings). Storage is always UTC.
     'timezone' => (string) Env::get('APP_TIMEZONE', 'Asia/Kolkata'),
     'trusted_proxies' => array_values(array_filter(array_map('trim', explode(',', (string) Env::get('TRUSTED_PROXIES', ''))))),
-    'version' => '1.7.0-phase7',
+    'version' => '1.8.0-phase8a',
     // Highest delivered phase: modules with phase <= this are live (others show as "Soon").
-    'released_phase' => 7,
+    'released_phase' => 8,
     'min_php' => '8.5.0',
 ];

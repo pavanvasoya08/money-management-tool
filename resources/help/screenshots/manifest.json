@@ -3763,5 +3763,301 @@
     "label": "Supplier and challan / invoice reference."
    }
   ]
+ },
+ "ec-dashboard": {
+  "caption": "E-commerce → E-commerce Dashboard.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 35.7,
+    "label": "Filter by platform, category, status, connection and the date added."
+   },
+   {
+    "x": 25.4,
+    "y": 59.91,
+    "label": "Counts come from the platform master only — no sales figures."
+   }
+  ]
+ },
+ "ec-dashboard-lists": {
+  "caption": "Configuration status, categories, recent platforms and activity.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 11.31,
+    "label": "How far each platform's configuration checklist is complete."
+   },
+   {
+    "x": 98.32,
+    "y": 11.31,
+    "label": "How many platforms each category has."
+   }
+  ]
+ },
+ "ec-list": {
+  "caption": "E-commerce → Platforms.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Search by name, code or website; filter by category, status, connection, country or GSTIN."
+   },
+   {
+    "x": 72.74,
+    "y": 18.67,
+    "label": "Export the list as CSV, Excel or PDF."
+   },
+   {
+    "x": 28.33,
+    "y": 51.63,
+    "label": "Open a platform."
+   }
+  ]
+ },
+ "ec-create": {
+  "caption": "Adding a platform.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 37.21,
+    "label": "Platform name and category are required."
+   },
+   {
+    "x": 47.97,
+    "y": 37.21,
+    "label": "Leave the code empty to generate it from the name."
+   },
+   {
+    "x": 36.4,
+    "y": 73.77,
+    "label": "Optional logo: an image up to 2 MB."
+   }
+  ]
+ },
+ "ec-overview": {
+  "caption": "A platform page: summary card and tabs.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 48.34,
+    "y": 15.46,
+    "label": "Overview, Configuration, GST, Business and Warehouse mappings, Seller accounts, Documents, Notes, History."
+   },
+   {
+    "x": 94.73,
+    "y": 25.75,
+    "label": "Required items must be complete before activating."
+   }
+  ]
+ },
+ "ec-status": {
+  "caption": "A platform under configuration.",
+  "width": 1366,
+  "height": 1050,
+  "markers": [
+   {
+    "x": 46.0,
+    "y": 79.5,
+    "label": "Activate once the required items are complete."
+   },
+   {
+    "x": 46.0,
+    "y": 84.46,
+    "label": "Deactivate or archive with a reason; nothing is deleted."
+   }
+  ]
+ },
+ "ec-archived": {
+  "caption": "An archived platform is read-only.",
+  "width": 1366,
+  "height": 1050,
+  "markers": [
+   {
+    "x": 46.0,
+    "y": 87.8,
+    "label": "Restore brings it back as inactive."
+   },
+   {
+    "x": 48.27,
+    "y": 13.16,
+    "label": "Its mappings, documents and history are kept."
+   }
+  ]
+ },
+ "ec-categories": {
+  "caption": "E-commerce → Platform Categories.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 23.06,
+    "y": 29.19,
+    "label": "Standard categories plus your own."
+   },
+   {
+    "x": 75.38,
+    "y": 34.8,
+    "label": "Add a category."
+   }
+  ]
+ },
+ "ec-config": {
+  "caption": "Configuration tab: currencies, languages, time zone, formats and prefix.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 26.45,
+    "label": "Tick every currency the platform supports; the default must be one of them."
+   },
+   {
+    "x": 73.25,
+    "y": 65.4,
+    "label": "Time zone, date and number formats, and the reference prefix."
+   }
+  ]
+ },
+ "ec-capabilities": {
+  "caption": "Capabilities and platform-specific settings.",
+  "width": 1366,
+  "height": 1100,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 12.87,
+    "label": "Record what the platform offers. Operational only once the ERP implements it."
+   },
+   {
+    "x": 50.1,
+    "y": 91.23,
+    "label": "Extra key–value settings. Passwords and API keys are refused."
+   }
+  ]
+ },
+ "ec-gst": {
+  "caption": "GST mappings of a platform.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 43.94,
+    "label": "Choose a GST registration you can see."
+   },
+   {
+    "x": 50.1,
+    "y": 68.45,
+    "label": "Several registrations can be active at once; ended links stay as history."
+   }
+  ]
+ },
+ "ec-business": {
+  "caption": "Business mappings: currency, activities and partners.",
+  "width": 1366,
+  "height": 900,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 28.23,
+    "label": "The currency the business records this channel in."
+   },
+   {
+    "x": 1.02,
+    "y": 5.63,
+    "label": "Partners are a permitted scope only — no ownership or profit sharing."
+   }
+  ]
+ },
+ "ec-warehouses": {
+  "caption": "Warehouse mappings.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 51.93,
+    "y": 41.42,
+    "label": "Choose a warehouse that fulfils this platform's orders."
+   },
+   {
+    "x": 50.1,
+    "y": 65.93,
+    "label": "Several warehouses can serve one platform."
+   }
+  ]
+ },
+ "ec-documents": {
+  "caption": "Platform documents.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 33.26,
+    "label": "Title, type and file are required."
+   },
+   {
+    "x": 82.95,
+    "y": 61.7,
+    "label": "View, download or archive. Every download is logged."
+   }
+  ]
+ },
+ "ec-notes": {
+  "caption": "Notes with visibility.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 79.97,
+    "y": 34.38,
+    "label": "Everyone, note managers only, or only you."
+   }
+  ]
+ },
+ "ec-history": {
+  "caption": "History tab of a platform.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 33.94,
+    "label": "Every change, with old and new values, reason, user and time."
+   }
+  ]
+ },
+ "ec-history-all": {
+  "caption": "E-commerce → Platform History.",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 24.82,
+    "y": 28.95,
+    "label": "Filter by platform, event and dates."
+   }
+  ]
+ },
+ "ec-accounts": {
+  "caption": "Seller accounts tab (Phase 8B).",
+  "width": 1366,
+  "height": 800,
+  "markers": [
+   {
+    "x": 50.1,
+    "y": 28.05,
+    "label": "Seller accounts and encrypted credentials arrive in Phase 8B."
+   }
+  ]
  }
 }

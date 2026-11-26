@@ -1,0 +1,24 @@
+title: Adding and editing platforms
+slug: adding-platforms
+section: E-commerce
+featured: yes
+keywords: add platform create new edit name code category website country default currency display order logo description internal notes marketplace amazon flipkart own website offline
+related: platform-master, platform-categories, platform-configuration
+summary: Add a marketplace, online store or other channel with its code, category, website, country, currency and logo, then edit it later.
+=== what
+Each sales channel is added once as a platform. The same record is later used by seller accounts (Phase 8B), product listings, orders and settlements.
+=== who
+Adding needs **platforms.create**; editing **platforms.edit**.
+=== prerequisites
+The category must exist and be active (see *Managing platform categories*).
+=== step: Fill in the form | ec-create
+Click **Add platform**. Enter the **platform name** and choose the **category**. Leave **Platform code** empty to generate it from the name (e.g. *AMAZONINDIA*), or enter your own: capital letters, digits, dashes or underscores. Add the website, country, default currency, a description and the display order. Optionally upload a **logo** (PNG, JPG, WebP or GIF, up to 2 MB).
+=== step: Continue on the platform page | ec-config
+After saving you land on the **Configuration** tab to complete the setup.
+=== result
+The platform is saved as *Under configuration* with every capability marked *Not known* and *Not available*.
+=== notes
+- Names and codes must be unique. Once product prices use the code as their sales channel, the code can no longer change.
+- Internal notes are visible only to users allowed to see that field.
+=== mistakes
+- Do **not** type seller-portal passwords, API keys or tokens into the description or notes. Secure credential storage comes with seller accounts in Phase 8B.
